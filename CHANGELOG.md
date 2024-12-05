@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.0.1](https://github.com/SamikBeach/frontend/compare/1.0.0...1.0.1) (2024-12-05)
+
+
+### Bug Fixes
+
+* packageManger 버전 명시하고 release.yml 수정 ([f154315](https://github.com/SamikBeach/frontend/commit/f15431564fb4136c82a9f0b4832f4359fe4456fa))
+
 # 1.0.0 (2024-12-05)
 
 
