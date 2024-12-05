@@ -3,7 +3,7 @@
     "main"
   ],
   "tagFormat": "${version}",
-  "repository": "https://github.com/SamikBeach/fe",
+  "repository": "https://github.com/SamikBeach/frontend",
   "plugins": [
     "@semantic-release/github",
     [
