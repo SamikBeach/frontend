@@ -1,5 +1,13 @@
 # 🚦 CHANGELOG
 
+## [1.0.2](https://github.com/SamikBeach/frontend/compare/1.0.1...1.0.2) (2024-12-05)
+
+
+### Bug Fixes
+
+* devDependencies -> dependencies(semantic-release package) ([0888026](https://github.com/SamikBeach/frontend/commit/0888026b416ed603624b106be857c87e1fd93cec))
+* release.yml name 수정 ([bc0f887](https://github.com/SamikBeach/frontend/commit/bc0f887a10cf984a43bc4ae65a0e4e77bb0fbc05))
+
 ## [1.0.1](https://github.com/SamikBeach/frontend/compare/1.0.0...1.0.1) (2024-12-05)
 
 
