@@ -12,6 +12,10 @@ export default [
   pluginReact.configs.flat.recommended,
   {
     rules: {
+      'react/display-name': 'off',
+      'react/react-in-jsx-scope': 'off',
+      'react/jsx-key': 'warn',
+
       semi: ['error', 'always'],
       'no-trailing-spaces': ['error', { skipBlankLines: false }],
       'no-multiple-empty-lines': ['error', { max: 1 }],
