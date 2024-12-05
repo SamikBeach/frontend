@@ -1,5 +1,6 @@
 {
   "name": "frontend",
+  "packageManager": "yarn@4.5.3",
   "scripts": {
     "dev": "NODE_ENV=development next dev",
     "build": "next build",
