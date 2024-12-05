@@ -1,5 +1,3 @@
-function Page() {
-  const a = 3;
-
+export default function Page() {
   return 'adsf';
 }
