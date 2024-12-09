@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.1.0](https://github.com/SamikBeach/frontend/compare/1.0.4...1.1.0) (2024-12-09)
+
+
+### Features
+
+* Header 레이아웃 잡기 ([9b2621d](https://github.com/SamikBeach/frontend/commit/9b2621d5328ba5a78da6886688048745703d50f6))
+
 ## [1.0.4](https://github.com/SamikBeach/frontend/compare/1.0.3...1.0.4) (2024-12-09)
 
 ## [1.0.3](https://github.com/SamikBeach/frontend/compare/1.0.2...1.0.3) (2024-12-09)
