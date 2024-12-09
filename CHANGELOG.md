@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.0.3](https://github.com/SamikBeach/frontend/compare/1.0.2...1.0.3) (2024-12-09)
+
+
+### Bug Fixes
+
+* .releaserc 수정 ([8e53153](https://github.com/SamikBeach/frontend/commit/8e53153d925cf3439fa3ea53a00156e096344268))
+
 ## [1.0.2](https://github.com/SamikBeach/frontend/compare/1.0.1...1.0.2) (2024-12-05)
 
 
