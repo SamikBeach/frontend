@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.3.0](https://github.com/SamikBeach/frontend/compare/1.2.0...1.3.0) (2024-12-10)
+
+
+### Features
+
+* SearchBar Input 애니메이션 추가 ([adcc77b](https://github.com/SamikBeach/frontend/commit/adcc77b6b456762e3a7abe898dbf48c7d9493544))
+
 # [1.2.0](https://github.com/SamikBeach/frontend/compare/1.1.0...1.2.0) (2024-12-10)
 
 
