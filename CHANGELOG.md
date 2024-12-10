@@ -1,5 +1,14 @@
 # 🚦 CHANGELOG
 
+# [1.2.0](https://github.com/SamikBeach/frontend/compare/1.1.0...1.2.0) (2024-12-10)
+
+
+### Features
+
+* Header 검색 바 및 다이얼로그 UI 레이아웃 잡기 ([7e9c998](https://github.com/SamikBeach/frontend/commit/7e9c99840ad2e29234693ba65ff896e3d923c186))
+* prettier-plugin-tailwindcss, prettier-plugin-organize-imports 패키지 설치 및 적용 ([10c8972](https://github.com/SamikBeach/frontend/commit/10c8972aea8ed0abb2cf66fad126d99a659df256))
+* shadcn Input, Avatar 컴포넌트 추가(Header 디테일 추가) ([bc460c0](https://github.com/SamikBeach/frontend/commit/bc460c0cf733f35c4430a8d98807eca18bc7ec7e))
+
 # [1.1.0](https://github.com/SamikBeach/frontend/compare/1.0.4...1.1.0) (2024-12-09)
 
 
