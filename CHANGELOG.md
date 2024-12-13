@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.5.1](https://github.com/SamikBeach/frontend/compare/1.5.0...1.5.1) (2024-12-13)
+
+
+### Bug Fixes
+
+* SearchBar DialogTrigger에 asChild 추가 ([5139df9](https://github.com/SamikBeach/frontend/commit/5139df92d508851562710c030dd7774cab99e6e8))
+
 # [1.5.0](https://github.com/SamikBeach/frontend/compare/1.4.0...1.5.0) (2024-12-13)
 
 
