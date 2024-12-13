@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.5.0](https://github.com/SamikBeach/frontend/compare/1.4.0...1.5.0) (2024-12-13)
+
+
+### Features
+
+* SearchBar Input을 Button으로 바꾸기 ([62003ef](https://github.com/SamikBeach/frontend/commit/62003ef2a744d01242a2a58603373770b0743737))
+
 # [1.4.0](https://github.com/SamikBeach/frontend/compare/1.3.0...1.4.0) (2024-12-13)
 
 
