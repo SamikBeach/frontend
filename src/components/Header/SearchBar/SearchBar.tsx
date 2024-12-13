@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -18,12 +19,14 @@ export default function SearchBar() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger>
-        <Input
-          className={`absolute left-1/2 top-[27px] -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full transition-[width] duration-300 placeholder:text-gray-400 ${
+        <Button
+          variant="outline"
+          className={`absolute left-1/2 top-[27px] -translate-x-1/2 -translate-y-1/2 cursor-pointer justify-start rounded-full text-gray-400 transition-[width] duration-300 hover:text-gray-400 ${
             isOpen ? 'w-[600px]' : 'w-60'
           }`}
-          placeholder="/를 눌러 검색해보세요."
-        />
+        >
+          /를 눌러 검색해보세요.
+        </Button>
       </DialogTrigger>
       <DialogContent
         className="top-[6px] w-[600px] translate-y-0 bg-white px-3 pt-3 sm:max-w-[600px]"
