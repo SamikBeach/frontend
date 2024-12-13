@@ -1,5 +1,19 @@
 # 🚦 CHANGELOG
 
+# [1.4.0](https://github.com/SamikBeach/frontend/compare/1.3.0...1.4.0) (2024-12-13)
+
+
+### Bug Fixes
+
+* fix lint ([1760065](https://github.com/SamikBeach/frontend/commit/1760065919ecdec0803d17dc9b323d91692eff33))
+
+
+### Features
+
+* react-sacn script 추가 ([62b9f8a](https://github.com/SamikBeach/frontend/commit/62b9f8a9de07292662f23a106a31e0345c742d96))
+* SearchBar 스타일 수정 ([2ffee7e](https://github.com/SamikBeach/frontend/commit/2ffee7e0addc75a36bde9c6ca21449c6f2fad47e))
+* shadcn Dropdown Menu 컴포넌트 추가 & 아바타 드롭다운 UI 추가 ([f954886](https://github.com/SamikBeach/frontend/commit/f9548869daccd4f6f83376f142a1d0c8d963420c))
+
 # [1.3.0](https://github.com/SamikBeach/frontend/compare/1.2.0...1.3.0) (2024-12-10)
 
 
