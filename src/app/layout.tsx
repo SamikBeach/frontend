@@ -13,6 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
+      <script src="https://unpkg.com/react-scan/dist/auto.global.js" async />
       <body>
         <Header />
         {children}
