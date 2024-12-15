@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.6.0](https://github.com/SamikBeach/frontend/compare/1.5.1...1.6.0) (2024-12-15)
+
+
+### Features
+
+* Header RightSlot 커서 스타일 수정 ([7462948](https://github.com/SamikBeach/frontend/commit/7462948a59ff405e0d587a113a2992be6ac01b55))
+
 ## [1.5.1](https://github.com/SamikBeach/frontend/compare/1.5.0...1.5.1) (2024-12-13)
 
 
