@@ -21,14 +21,14 @@ export default function RightSlot() {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">
           <User className="mr-2 h-4 w-4" />내 프로필
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">
           <Settings className="mr-2 h-4 w-4" />
           설정
         </DropdownMenuItem>
-        <DropdownMenuItem className="text-red-600 hover:!text-red-600">
+        <DropdownMenuItem className="cursor-pointer text-red-600 hover:!text-red-600">
           <LogOut className="mr-2 h-4 w-4" />
           로그아웃
         </DropdownMenuItem>
