@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.6.1](https://github.com/SamikBeach/frontend/compare/1.6.0...1.6.1) (2024-12-16)
+
+
+### Bug Fixes
+
+* ElementRef -> ComponentRef ([399fb09](https://github.com/SamikBeach/frontend/commit/399fb094a70152668160487d7fec9e9940d78ebe))
+
 # [1.6.0](https://github.com/SamikBeach/frontend/compare/1.5.1...1.6.0) (2024-12-15)
 
 
