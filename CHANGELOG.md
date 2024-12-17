@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.7.0](https://github.com/SamikBeach/frontend/compare/1.6.1...1.7.0) (2024-12-17)
+
+
+### Features
+
+* LeftSideBar 컴포넌트 추가 ([0fbab4e](https://github.com/SamikBeach/frontend/commit/0fbab4e8a3464ac59b90f810ab0ab5fd60efe99a))
+
 ## [1.6.1](https://github.com/SamikBeach/frontend/compare/1.6.0...1.6.1) (2024-12-16)
 
 
