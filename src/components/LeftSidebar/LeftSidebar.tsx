@@ -1,13 +1,13 @@
 import { cn } from '@/lib/utils';
-import { Home, Library, Search } from 'lucide-react';
+import { Home, Library, User } from 'lucide-react';
 
 export default function LeftSidebar() {
   return (
-    <div className="flex h-full w-[240px] flex-col border-r bg-background">
+    <div className="flex h-full w-[240px] flex-col bg-background">
       <div className="space-y-1 p-3">
         <MenuItem icon={<Home size={24} />} label="홈" />
-        <MenuItem icon={<Search size={24} />} label="검색하기" />
-        <MenuItem icon={<Library size={24} />} label="내 라이브러리" />
+        <MenuItem icon={<Library size={24} />} label="책" />
+        <MenuItem icon={<User size={24} />} label="작가" />
       </div>
     </div>
   );
