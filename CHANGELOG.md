@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.8.0](https://github.com/SamikBeach/frontend/compare/1.7.0...1.8.0) (2024-12-18)
+
+
+### Features
+
+* LeftSidebar style 수정 ([70a3bc1](https://github.com/SamikBeach/frontend/commit/70a3bc1780c6b3b077fac5899db7b44c0a245dd4))
+
 # [1.7.0](https://github.com/SamikBeach/frontend/compare/1.6.1...1.7.0) (2024-12-17)
 
 
