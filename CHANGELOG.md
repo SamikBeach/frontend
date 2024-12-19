@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.9.0](https://github.com/SamikBeach/frontend/compare/1.8.0...1.9.0) (2024-12-19)
+
+
+### Features
+
+* 로고에 링크 추가 ([70a4563](https://github.com/SamikBeach/frontend/commit/70a4563a5e8abd96c57319eb2db78be7d44eb013))
+
 # [1.8.0](https://github.com/SamikBeach/frontend/compare/1.7.0...1.8.0) (2024-12-18)
 
 
