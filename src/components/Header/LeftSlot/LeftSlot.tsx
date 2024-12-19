@@ -1,5 +1,10 @@
 import { Logo } from '@/components/Logo';
+import Link from 'next/link';
 
 export default function LeftSlot() {
-  return <Logo />;
+  return (
+    <Link href="/">
+      <Logo />
+    </Link>
+  );
 }
