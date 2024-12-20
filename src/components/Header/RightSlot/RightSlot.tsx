@@ -1,4 +1,7 @@
+'use client';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,8 +9,19 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { LogOut, Settings, User } from 'lucide-react';
+import { useState } from 'react';
 
 export default function RightSlot() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  if (!isLoggedIn) {
+    return (
+      <Button variant="ghost" onClick={() => setIsLoggedIn(true)}>
+        로그인
+      </Button>
+    );
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -28,7 +42,10 @@ export default function RightSlot() {
           <Settings className="mr-2 h-4 w-4" />
           설정
         </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer text-red-600 hover:!text-red-600">
+        <DropdownMenuItem
+          className="cursor-pointer text-red-600 hover:!text-red-600"
+          onClick={() => setIsLoggedIn(false)}
+        >
           <LogOut className="mr-2 h-4 w-4" />
           로그아웃
         </DropdownMenuItem>
