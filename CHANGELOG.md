@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.10.0](https://github.com/SamikBeach/frontend/compare/1.9.0...1.10.0) (2024-12-20)
+
+
+### Features
+
+* Header에 로그인 버튼 추가 ([9aaeb8f](https://github.com/SamikBeach/frontend/commit/9aaeb8f3c0ac62964be06f32c7e81b3b7f494aa7))
+
 # [1.9.0](https://github.com/SamikBeach/frontend/compare/1.8.0...1.9.0) (2024-12-19)
 
 
