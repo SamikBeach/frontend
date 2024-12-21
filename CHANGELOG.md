@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.11.0](https://github.com/SamikBeach/frontend/compare/1.10.0...1.11.0) (2024-12-21)
+
+
+### Features
+
+* LoginDialog 컴포넌트 추가 ([276763b](https://github.com/SamikBeach/frontend/commit/276763bc6e118b00fa12ca6fafde6dd081bd269d))
+
 # [1.10.0](https://github.com/SamikBeach/frontend/compare/1.9.0...1.10.0) (2024-12-20)
 
 
