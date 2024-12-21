@@ -1,5 +1,6 @@
 'use client';
 
+import { LoginDialog } from '@/components/LoginDialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,12 +14,16 @@ import { useState } from 'react';
 
 export default function RightSlot() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
 
   if (!isLoggedIn) {
     return (
-      <Button variant="ghost" onClick={() => setIsLoggedIn(true)}>
-        로그인
-      </Button>
+      <>
+        <Button variant="ghost" onClick={() => setShowLoginDialog(true)}>
+          로그인
+        </Button>
+        <LoginDialog open={showLoginDialog} onOpenChange={setShowLoginDialog} />
+      </>
     );
   }
 
