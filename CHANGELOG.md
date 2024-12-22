@@ -1,5 +1,16 @@
 # 🚦 CHANGELOG
 
+# [1.12.0](https://github.com/SamikBeach/frontend/compare/1.11.0...1.12.0) (2024-12-22)
+
+
+### Features
+
+* LoginModal에 회원가입 UI 추가 ([3101cad](https://github.com/SamikBeach/frontend/commit/3101cad9b2cfcbe67832175d3e13ec2d4273683b))
+* messages 디렉토리 추가 및 일부 다국어 적용 ([520facc](https://github.com/SamikBeach/frontend/commit/520faccce1d84086fca6892899a1f488bba32a2e))
+* next intl request config 추가 & 루트에 NextIntlClientProvider 적용 ([a84af7d](https://github.com/SamikBeach/frontend/commit/a84af7d9f9d0a5380b16b709fd9f5c8dc03cdc91))
+* next-intl 패키지 추가 ([4568d0e](https://github.com/SamikBeach/frontend/commit/4568d0e91329e53d7ebf48990cd3c2f7ed3158d2))
+* next.config.mjs 추가 및 nextintl plugin 설치 ([4f1f71e](https://github.com/SamikBeach/frontend/commit/4f1f71e04144675ee5b3d9b336029e674aefcc60))
+
 # [1.11.0](https://github.com/SamikBeach/frontend/compare/1.10.0...1.11.0) (2024-12-21)
 
 
