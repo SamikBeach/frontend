@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.13.0](https://github.com/SamikBeach/frontend/compare/1.12.0...1.13.0) (2024-12-22)
+
+
+### Features
+
+* LoginDialog에 있는 메세지 다국어 처리 ([598adc9](https://github.com/SamikBeach/frontend/commit/598adc9f113b880f8bf914058a8ab774e2840ea9))
+
 # [1.12.0](https://github.com/SamikBeach/frontend/compare/1.11.0...1.12.0) (2024-12-22)
 
 
