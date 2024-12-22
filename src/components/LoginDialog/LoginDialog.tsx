@@ -1,4 +1,5 @@
 import { Label } from '@radix-ui/react-dropdown-menu';
+import { useTranslations } from 'next-intl';
 import { ComponentPropsWithoutRef, useState } from 'react';
 import { Button } from '../ui/button';
 import {
@@ -20,6 +21,7 @@ type Mode = 'login' | 'register';
 
 export default function LoginDialog(props: Props) {
   const [mode, setMode] = useState<Mode>('login');
+  const t = useTranslations('Common');
 
   const toggleMode = () => {
     setMode(mode === 'login' ? 'register' : 'login');
@@ -32,7 +34,9 @@ export default function LoginDialog(props: Props) {
         overlayClassName="bg-black/10"
       >
         <DialogHeader>
-          <DialogTitle>{mode === 'login' ? '로그인' : '회원가입'}</DialogTitle>
+          <DialogTitle>
+            {mode === 'login' ? t('login') : t('sign_up')}
+          </DialogTitle>
           <DialogDescription>
             {mode === 'login'
               ? '서비스를 이용하기 위해 로그인이 필요합니다.'
@@ -61,7 +65,7 @@ export default function LoginDialog(props: Props) {
         </div>
         <div className="flex flex-col gap-2">
           <Button type="submit">
-            {mode === 'login' ? '로그인' : '회원가입'}
+            {mode === 'login' ? t('login') : t('sign_up')}
           </Button>
           <div className="flex items-center justify-center gap-1 text-sm text-gray-500">
             {mode === 'login' ? (
@@ -80,7 +84,7 @@ export default function LoginDialog(props: Props) {
               <>
                 이미 계정이 있으신가요?{' '}
                 <Button
-                  type="button" 
+                  type="button"
                   variant="link"
                   className="h-auto p-0 text-sm"
                   onClick={toggleMode}
