@@ -10,6 +10,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import { useKeyPressEvent } from 'react-use';
+import SearchBarContent from './SearchBarContent';
 
 export default function SearchBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,13 +33,14 @@ export default function SearchBar() {
         className="top-[6px] w-[600px] translate-y-0 bg-white px-3 pt-3 sm:max-w-[600px]"
         overlayClassName="bg-black/10"
         closeClassName="hidden"
+        aria-describedby={undefined}
       >
         <Input
           className="border-1 -mt-1 w-full bg-gray-100 focus-visible:ring-0"
           placeholder="책이나 작가를 검색하세요."
         />
-        <DialogTitle>검색 결과 블라블라블라</DialogTitle>
-        {/* <DialogDescription>디스크립션</DialogDescription> */}
+        <DialogTitle />
+        <SearchBarContent />
       </DialogContent>
     </Dialog>
   );
