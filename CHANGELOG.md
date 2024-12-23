@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.14.0](https://github.com/SamikBeach/frontend/compare/1.13.0...1.14.0) (2024-12-23)
+
+
+### Features
+
+* SearchBarContent 컴포넌트 추가 ([71845fb](https://github.com/SamikBeach/frontend/commit/71845fb9f7d6dd257c2848729aada4aabebfa65b))
+
 # [1.13.0](https://github.com/SamikBeach/frontend/compare/1.12.0...1.13.0) (2024-12-22)
 
 
