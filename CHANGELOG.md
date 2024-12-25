@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.14.2](https://github.com/SamikBeach/frontend/compare/1.14.1...1.14.2) (2024-12-25)
+
+
+### Bug Fixes
+
+* SearchBarContent UI 수정 ([f36802a](https://github.com/SamikBeach/frontend/commit/f36802a6e95a1cafeb9ba2f0ed1877883725ab3e))
+
 ## [1.14.1](https://github.com/SamikBeach/frontend/compare/1.14.0...1.14.1) (2024-12-24)
 
 
