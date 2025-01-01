@@ -1,5 +1,17 @@
 # 🚦 CHANGELOG
 
+# [1.15.0](https://github.com/SamikBeach/frontend/compare/1.14.2...1.15.0) (2025-01-01)
+
+
+### Bug Fixes
+
+* Header style 수정 ([65de3e4](https://github.com/SamikBeach/frontend/commit/65de3e4c330eea024023c2605d529bcaa4bd204d))
+
+
+### Features
+
+* LeftSidebar MenuItem에 링크 추가 ([b5f04e4](https://github.com/SamikBeach/frontend/commit/b5f04e48feb01dbd7b30619aa70ae25b23ce3870))
+
 ## [1.14.2](https://github.com/SamikBeach/frontend/compare/1.14.1...1.14.2) (2024-12-25)
 
 
