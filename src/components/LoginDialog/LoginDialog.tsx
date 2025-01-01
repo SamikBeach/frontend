@@ -39,22 +39,22 @@ export default function LoginDialog(props: Props) {
           </DialogTitle>
           <DialogDescription>
             {mode === 'login'
-              ? t('login_description')
-              : t('sign_up_description')}
+              ? '서비스를 이용하기 위해 로그인이 필요합니다.'
+              : '회원가입을 통해 더 많은 기능을 이용해보세요.'}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right">{t('email')}</Label>
+            <Label className="text-right">이메일</Label>
             <Input id="email" type="email" className="col-span-3" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right">{t('password')}</Label>
+            <Label className="text-right">비밀번호</Label>
             <Input id="password" type="password" className="col-span-3" />
           </div>
           {mode === 'register' && (
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">{t('confirm_password')}</Label>
+              <Label className="text-right">비밀번호 확인</Label>
               <Input
                 id="confirmPassword"
                 type="password"
@@ -70,26 +70,26 @@ export default function LoginDialog(props: Props) {
           <div className="flex items-center justify-center gap-1 text-sm text-gray-500">
             {mode === 'login' ? (
               <>
-                {t('no_account')}{' '}
+                계정이 없으신가요?{' '}
                 <Button
                   type="button"
                   variant="link"
                   className="h-auto p-0 text-sm"
                   onClick={toggleMode}
                 >
-                  {t('go_to_sign_up')}
+                  회원가입 하기
                 </Button>
               </>
             ) : (
               <>
-                {t('already_have_account')}{' '}
+                이미 계정이 있으신가요?{' '}
                 <Button
                   type="button"
                   variant="link"
                   className="h-auto p-0 text-sm"
                   onClick={toggleMode}
                 >
-                  {t('go_to_login')}
+                  로그인 하기
                 </Button>
               </>
             )}
