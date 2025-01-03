@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.17.0](https://github.com/SamikBeach/frontend/compare/1.16.0...1.17.0) (2025-01-03)
+
+
+### Features
+
+* Feed UI detail 수정 ([0245b13](https://github.com/SamikBeach/frontend/commit/0245b13c4a138ad675f7e08df01737f8526f0051))
+
 # [1.16.0](https://github.com/SamikBeach/frontend/compare/1.15.0...1.16.0) (2025-01-02)
 
 
