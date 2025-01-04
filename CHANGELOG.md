@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.18.0](https://github.com/SamikBeach/frontend/compare/1.17.0...1.18.0) (2025-01-04)
+
+
+### Features
+
+* books, authors 페이지 추가 ([e72b303](https://github.com/SamikBeach/frontend/commit/e72b303ba65b2116579e158ea1291618481fce38))
+
 # [1.17.0](https://github.com/SamikBeach/frontend/compare/1.16.0...1.17.0) (2025-01-03)
 
 
