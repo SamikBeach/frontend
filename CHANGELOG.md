@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.18.1](https://github.com/SamikBeach/frontend/compare/1.18.0...1.18.1) (2025-01-04)
+
+
+### Bug Fixes
+
+* LeftSidebar absoulte 처리 ([2f22731](https://github.com/SamikBeach/frontend/commit/2f22731bcb59ca2aa9e6d403b7a1b5d1b7cde461))
+
 # [1.18.0](https://github.com/SamikBeach/frontend/compare/1.17.0...1.18.0) (2025-01-04)
 
 
