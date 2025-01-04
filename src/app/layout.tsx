@@ -18,7 +18,7 @@ export default async function RootLayout({
             <Header />
             <div className="flex flex-1">
               <LeftSidebar />
-              <main className="flex-1">{children}</main>
+              <main className="mx-auto w-full max-w-5xl">{children}</main>
             </div>
           </div>
         </NextIntlClientProvider>
