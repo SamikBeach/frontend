@@ -9,7 +9,7 @@ export default function LeftSidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="flex w-[240px] min-w-[240px] flex-col bg-background">
+    <div className="fixed flex w-[240px] min-w-[240px] flex-col bg-background">
       <div className="space-y-1 p-3">
         <MenuItem
           icon={<Home size={24} />}
