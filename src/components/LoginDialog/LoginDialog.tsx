@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef } from 'react';
+import { ComponentPropsWithoutRef, useState } from 'react';
 import { Logo } from '../Logo';
 import {
   Dialog,
@@ -8,10 +8,13 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 import LoginForm from './LoginForm';
+import SignUpForm from './SignUpForm';
 
 interface Props extends ComponentPropsWithoutRef<typeof Dialog> {}
 
 export default function LoginDialog(props: Props) {
+  const [mode, setMode] = useState<'login' | 'signup'>('login');
+
   return (
     <Dialog {...props}>
       <DialogContent
@@ -25,7 +28,11 @@ export default function LoginDialog(props: Props) {
           </DialogTitle>
         </DialogHeader>
 
-        <LoginForm />
+        {mode === 'login' ? (
+          <LoginForm onClickGoToSignUp={() => setMode('signup')} />
+        ) : (
+          <SignUpForm onClickGoToLogin={() => setMode('login')} />
+        )}
       </DialogContent>
     </Dialog>
   );
