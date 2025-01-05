@@ -1,7 +1,5 @@
-export default function BooksLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return <div className="m-0 w-full">{children}</div>;
+import { ReactNode } from 'react';
+
+export default function BooksLayout({ children }: { children: ReactNode }) {
+  return <div className="m-4">{children}</div>;
 }
