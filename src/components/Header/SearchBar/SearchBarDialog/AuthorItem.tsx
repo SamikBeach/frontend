@@ -6,7 +6,7 @@ import { MessageSquareIcon } from 'lucide-react';
 export default function AuthorItem() {
   return (
     <div className="flex items-center gap-3 rounded-md px-2 py-1.5 hover:cursor-pointer hover:bg-gray-100">
-      <Avatar className="h-16 w-16">
+      <Avatar className="h-14 w-14">
         <AvatarImage src="https://github.com/shadcn.png" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
