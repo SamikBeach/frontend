@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { useKeyPressEvent } from 'react-use';
-import SearchBarDialog from './SearchBarDialog';
+import { SearchBarDialog } from './SearchBarDialog';
 
 export default function SearchBar() {
   const [isOpen, setIsOpen] = useState(false);
