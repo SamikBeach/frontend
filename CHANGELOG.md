@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.21.0](https://github.com/SamikBeach/frontend/compare/1.20.1...1.21.0) (2025-01-05)
+
+
+### Features
+
+* LoginDialog 내 LoginForm 리디자인 ([6d5a56b](https://github.com/SamikBeach/frontend/commit/6d5a56b5408a6ab174b332b2e2a07361c2aec731))
+
 ## [1.20.1](https://github.com/SamikBeach/frontend/compare/1.20.0...1.20.1) (2025-01-05)
 
 
