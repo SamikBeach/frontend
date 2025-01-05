@@ -1,7 +1,7 @@
-import globals from 'globals';
 import pluginJs from '@eslint/js';
-import tseslint from 'typescript-eslint';
 import pluginReact from 'eslint-plugin-react';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -19,6 +19,7 @@ export default [
       semi: ['error', 'always'],
       'no-trailing-spaces': ['error', { skipBlankLines: false }],
       'no-multiple-empty-lines': ['error', { max: 1 }],
+      '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
