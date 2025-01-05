@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.24.1](https://github.com/SamikBeach/frontend/compare/1.24.0...1.24.1) (2025-01-05)
+
+
+### Bug Fixes
+
+* LeftSidebar fixed 처리 ([8d5643a](https://github.com/SamikBeach/frontend/commit/8d5643a468d3cb9eaba7bb1122ea3c7d71c59893))
+
 # [1.24.0](https://github.com/SamikBeach/frontend/compare/1.23.1...1.24.0) (2025-01-05)
 
 
