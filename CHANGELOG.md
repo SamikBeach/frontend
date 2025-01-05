@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.20.1](https://github.com/SamikBeach/frontend/compare/1.20.0...1.20.1) (2025-01-05)
+
+
+### Bug Fixes
+
+* AuthorItem 스타일 수정 ([ea11d2e](https://github.com/SamikBeach/frontend/commit/ea11d2e0529f13b338d86ee7b89cdfac245dd7f5))
+
 # [1.20.0](https://github.com/SamikBeach/frontend/compare/1.19.0...1.20.0) (2025-01-05)
 
 
