@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.23.1](https://github.com/SamikBeach/frontend/compare/1.23.0...1.23.1) (2025-01-05)
+
+
+### Bug Fixes
+
+* 레이아웃 스타일 수정 ([7f9445b](https://github.com/SamikBeach/frontend/commit/7f9445bed16235dca71584617f7fd180f18b6314))
+
 # [1.23.0](https://github.com/SamikBeach/frontend/compare/1.22.0...1.23.0) (2025-01-05)
 
 
