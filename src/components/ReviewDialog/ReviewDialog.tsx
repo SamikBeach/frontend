@@ -12,6 +12,7 @@ export default function ReviewDialog({ children, ...props }: Props) {
         overlayClassName="bg-black/10"
         className="h-[94vh] w-[900px] min-w-[900px] overflow-y-auto"
         aria-describedby={undefined}
+        onOpenAutoFocus={e => e.preventDefault()}
       >
         <DialogTitle className="text-2xl font-bold">
           차라투스트라 읽지마세요

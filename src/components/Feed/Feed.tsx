@@ -1,10 +1,11 @@
 'use client';
 
-import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import { MessageSquareIcon, MoreHorizontal, ThumbsUpIcon } from 'lucide-react';
 import { useState } from 'react';
 import { ReviewDialog } from '../ReviewDialog';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
+import EditDropdownMenu from './EditDropdownMenu';
 
 function Feed() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -15,14 +16,27 @@ function Feed() {
         className="flex max-w-[800px] gap-2 rounded-lg p-4 hover:cursor-pointer hover:bg-gray-100"
         onClick={() => setOpenDialog(true)}
       >
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2">
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <div className="font-medium">BonggeunJeong</div>
-            <div className="text-muted-foreground">1일 전</div>
+        <div className="flex flex-1 flex-col gap-2">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              <div className="font-medium">BonggeunJeong</div>
+              <div className="text-muted-foreground">1일 전</div>
+            </div>
+            <EditDropdownMenu>
+              <EditDropdownMenu.Trigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 hover:bg-gray-200"
+                >
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </EditDropdownMenu.Trigger>
+            </EditDropdownMenu>
           </div>
 
           <div className="flex gap-4">
