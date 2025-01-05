@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.24.0](https://github.com/SamikBeach/frontend/compare/1.23.1...1.24.0) (2025-01-05)
+
+
+### Features
+
+* Books page header UI 추가 ([67cbdab](https://github.com/SamikBeach/frontend/commit/67cbdabd7b2798575441b3b9cb169c9fe32c921a))
+
 ## [1.23.1](https://github.com/SamikBeach/frontend/compare/1.23.0...1.23.1) (2025-01-05)
 
 
