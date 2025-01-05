@@ -1,7 +1,7 @@
 import '@/styles/global.css';
 import { LeftSlot } from './LeftSlot';
 import { RightSlot } from './RightSlot';
-import SearchBar from './SearchBar/SearchBar';
+import { SearchBar } from './SearchBar';
 
 export default function Header() {
   return (
