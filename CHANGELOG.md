@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.22.0](https://github.com/SamikBeach/frontend/compare/1.21.0...1.22.0) (2025-01-05)
+
+
+### Features
+
+* SignUpForm 추가 ([0a5517c](https://github.com/SamikBeach/frontend/commit/0a5517ca811ffa72dcffe9f8e1fc6675c6e60df1))
+
 # [1.21.0](https://github.com/SamikBeach/frontend/compare/1.20.1...1.21.0) (2025-01-05)
 
 
