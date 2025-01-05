@@ -1,5 +1,7 @@
 import { DialogProps, DialogTitle } from '@radix-ui/react-dialog';
+import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Button } from '../ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 
 interface Props extends DialogProps {}
@@ -51,6 +53,17 @@ export default function ReviewDialog({ children, ...props }: Props) {
           <div className="whitespace-pre-wrap">
             가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하
             가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하
+          </div>
+
+          <div className="flex gap-2">
+            <Button className="rounded-full" variant="outline">
+              <ThumbsUpIcon className="h-4 w-4" />
+              <span>300</span>
+            </Button>
+            <Button className="rounded-full" variant="outline">
+              <MessageSquareIcon className="h-4 w-4" />
+              <span>300</span>
+            </Button>
           </div>
         </div>
       </DialogContent>
