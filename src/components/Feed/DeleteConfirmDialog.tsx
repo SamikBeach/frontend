@@ -19,7 +19,7 @@ export default function DeleteConfirmDialog({ children, ...props }: Props) {
       <AlertDialogContent onClick={e => e.stopPropagation()}>
         <AlertDialogTitle>정말로 삭제할까요?</AlertDialogTitle>
         <AlertDialogDescription>
-          삭제하면 다시 복구할 수 없어요.
+          삭제하면 복구할 수 없어요.
         </AlertDialogDescription>
         <AlertDialogFooter>
           <AlertDialogCancel>취소</AlertDialogCancel>
