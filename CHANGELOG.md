@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.24.2](https://github.com/SamikBeach/frontend/compare/1.24.1...1.24.2) (2025-01-05)
+
+
+### Bug Fixes
+
+* main 섹션 레이아웃 수정 ([2753477](https://github.com/SamikBeach/frontend/commit/2753477c2c43b7bdbc1c676402f38ce21cdeb3b3))
+
 ## [1.24.1](https://github.com/SamikBeach/frontend/compare/1.24.0...1.24.1) (2025-01-05)
 
 
