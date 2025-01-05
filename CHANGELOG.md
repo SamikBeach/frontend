@@ -1,5 +1,18 @@
 # 🚦 CHANGELOG
 
+# [1.19.0](https://github.com/SamikBeach/frontend/compare/1.18.1...1.19.0) (2025-01-05)
+
+
+### Bug Fixes
+
+* 누락된 index.ts 파일 추가 ([cd77864](https://github.com/SamikBeach/frontend/commit/cd778644cdf2dc3c3255847b12b58a54c2ead873))
+
+
+### Features
+
+* SearchBar, SearchBarDialog 리디자인 ([8e9e8d4](https://github.com/SamikBeach/frontend/commit/8e9e8d48a59d491207c64b6d71faa17439a161ea))
+* 최근 검색 목록 표시 ([b4e5ebf](https://github.com/SamikBeach/frontend/commit/b4e5ebf17e6f1b21f101174aa25a6b55e0a8ea8b))
+
 ## [1.18.1](https://github.com/SamikBeach/frontend/compare/1.18.0...1.18.1) (2025-01-04)
 
 
