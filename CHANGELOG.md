@@ -1,5 +1,27 @@
 # 🚦 CHANGELOG
 
+# [1.23.0](https://github.com/SamikBeach/frontend/compare/1.22.0...1.23.0) (2025-01-05)
+
+
+### Bug Fixes
+
+* FeedList 스타일 수정 ([c48d457](https://github.com/SamikBeach/frontend/commit/c48d457a405aafbb51c743cd4d06a198d8372577))
+* FeedList를 client component로 ([aa2b3c1](https://github.com/SamikBeach/frontend/commit/aa2b3c1e61991f988bffd92bf75a7dda4c93ea7f))
+* fix warning & errors ([1eb35dc](https://github.com/SamikBeach/frontend/commit/1eb35dc43a7c8c4e05fe49e5be87486c801b715a))
+* LeftSidebar 스타일 수정 ([1dae81e](https://github.com/SamikBeach/frontend/commit/1dae81ee5822a24161ffa8e4f710b48a170b5727))
+
+
+### Features
+
+* alert-dialog 설치 ([ee9a9b2](https://github.com/SamikBeach/frontend/commit/ee9a9b21082666d266337e45dbd4a27c6904383b))
+* EditDropdownMenu 추가 ([ab5c3b1](https://github.com/SamikBeach/frontend/commit/ab5c3b12e851953eb0684510394955f2c609973d))
+* Feed DeleteConfirmDialog 추가 ([acf933a](https://github.com/SamikBeach/frontend/commit/acf933a3f6d978a3d683ff44419a6d406888ec53))
+* Feed UI 리디자인 ([21f721f](https://github.com/SamikBeach/frontend/commit/21f721fb6cf97c9265505238e7d660b0529ee08c))
+* ReviewDialog 뼈대 구현 ([ef3bf63](https://github.com/SamikBeach/frontend/commit/ef3bf63d86aedaffe970f54598abe36e6928c2f5))
+* ReviewDialog 컨텐츠 디자인 ([520143d](https://github.com/SamikBeach/frontend/commit/520143d9ff24186f58084c3e0fe9545e95687e17))
+* ReviewDialog에 좋아요, 댓글 버튼 추가 ([f3c20cd](https://github.com/SamikBeach/frontend/commit/f3c20cd5d6cc6ec1ac11f39ede79c0bc5874d1ea))
+* tabs ui 추가 및 Feed에 탭 적용 ([46aeaae](https://github.com/SamikBeach/frontend/commit/46aeaaede67c1d75659078192a98a5a154d04616))
+
 # [1.22.0](https://github.com/SamikBeach/frontend/compare/1.21.0...1.22.0) (2025-01-05)
 
 
