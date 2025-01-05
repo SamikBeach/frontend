@@ -2,22 +2,8 @@
 
 import { cn } from '@/lib/utils';
 
-export interface Feed {
-  id: number;
-  author: {
-    name: string;
-    image: string;
-  };
-  timeAgo: string;
-  title: string;
-  bookImage: string;
-  bookTitle: string;
-  publisher: string;
-  likes: number;
-  comments: number;
-}
-
-function Feed({ feed }: { feed: Feed }) {
+function Feed() {
+  return <div className="max-w-[800px] bg-yellow-300">Feed</div>;
   return (
     <article className="border-b border-gray-100 bg-white p-6 transition-all hover:bg-gray-50">
       {/* Author Info */}
