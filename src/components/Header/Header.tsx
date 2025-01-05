@@ -5,7 +5,7 @@ import { SearchBar } from './SearchBar';
 
 export default function Header() {
   return (
-    <header className="flex min-h-[56px] items-center justify-between border-b-[1px] px-4">
+    <header className="fixed left-0 right-0 top-0 z-50 flex min-h-[56px] items-center justify-between border-b-[1px] bg-white px-4">
       <LeftSlot />
       <SearchBar />
       <RightSlot />

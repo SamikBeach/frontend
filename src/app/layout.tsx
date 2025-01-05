@@ -16,7 +16,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           <div className="flex h-screen flex-col">
             <Header />
-            <div className="flex flex-1">
+            <div className="mt-[56px] flex flex-1">
               <LeftSidebar />
               <main className="mx-auto w-full max-w-5xl">{children}</main>
             </div>
