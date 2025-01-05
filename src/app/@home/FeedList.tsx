@@ -1,3 +1,5 @@
+'use client';
+
 import { Feed } from '@/components/Feed';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState } from 'react';
