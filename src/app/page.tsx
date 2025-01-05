@@ -1,8 +1,11 @@
 'use client';
 
 import { Feed } from '@/components/Feed';
+import HomePage from './@home/page';
 
 export default function Page() {
+  return <HomePage />;
+
   const feeds = [
     {
       id: 1,
