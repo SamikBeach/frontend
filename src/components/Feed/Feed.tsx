@@ -33,7 +33,7 @@ function Feed() {
                   size="icon"
                   className="h-8 w-8 hover:bg-gray-200"
                 >
-                  <MoreHorizontal className="h-4 w-4" />
+                  <MoreHorizontal className="h-4 w-4 text-gray-500" />
                 </Button>
               </EditDropdownMenu.Trigger>
             </EditDropdownMenu>
@@ -41,12 +41,15 @@ function Feed() {
 
           <div className="flex gap-4">
             <div className="flex flex-col gap-1">
-              <img
-                src="https://picsum.photos/200/300"
-                alt="feed"
-                className="min-w-[200px] rounded-lg"
-                width={200}
-              />
+              <div className="relative h-[300px] min-w-[200px] overflow-hidden rounded-lg bg-gray-200">
+                <img
+                  src="https://picsum.photos/200/300"
+                  alt="feed"
+                  className="absolute inset-0 h-full w-full object-cover"
+                  width={200}
+                  height={300}
+                />
+              </div>
               <div>
                 <p className="font-semibold">짜라투스트라는 이렇게 말했다</p>
                 <p className="text-sm text-gray-500">
