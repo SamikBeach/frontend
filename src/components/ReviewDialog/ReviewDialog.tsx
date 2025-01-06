@@ -1,4 +1,5 @@
 import { DialogProps } from '@radix-ui/react-dialog';
+import { CommentEditor } from '../CommentEditor';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import CommentList from './CommentList';
 import ReviewInfo from './ReviewInfo';
@@ -17,6 +18,7 @@ export default function ReviewDialog({ children, ...props }: Props) {
       >
         <ReviewInfo />
         <CommentList />
+        <CommentEditor />
       </DialogContent>
     </Dialog>
   );
