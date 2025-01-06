@@ -11,9 +11,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { LogOut, Settings, User } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function RightSlot() {
+  const router = useRouter();
+
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
 
@@ -41,10 +44,16 @@ export default function RightSlot() {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem className="cursor-pointer">
+        <DropdownMenuItem
+          className="cursor-pointer"
+          onClick={() => router.push('/user/1')}
+        >
           <User className="mr-2 h-4 w-4" />내 프로필
         </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer">
+        <DropdownMenuItem
+          className="cursor-pointer"
+          onClick={() => router.push('/user/settings')}
+        >
           <Settings className="mr-2 h-4 w-4" />
           설정
         </DropdownMenuItem>
