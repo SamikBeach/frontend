@@ -1,1 +1,1 @@
-export { default as BigBookItem } from './BigBookItem';
+export { default as BookItem } from './BookItem';
