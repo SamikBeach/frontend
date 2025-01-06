@@ -2,10 +2,10 @@ import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 
 export default function BookListItem() {
   return (
-    <div className="group flex cursor-pointer gap-6">
+    <div className="flex gap-6">
       <div
         className={
-          'relative h-[210px] w-[140px] flex-shrink-0 overflow-hidden rounded-lg bg-gray-200'
+          'group relative h-[210px] w-[140px] flex-shrink-0 cursor-pointer overflow-hidden rounded-lg bg-gray-200'
         }
       >
         <img
