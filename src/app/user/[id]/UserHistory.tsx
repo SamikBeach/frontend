@@ -1,0 +1,58 @@
+import { AuthorItem } from '@/components/AuthorItem';
+import { BookItem } from '@/components/BookItem';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+export default function UserHistory() {
+  return (
+    <div>
+      <Tabs defaultValue="review">
+        <TabsList>
+          <TabsTrigger value="review">리뷰</TabsTrigger>
+          <TabsTrigger value="like">좋아요</TabsTrigger>
+        </TabsList>
+        <TabsContent value="review" className="flex flex-col gap-6">
+          <BookList />
+          <AuthorList />
+        </TabsContent>
+        <TabsContent value="like" className="flex flex-col gap-6">
+          <BookList />
+          <AuthorList />
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}
+
+function BookList() {
+  return (
+    <div className="flex flex-col gap-2">
+      <p className="text-lg font-semibold">책</p>
+      <div className="flex flex-wrap gap-3">
+        <BookItem size="small" />
+        <BookItem size="small" />
+        <BookItem size="small" />
+        <BookItem size="small" />
+        <BookItem size="small" />
+        <BookItem size="small" />
+        <BookItem size="small" />
+      </div>
+    </div>
+  );
+}
+
+function AuthorList() {
+  return (
+    <div className="flex flex-col gap-2">
+      <p className="text-lg font-semibold">작가</p>
+      <div className="flex flex-wrap gap-3">
+        <AuthorItem size="small" />
+        <AuthorItem size="small" />
+        <AuthorItem size="small" />
+        <AuthorItem size="small" />
+        <AuthorItem size="small" />
+        <AuthorItem size="small" />
+        <AuthorItem size="small" />
+      </div>
+    </div>
+  );
+}

@@ -7,13 +7,14 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { LogOut, Settings, User } from 'lucide-react';
 import { useState } from 'react';
 
 export default function RightSlot() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
 
   if (!isLoggedIn) {
@@ -47,6 +48,7 @@ export default function RightSlot() {
           <Settings className="mr-2 h-4 w-4" />
           설정
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer text-red-600 hover:!text-red-600"
           onClick={() => setIsLoggedIn(false)}

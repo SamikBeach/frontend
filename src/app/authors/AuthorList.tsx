@@ -1,5 +1,5 @@
-import { AuthorItem } from './AuthorItem';
-import AuthorListItem from './AuthorItem/AuthorListItem';
+import { AuthorItem } from '../../components/AuthorItem';
+import AuthorListItem from '../../components/AuthorItem/AuthorListItem';
 
 export default function AuthorList() {
   // todo: list 모드 jotai atom으로 관리
