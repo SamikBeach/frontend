@@ -1,11 +1,25 @@
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+} from '../ui/carousel';
+
 export default function RelativeBooks() {
   return (
     <div className="flex flex-col gap-3">
       <p className="text-lg font-semibold">이 책의 다른 번역서</p>
-      <div className="flex gap-4">
-        {Array.from({ length: 4 }).map((_, index) => (
-          <BookItem key={index} />
-        ))}
+      <div className="relative">
+        <Carousel className="w-full" opts={{ loop: true, align: 'start' }}>
+          <CarouselContent>
+            {Array.from({ length: 10 }).map((_, index) => (
+              <CarouselItem key={index} className="mr-2 basis-[110px]">
+                <BookItem />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselNext className="right-[-24px]" />
+        </Carousel>
       </div>
     </div>
   );
