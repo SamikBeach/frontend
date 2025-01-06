@@ -10,7 +10,10 @@ export default function RelativeBooks() {
     <div className="flex flex-col gap-3">
       <p className="text-lg font-semibold">이 책의 다른 번역서</p>
       <div className="relative">
-        <Carousel className="w-full" opts={{ loop: true, align: 'start' }}>
+        <Carousel
+          className="w-full"
+          opts={{ loop: true, align: 'start', slidesToScroll: 7 }}
+        >
           <CarouselContent>
             {Array.from({ length: 10 }).map((_, index) => (
               <CarouselItem key={index} className="mr-2 basis-[110px]">

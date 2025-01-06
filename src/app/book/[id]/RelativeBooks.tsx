@@ -16,6 +16,7 @@ export default function RelativeBooks() {
           opts={{
             loop: true,
             align: 'start',
+            slidesToScroll: 5,
           }}
         >
           <CarouselContent className="w-[400px] gap-2">
