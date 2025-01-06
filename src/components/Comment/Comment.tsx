@@ -10,7 +10,7 @@ export default function Comment() {
           src="https://github.com/shadcn.png"
           className="h-8 w-8 rounded-full"
         />
-        <AvatarFallback>ML</AvatarFallback>
+        <AvatarFallback>CC</AvatarFallback>
       </Avatar>
       <div className="flex w-full flex-col gap-1">
         <div className="flex items-center gap-2">
