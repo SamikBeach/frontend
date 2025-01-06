@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.31.0](https://github.com/SamikBeach/frontend/compare/1.30.0...1.31.0) (2025-01-06)
+
+
+### Features
+
+* Comment UI 추가 ([b602086](https://github.com/SamikBeach/frontend/commit/b602086b461a5d34fb65310cd5f4769642c6fc56))
+
 # [1.30.0](https://github.com/SamikBeach/frontend/compare/1.29.0...1.30.0) (2025-01-06)
 
 
