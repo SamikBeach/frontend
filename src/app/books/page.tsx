@@ -3,9 +3,9 @@ import Tabs from './Tabs';
 
 export default function Books() {
   return (
-    <div>
+    <>
       <Tabs />
       <BookList />
-    </div>
+    </>
   );
 }
