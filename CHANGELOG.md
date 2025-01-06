@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.28.0](https://github.com/SamikBeach/frontend/compare/1.27.0...1.28.0) (2025-01-06)
+
+
+### Features
+
+* AuthorList, AuthorItem UI 추가 ([9adf339](https://github.com/SamikBeach/frontend/commit/9adf339af2924404d98cd8eb841356bf7af32f7e))
+
 # [1.27.0](https://github.com/SamikBeach/frontend/compare/1.26.0...1.27.0) (2025-01-06)
 
 
