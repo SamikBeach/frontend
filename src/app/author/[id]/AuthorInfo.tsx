@@ -6,21 +6,21 @@ import { ThumbsUpIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-export default function BookInfo() {
+export default function AuthorInfo() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
         <div
           className={
-            'group relative h-[300px] w-[200px] flex-shrink-0 cursor-pointer overflow-hidden rounded-lg bg-gray-200'
+            'group relative h-[200px] w-[200px] flex-shrink-0 cursor-pointer overflow-hidden rounded-full bg-gray-200'
           }
         >
           <img
-            src="https://picsum.photos/200/300"
-            alt="book"
+            src="https://picsum.photos/200/200"
+            alt="author"
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
             width={200}
-            height={300}
+            height={200}
           />
         </div>
 
