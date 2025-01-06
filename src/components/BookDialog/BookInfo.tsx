@@ -5,6 +5,7 @@ import { MessageSquareIcon } from 'lucide-react';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { ThumbsUpIcon } from 'lucide-react';
 import { Button } from '../ui/button';
+import { WriteReviewDialog } from '../WriteReviewDialog';
 
 export default function BookInfo() {
   return (
@@ -43,10 +44,14 @@ export default function BookInfo() {
               </Button>
             </div>
 
-            <Button variant="outline">
-              <Edit3Icon />
-              리뷰 쓰기
-            </Button>
+            <WriteReviewDialog>
+              <WriteReviewDialog.Trigger asChild>
+                <Button variant="outline">
+                  <Edit3Icon />
+                  리뷰 쓰기
+                </Button>
+              </WriteReviewDialog.Trigger>
+            </WriteReviewDialog>
           </div>
         </div>
       </div>
