@@ -1,6 +1,25 @@
 import { BookItem } from './BookItem';
+import BookListItem from './BookItem/BookListItem';
 
 export default function BookList() {
+  // todo: list 모드 jotai atom으로 관리
+  // eslint-disable-next-line no-constant-condition
+  if (true) {
+    return (
+      <div className="flex flex-col gap-4">
+        <BookListItem />
+        <BookListItem />
+        <BookListItem />
+        <BookListItem />
+        <BookListItem />
+        <BookListItem />
+        <BookListItem />
+        <BookListItem />
+        <BookListItem />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="flex gap-6 pb-2">
