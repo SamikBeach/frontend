@@ -1,5 +1,23 @@
 # 🚦 CHANGELOG
 
+# [1.30.0](https://github.com/SamikBeach/frontend/compare/1.29.0...1.30.0) (2025-01-06)
+
+
+### Bug Fixes
+
+* Carousel slidesToScroll 옵션 추가 ([8dd5e90](https://github.com/SamikBeach/frontend/commit/8dd5e90dda075149ba4be0cf1d9c1be1131a0dfc))
+* fix lint ([f2c9d0f](https://github.com/SamikBeach/frontend/commit/f2c9d0f933e007fe25ff90de09da636082759ece))
+
+
+### Features
+
+* Author page UI 추가 ([c5a2871](https://github.com/SamikBeach/frontend/commit/c5a2871ca69bd5b86533fd8f6994c12626888d40))
+* AuthorDialog 추가 ([604ee17](https://github.com/SamikBeach/frontend/commit/604ee17ab3b7fb7a323e213f2f99d97c7524fd66))
+* book 상세 페이지지 UI 추가 ([d8327fc](https://github.com/SamikBeach/frontend/commit/d8327fc9e53b9f46111953ee05e7e928347c8d04))
+* carousel 컴포넌트 추가 ([5c5507b](https://github.com/SamikBeach/frontend/commit/5c5507b90920da5ec5efaf947600fe38f1641458))
+* RelativeBooks UI 추가 ([2a28ebb](https://github.com/SamikBeach/frontend/commit/2a28ebbc3193b14a28da2c3e548112d54bf53f3f))
+* 이 책의 다른 번역서 캐러셀 적용 ([1b85809](https://github.com/SamikBeach/frontend/commit/1b85809a7253cdc579d1f3ab37fabcb2dd094f25))
+
 # [1.29.0](https://github.com/SamikBeach/frontend/compare/1.28.0...1.29.0) (2025-01-06)
 
 
