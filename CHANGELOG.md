@@ -1,5 +1,14 @@
 # 🚦 CHANGELOG
 
+# [1.27.0](https://github.com/SamikBeach/frontend/compare/1.26.0...1.27.0) (2025-01-06)
+
+
+### Features
+
+* BookItem 호버효과 ([e39c2a2](https://github.com/SamikBeach/frontend/commit/e39c2a20249200cb59c0da340948392623ebe635))
+* BookListItem UI 추가 ([013ea38](https://github.com/SamikBeach/frontend/commit/013ea38d09c2ac22b6f0b2d3af9a88b9986335d7))
+* Tabs UI 좀 더 깔끔하게 정리 ([bb1fcfd](https://github.com/SamikBeach/frontend/commit/bb1fcfd9fe4c420badb864587fec4f445aab4b9f))
+
 # [1.26.0](https://github.com/SamikBeach/frontend/compare/1.25.0...1.26.0) (2025-01-06)
 
 
