@@ -3,7 +3,7 @@ import { BookItem } from './BookItem';
 export default function BookList() {
   return (
     <>
-      <div className="flex gap-6 py-4">
+      <div className="flex gap-6 pb-2">
         <BookItem />
         <BookItem />
         <BookItem />
