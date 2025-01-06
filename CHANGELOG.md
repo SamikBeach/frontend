@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.25.0](https://github.com/SamikBeach/frontend/compare/1.24.2...1.25.0) (2025-01-06)
+
+
+### Features
+
+* BookList, BigBookItem UI 추가 ([2890b65](https://github.com/SamikBeach/frontend/commit/2890b657ffdbc283b54c9eb92094e908163bd719))
+
 ## [1.24.2](https://github.com/SamikBeach/frontend/compare/1.24.1...1.24.2) (2025-01-05)
 
 
