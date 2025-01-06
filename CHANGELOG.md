@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.29.0](https://github.com/SamikBeach/frontend/compare/1.28.0...1.29.0) (2025-01-06)
+
+
+### Features
+
+* BookDialog UI 초안 ([713dd45](https://github.com/SamikBeach/frontend/commit/713dd45e80c7f13347c7734ce982f1a0fe176f87))
+
 # [1.28.0](https://github.com/SamikBeach/frontend/compare/1.27.0...1.28.0) (2025-01-06)
 
 
