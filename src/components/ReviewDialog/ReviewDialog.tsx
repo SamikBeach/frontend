@@ -1,5 +1,6 @@
 import { DialogProps } from '@radix-ui/react-dialog';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
+import CommentList from './CommentList';
 import ReviewInfo from './ReviewInfo';
 
 interface Props extends DialogProps {}
@@ -10,11 +11,12 @@ export default function ReviewDialog({ children, ...props }: Props) {
       {children}
       <DialogContent
         overlayClassName="bg-black/10"
-        className="h-[94vh] w-[900px] min-w-[900px] gap-2 overflow-y-auto p-10"
+        className="flex h-[94vh] w-[900px] min-w-[900px] flex-col gap-4 overflow-y-auto p-10"
         aria-describedby={undefined}
         onOpenAutoFocus={e => e.preventDefault()}
       >
         <ReviewInfo />
+        <CommentList />
       </DialogContent>
     </Dialog>
   );
