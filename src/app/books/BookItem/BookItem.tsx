@@ -11,7 +11,7 @@ export default function BookItem({ size = 'large' }: Props) {
 
   return (
     <div
-      className={`flex ${isSmall ? 'w-[140px]' : 'w-[250px]'} flex-col gap-1`}
+      className={`flex ${isSmall ? 'w-[140px]' : 'w-[250px]'} group cursor-pointer flex-col gap-1`}
     >
       <div
         className={`relative ${isSmall ? 'h-[210px] w-[140px]' : 'h-[370px] w-[250px]'} overflow-hidden rounded-lg bg-gray-200`}
@@ -19,7 +19,7 @@ export default function BookItem({ size = 'large' }: Props) {
         <img
           src={`https://picsum.photos/${isSmall ? '140/210' : '250/370'}`}
           alt="book"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
           width={isSmall ? 140 : 250}
           height={isSmall ? 210 : 370}
         />
