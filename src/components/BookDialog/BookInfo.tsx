@@ -2,6 +2,7 @@ import { Edit3Icon } from 'lucide-react';
 
 import { MessageSquareIcon } from 'lucide-react';
 
+import { DialogTitle } from '@radix-ui/react-dialog';
 import { ThumbsUpIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 
@@ -23,8 +24,10 @@ export default function BookInfo() {
           />
         </div>
         <div className="flex w-full flex-col justify-between">
-          <div className="flex flex-col gap-2">
-            <p className="text-2xl font-bold">차라투스트라는 이렇게 말했다</p>
+          <div className="flex flex-col gap-0.5">
+            <DialogTitle>
+              <p className="text-2xl font-bold">차라투스트라는 이렇게 말했다</p>
+            </DialogTitle>
             <p className="text-gray-500">프리드리히 니체 · 민음사 · 2021</p>
           </div>
 
