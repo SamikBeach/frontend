@@ -1,5 +1,13 @@
 # 🚦 CHANGELOG
 
+# [1.26.0](https://github.com/SamikBeach/frontend/compare/1.25.0...1.26.0) (2025-01-06)
+
+
+### Features
+
+* BookItem UI 추가 ([f870c20](https://github.com/SamikBeach/frontend/commit/f870c20f7c80a8fe205883c61de2f2a4da606874))
+* Tabs를 상단에 고정 ([39a795b](https://github.com/SamikBeach/frontend/commit/39a795bc43ac3ccc6993a0e8d5a3833ab55bc16c))
+
 # [1.25.0](https://github.com/SamikBeach/frontend/compare/1.24.2...1.25.0) (2025-01-06)
 
 
