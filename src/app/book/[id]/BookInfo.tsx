@@ -1,8 +1,6 @@
-import { Edit3Icon } from 'lucide-react';
+'use client';
 
-import { MessageSquareIcon } from 'lucide-react';
-
-import { ThumbsUpIcon } from 'lucide-react';
+import { Edit3Icon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { WriteReviewDialog } from '@/components/WriteReviewDialog';
