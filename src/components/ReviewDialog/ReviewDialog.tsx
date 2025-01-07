@@ -12,13 +12,20 @@ export default function ReviewDialog({ children, ...props }: Props) {
       {children}
       <DialogContent
         overlayClassName="bg-black/10"
-        className="flex h-[94vh] w-[900px] min-w-[900px] flex-col gap-4 overflow-y-auto p-10"
+        className="fixed left-1/2 top-1/2 flex h-[94vh] w-[900px] min-w-[900px] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 overflow-y-auto p-10"
         aria-describedby={undefined}
         onOpenAutoFocus={e => e.preventDefault()}
       >
         <ReviewInfo />
         <CommentList />
-        <CommentEditor />
+        <div className="sticky bottom-0 bg-white pt-4">
+          <div className="relative">
+            <div className="absolute -bottom-10 -left-10 -right-10 -top-4 bg-white shadow-[0_-8px_12px_0px_white]" />
+            <div className="relative">
+              <CommentEditor />
+            </div>
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );
