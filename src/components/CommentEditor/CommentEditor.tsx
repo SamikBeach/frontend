@@ -54,7 +54,7 @@ export default function CommentEditor() {
           <HistoryPlugin />
           <OnChangePlugin onChange={() => {}} />
           <BeautifulMentionsPlugin
-            triggers={['@', '#']}
+            triggers={['@']}
             menuComponent={CustomMenu}
             menuItemComponent={CustomMenuItem}
             onSearch={(
