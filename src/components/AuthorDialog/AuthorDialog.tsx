@@ -2,6 +2,7 @@ import { DialogProps } from '@radix-ui/react-dialog';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import AuthorInfo from './AuthorInfo';
 import RelativeAuthors from './RelativeBooks';
+import ReviewList from './ReviewList';
 
 interface Props extends DialogProps {}
 
@@ -17,6 +18,7 @@ export default function AuthorDialog({ children, ...props }: Props) {
       >
         <AuthorInfo />
         <RelativeAuthors />
+        <ReviewList />
       </DialogContent>
     </Dialog>
   );
