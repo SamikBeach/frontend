@@ -6,7 +6,23 @@ import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { BeautifulMentionsPlugin } from 'lexical-beautiful-mentions';
+import { CustomMenu, CustomMenuItem } from './common';
 import { getEditorConfig } from './utils';
+
+const items = [
+  {
+    id: 1,
+    value: 'shadcn1',
+  },
+  {
+    id: 2,
+    value: 'shadcn2',
+  },
+  {
+    id: 3,
+    value: 'shadcn3',
+  },
+];
 
 export default function CommentEditor() {
   return (
@@ -39,12 +55,17 @@ export default function CommentEditor() {
           <OnChangePlugin onChange={() => {}} />
           <BeautifulMentionsPlugin
             triggers={['@', '#']}
-            items={{
-              '@': [
-                {
-                  value: 'shadcn',
-                },
-              ],
+            menuComponent={CustomMenu}
+            menuItemComponent={CustomMenuItem}
+            onSearch={(
+              trigger: string,
+              queryString?: string | undefined | null
+            ) => {
+              console.log(trigger, queryString);
+
+              return new Promise(resolve => {
+                resolve(items);
+              });
             }}
           />
         </LexicalComposer>

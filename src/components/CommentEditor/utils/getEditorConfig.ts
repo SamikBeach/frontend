@@ -1,6 +1,6 @@
 import { InitialConfigType } from '@lexical/react/LexicalComposer';
 import { createBeautifulMentionNode } from 'lexical-beautiful-mentions';
-import CustomMentionComponent from '../CustomMentionComponent';
+import CustomMentionComponent from '../common/CustomMentionComponent';
 
 export default function getEditorConfig(): InitialConfigType {
   return {
@@ -11,10 +11,10 @@ export default function getEditorConfig(): InitialConfigType {
     nodes: [...createBeautifulMentionNode(CustomMentionComponent)],
     theme: {
       beautifulMentions: {
-        '@': '@:item',
-        '@Focused': '@focused:item',
-        '#': '#:item',
-        '#Focused': '#focused:item',
+        '@': '@',
+        '@Focused': '@focused',
+        '#': '#',
+        '#Focused': '#focused',
       },
     },
     editorState: undefined,
