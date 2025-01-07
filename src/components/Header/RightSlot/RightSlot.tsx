@@ -7,13 +7,17 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { LogOut, Settings, User } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function RightSlot() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
 
   if (!isLoggedIn) {
@@ -40,13 +44,20 @@ export default function RightSlot() {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem className="cursor-pointer">
+        <DropdownMenuItem
+          className="cursor-pointer"
+          onClick={() => router.push('/user/1')}
+        >
           <User className="mr-2 h-4 w-4" />내 프로필
         </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer">
+        <DropdownMenuItem
+          className="cursor-pointer"
+          onClick={() => router.push('/user/settings')}
+        >
           <Settings className="mr-2 h-4 w-4" />
           설정
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer text-red-600 hover:!text-red-600"
           onClick={() => setIsLoggedIn(false)}

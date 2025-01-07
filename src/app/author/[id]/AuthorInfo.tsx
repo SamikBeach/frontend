@@ -1,10 +1,8 @@
-import { Edit3Icon } from 'lucide-react';
-
-import { MessageSquareIcon } from 'lucide-react';
-
-import { ThumbsUpIcon } from 'lucide-react';
+'use client';
 
 import { Button } from '@/components/ui/button';
+import { WriteReviewDialog } from '@/components/WriteReviewDialog';
+import { Edit3Icon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 
 export default function AuthorInfo() {
   return (
@@ -26,8 +24,8 @@ export default function AuthorInfo() {
 
         <div className="flex w-full flex-col justify-between gap-4">
           <div className="flex flex-col gap-0.5">
-            <p className="text-2xl font-bold">차라투스트라는 이렇게 말했다</p>
-            <p className="text-gray-500">프리드리히 니체 · 민음사 · 2021</p>
+            <p className="text-2xl font-bold">프리드리히 니체</p>
+            <p className="text-gray-500">Friedrich Nietzsche</p>
           </div>
 
           <div className="flex w-full justify-between pr-6">
@@ -42,10 +40,14 @@ export default function AuthorInfo() {
               </Button>
             </div>
 
-            <Button variant="outline">
-              <Edit3Icon />
-              리뷰 쓰기
-            </Button>
+            <WriteReviewDialog>
+              <WriteReviewDialog.Trigger asChild>
+                <Button variant="outline">
+                  <Edit3Icon />
+                  리뷰 쓰기
+                </Button>
+              </WriteReviewDialog.Trigger>
+            </WriteReviewDialog>
           </div>
         </div>
       </div>

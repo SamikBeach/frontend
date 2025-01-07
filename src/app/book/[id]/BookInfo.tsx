@@ -1,10 +1,9 @@
-import { Edit3Icon } from 'lucide-react';
+'use client';
 
-import { MessageSquareIcon } from 'lucide-react';
-
-import { ThumbsUpIcon } from 'lucide-react';
+import { Edit3Icon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import { WriteReviewDialog } from '@/components/WriteReviewDialog';
 
 export default function BookInfo() {
   return (
@@ -42,10 +41,14 @@ export default function BookInfo() {
               </Button>
             </div>
 
-            <Button variant="outline">
-              <Edit3Icon />
-              리뷰 쓰기
-            </Button>
+            <WriteReviewDialog>
+              <WriteReviewDialog.Trigger asChild>
+                <Button variant="outline">
+                  <Edit3Icon />
+                  리뷰 쓰기
+                </Button>
+              </WriteReviewDialog.Trigger>
+            </WriteReviewDialog>
           </div>
         </div>
       </div>

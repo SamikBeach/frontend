@@ -9,7 +9,7 @@ import {
 export default function RelativeBooks() {
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-lg font-semibold">이 책의 다른 번역서</p>
+      <p className="text-lg font-semibold">작가의 다른 책</p>
       <div className="relative">
         <Carousel
           className="w-full"

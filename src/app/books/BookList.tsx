@@ -1,5 +1,5 @@
-import { BookItem } from './BookItem';
-import BookListItem from './BookItem/BookListItem';
+import { BookItem } from '../../components/BookItem';
+import BookListItem from '../../components/BookItem/BookListItem';
 
 export default function BookList() {
   // todo: list 모드 jotai atom으로 관리
