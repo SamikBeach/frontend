@@ -1,5 +1,29 @@
 # 🚦 CHANGELOG
 
+# [1.32.0](https://github.com/SamikBeach/frontend/compare/1.31.0...1.32.0) (2025-01-07)
+
+
+### Bug Fixes
+
+* Mention "@"로만 트리거 되도록 수정 ([b6e2f58](https://github.com/SamikBeach/frontend/commit/b6e2f587685b1eeb7827cddf2911f33d3488d400))
+* 아무거나 수정(dev branch 테스트) ([a314e09](https://github.com/SamikBeach/frontend/commit/a314e093ca22faa0f908ae4c540ac5ed733676fb))
+* 아무거나 수정2(dev branch 테스트) ([f8285b7](https://github.com/SamikBeach/frontend/commit/f8285b7d1cadeab833ba59dba7ed008cbff7b7b1))
+* 이것저것 소소한 수정 ([ca95f90](https://github.com/SamikBeach/frontend/commit/ca95f90aba2fb93efb303e21a443034222e37978))
+
+
+### Features
+
+* CommentEditor UI 초안 ([4b0ba33](https://github.com/SamikBeach/frontend/commit/4b0ba33c207d9de8f3ba94fcbcff116632d2a5cb))
+* CommentEditor에 멘션 기능 추가 ([3cb9085](https://github.com/SamikBeach/frontend/commit/3cb90857c1cfc11487083fffb0ea6d8c3f64a5dc))
+* Lexical 에디터 초안 ([88f8965](https://github.com/SamikBeach/frontend/commit/88f8965f30c53d099908b54b6e0d02697c8a7439))
+* lexical 패키지 설치 ([06f1755](https://github.com/SamikBeach/frontend/commit/06f17555653f29840f4eabcd22aac973a94bc9da))
+* ReviewDialog 하단에 CommentEditor 고정 ([7a11365](https://github.com/SamikBeach/frontend/commit/7a113658718d2e0e54950768d01cf6e942a7581d))
+* User 페이지 UI ([1125bcb](https://github.com/SamikBeach/frontend/commit/1125bcb2e0a0387492a98e4d829c0894426eb94f))
+* UserHistory 디자인 디테일 ([a0b93f3](https://github.com/SamikBeach/frontend/commit/a0b93f35e12650a9fb3af5e54c289eb8f40b19c5))
+* WriteReviewDialog 추가 ([ff23c87](https://github.com/SamikBeach/frontend/commit/ff23c87741d98e45a6a7df1ea3b38bc9dd2fad2c))
+* 각 다이얼로그 및 페이지에 review list 추가 ([aecc64b](https://github.com/SamikBeach/frontend/commit/aecc64bd3a126036a228cf7b18346ee7fcf3ab1f))
+* 개인정보 설정 페이지 추가 ([baddb5e](https://github.com/SamikBeach/frontend/commit/baddb5ec743fe3c5985ad55013592103c61f817a))
+
 # [1.31.0](https://github.com/SamikBeach/frontend/compare/1.30.0...1.31.0) (2025-01-06)
 
 
