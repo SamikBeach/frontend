@@ -11,7 +11,6 @@ export interface RegisterDto {
 
 export interface AuthResponse {
   accessToken: string;
-  refreshToken?: string;
 }
 
 export interface EmailVerificationDto {

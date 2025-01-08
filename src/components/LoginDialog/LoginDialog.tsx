@@ -30,7 +30,12 @@ export default function LoginDialog(props: Props) {
 
         <div className="flex-1 overflow-y-auto px-1">
           {mode === 'login' ? (
-            <LoginForm onClickGoToSignUp={() => setMode('signup')} />
+            <LoginForm
+              onClickGoToSignUp={() => setMode('signup')}
+              onSuccess={() => {
+                props.onOpenChange?.(false);
+              }}
+            />
           ) : (
             <SignUpForm onClickGoToLogin={() => setMode('login')} />
           )}

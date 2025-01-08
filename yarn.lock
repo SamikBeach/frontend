@@ -2235,6 +2235,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-devtools@npm:5.62.16":
+  version: 5.62.16
+  resolution: "@tanstack/query-devtools@npm:5.62.16"
+  checksum: 10c0/21b3e8ad11b752135934c560883926fa0eeecd65ea8d922fc507c13a3e59e1d0b93541a587134dec51537d7b20dd55f59f8acd9795210dc366efda58c12ec4d3
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query-devtools@npm:^5.62.16":
+  version: 5.62.16
+  resolution: "@tanstack/react-query-devtools@npm:5.62.16"
+  dependencies:
+    "@tanstack/query-devtools": "npm:5.62.16"
+  peerDependencies:
+    "@tanstack/react-query": ^5.62.16
+    react: ^18 || ^19
+  checksum: 10c0/43546c659bcbdbd0cd5239dcf2ed76d29089f94142346749b5a10188f90d793dd5e640eb1b62ee9220c36eb20c487af5485f4f9cdc726b5d8df43cc7d6cee098
+  languageName: node
+  linkType: hard
+
 "@tanstack/react-query@npm:^5.62.16":
   version: 5.62.16
   resolution: "@tanstack/react-query@npm:5.62.16"
@@ -4241,6 +4260,7 @@ __metadata:
     "@semantic-release/changelog": "npm:^6.0.3"
     "@semantic-release/git": "npm:^10.0.1"
     "@tanstack/react-query": "npm:^5.62.16"
+    "@tanstack/react-query-devtools": "npm:^5.62.16"
     "@types/node": "npm:^22.10.1"
     "@types/react": "npm:^19.0.1"
     "@types/react-dom": "npm:^19.0.1"

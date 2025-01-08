@@ -1,6 +1,6 @@
 'use client';
 
-import type { AuthResponse } from '@/apis/auth/types';
+import { authApi } from '@/apis/auth/auth';
 import axios from '@/apis/axios';
 import { accessTokenAtom } from '@/atoms/auth';
 import { useAtom } from 'jotai';
@@ -13,12 +13,17 @@ export default function SilentRefresh() {
     // 초기 토큰 갱신 시도
     const initializeAuth = async () => {
       try {
-        const response = await axios.post<AuthResponse>('/auth/refresh');
+        const response = await authApi.refresh();
+        const accessToken = response.data.accessToken;
 
-        setAccessToken(response.data.accessToken);
+        setAccessToken(accessToken);
+
+        axios.defaults.headers.common['Authorization'] =
+          `Bearer ${accessToken}`;
       } catch {
         // refresh token이 없거나 만료된 경우 조용히 실패
         setAccessToken(null);
+        delete axios.defaults.headers.common['Authorization'];
       }
     };
 

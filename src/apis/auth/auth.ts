@@ -4,6 +4,7 @@ import type {
   EmailVerificationDto,
   LoginDto,
   RegisterDto,
+  TokenRefreshResponse,
   VerifyEmailDto,
 } from './types';
 
@@ -66,4 +67,11 @@ export const authApi = {
    */
   completeRegistration: (data: { email: string }) =>
     axios.post<AuthResponse>('/auth/register/complete', data),
+
+  /**
+   * 리프레시 토큰으로 새로운 액세스 토큰을 발급받습니다.
+   * 리프레시 토큰은 쿠키에서 자동으로 전송됩니다.
+   * @returns 새로운 액세스 토큰
+   */
+  refresh: () => axios.post<TokenRefreshResponse>('/auth/refresh'),
 };

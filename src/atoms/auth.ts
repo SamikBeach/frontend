@@ -4,4 +4,9 @@ import { atom } from 'jotai';
 export const accessTokenAtom = atom<string | null>(null);
 
 // 로그인 여부를 나타내는 atom
-export const isLoggedInAtom = atom(get => !!get(accessTokenAtom));
+export const isLoggedInAtom = atom(
+  get => !!get(accessTokenAtom),
+  (_get, set, value: boolean) => {
+    set(accessTokenAtom, value ? 'dummy' : null);
+  }
+);
