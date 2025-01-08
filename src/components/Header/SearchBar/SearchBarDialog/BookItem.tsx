@@ -4,7 +4,7 @@ import { MessageSquareIcon } from 'lucide-react';
 
 export default function BookItem() {
   return (
-    <div className="flex gap-3 rounded-md px-2 py-1 hover:cursor-pointer hover:rounded-md hover:bg-gray-100">
+    <div className="flex gap-3 rounded-md p-3 hover:cursor-pointer hover:rounded-md hover:bg-gray-100">
       <img
         src="https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9788970132099.jpg"
         className="h-20 w-14 rounded-sm object-cover"
