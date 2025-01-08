@@ -69,7 +69,7 @@ export default function VerifyCodeForm({ email, onSuccess }: Props) {
       onSubmit={onSubmit}
       className="flex flex-col items-center justify-between gap-3 pt-4"
     >
-      <div className="flex flex-col items-center gap-3">
+      <div className="flex w-full flex-col items-center gap-3">
         <div className="text-center">
           <h3 className="text-lg font-semibold">이메일 인증</h3>
           <p className="text-sm text-gray-500">
