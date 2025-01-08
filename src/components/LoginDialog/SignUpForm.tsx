@@ -12,17 +12,21 @@ import { Input } from '../ui/input';
 
 interface SignUpFormData {
   email: string;
-  password: string;
-  confirmPassword: string;
 }
 
 interface Props {
   onClickGoToLogin: () => void;
+  onEmailVerified: (email: string) => void;
   onSuccess?: () => void;
 }
 
-export default function SignUpForm({ onClickGoToLogin, onSuccess }: Props) {
+export default function SignUpForm({
+  onClickGoToLogin,
+  onEmailVerified,
+  onSuccess,
+}: Props) {
   const [, setIsLoggedIn] = useAtom(isLoggedInAtom);
+
   const {
     control,
     handleSubmit,
@@ -30,8 +34,6 @@ export default function SignUpForm({ onClickGoToLogin, onSuccess }: Props) {
   } = useForm<SignUpFormData>({
     defaultValues: {
       email: '',
-      password: '',
-      confirmPassword: '',
     },
   });
 
@@ -47,9 +49,15 @@ export default function SignUpForm({ onClickGoToLogin, onSuccess }: Props) {
     },
   });
 
+  const checkEmailMutation = useMutation({
+    mutationFn: authApi.checkEmail,
+    onSuccess: () => {
+      onEmailVerified(emailField.value);
+    },
+  });
+
   const onSubmit = handleSubmit(data => {
-    console.log(data);
-    // TODO: 회원가입 API 호출
+    checkEmailMutation.mutate({ email: data.email });
   });
 
   const {
@@ -99,8 +107,16 @@ export default function SignUpForm({ onClickGoToLogin, onSuccess }: Props) {
           {errors.email && (
             <span className="text-xs text-red-500">{errors.email.message}</span>
           )}
+          {checkEmailMutation.error && (
+            <span className="text-xs text-red-500">
+              {(checkEmailMutation.error as AxiosError<{ message: string }>)
+                .response?.data?.message || '이메일 확인에 실패했습니다.'}
+            </span>
+          )}
         </div>
-        <Button type="submit">회원가입</Button>
+        <Button type="submit" disabled={checkEmailMutation.isPending}>
+          {checkEmailMutation.isPending ? '확인 중...' : '회원가입'}
+        </Button>
         <div className="flex flex-col gap-1">
           <Button
             type="button"

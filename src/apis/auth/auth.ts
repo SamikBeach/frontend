@@ -3,6 +3,7 @@ import type {
   AuthResponse,
   EmailVerificationDto,
   LoginDto,
+  RegisterCompleteDto,
   RegisterDto,
   TokenRefreshResponse,
   VerifyEmailDto,
@@ -65,7 +66,7 @@ export const authApi = {
    * @param data - 인증된 이메일 주소
    * @returns 액세스 토큰이 포함된 응답
    */
-  completeRegistration: (data: { email: string }) =>
+  completeRegistration: (data: RegisterCompleteDto) =>
     axios.post<AuthResponse>('/auth/register/complete', data),
 
   /**

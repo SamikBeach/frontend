@@ -9,6 +9,11 @@ export interface RegisterDto {
   nickname: string;
 }
 
+export interface RegisterCompleteDto {
+  email: string;
+  verificationCode: string;
+}
+
 export interface AuthResponse {
   accessToken: string;
 }
