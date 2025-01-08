@@ -1,5 +1,7 @@
 'use client';
 
+import { authApi } from '@/apis/auth/auth';
+import { isLoggedInAtom } from '@/atoms/auth';
 import { LoginDialog } from '@/components/LoginDialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -10,15 +12,30 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useMutation } from '@tanstack/react-query';
+import { useAtom } from 'jotai';
 import { LogOut, Settings, User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function RightSlot() {
   const router = useRouter();
-
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
+
+  const logoutMutation = useMutation({
+    mutationFn: authApi.logout,
+    onSuccess: () => {
+      setIsLoggedIn(false);
+    },
+    onError: error => {
+      console.error('Logout failed:', error);
+    },
+  });
+
+  const handleLogout = () => {
+    logoutMutation.mutate();
+  };
 
   if (!isLoggedIn) {
     return (
@@ -60,7 +77,7 @@ export default function RightSlot() {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer text-red-600 hover:!text-red-600"
-          onClick={() => setIsLoggedIn(false)}
+          onClick={handleLogout}
         >
           <LogOut className="mr-2 h-4 w-4" />
           로그아웃
