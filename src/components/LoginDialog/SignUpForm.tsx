@@ -1,4 +1,11 @@
+import { authApi } from '@/apis/auth/auth';
+import axios from '@/apis/axios';
+import { isLoggedInAtom } from '@/atoms/auth';
 import Google from '@/svgs/google';
+import { useGoogleLogin } from '@react-oauth/google';
+import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { useAtom } from 'jotai';
 import { useController, useForm } from 'react-hook-form';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -11,9 +18,11 @@ interface SignUpFormData {
 
 interface Props {
   onClickGoToLogin: () => void;
+  onSuccess?: () => void;
 }
 
-export default function SignUpForm({ onClickGoToLogin }: Props) {
+export default function SignUpForm({ onClickGoToLogin, onSuccess }: Props) {
+  const [, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const {
     control,
     handleSubmit,
@@ -66,6 +75,37 @@ export default function SignUpForm({ onClickGoToLogin }: Props) {
     // TODO: 회원가입 API 호출
   });
 
+  const {
+    mutate: mutateGoogleLogin,
+    isPending,
+    error: googleLoginError,
+  } = useMutation({
+    mutationKey: ['googleLogin'],
+    mutationFn: (code: string) => authApi.googleLogin(code),
+    onSuccess: response => {
+      const accessToken = response.data.accessToken;
+      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+
+      setIsLoggedIn(true);
+      onSuccess?.();
+    },
+    onError: error => {
+      console.log({ error });
+      console.error('Google login failed:', error);
+    },
+  });
+
+  const googleLogin = useGoogleLogin({
+    flow: 'auth-code',
+    onSuccess: async ({ code }) => {
+      mutateGoogleLogin(code);
+    },
+    onError: error => {
+      console.log({ error });
+      console.error('Google login error:', error);
+    },
+  });
+
   return (
     <form
       onSubmit={onSubmit}
@@ -110,10 +150,24 @@ export default function SignUpForm({ onClickGoToLogin }: Props) {
           )}
         </div>
         <Button type="submit">회원가입</Button>
-        <Button type="button" variant="outline">
-          <Google />
-          구글 계정으로 회원가입
-        </Button>
+        <div className="flex flex-col gap-1">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => googleLogin()}
+            disabled={isPending}
+          >
+            <Google />
+            {isPending ? '로그인 중...' : '구글 계정으로 회원가입'}
+          </Button>
+          {googleLoginError && (
+            <span className="text-xs text-red-500">
+              {(googleLoginError as AxiosError<{ message: string }>).response
+                ?.data?.message ||
+                '구글 로그인에 실패했습니다. 다시 시도해주세요.'}
+            </span>
+          )}
+        </div>
       </div>
       <div className="flex flex-col items-center gap-1 text-sm">
         <div className="flex items-center">
