@@ -1,20 +1,17 @@
-
-import { Provider } from 'jotai';
-import { type ReactNode } from 'react';
 import Header from '@/components/Header/Header';
 import { LeftSidebar } from '@/components/LeftSidebar';
 import { SilentRefresh } from '@/components/SilentRefresh';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
+import { type ReactNode } from 'react';
 
 export default async function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   const messages = await getMessages();
 
-export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ko">
       <body>
