@@ -26,6 +26,7 @@ export default function LoginForm({ onClickGoToSignUp, onSuccess }: Props) {
     control,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<LoginFormData>({
     defaultValues: {
       email: '',
@@ -57,15 +58,38 @@ export default function LoginForm({ onClickGoToSignUp, onSuccess }: Props) {
     },
   });
 
-  const onSubmit = handleSubmit(data => {
-    console.log(data);
-    // TODO: 로그인 API 호출
+  // 이메일 로그인
+  const {
+    mutate: mutateEmailLogin,
+    isPending: isEmailLoginPending,
+    error: emailLoginError,
+    reset: resetEmailLoginError,
+  } = useMutation({
+    mutationFn: authApi.login,
+    onSuccess: response => {
+      const accessToken = response.data.accessToken;
+      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+
+      setIsLoggedIn(true);
+      onSuccess?.();
+    },
   });
 
+  // 폼 값이 변경될 때마다 에러 초기화
+  watch(() => {
+    if (emailLoginError) resetEmailLoginError();
+  });
+
+  const onSubmit = handleSubmit(data => {
+    mutateEmailLogin(data);
+  });
+
+  // 구글 로그인 (기존 코드)
   const {
     mutate: mutateGoogleLogin,
-    isPending,
+    isPending: isGoogleLoginPending,
     error: googleLoginError,
+    reset: resetGoogleLoginError,
   } = useMutation({
     mutationKey: ['googleLogin'],
     mutationFn: (code: string) => authApi.googleLogin(code),
@@ -76,19 +100,15 @@ export default function LoginForm({ onClickGoToSignUp, onSuccess }: Props) {
       setIsLoggedIn(true);
       onSuccess?.();
     },
-    onError: error => {
-      console.log({ error });
-      console.error('Google login failed:', error);
-    },
   });
 
   const googleLogin = useGoogleLogin({
     flow: 'auth-code',
     onSuccess: async ({ code }) => {
+      resetGoogleLoginError();
       mutateGoogleLogin(code);
     },
     onError: error => {
-      console.log({ error });
       console.error('Google login error:', error);
     },
   });
@@ -122,17 +142,25 @@ export default function LoginForm({ onClickGoToSignUp, onSuccess }: Props) {
               {errors.password.message}
             </span>
           )}
+          {emailLoginError && (
+            <span className="text-xs text-red-500">
+              {(emailLoginError as AxiosError<{ message: string }>).response
+                ?.data?.message || '로그인에 실패했습니다.'}
+            </span>
+          )}
         </div>
-        <Button type="submit">로그인</Button>
+        <Button type="submit" disabled={isEmailLoginPending}>
+          {isEmailLoginPending ? '로그인 중...' : '로그인'}
+        </Button>
         <div className="flex flex-col gap-1">
           <Button
             type="button"
             variant="outline"
             onClick={() => googleLogin()}
-            disabled={isPending}
+            disabled={isGoogleLoginPending}
           >
             <Google />
-            {isPending ? '로그인 중...' : '구글 계정으로 로그인'}
+            {isGoogleLoginPending ? '로그인 중...' : '구글 계정으로 로그인'}
           </Button>
           {googleLoginError && (
             <span className="text-xs text-red-500">
