@@ -18,7 +18,7 @@ export default function LoginDialog(props: Props) {
   return (
     <Dialog {...props}>
       <DialogContent
-        className="w-96"
+        className="flex h-[480px] w-96 flex-col"
         overlayClassName="bg-black/10"
         aria-describedby={undefined}
       >
@@ -28,11 +28,13 @@ export default function LoginDialog(props: Props) {
           </DialogTitle>
         </DialogHeader>
 
-        {mode === 'login' ? (
-          <LoginForm onClickGoToSignUp={() => setMode('signup')} />
-        ) : (
-          <SignUpForm onClickGoToLogin={() => setMode('login')} />
-        )}
+        <div className="flex-1 overflow-y-auto px-1">
+          {mode === 'login' ? (
+            <LoginForm onClickGoToSignUp={() => setMode('signup')} />
+          ) : (
+            <SignUpForm onClickGoToLogin={() => setMode('login')} />
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );
