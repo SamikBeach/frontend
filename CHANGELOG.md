@@ -1,5 +1,27 @@
 # 🚦 CHANGELOG
 
+# [1.33.0](https://github.com/SamikBeach/frontend/compare/1.32.0...1.33.0) (2025-01-08)
+
+
+### Bug Fixes
+
+* fix type errors ([9ffc742](https://github.com/SamikBeach/frontend/commit/9ffc742ab2fca44d11784102d8d6623eda0df6a7))
+* 불필요한 코드 제거 ([d17ceaf](https://github.com/SamikBeach/frontend/commit/d17ceaf779bfd7f488594373166b04647a44eea7))
+
+
+### Features
+
+* @react-oauth/google, @tanstack/react-query 설치 ([2cf100b](https://github.com/SamikBeach/frontend/commit/2cf100b80e8c9400adb9c7fc04db768f238829e9))
+* API 호출 함수 정의 ([7631bc9](https://github.com/SamikBeach/frontend/commit/7631bc9c37aa497f7571f2264f920a0a860e3406))
+* google login API 연동 ([6c8de8c](https://github.com/SamikBeach/frontend/commit/6c8de8c876d9dd131d733e0a724fac131685eeb7))
+* 구글 회원가입 로직 구현 ([9a2fe0b](https://github.com/SamikBeach/frontend/commit/9a2fe0b8856e6e225b7ace34100bcd9d4843a87d))
+* 로그인, 회원가입 폼 RHF 연동 ([018bf38](https://github.com/SamikBeach/frontend/commit/018bf38e8e01567f702e800580760b4248ebc8d9))
+* 스타일 수정 ([13750f3](https://github.com/SamikBeach/frontend/commit/13750f39f433a6328d7dcb7e38f635eb0c64bce0))
+* 이메일 로그인 구현 ([a84e0d1](https://github.com/SamikBeach/frontend/commit/a84e0d10c43dca6632f4849be4c4edef350a382c))
+* 이메일 회원가입 구현 ([90e79bb](https://github.com/SamikBeach/frontend/commit/90e79bbc4bdf2e962fa652322a532427e4fe7b75))
+* 토큰 갱신 로직 추가 ([011155f](https://github.com/SamikBeach/frontend/commit/011155f18532ffc9b7937f0255935f258a8ed5f5))
+* 토큰 관리 atom 및 토큰 리프레시 로직 추가 ([0ce5bea](https://github.com/SamikBeach/frontend/commit/0ce5bea9a4164d2f766600efa2a03a55f5141667))
+
 # [1.32.0](https://github.com/SamikBeach/frontend/compare/1.31.0...1.32.0) (2025-01-07)
 
 
