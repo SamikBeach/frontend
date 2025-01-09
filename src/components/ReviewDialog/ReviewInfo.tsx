@@ -1,5 +1,6 @@
 import { Review } from '@/apis/review/types';
 import { DialogTitle } from '@radix-ui/react-dialog';
+import { format } from 'date-fns';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
@@ -43,7 +44,7 @@ export default function ReviewInfo({ review }: Props) {
         </div>
 
         <p className="text-gray-500">
-          {new Date(review.createdAt).toLocaleDateString()}
+          {format(new Date(review.createdAt), 'yyyy년 M월 d일 HH시 mm분')}
         </p>
       </div>
 

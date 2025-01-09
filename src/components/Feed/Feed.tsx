@@ -3,6 +3,7 @@
 import { Book } from '@/apis/book/types';
 import { Review } from '@/apis/review/types';
 import { User } from '@/apis/user/types';
+import { formatDate } from '@/utils/date';
 import { MessageSquareIcon, MoreHorizontal, ThumbsUpIcon } from 'lucide-react';
 import { useState } from 'react';
 import { ReviewDialog } from '../ReviewDialog';
@@ -19,7 +20,6 @@ interface FeedProps {
 function Feed({ review, user, book }: FeedProps) {
   const [openDialog, setOpenDialog] = useState(false);
 
-  console.log(book.authorBooks);
   return (
     <>
       <div
@@ -34,7 +34,7 @@ function Feed({ review, user, book }: FeedProps) {
             </Avatar>
             <div className="font-medium">{user.nickname}</div>
             <div className="text-muted-foreground">
-              {new Date(review.createdAt).toLocaleDateString()}
+              {formatDate(review.createdAt)}
             </div>
           </div>
 

@@ -1,4 +1,5 @@
 import { Comment as CommentType } from '@/apis/review/types';
+import { formatDate } from '@/utils/date';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -8,9 +9,16 @@ interface Props {
   user: CommentType['user'];
   likeCount: number;
   isLiked?: boolean;
+  createdAt: string;
 }
 
-export default function Comment({ content, user, likeCount, isLiked }: Props) {
+export default function Comment({
+  content,
+  user,
+  likeCount,
+  isLiked,
+  createdAt,
+}: Props) {
   return (
     <div className="flex items-start gap-2">
       <Avatar>
@@ -23,7 +31,7 @@ export default function Comment({ content, user, likeCount, isLiked }: Props) {
       <div className="flex w-full flex-col gap-1">
         <div className="flex items-center gap-2">
           <p className="font-medium">{user.nickname}</p>
-          <p className="text-sm text-gray-500">3일 전</p>
+          <p className="text-sm text-gray-500">{formatDate(createdAt)}</p>
         </div>
         <div className="flex flex-col gap-1">
           <div className="w-full rounded-lg bg-gray-100 p-3 text-sm text-gray-700">

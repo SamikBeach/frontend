@@ -79,6 +79,7 @@ export default function CommentList({
               user={comment.user}
               likeCount={comment.likeCount}
               isLiked={comment.isLiked}
+              createdAt={comment.createdAt}
             />
           ))}
         </InfiniteScroll>
