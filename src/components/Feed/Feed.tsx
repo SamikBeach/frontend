@@ -3,6 +3,7 @@
 import { Book } from '@/apis/book/types';
 import { Review } from '@/apis/review/types';
 import { User } from '@/apis/user/types';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { formatDate } from '@/utils/date';
 import { MessageSquareIcon, MoreHorizontal, ThumbsUpIcon } from 'lucide-react';
 import { useState } from 'react';
@@ -19,6 +20,8 @@ interface FeedProps {
 
 function Feed({ review, user, book }: FeedProps) {
   const [openDialog, setOpenDialog] = useState(false);
+  const currentUser = useCurrentUser();
+  const isMyFeed = currentUser?.id === user.id;
 
   return (
     <>
@@ -54,7 +57,6 @@ function Feed({ review, user, book }: FeedProps) {
                 <p className="text-sm text-gray-500">
                   {book.authorBooks
                     .map(author => author.author.nameInKor)
-
                     .join(', ')}{' '}
                   · {book.publisher} · {book.publicationDate?.split('-')[0]}
                 </p>
@@ -87,19 +89,21 @@ function Feed({ review, user, book }: FeedProps) {
           </div>
         </div>
 
-        <div className="absolute right-4 top-4">
-          <EditDropdownMenu>
-            <EditDropdownMenu.Trigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 hover:bg-gray-200"
-              >
-                <MoreHorizontal className="h-4 w-4 text-gray-500" />
-              </Button>
-            </EditDropdownMenu.Trigger>
-          </EditDropdownMenu>
-        </div>
+        {isMyFeed && (
+          <div className="absolute right-4 top-4">
+            <EditDropdownMenu>
+              <EditDropdownMenu.Trigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 hover:bg-gray-200"
+                >
+                  <MoreHorizontal className="h-4 w-4 text-gray-500" />
+                </Button>
+              </EditDropdownMenu.Trigger>
+            </EditDropdownMenu>
+          </div>
+        )}
       </div>
       <ReviewDialog
         open={openDialog}

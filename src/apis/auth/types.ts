@@ -45,4 +45,5 @@ export interface LogoutResponse {
 
 export interface TokenRefreshResponse {
   accessToken: string;
+  user: Pick<User, 'id' | 'email' | 'nickname'>;
 }
