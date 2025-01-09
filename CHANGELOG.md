@@ -1,5 +1,35 @@
 # 🚦 CHANGELOG
 
+# [1.34.0](https://github.com/SamikBeach/frontend/compare/1.33.0...1.34.0) (2025-01-09)
+
+
+### Bug Fixes
+
+* FeedList skeleton 스타일 조정 ([da385b2](https://github.com/SamikBeach/frontend/commit/da385b23667004e07e2c5f44f81fa99727d9dbfb))
+* FeedList suspense로 로딩 처리 ([7d9c393](https://github.com/SamikBeach/frontend/commit/7d9c393896f00cf30958e188ef8f51d39cb5b0f2))
+* fix type errors ([95d0709](https://github.com/SamikBeach/frontend/commit/95d0709c06aa8dcd75a6420a487953c9b6219bb6))
+* fix type errors ([27509b3](https://github.com/SamikBeach/frontend/commit/27509b395e4b871f3e9a13d841abb8bc100de595))
+* ReivewDialog 스타일 개선 ([4f6ad8f](https://github.com/SamikBeach/frontend/commit/4f6ad8f676edc9f5e40550b7f8dfc91b6b97fb05))
+* ReviewDialog 내 무한스크롤 동작하도록 수정 ([2333e74](https://github.com/SamikBeach/frontend/commit/2333e746d6b187ccce7d120a1caf05fad07be014))
+* ReviewDialog 스타일 조정 ([1b34f99](https://github.com/SamikBeach/frontend/commit/1b34f9970dd9ff138cbafb48210bfda26ec97f80))
+* SearchBar Content 간격 조정 ([e32ef3f](https://github.com/SamikBeach/frontend/commit/e32ef3fc1d9a408b8fd824bc0a923809defad089))
+* SearchBarDialog 스타일 수정 ([e49d1b8](https://github.com/SamikBeach/frontend/commit/e49d1b84a0bf7eec7d93b6485c061a71fe4b7116))
+* 무한 스크롤 fetch 조건 수정 ([a0309ad](https://github.com/SamikBeach/frontend/commit/a0309ad40d1efab62f377641fcf927e563241c9e))
+* 스타일 수정 ([f232d9f](https://github.com/SamikBeach/frontend/commit/f232d9f90b3d43116bb9cb53b74a3c78b17cbac3))
+
+
+### Features
+
+* CommentSkeleton 추가 ([15f834d](https://github.com/SamikBeach/frontend/commit/15f834d86dc76ed96066b50d9de43abd36c5944b))
+* EmptyComments 추가 ([41b6754](https://github.com/SamikBeach/frontend/commit/41b67549ab130907d903ebffd06e6d50c9cf50a7))
+* Feed UI 디테일 및 API 연동 ([3f341a7](https://github.com/SamikBeach/frontend/commit/3f341a79fd2c72ff5e0c1a409a5d377368f780a5))
+* formatDate 유틸 함수 분리 ([0f6f300](https://github.com/SamikBeach/frontend/commit/0f6f3003a67f5451855a91680ae5d041c1508467))
+* ReviewDialog API 연동 ([9f02b16](https://github.com/SamikBeach/frontend/commit/9f02b161f33303175ebf40c58e40037fa74c15fe))
+* ReviewDialog 로딩처리 개선 ([322aaf7](https://github.com/SamikBeach/frontend/commit/322aaf7c8325c372af7a3299a824f0c35a12a683))
+* search feed api 연동 ([e33fbea](https://github.com/SamikBeach/frontend/commit/e33fbea4580856b680d9682fecef2182aa7bf9a1))
+* 내 리뷰에서만 피드 더보기 버튼 노출 ([9b4d4cb](https://github.com/SamikBeach/frontend/commit/9b4d4cb259192843e7f91cc55edb539e1ae1c887))
+* 로그인시 유저 정보 저장 ([68791c7](https://github.com/SamikBeach/frontend/commit/68791c7d87d992cb426a9499210fa8fd06d25bab))
+
 # [1.33.0](https://github.com/SamikBeach/frontend/compare/1.32.0...1.33.0) (2025-01-08)
 
 
