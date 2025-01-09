@@ -13,6 +13,7 @@ export default function Initializer() {
     queryKey: ['me'],
     queryFn: userApi.getMyProfile,
     select: data => data.data,
+    retry: 0,
   });
 
   useEffect(() => {
