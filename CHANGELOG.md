@@ -1,5 +1,25 @@
 # 🚦 CHANGELOG
 
+# [1.35.0](https://github.com/SamikBeach/frontend/compare/1.34.0...1.35.0) (2025-01-09)
+
+
+### Bug Fixes
+
+* fix lint ([737e927](https://github.com/SamikBeach/frontend/commit/737e927747d3148abcdd02d61949ad0ef27015ef))
+* 날짜 형식 수정 ([9e1c95f](https://github.com/SamikBeach/frontend/commit/9e1c95f73d641fc105c8be3c58b6c0afd0fca525))
+* 로딩 처리 개선 ([78adae3](https://github.com/SamikBeach/frontend/commit/78adae3c2c9875a006b673b10756332356584da2))
+* 버튼 호버 스타일 수정 ([b89ad9d](https://github.com/SamikBeach/frontend/commit/b89ad9d934eb23983d0221720bfd2ecd61839a98))
+* 스켈레톤 스타일 조정 ([098b158](https://github.com/SamikBeach/frontend/commit/098b1582eb824513cc9e9c41df5fe677d252ddbb))
+
+
+### Features
+
+* accessToken을 localStorage로 관리 ([ba2259b](https://github.com/SamikBeach/frontend/commit/ba2259b544bc362bb9a9da4f104a2b2e0c8cb787))
+* Initializer fetch retry 하지 않도록 ([afeb524](https://github.com/SamikBeach/frontend/commit/afeb5245c31aaa0369bf75b8737f95a07462e2b7))
+* 리뷰 좋아요 토글 기능 추가 ([c19ae7f](https://github.com/SamikBeach/frontend/commit/c19ae7f22924fa6f54a7222dc48aefc7161adcf7))
+* 인증 상태 초기화 로직 추가 ([e2b68cb](https://github.com/SamikBeach/frontend/commit/e2b68cba7ad75f83551442db084c200136b41beb))
+* 토큰 갱신 로직 추가(axios 응답 인터셉터) ([3d52084](https://github.com/SamikBeach/frontend/commit/3d52084a0730e78f40e06248d8bb5c4c7292ec30))
+
 # [1.34.0](https://github.com/SamikBeach/frontend/compare/1.33.0...1.34.0) (2025-01-09)
 
 
