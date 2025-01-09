@@ -5,7 +5,6 @@ import { reviewApi } from '@/apis/review/review';
 import { Review } from '@/apis/review/types';
 import { Feed } from '@/components/Feed';
 import { FeedSkeleton } from '@/components/Feed/FeedSkeleton';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
@@ -60,11 +59,15 @@ function FeedListContent() {
           dataLength={reviews.length}
           next={fetchNextPage}
           hasMore={true}
-          loader={Array(3)
-            .fill(0)
-            .map((_, i) => (
-              <FeedSkeleton key={i} />
-            ))}
+          loader={
+            <div className="flex flex-col gap-5">
+              {Array(3)
+                .fill(0)
+                .map((_, i) => (
+                  <FeedSkeleton key={i} />
+                ))}
+            </div>
+          }
         >
           {reviews.map(review => (
             <Feed
@@ -81,11 +84,15 @@ function FeedListContent() {
           dataLength={reviews.length}
           next={fetchNextPage}
           hasMore={true}
-          loader={Array(3)
-            .fill(0)
-            .map((_, i) => (
-              <FeedSkeleton key={i} />
-            ))}
+          loader={
+            <div className="flex flex-col gap-5">
+              {Array(3)
+                .fill(0)
+                .map((_, i) => (
+                  <FeedSkeleton key={i} />
+                ))}
+            </div>
+          }
         >
           {reviews.map(review => (
             <Feed
@@ -105,12 +112,7 @@ export default function FeedList() {
   return (
     <Suspense
       fallback={
-        <div className="my-3">
-          <div className="inline-flex gap-2 rounded-lg bg-gray-100 p-1">
-            <Skeleton className="h-8 w-16 rounded-md" />
-            <Skeleton className="h-8 w-16 rounded-md" />
-          </div>
-
+        <div className="flex flex-col gap-5">
           {Array(3)
             .fill(0)
             .map((_, i) => (
