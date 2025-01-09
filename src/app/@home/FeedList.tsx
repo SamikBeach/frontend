@@ -14,7 +14,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 function FeedListContent() {
   const [tab, setTab] = useState<'popular' | 'recent'>('popular');
 
-  const { data, fetchNextPage } = useInfiniteQuery<
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<
     AxiosResponse<PaginatedResponse<Review>>,
     Error
   >({
@@ -58,7 +58,7 @@ function FeedListContent() {
         <InfiniteScroll
           dataLength={reviews.length}
           next={fetchNextPage}
-          hasMore={true}
+          hasMore={hasNextPage ?? false}
           loader={
             <div className="flex flex-col gap-5">
               {Array(3)
