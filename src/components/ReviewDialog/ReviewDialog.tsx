@@ -1,13 +1,8 @@
 import { reviewApi } from '@/apis/review/review';
-import { DialogProps } from '@radix-ui/react-dialog';
+import { DialogProps, DialogTitle } from '@radix-ui/react-dialog';
 import { useQuery } from '@tanstack/react-query';
 import { CommentEditor } from '../CommentEditor';
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from '../ui/dialog';
+import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import CommentList from './CommentList';
 import ReviewInfo from './ReviewInfo';
 
@@ -22,7 +17,6 @@ export default function ReviewDialog({ reviewId, children, ...props }: Props) {
     select: data => data.data,
     enabled: props.open,
   });
-  console.log({ review });
 
   return (
     <Dialog {...props}>
@@ -34,12 +28,8 @@ export default function ReviewDialog({ reviewId, children, ...props }: Props) {
         onOpenAutoFocus={e => e.preventDefault()}
         id="dialog-content"
       >
-        {isLoading ? (
-          <>
-            <div>Loading...</div>
-            <DialogTitle />
-          </>
-        ) : review ? (
+        {isLoading && <DialogTitle />}
+        {review ? (
           <>
             <div className="flex flex-col gap-4">
               <ReviewInfo review={review} />
