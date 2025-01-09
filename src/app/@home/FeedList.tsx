@@ -7,15 +7,15 @@ import { Feed } from '@/components/Feed';
 import { FeedSkeleton } from '@/components/Feed/FeedSkeleton';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useMemo, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-export default function FeedList() {
+function FeedListContent() {
   const [tab, setTab] = useState<'popular' | 'recent'>('popular');
 
-  const { data, fetchNextPage, isLoading } = useInfiniteQuery<
+  const { data, fetchNextPage } = useInfiniteQuery<
     AxiosResponse<PaginatedResponse<Review>>,
     Error
   >({
@@ -38,30 +38,12 @@ export default function FeedList() {
 
       return pageParam;
     },
-    placeholderData: keepPreviousData,
   });
 
   const reviews = useMemo(
     () => data?.pages?.flatMap(page => page.data.data) ?? [],
     [data]
   );
-
-  if (isLoading) {
-    return (
-      <div className="my-3">
-        <div className="inline-flex gap-2 rounded-lg bg-gray-100 p-1">
-          <Skeleton className="h-8 w-16 rounded-md" />
-          <Skeleton className="h-8 w-16 rounded-md" />
-        </div>
-
-        {Array(3)
-          .fill(0)
-          .map((_, i) => (
-            <FeedSkeleton key={i} />
-          ))}
-      </div>
-    );
-  }
 
   return (
     <Tabs
@@ -78,11 +60,11 @@ export default function FeedList() {
           dataLength={reviews.length}
           next={fetchNextPage}
           hasMore={true}
-          loader={
-            <div className="flex h-20 items-center justify-center">
-              Loading...
-            </div>
-          }
+          loader={Array(3)
+            .fill(0)
+            .map((_, i) => (
+              <FeedSkeleton key={i} />
+            ))}
         >
           {reviews.map(review => (
             <Feed
@@ -99,11 +81,11 @@ export default function FeedList() {
           dataLength={reviews.length}
           next={fetchNextPage}
           hasMore={true}
-          loader={
-            <div className="flex h-20 items-center justify-center">
-              Loading...
-            </div>
-          }
+          loader={Array(3)
+            .fill(0)
+            .map((_, i) => (
+              <FeedSkeleton key={i} />
+            ))}
         >
           {reviews.map(review => (
             <Feed
@@ -116,5 +98,28 @@ export default function FeedList() {
         </InfiniteScroll>
       </TabsContent>
     </Tabs>
+  );
+}
+
+export default function FeedList() {
+  return (
+    <Suspense
+      fallback={
+        <div className="my-3">
+          <div className="inline-flex gap-2 rounded-lg bg-gray-100 p-1">
+            <Skeleton className="h-8 w-16 rounded-md" />
+            <Skeleton className="h-8 w-16 rounded-md" />
+          </div>
+
+          {Array(3)
+            .fill(0)
+            .map((_, i) => (
+              <FeedSkeleton key={i} />
+            ))}
+        </div>
+      }
+    >
+      <FeedListContent />
+    </Suspense>
   );
 }
