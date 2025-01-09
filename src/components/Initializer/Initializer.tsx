@@ -2,7 +2,6 @@
 
 import { userApi } from '@/apis';
 import { currentUserAtom } from '@/atoms/auth';
-import { STORAGE_KEYS } from '@/constants/storage-keys';
 import { useQuery } from '@tanstack/react-query';
 import { useSetAtom } from 'jotai';
 import { useEffect } from 'react';
@@ -14,13 +13,10 @@ export default function Initializer() {
     queryKey: ['me'],
     queryFn: userApi.getMyProfile,
     select: data => data.data,
-    enabled: !!localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN),
   });
 
   useEffect(() => {
-    if (user) {
-      setCurrentUser(user);
-    }
+    setCurrentUser(user ?? null);
   }, [user, setCurrentUser]);
 
   return null;

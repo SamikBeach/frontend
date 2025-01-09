@@ -23,6 +23,7 @@ export default async function RootLayout({
             clientId={process.env.GOOGLE_OAUTH_CLIENT_ID ?? ''}
           >
             <NextIntlClientProvider messages={messages}>
+              <Initializer />
               <div className="flex h-screen flex-col">
                 <Header />
                 <div className="mt-[56px] flex flex-1">
@@ -30,7 +31,6 @@ export default async function RootLayout({
                   <main className="ml-[240px] w-full">{children}</main>
                 </div>
               </div>
-              <Initializer />
             </NextIntlClientProvider>
             <ReactQueryDevtools initialIsOpen={false} />
           </GoogleOAuthProvider>
