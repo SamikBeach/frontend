@@ -1,3 +1,5 @@
+import { User } from '../user';
+
 export interface LoginDto {
   email: string;
   password: string;
@@ -16,6 +18,7 @@ export interface RegisterCompleteDto {
 
 export interface AuthResponse {
   accessToken: string;
+  user: Pick<User, 'id' | 'email' | 'nickname'>;
 }
 
 export interface EmailVerificationDto {
@@ -42,4 +45,5 @@ export interface LogoutResponse {
 
 export interface TokenRefreshResponse {
   accessToken: string;
+  user: Pick<User, 'id' | 'email' | 'nickname'>;
 }

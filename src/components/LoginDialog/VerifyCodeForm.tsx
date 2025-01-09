@@ -1,9 +1,9 @@
 import { authApi } from '@/apis/auth/auth';
 import axios from '@/apis/axios';
-import { isLoggedInAtom } from '@/atoms/auth';
+import { currentUserAtom } from '@/atoms/auth';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useAtom } from 'jotai';
+import { useSetAtom } from 'jotai';
 import { useController, useForm } from 'react-hook-form';
 import { Button } from '../ui/button';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/input-otp';
@@ -18,7 +18,7 @@ interface Props {
 }
 
 export default function VerifyCodeForm({ email, onSuccess }: Props) {
-  const [, setIsLoggedIn] = useAtom(isLoggedInAtom);
+  const setCurrentUser = useSetAtom(currentUserAtom);
 
   const {
     control,
@@ -49,10 +49,9 @@ export default function VerifyCodeForm({ email, onSuccess }: Props) {
   } = useMutation({
     mutationFn: authApi.completeRegistration,
     onSuccess: response => {
-      const accessToken = response.data.accessToken;
+      const { accessToken, user } = response.data;
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-
-      setIsLoggedIn(true);
+      setCurrentUser(user);
       onSuccess?.();
     },
   });

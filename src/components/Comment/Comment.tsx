@@ -1,51 +1,73 @@
+import { Comment as CommentType } from '@/apis/review/types';
+import { formatDate } from '@/utils/date';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 
-export default function Comment() {
+interface Props {
+  content: string;
+  user: CommentType['user'];
+  likeCount: number;
+  isLiked?: boolean;
+  createdAt: string;
+}
+
+export default function Comment({
+  content,
+  user,
+  likeCount,
+  isLiked,
+  createdAt,
+}: Props) {
   return (
-    <div className="flex items-start gap-2">
-      <Avatar>
+    <div className="flex items-start gap-3 py-1">
+      <Avatar className="h-8 w-8 shrink-0">
         <AvatarImage
           src="https://github.com/shadcn.png"
-          className="h-8 w-8 rounded-full"
+          className="rounded-full"
         />
-        <AvatarFallback>CD</AvatarFallback>
+        <AvatarFallback>{user.nickname.slice(0, 2)}</AvatarFallback>
       </Avatar>
-      <div className="flex w-full flex-col gap-1">
+      <div className="flex w-full flex-col gap-1.5">
         <div className="flex items-center gap-2">
-          <p className="font-medium">MijuLee</p>
-          <p className="text-sm text-gray-500">3일 전</p>
+          <p className="text-sm font-medium text-gray-900">{user.nickname}</p>
+          <p className="text-xs text-gray-500">{formatDate(createdAt)}</p>
         </div>
         <div className="flex flex-col gap-1">
-          <div className="w-full rounded-lg bg-gray-100 p-3 text-sm text-gray-700">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-            quos.
+          <div className="w-full rounded-lg bg-gray-50 p-3 text-sm leading-relaxed text-gray-700">
+            {content}
           </div>
 
-          <div className="flex justify-between">
-            <div className="flex items-center gap-2 text-gray-500">
+          <div className="flex justify-between px-1">
+            <div className="flex items-center gap-2 text-xs text-gray-600">
               <Button
                 variant="ghost"
-                className="h-[14px] p-0 hover:bg-transparent"
+                className="h-5 px-0 text-xs font-medium hover:bg-transparent hover:text-gray-900"
               >
                 좋아요
               </Button>
+              <span className="text-gray-300">·</span>
               <Button
                 variant="ghost"
-                className="h-[14px] p-0 hover:bg-transparent"
+                className="h-5 px-0 text-xs font-medium hover:bg-transparent hover:text-gray-900"
               >
                 답글 달기
               </Button>
             </div>
 
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <div className="flex items-center gap-0.5">
-                <ThumbsUpIcon className="h-4 w-4 stroke-gray-500" />
-                <span>2</span>
+            <div className="flex items-center gap-3 text-xs text-gray-600">
+              <div className="flex items-center gap-1">
+                <ThumbsUpIcon
+                  className={`h-3.5 w-3.5 ${
+                    isLiked
+                      ? 'fill-blue-500 stroke-blue-500'
+                      : 'stroke-gray-500'
+                  }`}
+                />
+                <span>{likeCount}</span>
               </div>
-              <div className="flex cursor-pointer items-center gap-0.5">
-                <MessageSquareIcon className="mt-0.5 h-4 w-4 stroke-gray-500" />
+              <div className="flex cursor-pointer items-center gap-1">
+                <MessageSquareIcon className="h-3.5 w-3.5 stroke-gray-500" />
                 <span>2</span>
               </div>
             </div>

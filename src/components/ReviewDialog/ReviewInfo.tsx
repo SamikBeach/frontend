@@ -1,57 +1,82 @@
-import { MessageSquareIcon } from 'lucide-react';
-
+import { Review } from '@/apis/review/types';
 import { DialogTitle } from '@radix-ui/react-dialog';
-import { ThumbsUpIcon } from 'lucide-react';
+import { format } from 'date-fns';
+import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 
-export default function ReviewInfo() {
-  return (
-    <div className="flex flex-col gap-4">
-      <DialogTitle>
-        <p className="text-2xl font-bold">차라투스트라 읽지마세요</p>
-      </DialogTitle>
+interface Props {
+  review: Review;
+}
 
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2">
-          <img
-            src="https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9788970132099.jpg"
-            className="h-[40px] rounded-sm"
-          />
-          <div className="flex flex-col">
-            <p className="text-sm font-semibold">
-              차라투스트라는 이렇게 말했다
-            </p>
-            <p className="text-xs text-gray-500">
-              프리드리히 니체 · 민음사 · 2021
-            </p>
+export default function ReviewInfo({ review }: Props) {
+  return (
+    <div className="flex flex-col">
+      <div className="flex items-start justify-between gap-8">
+        <div className="flex flex-col gap-1">
+          <DialogTitle asChild>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+              {review.title}
+            </h1>
+          </DialogTitle>
+          <div className="flex items-center gap-1 text-sm text-gray-500">
+            <div className="flex items-center gap-2">
+              <Avatar className="h-7 w-7">
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>{review.user.nickname[0]}</AvatarFallback>
+              </Avatar>
+              <span className="font-medium text-gray-700">
+                {review.user.nickname}
+              </span>
+            </div>
+            <span className="text-gray-300">·</span>
+            <span>{format(new Date(review.createdAt), 'yyyy년 M월 d일')}</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <p className="font-medium">BonggeunJeong</p>
+        <div className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 p-2.5">
+          <img
+            src={review.book.imageUrl ?? 'https://picsum.photos/200/300'}
+            className="h-14 w-10 rounded-sm object-cover shadow-sm"
+            alt={review.book.title}
+          />
+          <div className="flex flex-col gap-0.5">
+            <span className="text-xs font-medium text-gray-900">
+              {review.book.title}
+            </span>
+            <span className="text-[11px] text-gray-500">
+              {review.book.authorBooks
+                .map(authorBook => authorBook.author.nameInKor)
+                .join(', ')}
+            </span>
+          </div>
         </div>
-
-        <p className="text-gray-500">2021년 3월 12일 수요일 12시 33분 11초</p>
       </div>
 
-      <div className="whitespace-pre-wrap">
-        가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하
-        가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하
+      <div className="mb-8 whitespace-pre-wrap text-base leading-relaxed text-gray-800">
+        {review.content}
       </div>
 
-      <div className="flex gap-2">
-        <Button className="rounded-full" variant="outline">
-          <ThumbsUpIcon className="h-4 w-4" />
-          <span>300</span>
+      <div className="flex justify-center gap-2">
+        <Button
+          className="rounded-full hover:bg-gray-100"
+          variant="outline"
+          size="sm"
+        >
+          <ThumbsUpIcon className="mr-1.5 h-4 w-4 text-gray-600" />
+          <span className="text-sm font-medium text-gray-700">
+            {review.likeCount}
+          </span>
         </Button>
-        <Button className="rounded-full" variant="outline">
-          <MessageSquareIcon className="h-4 w-4" />
-          <span>300</span>
+        <Button
+          className="rounded-full hover:bg-gray-100"
+          variant="outline"
+          size="sm"
+        >
+          <MessageSquareIcon className="mr-1.5 h-4 w-4 text-gray-600" />
+          <span className="text-sm font-medium text-gray-700">
+            {review.commentCount}
+          </span>
         </Button>
       </div>
     </div>

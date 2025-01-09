@@ -1,16 +1,103 @@
+import { PaginatedResponse } from '@/apis/common/types';
+import { reviewApi } from '@/apis/review/review';
+import { Comment as CommentType } from '@/apis/review/types';
 import { Comment } from '@/components/Comment';
+import {
+  CommentItemSkeleton,
+  default as CommentListSkeleton,
+} from '@/components/Comment/CommentSkeleton';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
+import { Suspense, useMemo } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import EmptyComments from './EmptyComments';
 
-export default function CommentList() {
+interface Props {
+  reviewId: number;
+  commentCount: number;
+  scrollableTarget: string;
+}
+
+function CommentListContent({
+  reviewId,
+  commentCount,
+  scrollableTarget,
+}: Props) {
+  const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
+    AxiosResponse<PaginatedResponse<CommentType>>,
+    Error
+  >({
+    queryKey: ['comments', reviewId],
+    queryFn: ({ pageParam = 1 }) => {
+      return reviewApi.searchComments(reviewId, {
+        page: pageParam as number,
+        limit: 20,
+      });
+    },
+    initialPageParam: 1,
+    getNextPageParam: param => {
+      const nextParam = param.data.links.next;
+      const query = nextParam?.split('?')[1];
+      const pageParam = query
+        ?.split('&')
+        .find(q => q.startsWith('page'))
+        ?.split('=')[1];
+
+      return pageParam;
+    },
+  });
+
+  const comments = useMemo(
+    () => data?.pages?.flatMap(page => page.data.data) ?? [],
+    [data]
+  );
+
   return (
-    <div className="flex flex-col gap-4">
-      <p className="text-sm font-semibold">댓글 4</p>
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
+    <div className="flex flex-1 flex-col gap-4">
+      <div className="flex items-center gap-2">
+        <h2 className="text-base font-semibold text-gray-900">댓글</h2>
+        <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
+          {commentCount}
+        </span>
+      </div>
+      {comments.length === 0 ? (
+        <div className="flex-1">
+          <EmptyComments />
+        </div>
+      ) : (
+        <InfiniteScroll
+          dataLength={comments.length}
+          next={fetchNextPage}
+          hasMore={hasNextPage ?? false}
+          loader={
+            <div className="py-2">
+              <CommentItemSkeleton />
+            </div>
+          }
+          scrollableTarget={scrollableTarget}
+        >
+          <div className="flex flex-col">
+            {comments.map(comment => (
+              <Comment
+                key={comment.id}
+                content={comment.content}
+                user={comment.user}
+                likeCount={comment.likeCount}
+                isLiked={comment.isLiked}
+                createdAt={comment.createdAt}
+              />
+            ))}
+          </div>
+        </InfiniteScroll>
+      )}
     </div>
+  );
+}
+
+export default function CommentList(props: Props) {
+  return (
+    <Suspense fallback={<CommentListSkeleton />}>
+      <CommentListContent {...props} />
+    </Suspense>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { authApi } from '@/apis/auth/auth';
-import { isLoggedInAtom } from '@/atoms/auth';
+import { currentUserAtom, isLoggedInAtom } from '@/atoms/auth';
 import { LoginDialog } from '@/components/LoginDialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -13,20 +13,21 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useMutation } from '@tanstack/react-query';
-import { useAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { LogOut, Settings, User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function RightSlot() {
   const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
+  const setCurrentUser = useSetAtom(currentUserAtom);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
 
   const logoutMutation = useMutation({
     mutationFn: authApi.logout,
     onSuccess: () => {
-      setIsLoggedIn(false);
+      setCurrentUser(null);
     },
     onError: error => {
       console.error('Logout failed:', error);
