@@ -6,6 +6,7 @@ import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import EmptyComments from './EmptyComments';
 
 interface Props {
   reviewId: number;
@@ -55,27 +56,31 @@ export default function CommentList({
   return (
     <div className="flex flex-col gap-4">
       <p className="text-sm font-semibold">댓글 {commentCount}</p>
-      <InfiniteScroll
-        dataLength={comments.length}
-        next={fetchNextPage}
-        hasMore={hasNextPage ?? false}
-        loader={
-          <div className="flex h-20 items-center justify-center">
-            Loading...
-          </div>
-        }
-        scrollableTarget={scrollableTarget}
-      >
-        {comments.map(comment => (
-          <Comment
-            key={comment.id}
-            content={comment.content}
-            user={comment.user}
-            likeCount={comment.likeCount}
-            isLiked={comment.isLiked}
-          />
-        ))}
-      </InfiniteScroll>
+      {comments.length === 0 ? (
+        <EmptyComments />
+      ) : (
+        <InfiniteScroll
+          dataLength={comments.length}
+          next={fetchNextPage}
+          hasMore={hasNextPage ?? false}
+          loader={
+            <div className="flex h-20 items-center justify-center">
+              Loading...
+            </div>
+          }
+          scrollableTarget={scrollableTarget}
+        >
+          {comments.map(comment => (
+            <Comment
+              key={comment.id}
+              content={comment.content}
+              user={comment.user}
+              likeCount={comment.likeCount}
+              isLiked={comment.isLiked}
+            />
+          ))}
+        </InfiniteScroll>
+      )}
     </div>
   );
 }
