@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { STORAGE_KEYS } from '@/constants/storage-keys';
 import { useMutation } from '@tanstack/react-query';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { LogOut, Settings, User } from 'lucide-react';
@@ -27,6 +28,7 @@ export default function RightSlot() {
   const logoutMutation = useMutation({
     mutationFn: authApi.logout,
     onSuccess: () => {
+      localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
       setCurrentUser(null);
     },
     onError: error => {

@@ -8,13 +8,13 @@ import { FeedSkeleton } from '@/components/Feed/FeedSkeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { Suspense, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-function FeedListContent() {
+function FeedList() {
   const [tab, setTab] = useState<'popular' | 'recent'>('popular');
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery<
     AxiosResponse<PaginatedResponse<Review>>,
     Error
   >({
@@ -55,73 +55,61 @@ function FeedListContent() {
         <TabsTrigger value="recent">최신순</TabsTrigger>
       </TabsList>
       <TabsContent value="popular">
-        <InfiniteScroll
-          dataLength={reviews.length}
-          next={fetchNextPage}
-          hasMore={hasNextPage ?? false}
-          loader={
-            <div className="flex flex-col gap-5">
-              {Array(3)
-                .fill(0)
-                .map((_, i) => (
-                  <FeedSkeleton key={i} />
-                ))}
-            </div>
-          }
-        >
-          {reviews.map(review => (
-            <Feed
-              key={review.id}
-              review={review}
-              user={review.user}
-              book={review.book}
-            />
-          ))}
-        </InfiniteScroll>
+        {isLoading ? (
+          <div className="flex flex-col gap-5">
+            {Array(3)
+              .fill(0)
+              .map((_, i) => (
+                <FeedSkeleton key={i} />
+              ))}
+          </div>
+        ) : (
+          <InfiniteScroll
+            dataLength={reviews.length}
+            next={fetchNextPage}
+            hasMore={hasNextPage ?? false}
+            loader={<FeedSkeleton />}
+          >
+            {reviews.map(review => (
+              <Feed
+                key={review.id}
+                review={review}
+                user={review.user}
+                book={review.book}
+              />
+            ))}
+          </InfiniteScroll>
+        )}
       </TabsContent>
       <TabsContent value="recent">
-        <InfiniteScroll
-          dataLength={reviews.length}
-          next={fetchNextPage}
-          hasMore={true}
-          loader={
-            <div className="flex flex-col gap-5">
-              {Array(3)
-                .fill(0)
-                .map((_, i) => (
-                  <FeedSkeleton key={i} />
-                ))}
-            </div>
-          }
-        >
-          {reviews.map(review => (
-            <Feed
-              key={review.id}
-              review={review}
-              user={review.user}
-              book={review.book}
-            />
-          ))}
-        </InfiniteScroll>
+        {isLoading ? (
+          <div className="flex flex-col gap-5">
+            {Array(3)
+              .fill(0)
+              .map((_, i) => (
+                <FeedSkeleton key={i} />
+              ))}
+          </div>
+        ) : (
+          <InfiniteScroll
+            dataLength={reviews.length}
+            next={fetchNextPage}
+            hasMore={hasNextPage ?? false}
+            loader={<FeedSkeleton />}
+          >
+            {reviews.map(review => (
+              <Feed
+                key={review.id}
+                review={review}
+                user={review.user}
+                book={review.book}
+              />
+            ))}
+          </InfiniteScroll>
+        )}
       </TabsContent>
     </Tabs>
   );
 }
 
-export default function FeedList() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex flex-col gap-5">
-          {Array(3)
-            .fill(0)
-            .map((_, i) => (
-              <FeedSkeleton key={i} />
-            ))}
-        </div>
-      }
-    >
-      <FeedListContent />
-    </Suspense>
-  );
-}
+export default FeedList;

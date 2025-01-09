@@ -1,6 +1,6 @@
 import { authApi } from '@/apis/auth/auth';
-import axios from '@/apis/axios';
 import { currentUserAtom } from '@/atoms/auth';
+import { STORAGE_KEYS } from '@/constants/storage-keys';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useSetAtom } from 'jotai';
@@ -50,7 +50,7 @@ export default function VerifyCodeForm({ email, onSuccess }: Props) {
     mutationFn: authApi.completeRegistration,
     onSuccess: response => {
       const { accessToken, user } = response.data;
-      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, accessToken);
       setCurrentUser(user);
       onSuccess?.();
     },
