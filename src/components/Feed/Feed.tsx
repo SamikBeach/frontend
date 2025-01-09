@@ -6,7 +6,7 @@ import { Review } from '@/apis/review/types';
 import { User } from '@/apis/user/types';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { formatDate } from '@/utils/date';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { MessageSquareIcon, MoreHorizontal, ThumbsUpIcon } from 'lucide-react';
 import { useState } from 'react';
 import { ReviewDialog } from '../ReviewDialog';
@@ -26,7 +26,6 @@ function Feed({ review, user, book }: FeedProps) {
   const [likeCount, setLikeCount] = useState(review.likeCount);
   const currentUser = useCurrentUser();
   const isMyFeed = currentUser?.id === user.id;
-  const queryClient = useQueryClient();
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
@@ -35,7 +34,7 @@ function Feed({ review, user, book }: FeedProps) {
       setIsLiked(prev => !prev);
       setLikeCount(prev => (isLiked ? prev - 1 : prev + 1));
     },
-    onError: (err, variables, context) => {
+    onError: () => {
       // 에러 발생 시 이전 상태로 롤백
       setIsLiked(review.isLiked);
       setLikeCount(review.likeCount);
