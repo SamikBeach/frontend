@@ -2,9 +2,13 @@ import { PaginatedResponse } from '@/apis/common/types';
 import { reviewApi } from '@/apis/review/review';
 import { Comment as CommentType } from '@/apis/review/types';
 import { Comment } from '@/components/Comment';
-import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
+import {
+  CommentItemSkeleton,
+  default as CommentListSkeleton,
+} from '@/components/Comment/CommentSkeleton';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useMemo } from 'react';
+import { Suspense, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import EmptyComments from './EmptyComments';
 
@@ -14,12 +18,12 @@ interface Props {
   scrollableTarget: string;
 }
 
-export default function CommentList({
+function CommentListContent({
   reviewId,
   commentCount,
   scrollableTarget,
 }: Props) {
-  const { data, fetchNextPage, isLoading, hasNextPage } = useInfiniteQuery<
+  const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<CommentType>>,
     Error
   >({
@@ -41,21 +45,12 @@ export default function CommentList({
 
       return pageParam;
     },
-    placeholderData: keepPreviousData,
   });
 
   const comments = useMemo(
     () => data?.pages?.flatMap(page => page.data.data) ?? [],
     [data]
   );
-
-  if (isLoading) {
-    return (
-      <div className="flex h-20 items-center justify-center text-gray-500">
-        Loading...
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-1 flex-col gap-4">
@@ -75,8 +70,8 @@ export default function CommentList({
           next={fetchNextPage}
           hasMore={hasNextPage ?? false}
           loader={
-            <div className="flex h-16 items-center justify-center text-sm text-gray-500">
-              Loading...
+            <div className="py-2">
+              <CommentItemSkeleton />
             </div>
           }
           scrollableTarget={scrollableTarget}
@@ -96,5 +91,13 @@ export default function CommentList({
         </InfiniteScroll>
       )}
     </div>
+  );
+}
+
+export default function CommentList(props: Props) {
+  return (
+    <Suspense fallback={<CommentListSkeleton />}>
+      <CommentListContent {...props} />
+    </Suspense>
   );
 }

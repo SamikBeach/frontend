@@ -54,7 +54,7 @@ function Feed({ review, user, book }: FeedProps) {
                 <p className="text-sm text-gray-500">
                   {book.authorBooks
                     .map(author => author.author.nameInKor)
-                    
+
                     .join(', ')}{' '}
                   · {book.publisher} · {book.publicationDate?.split('-')[0]}
                 </p>
