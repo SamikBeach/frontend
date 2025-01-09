@@ -1,10 +1,12 @@
 'use client';
 
 import { Book } from '@/apis/book/types';
+import { reviewApi } from '@/apis/review/review';
 import { Review } from '@/apis/review/types';
 import { User } from '@/apis/user/types';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { formatDate } from '@/utils/date';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { MessageSquareIcon, MoreHorizontal, ThumbsUpIcon } from 'lucide-react';
 import { useState } from 'react';
 import { ReviewDialog } from '../ReviewDialog';
@@ -20,8 +22,33 @@ interface FeedProps {
 
 function Feed({ review, user, book }: FeedProps) {
   const [openDialog, setOpenDialog] = useState(false);
+  const [isLiked, setIsLiked] = useState(review.isLiked);
+  const [likeCount, setLikeCount] = useState(review.likeCount);
   const currentUser = useCurrentUser();
   const isMyFeed = currentUser?.id === user.id;
+  const queryClient = useQueryClient();
+
+  const { mutate: toggleLike } = useMutation({
+    mutationFn: () => reviewApi.toggleReviewLike(review.id),
+    onMutate:  () => {
+
+      // 로컬 상태 업데이트
+      setIsLiked(prev => !prev);
+      setLikeCount(prev => (isLiked ? prev - 1 : prev + 1));
+
+    },
+    onError: (err, variables, context) => {
+      // 에러 발생 시 이전 상태로 롤백
+      setIsLiked(review.isLiked);
+      setLikeCount(review.likeCount);
+    },
+  });
+
+  const handleLikeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!currentUser) return;
+    toggleLike();
+  };
 
   return (
     <>
@@ -73,12 +100,18 @@ function Feed({ review, user, book }: FeedProps) {
 
               <div className="mt-4 flex justify-end gap-2">
                 <Button
-                  className="rounded-full"
+                  className={`rounded-full ${
+                    isLiked
+                      ? 'border-black bg-black text-white hover:bg-black/90'
+                      : ''
+                  }`}
                   variant="outline"
-                  onClick={e => e.stopPropagation()}
+                  onClick={handleLikeClick}
                 >
-                  <ThumbsUpIcon className="mr-1 h-4 w-4" />
-                  <span>{review.likeCount}</span>
+                  <ThumbsUpIcon
+                    className={`mr-1 h-4 w-4 ${isLiked ? 'text-white' : ''}`}
+                  />
+                  <span>{likeCount}</span>
                 </Button>
                 <Button className="rounded-full" variant="outline">
                   <MessageSquareIcon className="mr-1 h-4 w-4" />

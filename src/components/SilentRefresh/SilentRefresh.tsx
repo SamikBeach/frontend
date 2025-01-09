@@ -4,12 +4,12 @@ import { authApi } from '@/apis/auth/auth';
 import axios from '@/apis/axios';
 import { currentUserAtom } from '@/atoms/auth';
 import { useSetAtom } from 'jotai';
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 
 export default function SilentRefresh() {
   const setCurrentUser = useSetAtom(currentUserAtom);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // 초기 토큰 갱신 시도
     const initializeAuth = async () => {
       try {
