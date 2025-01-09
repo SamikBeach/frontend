@@ -100,7 +100,11 @@ function Feed({ review, user, book }: FeedProps) {
           </EditDropdownMenu>
         </div>
       </div>
-      <ReviewDialog open={openDialog} onOpenChange={setOpenDialog} />
+      <ReviewDialog
+        open={openDialog}
+        onOpenChange={setOpenDialog}
+        reviewId={review.id}
+      />
     </>
   );
 }
