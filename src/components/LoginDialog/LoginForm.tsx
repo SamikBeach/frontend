@@ -1,11 +1,11 @@
 import { authApi } from '@/apis/auth/auth';
 import axios from '@/apis/axios';
-import { isLoggedInAtom } from '@/atoms/auth';
+import { currentUserAtom } from '@/atoms/auth';
 import Google from '@/svgs/google';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useAtom } from 'jotai';
+import { useSetAtom } from 'jotai';
 import { useController, useForm } from 'react-hook-form';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -21,7 +21,7 @@ interface Props {
 }
 
 export default function LoginForm({ onClickGoToSignUp, onSuccess }: Props) {
-  const [, setIsLoggedIn] = useAtom(isLoggedInAtom);
+  const setCurrentUser = useSetAtom(currentUserAtom);
   const {
     control,
     handleSubmit,
@@ -67,10 +67,9 @@ export default function LoginForm({ onClickGoToSignUp, onSuccess }: Props) {
   } = useMutation({
     mutationFn: authApi.login,
     onSuccess: response => {
-      const accessToken = response.data.accessToken;
+      const { accessToken, user } = response.data;
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-
-      setIsLoggedIn(true);
+      setCurrentUser(user);
       onSuccess?.();
     },
   });
@@ -84,7 +83,7 @@ export default function LoginForm({ onClickGoToSignUp, onSuccess }: Props) {
     mutateEmailLogin(data);
   });
 
-  // 구글 로그인 (기존 코드)
+  // 구글 로그인
   const {
     mutate: mutateGoogleLogin,
     isPending: isGoogleLoginPending,
@@ -94,10 +93,9 @@ export default function LoginForm({ onClickGoToSignUp, onSuccess }: Props) {
     mutationKey: ['googleLogin'],
     mutationFn: (code: string) => authApi.googleLogin(code),
     onSuccess: response => {
-      const accessToken = response.data.accessToken;
+      const { accessToken, user } = response.data;
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-
-      setIsLoggedIn(true);
+      setCurrentUser(user);
       onSuccess?.();
     },
   });
