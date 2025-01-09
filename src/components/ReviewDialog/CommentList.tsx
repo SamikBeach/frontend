@@ -54,10 +54,12 @@ export default function CommentList({
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-1 flex-col gap-4">
       <p className="text-sm font-semibold">댓글 {commentCount}</p>
       {comments.length === 0 ? (
-        <EmptyComments />
+        <div className="flex-1">
+          <EmptyComments />
+        </div>
       ) : (
         <InfiniteScroll
           dataLength={comments.length}
