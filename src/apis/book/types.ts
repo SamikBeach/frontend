@@ -11,7 +11,7 @@ export interface Book extends BaseEntity {
   isbn13: number | null;
   likeCount: number;
   reviewCount: number;
-  authors: Author[];
+  authorBooks: Author[];
 }
 
 export interface BookDetail extends Book {

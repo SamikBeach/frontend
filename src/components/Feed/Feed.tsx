@@ -1,5 +1,8 @@
 'use client';
 
+import { Book } from '@/apis/book/types';
+import { Review } from '@/apis/review/types';
+import { User } from '@/apis/user/types';
 import { MessageSquareIcon, MoreHorizontal, ThumbsUpIcon } from 'lucide-react';
 import { useState } from 'react';
 import { ReviewDialog } from '../ReviewDialog';
@@ -7,7 +10,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 import EditDropdownMenu from './EditDropdownMenu';
 
-function Feed() {
+interface FeedProps {
+  review: Review;
+  user: User;
+  book: Book;
+}
+
+function Feed({ review, user, book }: FeedProps) {
   const [openDialog, setOpenDialog] = useState(false);
 
   return (
@@ -21,10 +30,12 @@ function Feed() {
             <div className="flex items-center gap-2">
               <Avatar>
                 <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback>{user.nickname[0]}</AvatarFallback>
               </Avatar>
-              <div className="font-medium">BonggeunJeong</div>
-              <div className="text-muted-foreground">1일 전</div>
+              <div className="font-medium">{user.nickname}</div>
+              <div className="text-muted-foreground">
+                {new Date(review.createdAt).toLocaleDateString()}
+              </div>
             </div>
             <EditDropdownMenu>
               <EditDropdownMenu.Trigger asChild>
@@ -43,44 +54,40 @@ function Feed() {
             <div className="flex flex-col gap-1">
               <div className="relative h-[300px] min-w-[200px] overflow-hidden rounded-lg bg-gray-200">
                 <img
-                  src="https://picsum.photos/200/300"
-                  alt="feed"
+                  src={book.imageUrl ?? 'https://picsum.photos/200/300'}
+                  alt={book.title}
                   className="absolute inset-0 h-full w-full object-cover"
                   width={200}
                   height={300}
                 />
               </div>
               <div>
-                <p className="font-semibold">짜라투스트라는 이렇게 말했다</p>
+                <p className="font-semibold">{book.title}</p>
                 <p className="text-sm text-gray-500">
-                  프리드리히 니체 · 민음사 · 2021
+                  {book.authorBooks.map(author => author.name).join(', ')} ·{' '}
+                  {book.publisher} · {book.publicationDate?.split('-')[0]}
                 </p>
               </div>
             </div>
 
             <div className="flex h-full flex-col justify-between">
               <div>
-                <p className="text-lg font-semibold">
-                  인간은 극복되어야 할 존재다
-                </p>
-                <p className="text-gray-600">
-                  인간은 밧줄이다. 짐승과 초인 사이에 걸쳐진 밧줄이다. 심연 위에
-                  걸쳐진 위험한 건너감이요, 위험한 도상이요, 위험한
-                  뒤돌아봄이요, 위험한 전율이요, 위험한 멈춤이다. 인간은
-                  밧줄이다. 짐승과 초인 사이에 걸쳐진 밧줄이다. 심연 위에 걸쳐진
-                  위험한 건너감이요, 위험한 도상이요, 위험한 뒤돌아봄이요,
-                  위험한 전율이요, 위험한 멈춤이다.
-                </p>
+                <p className="text-lg font-semibold">{review.title}</p>
+                <p className="text-gray-600">{review.content}</p>
               </div>
 
               <div className="flex justify-end gap-2">
-                <Button className="rounded-full" variant="outline">
+                <Button
+                  className="rounded-full"
+                  variant="outline"
+                  onClick={e => e.stopPropagation()}
+                >
                   <ThumbsUpIcon className="h-4 w-4" />
-                  <span>300</span>
+                  <span>{review.likeCount}</span>
                 </Button>
                 <Button className="rounded-full" variant="outline">
                   <MessageSquareIcon className="h-4 w-4" />
-                  <span>300</span>
+                  <span>{review.commentCount}</span>
                 </Button>
               </div>
             </div>
