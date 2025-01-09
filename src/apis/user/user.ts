@@ -3,19 +3,14 @@ import axios from '../axios';
 import type { Book } from '../book/types';
 import type { PaginatedResponse, PaginationQuery } from '../common/types';
 import type { Review } from '../review/types';
-import type {
-  UpdateUserDto,
-  User,
-  UserProfile,
-  UserSearchQuery,
-} from './types';
+import type { UpdateUserDto, User, UserBase, UserSearchQuery } from './types';
 
 export const userApi = {
   /**
    * 현재 로그인한 사용자의 프로필 정보를 조회합니다.
    * @returns 사용자 프로필 정보 (리뷰 수, 좋아요한 작가/책 수 포함)
    */
-  getMyProfile: () => axios.get<UserProfile>('/user/me'),
+  getMyProfile: () => axios.get<UserBase>('/user/me'),
 
   /**
    * 현재 로그인한 사용자의 정보를 수정합니다.

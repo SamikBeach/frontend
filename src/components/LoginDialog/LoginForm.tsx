@@ -1,6 +1,6 @@
 import { authApi } from '@/apis/auth/auth';
-import axios from '@/apis/axios';
 import { currentUserAtom } from '@/atoms/auth';
+import { STORAGE_KEYS } from '@/constants/storage-keys';
 import Google from '@/svgs/google';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useMutation } from '@tanstack/react-query';
@@ -68,7 +68,7 @@ export default function LoginForm({ onClickGoToSignUp, onSuccess }: Props) {
     mutationFn: authApi.login,
     onSuccess: response => {
       const { accessToken, user } = response.data;
-      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, accessToken);
       setCurrentUser(user);
       onSuccess?.();
     },
@@ -94,7 +94,7 @@ export default function LoginForm({ onClickGoToSignUp, onSuccess }: Props) {
     mutationFn: (code: string) => authApi.googleLogin(code),
     onSuccess: response => {
       const { accessToken, user } = response.data;
-      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, accessToken);
       setCurrentUser(user);
       onSuccess?.();
     },

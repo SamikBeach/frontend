@@ -6,16 +6,12 @@ export interface User extends Omit<BaseEntity, 'deletedAt'> {
   verified: boolean;
 }
 
+export type UserBase = Pick<User, 'id' | 'email' | 'nickname'>;
+
 export interface UpdateUserDto {
   nickname?: string;
   currentPassword?: string;
   newPassword?: string;
-}
-
-export interface UserProfile extends User {
-  reviewCount: number;
-  likedAuthorsCount: number;
-  likedBooksCount: number;
 }
 
 export interface UserSearchQuery extends PaginationQuery {

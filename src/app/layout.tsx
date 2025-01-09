@@ -1,7 +1,7 @@
 import { Header } from '@/components/Header';
+import { Initializer } from '@/components/Initializer';
 import { LeftSidebar } from '@/components/LeftSidebar';
 import { ReactQueryProvider } from '@/components/ReactQueryProvider';
-import { SilentRefresh } from '@/components/SilentRefresh';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { NextIntlClientProvider } from 'next-intl';
@@ -30,7 +30,7 @@ export default async function RootLayout({
                   <main className="ml-[240px] w-full">{children}</main>
                 </div>
               </div>
-              <SilentRefresh />
+              <Initializer />
             </NextIntlClientProvider>
             <ReactQueryDevtools initialIsOpen={false} />
           </GoogleOAuthProvider>
