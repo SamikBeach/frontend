@@ -19,40 +19,28 @@ interface FeedProps {
 function Feed({ review, user, book }: FeedProps) {
   const [openDialog, setOpenDialog] = useState(false);
 
+  console.log(book.authorBooks);
   return (
     <>
       <div
-        className="flex max-w-[800px] gap-2 rounded-lg p-4 hover:cursor-pointer hover:bg-gray-100"
+        className="relative mb-4 flex max-w-[800px] gap-4 rounded-lg p-4 transition-colors hover:cursor-pointer hover:bg-gray-100"
         onClick={() => setOpenDialog(true)}
       >
-        <div className="flex flex-1 flex-col gap-2">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2">
-              <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>{user.nickname[0]}</AvatarFallback>
-              </Avatar>
-              <div className="font-medium">{user.nickname}</div>
-              <div className="text-muted-foreground">
-                {new Date(review.createdAt).toLocaleDateString()}
-              </div>
+        <div className="flex flex-1 flex-col gap-3">
+          <div className="flex items-center gap-2">
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>{user.nickname[0]}</AvatarFallback>
+            </Avatar>
+            <div className="font-medium">{user.nickname}</div>
+            <div className="text-muted-foreground">
+              {new Date(review.createdAt).toLocaleDateString()}
             </div>
-            <EditDropdownMenu>
-              <EditDropdownMenu.Trigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 hover:bg-gray-200"
-                >
-                  <MoreHorizontal className="h-4 w-4 text-gray-500" />
-                </Button>
-              </EditDropdownMenu.Trigger>
-            </EditDropdownMenu>
           </div>
 
-          <div className="flex gap-4">
-            <div className="flex flex-col gap-1">
-              <div className="relative h-[300px] min-w-[200px] overflow-hidden rounded-lg bg-gray-200">
+          <div className="flex gap-6">
+            <div className="flex-shrink-0">
+              <div className="relative h-[300px] w-[200px] overflow-hidden rounded-lg bg-gray-200 shadow-sm">
                 <img
                   src={book.imageUrl ?? 'https://picsum.photos/200/300'}
                   alt={book.title}
@@ -61,37 +49,55 @@ function Feed({ review, user, book }: FeedProps) {
                   height={300}
                 />
               </div>
-              <div>
+              <div className="mt-2 max-w-[200px]">
                 <p className="font-semibold">{book.title}</p>
                 <p className="text-sm text-gray-500">
-                  {book.authorBooks.map(author => author.name).join(', ')} ·{' '}
-                  {book.publisher} · {book.publicationDate?.split('-')[0]}
+                  {book.authorBooks
+                    .map(author => author.author.nameInKor)
+                    .join(', ')}{' '}
+                  · {book.publisher} · {book.publicationDate?.split('-')[0]}
                 </p>
               </div>
             </div>
 
-            <div className="flex h-full flex-col justify-between">
+            <div className="flex flex-1 flex-col justify-between">
               <div>
-                <p className="text-lg font-semibold">{review.title}</p>
-                <p className="text-gray-600">{review.content}</p>
+                <p className="mb-2 text-lg font-semibold leading-snug">
+                  {review.title}
+                </p>
+                <p className="line-clamp-6 text-gray-600">{review.content}</p>
               </div>
 
-              <div className="flex justify-end gap-2">
+              <div className="mt-4 flex justify-end gap-2">
                 <Button
                   className="rounded-full"
                   variant="outline"
                   onClick={e => e.stopPropagation()}
                 >
-                  <ThumbsUpIcon className="h-4 w-4" />
+                  <ThumbsUpIcon className="mr-1 h-4 w-4" />
                   <span>{review.likeCount}</span>
                 </Button>
                 <Button className="rounded-full" variant="outline">
-                  <MessageSquareIcon className="h-4 w-4" />
+                  <MessageSquareIcon className="mr-1 h-4 w-4" />
                   <span>{review.commentCount}</span>
                 </Button>
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="absolute right-4 top-4">
+          <EditDropdownMenu>
+            <EditDropdownMenu.Trigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 hover:bg-gray-200"
+              >
+                <MoreHorizontal className="h-4 w-4 text-gray-500" />
+              </Button>
+            </EditDropdownMenu.Trigger>
+          </EditDropdownMenu>
         </div>
       </div>
       <ReviewDialog open={openDialog} onOpenChange={setOpenDialog} />

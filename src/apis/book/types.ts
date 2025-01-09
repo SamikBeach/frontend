@@ -1,4 +1,4 @@
-import { Author } from '../author/types';
+import { Author } from '../author';
 import { BaseEntity, PaginationQuery } from '../common/types';
 
 export interface Book extends BaseEntity {
@@ -11,7 +11,12 @@ export interface Book extends BaseEntity {
   isbn13: number | null;
   likeCount: number;
   reviewCount: number;
-  authorBooks: Author[];
+  authorBooks: {
+    id: number;
+    authorId: number;
+    bookId: number;
+    author: Author;
+  }[];
 }
 
 export interface BookDetail extends Book {
