@@ -32,6 +32,7 @@ export default function ReviewDialog({ reviewId, children, ...props }: Props) {
         className="fixed left-1/2 top-1/2 flex h-[94vh] w-[900px] min-w-[900px] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 overflow-y-auto p-10"
         aria-describedby={undefined}
         onOpenAutoFocus={e => e.preventDefault()}
+        id="dialog-content"
       >
         {isLoading ? (
           <>
@@ -44,6 +45,7 @@ export default function ReviewDialog({ reviewId, children, ...props }: Props) {
             <CommentList
               reviewId={reviewId}
               commentCount={review.commentCount}
+              scrollableTarget="dialog-content"
             />
             <div className="fixed bottom-0 left-1/2 w-[820px] -translate-x-1/2 bg-white pb-10 pt-4">
               <div className="relative">

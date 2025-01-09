@@ -10,10 +10,15 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 interface Props {
   reviewId: number;
   commentCount: number;
+  scrollableTarget: string;
 }
 
-export default function CommentList({ reviewId, commentCount }: Props) {
-  const { data, fetchNextPage, isLoading } = useInfiniteQuery<
+export default function CommentList({
+  reviewId,
+  commentCount,
+  scrollableTarget,
+}: Props) {
+  const { data, fetchNextPage, isLoading, hasNextPage } = useInfiniteQuery<
     AxiosResponse<PaginatedResponse<CommentType>>,
     Error
   >({
@@ -53,12 +58,13 @@ export default function CommentList({ reviewId, commentCount }: Props) {
       <InfiniteScroll
         dataLength={comments.length}
         next={fetchNextPage}
-        hasMore={true}
+        hasMore={hasNextPage ?? false}
         loader={
           <div className="flex h-20 items-center justify-center">
             Loading...
           </div>
         }
+        scrollableTarget={scrollableTarget}
       >
         {comments.map(comment => (
           <Comment
