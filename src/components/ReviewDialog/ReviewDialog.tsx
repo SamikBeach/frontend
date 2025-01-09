@@ -41,13 +41,15 @@ export default function ReviewDialog({ reviewId, children, ...props }: Props) {
           </>
         ) : review ? (
           <>
-            <ReviewInfo review={review} />
-            <CommentList
-              reviewId={reviewId}
-              commentCount={review.commentCount}
-              scrollableTarget="dialog-content"
-            />
-            <div className="fixed bottom-0 left-1/2 w-[820px] -translate-x-1/2 bg-white pb-10 pt-4">
+            <div className="flex flex-col gap-4">
+              <ReviewInfo review={review} />
+              <CommentList
+                reviewId={reviewId}
+                commentCount={review.commentCount}
+                scrollableTarget="dialog-content"
+              />
+            </div>
+            <div className="sticky bottom-0 bg-white pt-4">
               <div className="relative">
                 <div className="absolute -bottom-10 -left-10 -right-10 -top-4 bg-white shadow-[0_-8px_12px_0px_white]" />
                 <div className="relative">
