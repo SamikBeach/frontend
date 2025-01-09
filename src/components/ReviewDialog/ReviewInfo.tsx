@@ -30,7 +30,7 @@ export default function ReviewInfo({ review }: Props) {
               </span>
             </div>
             <span className="text-gray-300">·</span>
-            <span>{format(new Date(review.createdAt), 'yyyy년 M월 d일')}</span>
+            <span>{format(new Date(review.createdAt), 'yyyy년 M월 d일 HH시 mm분')}</span>
           </div>
         </div>
 
