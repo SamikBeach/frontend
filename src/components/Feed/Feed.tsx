@@ -30,12 +30,10 @@ function Feed({ review, user, book }: FeedProps) {
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
-    onMutate:  () => {
-
+    onMutate: () => {
       // 로컬 상태 업데이트
       setIsLiked(prev => !prev);
       setLikeCount(prev => (isLiked ? prev - 1 : prev + 1));
-
     },
     onError: (err, variables, context) => {
       // 에러 발생 시 이전 상태로 롤백
@@ -102,7 +100,7 @@ function Feed({ review, user, book }: FeedProps) {
                 <Button
                   className={`rounded-full ${
                     isLiked
-                      ? 'border-black bg-black text-white hover:bg-black/90'
+                      ? 'border-gray-700 bg-gray-700 text-white hover:border-gray-900 hover:bg-gray-900'
                       : ''
                   }`}
                   variant="outline"
@@ -111,7 +109,9 @@ function Feed({ review, user, book }: FeedProps) {
                   <ThumbsUpIcon
                     className={`mr-1 h-4 w-4 ${isLiked ? 'text-white' : ''}`}
                   />
-                  <span>{likeCount}</span>
+                  <span className={isLiked ? 'text-white' : ''}>
+                    {likeCount}
+                  </span>
                 </Button>
                 <Button className="rounded-full" variant="outline">
                   <MessageSquareIcon className="mr-1 h-4 w-4" />
