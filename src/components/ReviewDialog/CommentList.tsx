@@ -50,12 +50,21 @@ export default function CommentList({
   );
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex h-20 items-center justify-center text-gray-500">
+        Loading...
+      </div>
+    );
   }
 
   return (
     <div className="flex flex-1 flex-col gap-4">
-      <p className="text-sm font-semibold">댓글 {commentCount}</p>
+      <div className="flex items-center gap-2">
+        <h2 className="text-base font-semibold text-gray-900">댓글</h2>
+        <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
+          {commentCount}
+        </span>
+      </div>
       {comments.length === 0 ? (
         <div className="flex-1">
           <EmptyComments />
@@ -66,22 +75,24 @@ export default function CommentList({
           next={fetchNextPage}
           hasMore={hasNextPage ?? false}
           loader={
-            <div className="flex h-20 items-center justify-center">
+            <div className="flex h-16 items-center justify-center text-sm text-gray-500">
               Loading...
             </div>
           }
           scrollableTarget={scrollableTarget}
         >
-          {comments.map(comment => (
-            <Comment
-              key={comment.id}
-              content={comment.content}
-              user={comment.user}
-              likeCount={comment.likeCount}
-              isLiked={comment.isLiked}
-              createdAt={comment.createdAt}
-            />
-          ))}
+          <div className="flex flex-col">
+            {comments.map(comment => (
+              <Comment
+                key={comment.id}
+                content={comment.content}
+                user={comment.user}
+                likeCount={comment.likeCount}
+                isLiked={comment.isLiked}
+                createdAt={comment.createdAt}
+              />
+            ))}
+          </div>
         </InfiniteScroll>
       )}
     </div>
