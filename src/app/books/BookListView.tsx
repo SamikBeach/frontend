@@ -1,7 +1,6 @@
 import { Book } from '@/apis/book/types';
 import { BookListItem } from '@/components/BookItem';
 import BookListItemSkeleton from '@/components/BookItem/BookListItemSkeleton';
-import { Suspense } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 interface Props {
@@ -10,7 +9,11 @@ interface Props {
   fetchNextPage: () => void;
 }
 
-function BookListViewContent({ books, hasNextPage, fetchNextPage }: Props) {
+export default function BookListView({
+  books,
+  hasNextPage,
+  fetchNextPage,
+}: Props) {
   return (
     <InfiniteScroll
       dataLength={books.length}
@@ -30,21 +33,5 @@ function BookListViewContent({ books, hasNextPage, fetchNextPage }: Props) {
         ))}
       </div>
     </InfiniteScroll>
-  );
-}
-
-export default function BookListView(props: Props) {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex flex-col gap-4">
-          {[...Array(10)].map((_, i) => (
-            <BookListItemSkeleton key={i} />
-          ))}
-        </div>
-      }
-    >
-      <BookListViewContent {...props} />
-    </Suspense>
   );
 }
