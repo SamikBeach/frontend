@@ -1,5 +1,3 @@
-'use client';
-
 import { Author } from '@/apis/author/types';
 import { CommandItem } from '@/components/ui/command';
 import {

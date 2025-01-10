@@ -12,7 +12,7 @@ export const bookApi = {
    */
   searchBooks: (params: BookSearchQuery) =>
     axios.get<PaginatedResponse<Book>>('/book/search', {
-      params: transformFilterParams<>(params),
+      params: transformFilterParams(params),
     }),
 
   /**
