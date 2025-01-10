@@ -1,7 +1,7 @@
 'use client';
 
 import { authorApi } from '@/apis/author/author';
-import { authorFilterAtom } from '@/atoms/book';
+import { authorIdAtom } from '@/atoms/book';
 import { Button } from '@/components/ui/button';
 import {
   Command,
@@ -34,7 +34,8 @@ export default function AuthorCombobox() {
   const { updateQueryParams } = useQueryParams();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
-  const [selectedAuthor, setSelectedAuthor] = useAtom(authorFilterAtom);
+  const [selectedAuthorId, setSelectedAuthorId] = useAtom(authorIdAtom);
+
   const {
     isTruncated: isButtonTruncated,
     handleMouseEnter: onButtonMouseEnter,
@@ -45,8 +46,12 @@ export default function AuthorCombobox() {
     queryKey: ['authors'],
     queryFn: authorApi.getAllAuthors,
     select: response => response.data,
-    enabled: open,
   });
+
+  const selectedAuthor = useMemo(
+    () => authors?.find(author => author.id.toString() === selectedAuthorId),
+    [authors, selectedAuthorId]
+  );
 
   const filteredAuthors = useMemo(() => {
     if (!search) return authors;
@@ -64,18 +69,16 @@ export default function AuthorCombobox() {
   });
 
   const handleSelect = (currentValue: string) => {
-    const newAuthor = authors?.find(
-      author => author.id.toString() === currentValue
-    );
-    const isDeselecting = selectedAuthor?.id.toString() === currentValue;
-    setSelectedAuthor(isDeselecting ? undefined : newAuthor);
-    updateQueryParams({ authorId: isDeselecting ? undefined : currentValue });
+    const isDeselecting = selectedAuthorId === currentValue;
+    const newAuthorId = isDeselecting ? undefined : currentValue;
+    setSelectedAuthorId(newAuthorId);
+    updateQueryParams({ authorId: newAuthorId });
     setOpen(false);
   };
 
   const handleClear = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setSelectedAuthor(undefined);
+    setSelectedAuthorId(undefined);
     updateQueryParams({ authorId: undefined });
   };
 
@@ -161,7 +164,7 @@ export default function AuthorCombobox() {
                       >
                         <AuthorCommandItem
                           author={author}
-                          isSelected={selectedAuthor?.id === author.id}
+                          isSelected={selectedAuthorId === author.id.toString()}
                           onSelect={handleSelect}
                         />
                       </div>

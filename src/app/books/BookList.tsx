@@ -4,7 +4,7 @@ import { bookApi } from '@/apis/book/book';
 import { Book } from '@/apis/book/types';
 import { PaginatedResponse } from '@/apis/common/types';
 import {
-  authorFilterAtom,
+  authorIdAtom,
   bookSearchKeywordAtom,
   bookSortModeAtom,
   bookViewModeAtom,
@@ -24,13 +24,13 @@ function BookListContent() {
   const viewMode = useAtomValue(bookViewModeAtom);
   const searchKeyword = useAtomValue(bookSearchKeywordAtom);
   const sortMode = useAtomValue(bookSortModeAtom);
-  const selectedAuthor = useAtomValue(authorFilterAtom);
+  const selectedAuthorId = useAtomValue(authorIdAtom);
 
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<Book>>,
     Error
   >({
-    queryKey: ['books', searchKeyword, sortMode, selectedAuthor?.id],
+    queryKey: ['books', searchKeyword, sortMode, selectedAuthorId],
     queryFn: ({ pageParam = 1 }) => {
       const sortBy = (() => {
         switch (sortMode) {
@@ -54,7 +54,7 @@ function BookListContent() {
         }),
         sortBy,
         filter: {
-          authorId: selectedAuthor?.id,
+          authorId: selectedAuthorId,
         },
       });
     },
