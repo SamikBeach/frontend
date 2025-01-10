@@ -22,14 +22,16 @@ import {
 } from '@/components/ui/tooltip';
 import { useTextTruncated } from '@/hooks/useTextTruncated';
 import { useQuery } from '@tanstack/react-query';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import { useAtom } from 'jotai';
 import { ChevronsUpDown } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import AuthorCommandEmpty from './AuthorCommandEmpty';
 import AuthorCommandItem from './AuthorCommandItem';
 
 export default function AuthorCombobox() {
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState('');
   const [selectedAuthor, setSelectedAuthor] = useAtom(authorFilterAtom);
   const {
     isTruncated: isButtonTruncated,
@@ -41,6 +43,22 @@ export default function AuthorCombobox() {
     queryKey: ['authors'],
     queryFn: authorApi.getAllAuthors,
     select: response => response.data,
+    enabled: open,
+  });
+
+  const filteredAuthors = useMemo(() => {
+    if (!search) return authors;
+    return authors?.filter(author =>
+      author.nameInKor.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [authors, search]);
+
+  const listRef = useRef<HTMLDivElement>(null);
+  const rowVirtualizer = useVirtualizer({
+    count: filteredAuthors?.length ?? 0,
+    getScrollElement: () => listRef.current,
+    estimateSize: () => 32,
+    overscan: 5,
   });
 
   const handleSelect = (currentValue: string) => {
@@ -85,20 +103,52 @@ export default function AuthorCombobox() {
         onCloseAutoFocus={e => e.preventDefault()}
         align="end"
       >
-        <Command className="max-h-[300px]">
-          <CommandInput placeholder="작가 검색..." />
-          <CommandList>
-            <AuthorCommandEmpty />
-            <CommandGroup>
-              {authors?.map(author => (
-                <AuthorCommandItem
-                  key={author.id}
-                  author={author}
-                  isSelected={selectedAuthor?.id === author.id}
-                  onSelect={handleSelect}
-                />
-              ))}
-            </CommandGroup>
+        <Command>
+          <CommandInput
+            placeholder="작가 검색..."
+            value={search}
+            onValueChange={setSearch}
+          />
+          <CommandList className="max-h-[200px] overflow-y-auto" ref={listRef}>
+            {filteredAuthors?.length === 0 ? (
+              <AuthorCommandEmpty />
+            ) : (
+              <CommandGroup>
+                <div
+                  style={{
+                    height: `${rowVirtualizer.getTotalSize()}px`,
+                    width: '100%',
+                    position: 'relative',
+                  }}
+                >
+                  {rowVirtualizer.getVirtualItems().map(virtualRow => {
+                    const author = filteredAuthors?.[virtualRow.index];
+                    if (!author) return null;
+
+                    return (
+                      <div
+                        key={virtualRow.key}
+                        data-index={virtualRow.index}
+                        ref={rowVirtualizer.measureElement}
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          transform: `translateY(${virtualRow.start}px)`,
+                        }}
+                      >
+                        <AuthorCommandItem
+                          author={author}
+                          isSelected={selectedAuthor?.id === author.id}
+                          onSelect={handleSelect}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </CommandGroup>
+            )}
           </CommandList>
         </Command>
       </PopoverContent>
