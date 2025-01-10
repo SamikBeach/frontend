@@ -80,12 +80,16 @@ function BookListContent() {
     [data]
   );
 
-  if (books.length === 0 && searchKeyword) {
+  if (books.length === 0 && (searchKeyword || selectedAuthorId)) {
     return (
       <Empty
         icon={<SearchXIcon className="h-12 w-12" />}
         title="검색 결과가 없어요."
-        description={`'${searchKeyword}'로 검색한 결과가 없어요.`}
+        description={
+          searchKeyword
+            ? `'${searchKeyword}'로 검색한 결과가 없어요.`
+            : '선택한 작가의 도서를 찾을 수 없어요.'
+        }
       />
     );
   }
