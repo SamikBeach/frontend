@@ -23,5 +23,4 @@ export default function AuthorDialog({ children, ...props }: Props) {
     </Dialog>
   );
 }
-
 AuthorDialog.Trigger = DialogTrigger;

@@ -1,16 +1,27 @@
 'use client';
 
 import { Book } from '@/apis/book/types';
+import { BookDialog } from '@/components/BookDialog';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import { useState } from 'react';
 
 interface Props {
   book: Book;
 }
 
 export default function BookListItem({ book }: Props) {
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleClick = () => {
+    setOpenDialog(true);
+  };
+
   return (
     <div className="flex gap-6">
-      <div className="h-[160px] w-[114px] cursor-pointer overflow-hidden rounded-lg">
+      <div
+        className="h-[160px] w-[114px] cursor-pointer overflow-hidden rounded-lg"
+        onClick={handleClick}
+      >
         <img
           src={book.imageUrl ?? 'https://picsum.photos/200/300'}
           alt={book.title}
@@ -19,7 +30,10 @@ export default function BookListItem({ book }: Props) {
       </div>
       <div className="flex flex-1 flex-col justify-between">
         <div className="flex flex-col gap-1">
-          <h3 className="line-clamp-1 text-base font-medium text-gray-900">
+          <h3
+            className="line-clamp-1 cursor-pointer text-base font-medium text-gray-900 hover:underline"
+            onClick={handleClick}
+          >
             {book.title}
           </h3>
           <p className="line-clamp-1 text-xs text-gray-500">
@@ -43,6 +57,11 @@ export default function BookListItem({ book }: Props) {
           </div>
         </div>
       </div>
+      <BookDialog
+        bookId={book.id}
+        open={openDialog}
+        onOpenChange={setOpenDialog}
+      />
     </div>
   );
 }
