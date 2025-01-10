@@ -1,16 +1,14 @@
 'use client';
 
-import { useInitializeAtoms } from '@/hooks/useInitializeAtoms';
+import { AtomsProvider } from '@/hooks/useInitializeAtoms';
 import BookList from './BookList';
 import Tabs from './Tabs/Tabs';
 
 export default function BooksPage() {
-  useInitializeAtoms();
-
   return (
-    <>
+    <AtomsProvider>
       <Tabs />
       <BookList />
-    </>
+    </AtomsProvider>
   );
 }
