@@ -3,7 +3,7 @@
 import { bookApi } from '@/apis/book/book';
 import { Book } from '@/apis/book/types';
 import { PaginatedResponse } from '@/apis/common/types';
-import { bookViewModeAtom } from '@/atoms/book';
+import { bookSearchKeywordAtom, bookViewModeAtom } from '@/atoms/book';
 import BookGridItemSkeleton from '@/components/BookItem/BookGridItemSkeleton';
 import BookListItemSkeleton from '@/components/BookItem/BookListItemSkeleton';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
@@ -15,16 +15,18 @@ import BookListView from './BookListView';
 
 function BookListContent() {
   const viewMode = useAtomValue(bookViewModeAtom);
-
+  const searchKeyword = useAtomValue(bookSearchKeywordAtom);
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<Book>>,
     Error
   >({
-    queryKey: ['books'],
+    queryKey: ['books', searchKeyword],
     queryFn: ({ pageParam = 1 }) => {
       return bookApi.searchBooks({
         page: pageParam as number,
         limit: 20,
+        search: searchKeyword,
+        searchBy: searchKeyword ? ['title'] : undefined,
       });
     },
     initialPageParam: 1,

@@ -1,6 +1,10 @@
 'use client';
 
-import { BookViewMode, bookViewModeAtom } from '@/atoms/book';
+import {
+  bookSearchKeywordAtom,
+  BookViewMode,
+  bookViewModeAtom,
+} from '@/atoms/book';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -15,6 +19,7 @@ import { useState } from 'react';
 export default function Tabs() {
   const [activeCategory, setActiveCategory] = useState('종합');
   const [viewMode, setViewMode] = useAtom(bookViewModeAtom);
+  const [searchKeyword, setSearchKeyword] = useAtom(bookSearchKeywordAtom);
 
   const categories = ['종합', '철학', '과학', '경제'];
 
@@ -36,7 +41,11 @@ export default function Tabs() {
       </div>
 
       <div className="flex w-[800px] gap-2">
-        <Input placeholder="Search" />
+        <Input
+          placeholder="Search"
+          value={searchKeyword}
+          onChange={e => setSearchKeyword(e.target.value)}
+        />
         <Button variant="outline">
           작가
           <ChevronDownIcon className="h-4 w-4" />
