@@ -7,15 +7,9 @@ import {
   bookViewModeAtom,
 } from '@/atoms/book';
 import { useQueryParams } from '@/hooks/useQueryParams';
-import { Provider } from 'jotai';
 import { useHydrateAtoms } from 'jotai/utils';
-import { ReactNode } from 'react';
 
-interface Props {
-  children: ReactNode;
-}
-
-function HydrateAtoms({ children }: Props) {
+export function useHydrateBookAtoms() {
   const { searchParams } = useQueryParams();
 
   useHydrateAtoms([
@@ -28,14 +22,4 @@ function HydrateAtoms({ children }: Props) {
     [bookViewModeAtom, (searchParams.get('view') as 'grid' | 'list') ?? 'grid'],
     [authorIdAtom, searchParams.get('authorId') ?? undefined],
   ]);
-
-  return children;
-}
-
-export function BookAtomsProvider({ children }: Props) {
-  return (
-    <Provider>
-      <HydrateAtoms>{children}</HydrateAtoms>
-    </Provider>
-  );
 }
