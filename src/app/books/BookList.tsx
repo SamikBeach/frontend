@@ -90,7 +90,7 @@ function BookListContent() {
         </div>
       }
     >
-      <>
+      <div className="flex flex-col gap-10 py-6">
         {books.length > 0 && (
           <div className="flex gap-6 pb-2">
             {books.slice(0, 4).map(book => (
@@ -103,7 +103,7 @@ function BookListContent() {
             <BookGridItem key={book.id} book={book} size="small" />
           ))}
         </div>
-      </>
+      </div>
     </InfiniteScroll>
   );
 }
