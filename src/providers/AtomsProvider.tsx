@@ -1,7 +1,9 @@
 import {
+  BookCategory,
   BookSortMode,
   BookViewMode,
   authorIdAtom,
+  bookCategoryAtom,
   bookSearchKeywordAtom,
   bookSortModeAtom,
   bookViewModeAtom,
@@ -18,6 +20,15 @@ function isValidSortMode(value: string | null): value is BookSortMode {
   return value === 'popular' || value === 'recent' || value === 'alphabet';
 }
 
+function isValidCategory(value: string | null): value is BookCategory {
+  return (
+    value === 'all' ||
+    value === 'philosophy' ||
+    value === 'science' ||
+    value === 'economy'
+  );
+}
+
 /**
  * URL query parameter를 기반으로 atom들을 초기화하는 Provider 컴포넌트
  *
@@ -29,6 +40,7 @@ function isValidSortMode(value: string | null): value is BookSortMode {
  * - bookSearchKeywordAtom: 'q' parameter (기본값: '')
  * - bookSortModeAtom: 'sort' parameter (기본값: 'popular')
  * - authorIdAtom: 'authorId' parameter (기본값: undefined)
+ * - bookCategoryAtom: 'category' parameter (기본값: 'all')
  */
 export function AtomsProvider({ children }: { children: ReactNode }) {
   const searchParams = useSearchParams();
@@ -36,11 +48,13 @@ export function AtomsProvider({ children }: { children: ReactNode }) {
 
   const view = searchParams.get('view');
   const sort = searchParams.get('sort');
+  const category = searchParams.get('category');
 
   store.set(bookViewModeAtom, isValidViewMode(view) ? view : 'grid');
   store.set(bookSearchKeywordAtom, searchParams.get('q') ?? '');
   store.set(bookSortModeAtom, isValidSortMode(sort) ? sort : 'popular');
   store.set(authorIdAtom, searchParams.get('authorId') ?? undefined);
+  store.set(bookCategoryAtom, isValidCategory(category) ? category : 'all');
 
   return <Provider store={store}>{children}</Provider>;
 }

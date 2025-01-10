@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/tooltip';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useTextTruncated } from '@/hooks/useTextTruncated';
+import { cn } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useAtom } from 'jotai';
@@ -95,7 +96,7 @@ export default function AuthorCombobox() {
                 className="w-[160px] justify-between"
               >
                 <span
-                  className="truncate text-gray-500"
+                  className={cn('truncate', !selectedAuthor && 'text-gray-500')}
                   onMouseEnter={onButtonMouseEnter}
                   onMouseLeave={onButtonMouseLeave}
                 >

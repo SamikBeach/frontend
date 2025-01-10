@@ -1,24 +1,36 @@
+'use client';
+
+import { BookCategory, bookCategoryAtom } from '@/atoms/book';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import { CATEGORY_LABELS } from '@/constants/category';
+import { useQueryParams } from '@/hooks/useQueryParams';
+import { useAtom } from 'jotai';
 
 export function CategoryButtons() {
-  const [activeCategory, setActiveCategory] = useState('종합');
-  const categories = ['종합', '철학', '과학', '경제'];
+  const { updateQueryParams } = useQueryParams();
+  const [category, setCategory] = useAtom(bookCategoryAtom);
+
+  const handleCategoryChange = (newCategory: BookCategory) => {
+    setCategory(newCategory);
+    updateQueryParams({ category: newCategory });
+  };
 
   return (
     <div className="flex gap-3">
-      {categories.map(category => (
-        <Button
-          key={category}
-          onClick={() => setActiveCategory(category)}
-          variant="ghost"
-          className={`px-0 text-lg font-bold hover:bg-transparent ${
-            activeCategory === category ? 'text-black' : 'text-gray-400'
-          }`}
-        >
-          {category}
-        </Button>
-      ))}
+      {(Object.entries(CATEGORY_LABELS) as [BookCategory, string][]).map(
+        ([value, label]) => (
+          <Button
+            key={value}
+            onClick={() => handleCategoryChange(value)}
+            variant="ghost"
+            className={`px-0 text-lg font-bold hover:bg-transparent ${
+              category === value ? 'text-black' : 'text-gray-400'
+            }`}
+          >
+            {label}
+          </Button>
+        )
+      )}
     </div>
   );
 }

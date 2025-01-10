@@ -1,7 +1,7 @@
 import { Header } from '@/components/Header';
 import { Initializer } from '@/components/Initializer';
 import { LeftSidebar } from '@/components/LeftSidebar';
-import { ReactQueryProvider } from '@/components/ReactQueryProvider';
+import ReactQueryProvider from '@/providers/ReactQueryProvider';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { NextIntlClientProvider } from 'next-intl';

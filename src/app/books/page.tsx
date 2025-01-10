@@ -1,6 +1,6 @@
 'use client';
 
-import { AtomsProvider } from '@/hooks/useInitializeAtoms';
+import { AtomsProvider } from '@/providers/AtomsProvider';
 import BookList from './BookList';
 import Tabs from './Tabs/Tabs';
 
