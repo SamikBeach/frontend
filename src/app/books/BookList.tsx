@@ -5,6 +5,8 @@ import { Book } from '@/apis/book/types';
 import { PaginatedResponse } from '@/apis/common/types';
 import { bookViewModeAtom } from '@/atoms/book';
 import { BookGridItem, BookListItem } from '@/components/BookItem';
+import BookGridItemSkeleton from '@/components/BookItem/BookGridItemSkeleton';
+import BookListItemSkeleton from '@/components/BookItem/BookListItemSkeleton';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { useAtomValue } from 'jotai';
@@ -55,12 +57,9 @@ function BookListContent() {
         next={fetchNextPage}
         hasMore={hasNextPage ?? false}
         loader={
-          <div className="flex animate-pulse flex-col gap-4 py-2">
+          <div className="flex flex-col gap-4 py-2">
             {[...Array(3)].map((_, i) => (
-              <div
-                key={i}
-                className="h-[120px] w-full rounded-lg bg-gray-200"
-              />
+              <BookListItemSkeleton key={i} />
             ))}
           </div>
         }
@@ -81,11 +80,8 @@ function BookListContent() {
       hasMore={hasNextPage ?? false}
       loader={
         <div className="flex animate-pulse gap-6 py-2">
-          {[...Array(4)].map((_, i) => (
-            <div
-              key={i}
-              className="h-[280px] w-[200px] rounded-lg bg-gray-200"
-            />
+          {[...Array(8)].map((_, i) => (
+            <BookGridItemSkeleton key={i} size="small" />
           ))}
         </div>
       }
@@ -109,16 +105,38 @@ function BookListContent() {
 }
 
 export default function BookList() {
+  const viewMode = useAtomValue(bookViewModeAtom);
+
+  if (viewMode === 'list') {
+    return (
+      <Suspense
+        fallback={
+          <div className="flex flex-col gap-4">
+            {[...Array(10)].map((_, i) => (
+              <BookListItemSkeleton key={i} />
+            ))}
+          </div>
+        }
+      >
+        <BookListContent />
+      </Suspense>
+    );
+  }
+
   return (
     <Suspense
       fallback={
-        <div className="flex animate-pulse flex-wrap gap-6">
-          {[...Array(8)].map((_, i) => (
-            <div
-              key={i}
-              className="h-[280px] w-[200px] rounded-lg bg-gray-200"
-            />
-          ))}
+        <div className="flex flex-col gap-10 py-6">
+          <div className="flex gap-6">
+            {[...Array(4)].map((_, i) => (
+              <BookGridItemSkeleton key={i} />
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-6">
+            {[...Array(8)].map((_, i) => (
+              <BookGridItemSkeleton key={i} size="small" />
+            ))}
+          </div>
         </div>
       }
     >
