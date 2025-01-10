@@ -1,53 +1,45 @@
 'use client';
 
-import AuthorDialog from '@/components/AuthorDialog/AuthorDialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Author } from '@/apis/author/types';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
-import { useState } from 'react';
 
-export default function AuthorListItem() {
-  const [openAuthorDialog, setOpenAuthorDialog] = useState(false);
+interface Props {
+  author: Author;
+}
 
+export default function AuthorListItem({ author }: Props) {
   return (
-    <>
-      <div className="flex items-center gap-6">
-        <Avatar
-          className="h-20 w-20 cursor-pointer"
-          onClick={() => setOpenAuthorDialog(true)}
-        >
-          <AvatarImage
-            src="https://github.com/shadcn.png"
-            className="transition-transform duration-300 hover:scale-110"
-          />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-        <div className="flex h-20 flex-col justify-between">
-          <div>
-            <div className="flex items-center gap-1">
-              <p className="font-semibold">데이비드 흄</p>
-              <p className="text-sm text-gray-500">David Hume</p>
-            </div>
-            <p className="text-sm">
-              가낟라마바사아자가낟라마바사아자가낟라마바사아자가낟라마바사아자
-              가낟라마바사아자가낟라마바사아자가낟라마바사아자가낟라마바사아자가낟라마바사아자가낟라마바사아자가낟라마바사아자
-            </p>
+    <div className="flex gap-6">
+      <div className="h-[120px] w-[120px] cursor-pointer overflow-hidden rounded-full">
+        <img
+          src={author.imageUrl ?? 'https://picsum.photos/200/300'}
+          alt={author.nameInKor}
+          className="h-full w-full object-cover transition-transform duration-300 hover:scale-110"
+        />
+      </div>
+      <div className="flex flex-1 flex-col justify-between">
+        <div className="flex flex-col gap-1">
+          <h3 className="line-clamp-1 text-base font-medium text-gray-900">
+            {author.nameInKor}
+          </h3>
+          <p className="line-clamp-1 text-xs text-gray-500">
+            {author.nameInEng}
+          </p>
+          <p className="mt-1 line-clamp-2 text-xs text-gray-500">
+            {author.description}
+          </p>
+        </div>
+        <div className="flex items-center gap-3 text-xs text-gray-500">
+          <div className="flex items-center gap-1">
+            <ThumbsUpIcon className="h-3.5 w-3.5" />
+            <span>{author.likeCount}</span>
           </div>
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <div className="flex items-center gap-1">
-              <ThumbsUpIcon className="h-4 w-4" />
-              <span>300</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <MessageSquareIcon className="mt-0.5 h-4 w-4" />
-              <span>300</span>
-            </div>
+          <div className="flex items-center gap-1">
+            <MessageSquareIcon className="h-3.5 w-3.5" />
+            <span>{author.reviewCount}</span>
           </div>
         </div>
       </div>
-      <AuthorDialog
-        open={openAuthorDialog}
-        onOpenChange={setOpenAuthorDialog}
-      />
-    </>
+    </div>
   );
 }

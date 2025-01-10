@@ -1,1 +1,2 @@
-export { default as AuthorItem } from './AuthorItem';
+export { default as AuthorGridItem } from './AuthorGridItem';
+export { default as AuthorListItem } from './AuthorListItem';
