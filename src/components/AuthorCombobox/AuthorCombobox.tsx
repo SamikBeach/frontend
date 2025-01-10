@@ -96,7 +96,7 @@ export default function AuthorCombobox() {
                 </span>
                 {selectedAuthor ? (
                   <div
-                    className="h-5 w-5 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
+                    className="flex h-5 w-5 items-center justify-center rounded-full transition-colors hover:bg-gray-200"
                     onClick={handleClear}
                   >
                     <X className="h-4 w-4 shrink-0 opacity-50 hover:opacity-100" />
@@ -116,6 +116,9 @@ export default function AuthorCombobox() {
         className="w-[200px] p-0"
         onCloseAutoFocus={e => e.preventDefault()}
         align="end"
+        onOpenAutoFocus={() => {
+          rowVirtualizer.measure();
+        }}
       >
         <Command>
           <CommandInput
