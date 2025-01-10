@@ -1,14 +1,17 @@
 'use client';
 
+import { authorApi } from '@/apis/author/author';
 import {
+  authorFilterAtom,
   bookSearchKeywordAtom,
   bookSortModeAtom,
   bookViewModeAtom,
 } from '@/atoms/book';
 import { AuthorCombobox } from '@/components/AuthorCombobox';
+import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { CategoryButtons } from './CategoryButtons';
 import { SearchBar } from './SearchBar';
 import { SortModeTabs } from './SortModeTabs';
@@ -22,20 +25,37 @@ export default function Tabs() {
   const [searchKeyword, setSearchKeyword] = useAtom(bookSearchKeywordAtom);
   const [sortMode, setSortMode] = useAtom(bookSortModeAtom);
   const [viewMode, setViewMode] = useAtom(bookViewModeAtom);
+  const [selectedAuthor, setSelectedAuthor] = useAtom(authorFilterAtom);
 
-  // Initialize atoms from URL query params
-  if (searchParams.get('q') !== searchKeyword) {
-    setSearchKeyword(searchParams.get('q') ?? '');
-  }
-  if (searchParams.get('sort') !== sortMode) {
-    setSortMode((searchParams.get('sort') as typeof sortMode) ?? 'popular');
-  }
-  if (searchParams.get('view') !== viewMode) {
-    setViewMode((searchParams.get('view') as typeof viewMode) ?? 'grid');
-  }
+  const { data: authors } = useQuery({
+    queryKey: ['authors'],
+    queryFn: authorApi.getAllAuthors,
+    select: response => response.data,
+  });
+
+  useEffect(() => {
+    const q = searchParams.get('q');
+    const sort = searchParams.get('sort');
+    const view = searchParams.get('view');
+    const authorId = searchParams.get('authorId');
+
+    if (q !== null && q !== searchKeyword) {
+      setSearchKeyword(q);
+    }
+    if (sort !== null && sort !== sortMode) {
+      setSortMode(sort as typeof sortMode);
+    }
+    if (view !== null && view !== viewMode) {
+      setViewMode(view as typeof viewMode);
+    }
+    if (authorId !== (selectedAuthor?.id.toString() ?? null)) {
+      const author = authors?.find(a => a.id.toString() === authorId);
+      setSelectedAuthor(author);
+    }
+  }, [searchParams, authors]);
 
   const updateQueryParams = useCallback(
-    (updates: Record<string, string>) => {
+    (updates: Record<string, string | undefined>) => {
       const current = new URLSearchParams(Array.from(searchParams.entries()));
 
       Object.entries(updates).forEach(([key, value]) => {
@@ -59,7 +79,9 @@ export default function Tabs() {
         <CategoryButtons />
         <div className="flex gap-2">
           <SearchBar onSearch={value => updateQueryParams({ q: value })} />
-          <AuthorCombobox />
+          <AuthorCombobox
+            onValueChange={value => updateQueryParams({ authorId: value })}
+          />
           <SortModeTabs
             onValueChange={value => updateQueryParams({ sort: value })}
           />

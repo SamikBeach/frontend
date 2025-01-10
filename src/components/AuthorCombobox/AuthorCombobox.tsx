@@ -29,7 +29,11 @@ import { useMemo, useRef, useState } from 'react';
 import AuthorCommandEmpty from './AuthorCommandEmpty';
 import AuthorCommandItem from './AuthorCommandItem';
 
-export default function AuthorCombobox() {
+interface AuthorComboboxProps {
+  onValueChange: (authorId: string | undefined) => void;
+}
+
+export default function AuthorCombobox({ onValueChange }: AuthorComboboxProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [selectedAuthor, setSelectedAuthor] = useAtom(authorFilterAtom);
@@ -67,12 +71,14 @@ export default function AuthorCombobox() {
     );
     const isDeselecting = selectedAuthor?.id.toString() === currentValue;
     setSelectedAuthor(isDeselecting ? undefined : newAuthor);
+    onValueChange(isDeselecting ? undefined : currentValue);
     setOpen(false);
   };
 
   const handleClear = (e: React.MouseEvent) => {
     e.stopPropagation();
     setSelectedAuthor(undefined);
+    onValueChange(undefined);
   };
 
   return (
