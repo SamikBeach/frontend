@@ -5,10 +5,8 @@ import { Author } from '@/apis/author/types';
 import { Button } from '@/components/ui/button';
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
   CommandInput,
-  CommandItem,
   CommandList,
 } from '@/components/ui/command';
 import {
@@ -23,10 +21,11 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useTextTruncated } from '@/hooks/useTextTruncated';
-import { cn } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
-import { Check, ChevronsUpDown, SearchX } from 'lucide-react';
+import { ChevronsUpDown } from 'lucide-react';
 import { useState } from 'react';
+import AuthorCommandEmpty from './AuthorCommandEmpty';
+import AuthorCommandItem from './AuthorCommandItem';
 
 interface Props {
   onSelect?: (author: Author | undefined) => void;
@@ -40,11 +39,6 @@ export default function AuthorCombobox({ onSelect }: Props) {
     handleMouseEnter: onButtonMouseEnter,
     handleMouseLeave: onButtonMouseLeave,
   } = useTextTruncated();
-  const {
-    isTruncated: isItemTruncated,
-    handleMouseEnter: onItemMouseEnter,
-    handleMouseLeave: onItemMouseLeave,
-  } = useTextTruncated();
 
   const { data: authors } = useQuery({
     queryKey: ['authors'],
@@ -55,6 +49,17 @@ export default function AuthorCombobox({ onSelect }: Props) {
   const selectedAuthor = authors?.find(
     author => author.id.toString() === value
   );
+
+  const handleSelect = (currentValue: string) => {
+    const newValue = currentValue === value ? '' : currentValue;
+    setValue(newValue);
+    setOpen(false);
+    onSelect?.(
+      newValue
+        ? authors?.find(author => author.id.toString() === newValue)
+        : undefined
+    );
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -92,59 +97,15 @@ export default function AuthorCombobox({ onSelect }: Props) {
         <Command className="max-h-[300px]">
           <CommandInput placeholder="작가 검색..." />
           <CommandList>
-            <CommandEmpty>
-              <div className="flex flex-col items-center gap-2 py-6">
-                <SearchX className="h-10 w-10 text-gray-400" />
-                <div className="text-sm font-medium">검색 결과가 없어요.</div>
-                <div className="text-xs text-muted-foreground">
-                  다른 검색어로 다시 시도해보세요.
-                </div>
-              </div>
-            </CommandEmpty>
+            <AuthorCommandEmpty />
             <CommandGroup>
               {authors?.map(author => (
-                <TooltipProvider key={author.id}>
-                  <Tooltip>
-                    <CommandItem
-                      value={author.id.toString()}
-                      onSelect={currentValue => {
-                        const newValue =
-                          currentValue === value ? '' : currentValue;
-                        setValue(newValue);
-                        setOpen(false);
-                        onSelect?.(
-                          newValue
-                            ? authors.find(a => a.id.toString() === newValue)
-                            : undefined
-                        );
-                      }}
-                      className="cursor-pointer"
-                    >
-                      <TooltipTrigger className="flex max-w-[180px] items-center">
-                        <Check
-                          className={cn(
-                            'mr-2 h-4 w-4 shrink-0',
-                            value === author.id.toString()
-                              ? 'opacity-100'
-                              : 'opacity-0'
-                          )}
-                        />
-                        <span
-                          className="truncate"
-                          onMouseEnter={onItemMouseEnter}
-                          onMouseLeave={onItemMouseLeave}
-                        >
-                          {author.nameInKor}
-                        </span>
-                      </TooltipTrigger>
-                    </CommandItem>
-                    {isItemTruncated && (
-                      <TooltipContent side="right">
-                        {author.nameInKor}
-                      </TooltipContent>
-                    )}
-                  </Tooltip>
-                </TooltipProvider>
+                <AuthorCommandItem
+                  key={author.id}
+                  author={author}
+                  isSelected={value === author.id.toString()}
+                  onSelect={handleSelect}
+                />
               ))}
             </CommandGroup>
           </CommandList>
