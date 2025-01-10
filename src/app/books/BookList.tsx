@@ -53,7 +53,9 @@ function BookListContent() {
           searchBy: ['title'],
         }),
         sortBy,
-        ['filter.authorId']: selectedAuthor?.id,
+        filter: {
+          authorId: selectedAuthor?.id,
+        },
       });
     },
     initialPageParam: 1,

@@ -1,3 +1,4 @@
+import { transformFilterParams } from '@/utils/api';
 import axios from '../axios';
 import type { PaginatedResponse, PaginationQuery } from '../common/types';
 import type { Review } from '../review/types';
@@ -10,7 +11,9 @@ export const bookApi = {
    * @returns 페이지네이션된 책 목록
    */
   searchBooks: (params: BookSearchQuery) =>
-    axios.get<PaginatedResponse<Book>>('/book/search', { params }),
+    axios.get<PaginatedResponse<Book>>('/book/search', {
+      params: transformFilterParams<>(params),
+    }),
 
   /**
    * 특정 책의 상세 정보를 조회합니다.

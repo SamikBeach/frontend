@@ -24,6 +24,5 @@ export interface BookDetail extends Book {
 }
 
 export interface BookSearchQuery extends PaginationQuery {
-  ['filter.authorId']?: number;
   searchBy?: ('title' | 'description' | 'publisher' | 'isbn' | 'isbn13')[];
 }
