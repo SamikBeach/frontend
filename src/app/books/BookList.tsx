@@ -1,10 +1,14 @@
-import { BookItem } from '../../components/BookItem';
-import BookListItem from '../../components/BookItem/BookListItem';
+'use client';
+
+import { bookViewModeAtom } from '@/atoms/book';
+import { BookItem } from '@/components/BookItem';
+import BookListItem from '@/components/BookItem/BookListItem';
+import { useAtomValue } from 'jotai';
 
 export default function BookList() {
-  // todo: list 모드 jotai atom으로 관리
-  // eslint-disable-next-line no-constant-condition
-  if (true) {
+  const viewMode = useAtomValue(bookViewModeAtom);
+
+  if (viewMode === 'list') {
     return (
       <div className="flex flex-col gap-4">
         <BookListItem />

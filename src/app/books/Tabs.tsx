@@ -1,17 +1,20 @@
 'use client';
 
-import { LayoutGridIcon } from 'lucide-react';
-
+import { BookViewMode, bookViewModeAtom } from '@/atoms/book';
 import { Button } from '@/components/ui/button';
-import { TabsList } from '@/components/ui/tabs';
-
 import { Input } from '@/components/ui/input';
-import { Tabs as ShadcnTabs, TabsTrigger } from '@/components/ui/tabs';
-import { ChevronDownIcon, ListIcon } from 'lucide-react';
+import {
+  Tabs as ShadcnTabs,
+  TabsList,
+  TabsTrigger,
+} from '@/components/ui/tabs';
+import { useAtom } from 'jotai';
+import { ChevronDownIcon, LayoutGridIcon, ListIcon } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Tabs() {
   const [activeCategory, setActiveCategory] = useState('종합');
+  const [viewMode, setViewMode] = useAtom(bookViewModeAtom);
 
   const categories = ['종합', '철학', '과학', '경제'];
 
@@ -47,12 +50,15 @@ export default function Tabs() {
           </TabsList>
         </ShadcnTabs>
 
-        <ShadcnTabs defaultValue="popular">
+        <ShadcnTabs
+          value={viewMode}
+          onValueChange={value => setViewMode(value as BookViewMode)}
+        >
           <TabsList>
-            <TabsTrigger value="popular" className="px-2">
+            <TabsTrigger value="grid" className="px-2">
               <LayoutGridIcon className="h-5 w-5" />
             </TabsTrigger>
-            <TabsTrigger value="recent" className="px-2">
+            <TabsTrigger value="list" className="px-2">
               <ListIcon className="h-5 w-5" />
             </TabsTrigger>
           </TabsList>
