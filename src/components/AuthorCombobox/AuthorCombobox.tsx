@@ -16,6 +16,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import { Check, ChevronsUpDown, SearchX } from 'lucide-react';
@@ -35,23 +41,40 @@ export default function AuthorCombobox({ onSelect }: Props) {
     select: response => response.data,
   });
 
+  const selectedAuthor = authors?.find(
+    author => author.id.toString() === value
+  );
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="justify-between"
-        >
-          {value
-            ? authors?.find(author => author.id.toString() === value)?.nameInKor
-            : '작가'}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
+      <TooltipProvider delayDuration={100}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                aria-expanded={open}
+                className="w-[200px] justify-between"
+              >
+                <span className="truncate">
+                  {value ? selectedAuthor?.nameInKor : '작가'}
+                </span>
+                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+          </TooltipTrigger>
+          {selectedAuthor && (
+            <TooltipContent>{selectedAuthor.nameInKor}</TooltipContent>
+          )}
+        </Tooltip>
+      </TooltipProvider>
+      <PopoverContent
+        className="w-[200px] p-0"
+        onCloseAutoFocus={e => e.preventDefault()}
+        align="end"
+      >
+        <Command className="max-h-[300px]">
           <CommandInput placeholder="작가 검색..." />
           <CommandList>
             <CommandEmpty>
@@ -65,30 +88,40 @@ export default function AuthorCombobox({ onSelect }: Props) {
             </CommandEmpty>
             <CommandGroup>
               {authors?.map(author => (
-                <CommandItem
-                  key={author.id}
-                  value={author.id.toString()}
-                  onSelect={currentValue => {
-                    const newValue = currentValue === value ? '' : currentValue;
-                    setValue(newValue);
-                    setOpen(false);
-                    onSelect?.(
-                      newValue
-                        ? authors.find(a => a.id.toString() === newValue)
-                        : undefined
-                    );
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      'mr-2 h-4 w-4',
-                      value === author.id.toString()
-                        ? 'opacity-100'
-                        : 'opacity-0'
-                    )}
-                  />
-                  {author.nameInKor}
-                </CommandItem>
+                <TooltipProvider key={author.id}>
+                  <Tooltip delayDuration={100}>
+                    <CommandItem
+                      value={author.id.toString()}
+                      onSelect={currentValue => {
+                        const newValue =
+                          currentValue === value ? '' : currentValue;
+                        setValue(newValue);
+                        setOpen(false);
+                        onSelect?.(
+                          newValue
+                            ? authors.find(a => a.id.toString() === newValue)
+                            : undefined
+                        );
+                      }}
+                      className="cursor-pointer"
+                    >
+                      <TooltipTrigger className="flex max-w-[180px] items-center">
+                        <Check
+                          className={cn(
+                            'mr-2 h-4 w-4 shrink-0',
+                            value === author.id.toString()
+                              ? 'opacity-100'
+                              : 'opacity-0'
+                          )}
+                        />
+                        <span className="truncate">{author.nameInKor}</span>
+                      </TooltipTrigger>
+                    </CommandItem>
+                    <TooltipContent side="right">
+                      {author.nameInKor}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               ))}
             </CommandGroup>
           </CommandList>
