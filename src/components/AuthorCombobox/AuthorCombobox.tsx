@@ -22,6 +22,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useTextTruncated } from '@/hooks/useTextTruncated';
 import { cn } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import { Check, ChevronsUpDown, SearchX } from 'lucide-react';
@@ -34,6 +35,16 @@ interface Props {
 export default function AuthorCombobox({ onSelect }: Props) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
+  const {
+    isTruncated: isButtonTruncated,
+    handleMouseEnter: onButtonMouseEnter,
+    handleMouseLeave: onButtonMouseLeave,
+  } = useTextTruncated();
+  const {
+    isTruncated: isItemTruncated,
+    handleMouseEnter: onItemMouseEnter,
+    handleMouseLeave: onItemMouseLeave,
+  } = useTextTruncated();
 
   const { data: authors } = useQuery({
     queryKey: ['authors'],
@@ -57,14 +68,18 @@ export default function AuthorCombobox({ onSelect }: Props) {
                 aria-expanded={open}
                 className="w-[200px] justify-between"
               >
-                <span className="truncate">
+                <span
+                  className="truncate"
+                  onMouseEnter={onButtonMouseEnter}
+                  onMouseLeave={onButtonMouseLeave}
+                >
                   {value ? selectedAuthor?.nameInKor : '작가'}
                 </span>
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
           </TooltipTrigger>
-          {selectedAuthor && (
+          {selectedAuthor && isButtonTruncated && (
             <TooltipContent>{selectedAuthor.nameInKor}</TooltipContent>
           )}
         </Tooltip>
@@ -89,7 +104,7 @@ export default function AuthorCombobox({ onSelect }: Props) {
             <CommandGroup>
               {authors?.map(author => (
                 <TooltipProvider key={author.id}>
-                  <Tooltip delayDuration={100}>
+                  <Tooltip>
                     <CommandItem
                       value={author.id.toString()}
                       onSelect={currentValue => {
@@ -114,12 +129,20 @@ export default function AuthorCombobox({ onSelect }: Props) {
                               : 'opacity-0'
                           )}
                         />
-                        <span className="truncate">{author.nameInKor}</span>
+                        <span
+                          className="truncate"
+                          onMouseEnter={onItemMouseEnter}
+                          onMouseLeave={onItemMouseLeave}
+                        >
+                          {author.nameInKor}
+                        </span>
                       </TooltipTrigger>
                     </CommandItem>
-                    <TooltipContent side="right">
-                      {author.nameInKor}
-                    </TooltipContent>
+                    {isItemTruncated && (
+                      <TooltipContent side="right">
+                        {author.nameInKor}
+                      </TooltipContent>
+                    )}
                   </Tooltip>
                 </TooltipProvider>
               ))}
