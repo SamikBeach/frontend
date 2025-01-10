@@ -5,15 +5,16 @@ import { DialogTitle } from '@radix-ui/react-dialog';
 import { useMutation } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
-import { useState } from 'react';
+import { RefObject, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 
 interface Props {
   review: Review;
+  commentListRef: RefObject<HTMLDivElement | null>;
 }
 
-export default function ReviewInfo({ review }: Props) {
+export default function ReviewInfo({ review, commentListRef }: Props) {
   const [isLiked, setIsLiked] = useState(review.isLiked);
   const [likeCount, setLikeCount] = useState(review.likeCount);
   const currentUser = useCurrentUser();
@@ -34,6 +35,10 @@ export default function ReviewInfo({ review }: Props) {
     e.stopPropagation();
     if (!currentUser) return;
     toggleLike();
+  };
+
+  const handleCommentClick = () => {
+    commentListRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -109,6 +114,7 @@ export default function ReviewInfo({ review }: Props) {
           className="min-w-[70px] rounded-full hover:bg-gray-100"
           variant="outline"
           size="sm"
+          onClick={handleCommentClick}
         >
           <MessageSquareIcon className="mr-1.5 h-4 w-4 text-gray-600" />
           <span className="text-sm font-medium text-gray-700">

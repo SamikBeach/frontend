@@ -8,17 +8,19 @@ import {
 } from '@/components/Comment/CommentSkeleton';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { Suspense, useMemo } from 'react';
+import { RefObject, Suspense, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import EmptyComments from './EmptyComments';
 
 interface Props {
+  ref: RefObject<HTMLDivElement | null>;
   reviewId: number;
   commentCount: number;
   scrollableTarget: string;
 }
 
 function CommentListContent({
+  ref,
   reviewId,
   commentCount,
   scrollableTarget,
@@ -53,7 +55,7 @@ function CommentListContent({
   );
 
   return (
-    <div className="flex flex-1 flex-col gap-4">
+    <div ref={ref} className="flex flex-1 flex-col gap-4">
       <div className="flex items-center gap-2">
         <h2 className="text-base font-semibold text-gray-900">댓글</h2>
         <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
