@@ -26,7 +26,7 @@ function HydrateAtoms({ children }: Props) {
         'popular',
     ],
     [bookViewModeAtom, (searchParams.get('view') as 'grid' | 'list') ?? 'grid'],
-    [authorIdAtom, searchParams.get('authorId') ?? null],
+    [authorIdAtom, searchParams.get('authorId') ?? undefined],
   ]);
 
   return children;

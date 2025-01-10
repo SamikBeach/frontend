@@ -34,8 +34,10 @@ export default function BookInfo({ book, reviewListRef }: Props) {
 
   const handleLikeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    console.log({ currentUser });
     if (!currentUser) return;
     toggleLike();
+    console.log('dd');
   };
 
   const handleReviewClick = () => {
