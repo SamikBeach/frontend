@@ -7,6 +7,7 @@ import {
   BookViewMode,
   bookViewModeAtom,
 } from '@/atoms/book';
+import { AuthorCombobox } from '@/components/AuthorCombobox';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -15,7 +16,7 @@ import {
   TabsTrigger,
 } from '@/components/ui/tabs';
 import { useAtom } from 'jotai';
-import { ChevronDownIcon, LayoutGridIcon, ListIcon } from 'lucide-react';
+import { LayoutGridIcon, ListIcon } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Tabs() {
@@ -49,10 +50,7 @@ export default function Tabs() {
           value={searchKeyword}
           onChange={e => setSearchKeyword(e.target.value)}
         />
-        <Button variant="outline">
-          작가
-          <ChevronDownIcon className="h-4 w-4" />
-        </Button>
+        <AuthorCombobox />
 
         <ShadcnTabs
           value={sortMode}
