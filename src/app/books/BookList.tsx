@@ -1,132 +1,46 @@
 'use client';
 
 import { bookApi } from '@/apis/book/book';
-import { Book } from '@/apis/book/types';
-import { PaginatedResponse } from '@/apis/common/types';
-import {
-  bookSearchKeywordAtom,
-  bookSortModeAtom,
-  bookViewModeAtom,
-} from '@/atoms/book';
-import BookGridItemSkeleton from '@/components/BookItem/BookGridItemSkeleton';
-import BookListItemSkeleton from '@/components/BookItem/BookListItemSkeleton';
+import { authorFilterAtom } from '@/atoms/book';
 import { Empty } from '@/components/Empty';
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { useQuery } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
-import { SearchXIcon } from 'lucide-react';
-import { Suspense, useMemo } from 'react';
+import { useSearchParams } from 'next/navigation';
 import BookGridView from './BookGridView';
-import BookListView from './BookListView';
 
-function BookListContent() {
-  const viewMode = useAtomValue(bookViewModeAtom);
-  const searchKeyword = useAtomValue(bookSearchKeywordAtom);
-  const sortMode = useAtomValue(bookSortModeAtom);
+export default function BookList() {
+  const searchParams = useSearchParams();
+  const searchKeyword = searchParams.get('keyword') ?? '';
+  const selectedAuthor = useAtomValue(authorFilterAtom);
 
-  const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
-    AxiosResponse<PaginatedResponse<Book>>,
-    Error
-  >({
-    queryKey: ['books', searchKeyword, sortMode],
-    queryFn: ({ pageParam = 1 }) => {
-      const sortBy = (() => {
-        switch (sortMode) {
-          case 'popular':
-            return 'likeCount:DESC';
-          case 'recent':
-            return 'publicationDate:DESC';
-          case 'alphabet':
-            return 'title:ASC';
-          default:
-            return 'likeCount:DESC';
-        }
-      })();
-
-      return bookApi.searchBooks({
-        page: pageParam as number,
-        limit: 20,
+  const { data: books, isLoading } = useQuery({
+    queryKey: ['books', searchKeyword, selectedAuthor?.id],
+    queryFn: () =>
+      bookApi.searchBooks({
         search: searchKeyword,
         searchBy: searchKeyword ? ['title'] : undefined,
-        sortBy,
-      });
-    },
-    initialPageParam: 1,
-    getNextPageParam: param => {
-      if (!param.data.links.next) {
-        return undefined;
-      }
-
-      const nextParam = param.data.links.next;
-      const query = nextParam?.split('?')[1];
-      const pageParam = query
-        ?.split('&')
-        .find(q => q.startsWith('page'))
-        ?.split('=')[1];
-
-      return pageParam;
-    },
+        filter: selectedAuthor
+          ? {
+              'authorBooks.author.id': selectedAuthor.id,
+            }
+          : undefined,
+      }),
+    select: response => response.data.data,
   });
 
-  const books = useMemo(
-    () => data?.pages?.flatMap(page => page.data.data) ?? [],
-    [data]
-  );
+  if (isLoading) {
+    return null;
+  }
 
-  if (books.length === 0 && searchKeyword) {
+  if (!books?.length && searchKeyword) {
     return (
       <Empty
-        icon={<SearchXIcon className="h-12 w-12" />}
-        title="검색 결과가 없어요."
-        description={`'${searchKeyword}'로 검색한 결과가 없어요.`}
+        icon="search"
+        title="검색 결과가 없습니다."
+        description="다른 검색어로 다시 시도해보세요."
       />
     );
   }
 
-  const viewProps = {
-    books,
-    hasNextPage: hasNextPage ?? false,
-    fetchNextPage,
-  };
-
-  return viewMode === 'list' ? (
-    <BookListView {...viewProps} />
-  ) : (
-    <BookGridView {...viewProps} />
-  );
-}
-
-export default function BookList() {
-  const viewMode = useAtomValue(bookViewModeAtom);
-
-  return (
-    <main className="h-full">
-      <Suspense
-        fallback={
-          viewMode === 'list' ? (
-            <div className="flex flex-col gap-4">
-              {[...Array(10)].map((_, i) => (
-                <BookListItemSkeleton key={i} />
-              ))}
-            </div>
-          ) : (
-            <div className="flex flex-col gap-10 py-6">
-              <div className="flex gap-6">
-                {[...Array(4)].map((_, i) => (
-                  <BookGridItemSkeleton key={i} />
-                ))}
-              </div>
-              <div className="flex flex-wrap gap-6">
-                {[...Array(8)].map((_, i) => (
-                  <BookGridItemSkeleton key={i} size="small" />
-                ))}
-              </div>
-            </div>
-          )
-        }
-      >
-        <BookListContent />
-      </Suspense>
-    </main>
-  );
+  return <BookGridView books={books ?? []} />;
 }

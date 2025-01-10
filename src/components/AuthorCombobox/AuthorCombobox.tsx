@@ -1,7 +1,7 @@
 'use client';
 
 import { authorApi } from '@/apis/author/author';
-import { Author } from '@/apis/author/types';
+import { authorFilterAtom } from '@/atoms/book';
 import { Button } from '@/components/ui/button';
 import {
   Command,
@@ -22,18 +22,15 @@ import {
 } from '@/components/ui/tooltip';
 import { useTextTruncated } from '@/hooks/useTextTruncated';
 import { useQuery } from '@tanstack/react-query';
+import { useAtom } from 'jotai';
 import { ChevronsUpDown } from 'lucide-react';
 import { useState } from 'react';
 import AuthorCommandEmpty from './AuthorCommandEmpty';
 import AuthorCommandItem from './AuthorCommandItem';
 
-interface Props {
-  onSelect?: (author: Author | undefined) => void;
-}
-
-export default function AuthorCombobox({ onSelect }: Props) {
+export default function AuthorCombobox() {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('');
+  const [selectedAuthor, setSelectedAuthor] = useAtom(authorFilterAtom);
   const {
     isTruncated: isButtonTruncated,
     handleMouseEnter: onButtonMouseEnter,
@@ -46,19 +43,13 @@ export default function AuthorCombobox({ onSelect }: Props) {
     select: response => response.data,
   });
 
-  const selectedAuthor = authors?.find(
-    author => author.id.toString() === value
-  );
-
   const handleSelect = (currentValue: string) => {
-    const newValue = currentValue === value ? '' : currentValue;
-    setValue(newValue);
-    setOpen(false);
-    onSelect?.(
-      newValue
-        ? authors?.find(author => author.id.toString() === newValue)
-        : undefined
+    const newAuthor = authors?.find(
+      author => author.id.toString() === currentValue
     );
+    const isDeselecting = selectedAuthor?.id.toString() === currentValue;
+    setSelectedAuthor(isDeselecting ? undefined : newAuthor);
+    setOpen(false);
   };
 
   return (
@@ -78,7 +69,7 @@ export default function AuthorCombobox({ onSelect }: Props) {
                   onMouseEnter={onButtonMouseEnter}
                   onMouseLeave={onButtonMouseLeave}
                 >
-                  {value ? selectedAuthor?.nameInKor : '작가'}
+                  {selectedAuthor?.nameInKor ?? '작가'}
                 </span>
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
@@ -103,7 +94,7 @@ export default function AuthorCombobox({ onSelect }: Props) {
                 <AuthorCommandItem
                   key={author.id}
                   author={author}
-                  isSelected={value === author.id.toString()}
+                  isSelected={selectedAuthor?.id === author.id}
                   onSelect={handleSelect}
                 />
               ))}
