@@ -43,12 +43,12 @@ export default function AuthorGridItem({ author, size = 'medium' }: Props) {
             {author.nameInKor}
           </h3>
           <p
-            className={cn('line-clamp-1 text-gray-600', {
-              'text-base': size === 'medium',
+            className={cn('line-clamp-1 text-gray-500', {
+              'text-sm': size === 'medium',
               'text-xs': size === 'small',
             })}
           >
-            {author.nameInEng}
+            {author.name}
           </p>
           <div className="flex items-center gap-1.5 text-gray-400">
             <div className="flex items-center gap-0.5">

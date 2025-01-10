@@ -1,5 +1,3 @@
-'use client';
-
 import { Author } from '@/apis/author/types';
 import { AuthorListItem } from '@/components/AuthorItem';
 import AuthorListItemSkeleton from '@/components/AuthorItem/AuthorListItemSkeleton';

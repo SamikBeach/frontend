@@ -17,17 +17,12 @@ export default function AuthorListItem({ author }: Props) {
           className="h-full w-full object-cover transition-transform duration-300 hover:scale-110"
         />
       </div>
-      <div className="flex flex-1 flex-col justify-between">
-        <div className="flex flex-col gap-1">
+      <div className="flex flex-1 flex-col justify-between py-2">
+        <div className="flex flex-col gap-0.5">
           <h3 className="line-clamp-1 text-base font-medium text-gray-900">
             {author.nameInKor}
           </h3>
-          <p className="line-clamp-1 text-xs text-gray-500">
-            {author.nameInEng}
-          </p>
-          <p className="mt-1 line-clamp-2 text-xs text-gray-500">
-            {author.description}
-          </p>
+          <p className="line-clamp-1 text-xs text-gray-500">{author.name}</p>
         </div>
         <div className="flex items-center gap-3 text-xs text-gray-500">
           <div className="flex items-center gap-1">

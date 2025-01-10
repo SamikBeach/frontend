@@ -26,7 +26,11 @@ export default function AuthorGridItemSkeleton({ size = 'medium' }: Props) {
               'h-6': size === 'medium',
             })}
           />
-          <Skeleton className="h-4 w-3/4" />
+          <Skeleton
+            className={cn('h-4 w-3/4', {
+              'h-5': size === 'medium',
+            })}
+          />
           <div className="mt-1 flex items-center gap-1.5">
             <Skeleton className="h-4 w-12" />
             <Skeleton className="h-4 w-12" />
