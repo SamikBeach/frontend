@@ -1,37 +1,52 @@
+'use client';
+
 import { bookApi } from '@/apis/book/book';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { DialogProps, DialogTitle } from '@radix-ui/react-dialog';
 import { useQuery } from '@tanstack/react-query';
+import { Suspense, useRef } from 'react';
 import BookInfo from './BookInfo';
 import RelativeBooks from './RelativeBooks';
 import ReviewList from './ReviewList';
 
-interface Props {
+interface Props extends DialogProps {
   bookId: number;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
 }
 
-export default function BookDialog({ bookId, open, onOpenChange }: Props) {
-  const { data: book } = useQuery({
+export default function BookDialog({ bookId, children, ...props }: Props) {
+  const reviewListRef = useRef<HTMLDivElement>(null);
+  const { data: book, isLoading } = useQuery({
     queryKey: ['book', bookId],
     queryFn: () => bookApi.getBookDetail(bookId),
     select: data => data.data,
-    enabled: open,
+    enabled: props.open,
   });
 
-  if (!book) return null;
-
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog {...props}>
+      {children}
       <DialogContent
         overlayClassName="bg-black/10"
-        className="flex h-[94vh] w-[900px] min-w-[900px] flex-col gap-8 overflow-y-auto p-10"
+        className="fixed left-1/2 top-1/2 flex h-[94vh] w-[900px] min-w-[900px] -translate-x-1/2 -translate-y-1/2 flex-col gap-8 overflow-y-auto p-10"
         aria-describedby={undefined}
         onOpenAutoFocus={e => e.preventDefault()}
+        id="dialog-content"
       >
-        <BookInfo book={book} />
-        <RelativeBooks bookId={bookId} />
-        <ReviewList bookId={bookId} reviewCount={book.reviewCount} />
+        {isLoading && <DialogTitle />}
+        {book ? (
+          <>
+            <BookInfo book={book} reviewListRef={reviewListRef} />
+            <RelativeBooks bookId={bookId} />
+            <Suspense>
+              <ReviewList
+                ref={reviewListRef}
+                bookId={bookId}
+                reviewCount={book.reviewCount}
+                scrollableTarget="dialog-content"
+              />
+            </Suspense>
+          </>
+        ) : null}
       </DialogContent>
     </Dialog>
   );
