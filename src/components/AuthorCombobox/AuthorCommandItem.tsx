@@ -28,8 +28,8 @@ export default function AuthorCommandItem({
 
   return (
     <CommandItem
-      value={author.id.toString()}
-      onSelect={onSelect}
+      value={author.nameInKor}
+      onSelect={() => onSelect(author.id.toString())}
       className="cursor-pointer"
       {...props}
     >

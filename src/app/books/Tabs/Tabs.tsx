@@ -1,5 +1,6 @@
 'use client';
 
+import { AuthorCombobox } from '@/components/AuthorCombobox';
 import { CategoryButtons } from './CategoryButtons';
 import { SearchBar } from './SearchBar';
 import { SortModeTabs } from './SortModeTabs';
@@ -12,6 +13,7 @@ export default function Tabs() {
         <CategoryButtons />
         <div className="flex gap-2">
           <SearchBar />
+          <AuthorCombobox />
           <SortModeTabs />
           <ViewModeTabs />
         </div>
