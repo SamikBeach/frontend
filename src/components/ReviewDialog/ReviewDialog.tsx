@@ -1,6 +1,7 @@
 import { reviewApi } from '@/apis/review/review';
 import { DialogProps, DialogTitle } from '@radix-ui/react-dialog';
 import { useQuery } from '@tanstack/react-query';
+import { useRef } from 'react';
 import { CommentEditor } from '../CommentEditor';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import CommentList from './CommentList';
@@ -11,6 +12,7 @@ interface Props extends DialogProps {
 }
 
 export default function ReviewDialog({ reviewId, children, ...props }: Props) {
+  const commentListRef = useRef<HTMLDivElement>(null);
   const { data: review, isLoading } = useQuery({
     queryKey: ['review', reviewId],
     queryFn: () => reviewApi.getReviewDetail(reviewId),
@@ -32,8 +34,9 @@ export default function ReviewDialog({ reviewId, children, ...props }: Props) {
         {review ? (
           <>
             <div className="flex flex-col gap-4">
-              <ReviewInfo review={review} />
+              <ReviewInfo review={review} commentListRef={commentListRef} />
               <CommentList
+                ref={commentListRef}
                 reviewId={reviewId}
                 commentCount={review.commentCount}
                 scrollableTarget="dialog-content"

@@ -1,15 +1,46 @@
+import { reviewApi } from '@/apis/review/review';
 import { Review } from '@/apis/review/types';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { DialogTitle } from '@radix-ui/react-dialog';
+import { useMutation } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import { RefObject, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 
 interface Props {
   review: Review;
+  commentListRef: RefObject<HTMLDivElement | null>;
 }
 
-export default function ReviewInfo({ review }: Props) {
+export default function ReviewInfo({ review, commentListRef }: Props) {
+  const [isLiked, setIsLiked] = useState(review.isLiked);
+  const [likeCount, setLikeCount] = useState(review.likeCount);
+  const currentUser = useCurrentUser();
+
+  const { mutate: toggleLike } = useMutation({
+    mutationFn: () => reviewApi.toggleReviewLike(review.id),
+    onMutate: () => {
+      setIsLiked(prev => !prev);
+      setLikeCount(prev => (isLiked ? prev - 1 : prev + 1));
+    },
+    onError: () => {
+      setIsLiked(review.isLiked);
+      setLikeCount(review.likeCount);
+    },
+  });
+
+  const handleLikeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!currentUser) return;
+    toggleLike();
+  };
+
+  const handleCommentClick = () => {
+    commentListRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="flex flex-col">
       <div className="flex items-start justify-between gap-8">
@@ -30,7 +61,9 @@ export default function ReviewInfo({ review }: Props) {
               </span>
             </div>
             <span className="text-gray-300">·</span>
-            <span>{format(new Date(review.createdAt), 'yyyy년 M월 d일 HH시 mm분')}</span>
+            <span>
+              {format(new Date(review.createdAt), 'yyyy년 M월 d일 HH시 mm분')}
+            </span>
           </div>
         </div>
 
@@ -59,19 +92,29 @@ export default function ReviewInfo({ review }: Props) {
 
       <div className="flex justify-center gap-2">
         <Button
-          className="rounded-full hover:bg-gray-100"
+          className={`min-w-[70px] rounded-full ${
+            isLiked
+              ? 'border-gray-700 bg-gray-700 text-white hover:border-gray-900 hover:bg-gray-900'
+              : 'hover:bg-gray-100'
+          }`}
           variant="outline"
           size="sm"
+          onClick={handleLikeClick}
         >
-          <ThumbsUpIcon className="mr-1.5 h-4 w-4 text-gray-600" />
-          <span className="text-sm font-medium text-gray-700">
-            {review.likeCount}
+          <ThumbsUpIcon
+            className={`mr-1.5 h-4 w-4 ${isLiked ? 'text-white' : 'text-gray-600'}`}
+          />
+          <span
+            className={`text-sm font-medium ${isLiked ? 'text-white' : 'text-gray-700'}`}
+          >
+            {likeCount}
           </span>
         </Button>
         <Button
-          className="rounded-full hover:bg-gray-100"
+          className="min-w-[70px] rounded-full hover:bg-gray-100"
           variant="outline"
           size="sm"
+          onClick={handleCommentClick}
         >
           <MessageSquareIcon className="mr-1.5 h-4 w-4 text-gray-600" />
           <span className="text-sm font-medium text-gray-700">

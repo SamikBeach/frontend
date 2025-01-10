@@ -13,6 +13,12 @@ export const authorApi = {
     axios.get<PaginatedResponse<Author>>('/author/search', { params }),
 
   /**
+   * 모든 작가 목록을 가져옵니다.
+   * @returns 전체 작가 목록
+   */
+  getAllAuthors: () => axios.get<Author[]>('/author'),
+
+  /**
    * 특정 작가의 상세 정보를 조회합니다.
    * @param authorId - 작가 ID
    * @returns 작가 상세 정보 (좋아요 여부 포함)

@@ -1,57 +1,48 @@
 'use client';
 
-import { BookDialog } from '@/components/BookDialog';
+import { Book } from '@/apis/book/types';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
-import { useState } from 'react';
 
-export default function BookListItem() {
-  const [openBookDialog, setOpenBookDialog] = useState(false);
+interface Props {
+  book: Book;
+}
 
+export default function BookListItem({ book }: Props) {
   return (
-    <>
-      <div className="flex gap-6">
-        <div
-          className={
-            'group relative h-[210px] w-[140px] flex-shrink-0 cursor-pointer overflow-hidden rounded-lg bg-gray-200'
-          }
-          onClick={() => setOpenBookDialog(true)}
-        >
-          <img
-            src="https://picsum.photos/140/210"
-            alt="book"
-            className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-            width={140}
-            height={210}
-          />
+    <div className="flex gap-6">
+      <div className="h-[160px] w-[114px] cursor-pointer overflow-hidden rounded-lg">
+        <img
+          src={book.imageUrl ?? 'https://picsum.photos/200/300'}
+          alt={book.title}
+          className="h-full w-full object-cover transition-transform duration-300 hover:scale-110"
+        />
+      </div>
+      <div className="flex flex-1 flex-col justify-between">
+        <div className="flex flex-col gap-1">
+          <h3 className="line-clamp-1 text-base font-medium text-gray-900">
+            {book.title}
+          </h3>
+          <p className="line-clamp-1 text-xs text-gray-500">
+            {book.authorBooks
+              .map(authorBook => authorBook.author.nameInKor)
+              .join(', ')}
+          </p>
+          <p className="line-clamp-1 text-xs text-gray-400">{book.publisher}</p>
+          <p className="mt-1 line-clamp-2 text-xs text-gray-500">
+            {book.description}
+          </p>
         </div>
-        <div className="flex flex-col justify-between">
-          <div>
-            <p className="font-semibold">짜라투스트라는 이렇게 말했다</p>
-            <p className="text-sm text-gray-500">프리드리히 니체</p>
-            <p className="text-sm text-gray-500">민음사 · 박찬국 · 2021</p>
-            <p className="text-sm">
-              가낟라마바사아자가낟라마바사아자가낟라마바사아자가낟라마바사아자
-              가낟라마바사아자가낟라마바사아자가낟라마바사아자
-              가낟라마바사아자가낟라마바사아자
-              가낟라마바사아자가낟라마바사아자가낟라마바사아자가낟라마바사아자가낟라마바사아자가낟라마바사아자가낟라마바사아자
-              가낟라마바사아자가낟라마바사아자가낟라마바사아자가낟라마바사아자
-              가낟라마바사아자가낟라마바사아자가낟라마바사아자가낟라마바사아자
-              가낟라마바사아자가낟라마바사아자가낟라마바사아자가낟라마바사아자
-            </p>
+        <div className="flex items-center gap-3 text-xs text-gray-500">
+          <div className="flex items-center gap-1">
+            <ThumbsUpIcon className="h-3.5 w-3.5" />
+            <span>{book.likeCount}</span>
           </div>
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <div className="flex items-center gap-1">
-              <ThumbsUpIcon className="h-4 w-4" />
-              <span>300</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <MessageSquareIcon className="mt-0.5 h-4 w-4" />
-              <span>300</span>
-            </div>
+          <div className="flex items-center gap-1">
+            <MessageSquareIcon className="h-3.5 w-3.5" />
+            <span>{book.reviewCount}</span>
           </div>
         </div>
       </div>
-      <BookDialog open={openBookDialog} onOpenChange={setOpenBookDialog} />
-    </>
+    </div>
   );
 }
