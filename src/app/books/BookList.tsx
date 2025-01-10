@@ -6,9 +6,11 @@ import { PaginatedResponse } from '@/apis/common/types';
 import { bookSearchKeywordAtom, bookViewModeAtom } from '@/atoms/book';
 import BookGridItemSkeleton from '@/components/BookItem/BookGridItemSkeleton';
 import BookListItemSkeleton from '@/components/BookItem/BookListItemSkeleton';
+import { Empty } from '@/components/Empty';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { useAtomValue } from 'jotai';
+import { SearchXIcon } from 'lucide-react';
 import { Suspense, useMemo } from 'react';
 import BookGridView from './BookGridView';
 import BookListView from './BookListView';
@@ -16,6 +18,7 @@ import BookListView from './BookListView';
 function BookListContent() {
   const viewMode = useAtomValue(bookViewModeAtom);
   const searchKeyword = useAtomValue(bookSearchKeywordAtom);
+
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<Book>>,
     Error
@@ -31,7 +34,6 @@ function BookListContent() {
     },
     initialPageParam: 1,
     getNextPageParam: param => {
-      // 다음 페이지가 없으면 undefined를 반환하여 hasNextPage가 false가 되도록 함
       if (!param.data.links.next) {
         return undefined;
       }
@@ -51,6 +53,16 @@ function BookListContent() {
     () => data?.pages?.flatMap(page => page.data.data) ?? [],
     [data]
   );
+
+  if (books.length === 0 && searchKeyword) {
+    return (
+      <Empty
+        icon={<SearchXIcon className="h-12 w-12" />}
+        title="검색 결과가 없어요."
+        description={`'${searchKeyword}'로 검색한 결과가 없어요.`}
+      />
+    );
+  }
 
   const viewProps = {
     books,
