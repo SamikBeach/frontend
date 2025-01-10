@@ -1,5 +1,5 @@
 import { AuthorItem } from '@/components/AuthorItem';
-import { BookItem } from '@/components/BookItem';
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function UserHistory() {
@@ -26,20 +26,20 @@ function BookList() {
     <div className="flex flex-col gap-2">
       <p className="text-lg font-semibold">책</p>
       <div className="flex flex-wrap gap-3">
-        <BookItem size="small" />
-        <BookItem size="small" />
-        <BookItem size="small" />
-        <BookItem size="small" />
-        <BookItem size="small" />
-        <BookItem size="small" />
-        <BookItem size="small" />
-        <BookItem size="small" />
-        <BookItem size="small" />
-        <BookItem size="small" />
-        <BookItem size="small" />
-        <BookItem size="small" />
-        <BookItem size="small" />
-        <BookItem size="small" />
+        {/* <BookGridItem size="small" />
+        <BookGridItem size="small" />
+        <BookGridItem size="small" />
+        <BookGridItem size="small" />
+        <BookGridItem size="small" />
+        <BookGridItem size="small" />
+        <BookGridItem size="small" />
+        <BookGridItem size="small" />
+        <BookGridItem size="small" />
+        <BookGridItem size="small" />
+        <BookGridItem size="small" />
+        <BookGridItem size="small" />
+        <BookGridItem size="small" />
+        <BookGridItem size="small" /> */}
       </div>
     </div>
   );
