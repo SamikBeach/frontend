@@ -95,7 +95,7 @@ export default function AuthorCombobox() {
                 className="w-[160px] justify-between"
               >
                 <span
-                  className="truncate"
+                  className="truncate text-gray-500"
                   onMouseEnter={onButtonMouseEnter}
                   onMouseLeave={onButtonMouseLeave}
                 >

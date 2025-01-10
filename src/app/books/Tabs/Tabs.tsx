@@ -1,6 +1,6 @@
 'use client';
 
-import { AuthorCombobox } from '@/components/AuthorCombobox';
+import { AuthorCombobox } from '@/app/books/Tabs/AuthorCombobox';
 import { CategoryButtons } from './CategoryButtons';
 import { SearchBar } from './SearchBar';
 import { SortModeTabs } from './SortModeTabs';
