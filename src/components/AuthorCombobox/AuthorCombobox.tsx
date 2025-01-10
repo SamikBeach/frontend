@@ -24,7 +24,7 @@ import { useTextTruncated } from '@/hooks/useTextTruncated';
 import { useQuery } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useAtom } from 'jotai';
-import { ChevronsUpDown } from 'lucide-react';
+import { ChevronsUpDown, X } from 'lucide-react';
 import { useMemo, useRef, useState } from 'react';
 import AuthorCommandEmpty from './AuthorCommandEmpty';
 import AuthorCommandItem from './AuthorCommandItem';
@@ -70,6 +70,11 @@ export default function AuthorCombobox() {
     setOpen(false);
   };
 
+  const handleClear = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedAuthor(undefined);
+  };
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <TooltipProvider delayDuration={100}>
@@ -89,7 +94,16 @@ export default function AuthorCombobox() {
                 >
                   {selectedAuthor?.nameInKor ?? '작가'}
                 </span>
-                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                {selectedAuthor ? (
+                  <div
+                    className="h-5 w-5 rounded-full hover:bg-gray-200 flex items-center justify-center transition-colors"
+                    onClick={handleClear}
+                  >
+                    <X className="h-4 w-4 shrink-0 opacity-50 hover:opacity-100" />
+                  </div>
+                ) : (
+                  <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
+                )}
               </Button>
             </PopoverTrigger>
           </TooltipTrigger>
