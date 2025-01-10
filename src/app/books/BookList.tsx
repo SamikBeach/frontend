@@ -3,7 +3,11 @@
 import { bookApi } from '@/apis/book/book';
 import { Book } from '@/apis/book/types';
 import { PaginatedResponse } from '@/apis/common/types';
-import { bookSearchKeywordAtom, bookViewModeAtom } from '@/atoms/book';
+import {
+  bookSearchKeywordAtom,
+  bookSortModeAtom,
+  bookViewModeAtom,
+} from '@/atoms/book';
 import BookGridItemSkeleton from '@/components/BookItem/BookGridItemSkeleton';
 import BookListItemSkeleton from '@/components/BookItem/BookListItemSkeleton';
 import { Empty } from '@/components/Empty';
@@ -18,18 +22,33 @@ import BookListView from './BookListView';
 function BookListContent() {
   const viewMode = useAtomValue(bookViewModeAtom);
   const searchKeyword = useAtomValue(bookSearchKeywordAtom);
+  const sortMode = useAtomValue(bookSortModeAtom);
 
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<Book>>,
     Error
   >({
-    queryKey: ['books', searchKeyword],
+    queryKey: ['books', searchKeyword, sortMode],
     queryFn: ({ pageParam = 1 }) => {
+      const sortBy = (() => {
+        switch (sortMode) {
+          case 'popular':
+            return 'likeCount:DESC';
+          case 'recent':
+            return 'publicationDate:DESC';
+          case 'alphabet':
+            return 'title:ASC';
+          default:
+            return 'likeCount:DESC';
+        }
+      })();
+
       return bookApi.searchBooks({
         page: pageParam as number,
         limit: 20,
         search: searchKeyword,
         searchBy: searchKeyword ? ['title'] : undefined,
+        sortBy,
       });
     },
     initialPageParam: 1,

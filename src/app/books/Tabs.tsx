@@ -2,6 +2,8 @@
 
 import {
   bookSearchKeywordAtom,
+  BookSortMode,
+  bookSortModeAtom,
   BookViewMode,
   bookViewModeAtom,
 } from '@/atoms/book';
@@ -20,6 +22,7 @@ export default function Tabs() {
   const [activeCategory, setActiveCategory] = useState('종합');
   const [viewMode, setViewMode] = useAtom(bookViewModeAtom);
   const [searchKeyword, setSearchKeyword] = useAtom(bookSearchKeywordAtom);
+  const [sortMode, setSortMode] = useAtom(bookSortModeAtom);
 
   const categories = ['종합', '철학', '과학', '경제'];
 
@@ -51,7 +54,10 @@ export default function Tabs() {
           <ChevronDownIcon className="h-4 w-4" />
         </Button>
 
-        <ShadcnTabs defaultValue="popular">
+        <ShadcnTabs
+          value={sortMode}
+          onValueChange={value => setSortMode(value as BookSortMode)}
+        >
           <TabsList>
             <TabsTrigger value="popular">인기순</TabsTrigger>
             <TabsTrigger value="recent">최신순</TabsTrigger>
