@@ -1,8 +1,13 @@
+import { PaginatedResponse } from '@/apis/common/types';
 import { reviewApi } from '@/apis/review/review';
 import { Review } from '@/apis/review/types';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { DialogTitle } from '@radix-ui/react-dialog';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  InfiniteData,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { format } from 'date-fns';
 import { CommentButton } from '../CommentButton';
@@ -21,6 +26,40 @@ export default function ReviewInfo({ review, commentListRef }: Props) {
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
     onMutate: () => {
+      // 리뷰 목록 쿼리 데이터 업데이트
+      queryClient.setQueriesData<
+        InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
+      >(
+        {
+          queryKey: ['reviews'],
+          exact: false,
+        },
+        oldData => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            pages: oldData.pages.map(page => ({
+              ...page,
+              data: {
+                ...page.data,
+                data: page.data.data.map((review: Review) =>
+                  review.id === review.id
+                    ? {
+                        ...review,
+                        isLiked: !review.isLiked,
+                        likeCount: review.isLiked
+                          ? review.likeCount - 1
+                          : review.likeCount + 1,
+                      }
+                    : review
+                ),
+              },
+            })),
+          };
+        }
+      );
+
+      // 단일 리뷰 쿼리 데이터 업데이트
       queryClient.setQueryData<AxiosResponse<Review>>(
         ['review', review.id],
         oldData => {
@@ -39,6 +78,38 @@ export default function ReviewInfo({ review, commentListRef }: Props) {
       );
     },
     onError: () => {
+      // 리뷰 목록 쿼리 데이터 원상 복구
+      queryClient.setQueriesData<
+        InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
+      >(
+        {
+          queryKey: ['reviews'],
+          exact: false,
+        },
+        oldData => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            pages: oldData.pages.map(page => ({
+              ...page,
+              data: {
+                ...page.data,
+                data: page.data.data.map((review: Review) =>
+                  review.id === review.id
+                    ? {
+                        ...review,
+                        isLiked: review.isLiked,
+                        likeCount: review.likeCount,
+                      }
+                    : review
+                ),
+              },
+            })),
+          };
+        }
+      );
+
+      // 단일 리뷰 쿼리 데이터 원상 복구
       queryClient.setQueryData<AxiosResponse<Review>>(
         ['review', review.id],
         oldData => {

@@ -2,11 +2,16 @@
 
 import { bookApi } from '@/apis/book/book';
 import { BookDetail } from '@/apis/book/types';
+import { PaginatedResponse } from '@/apis/common/types';
 import { Button } from '@/components/ui/button';
 import { WriteReviewDialog } from '@/components/WriteReviewDialog';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { DialogTitle } from '@radix-ui/react-dialog';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  InfiniteData,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { Edit3Icon } from 'lucide-react';
 import { CommentButton } from '../CommentButton';
@@ -24,6 +29,44 @@ export default function BookInfo({ book, reviewListRef }: Props) {
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => bookApi.toggleBookLike(book.id),
     onMutate: () => {
+      // 책 목록 쿼리 데이터 업데이트
+      // 무한 스크롤로 불러온 모든 페이지의 책 데이터를 순회하면서
+      // 좋아요를 누른 책의 isLiked 상태와 좋아요 수를 즉시 변경
+      queryClient.setQueriesData<
+        InfiniteData<AxiosResponse<PaginatedResponse<BookDetail>>>
+      >(
+        {
+          queryKey: ['books'],
+          exact: false,
+        },
+        oldData => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            pages: oldData.pages.map(page => ({
+              ...page,
+              data: {
+                ...page.data,
+                data: page.data.data.map((item: BookDetail) =>
+                  item.id === book.id
+                    ? {
+                        ...item,
+                        isLiked: !item.isLiked,
+                        likeCount: item.isLiked
+                          ? item.likeCount - 1
+                          : item.likeCount + 1,
+                      }
+                    : item
+                ),
+              },
+            })),
+          };
+        }
+      );
+
+      // 단일 책 쿼리 데이터 업데이트
+      // 책 상세 페이지에서 보여지는 단일 책의
+      // isLiked 상태와 좋아요 수를 즉시 변경하여 UI를 업데이트
       queryClient.setQueryData<AxiosResponse<BookDetail>>(
         ['book', book.id],
         oldData => {
@@ -42,6 +85,42 @@ export default function BookInfo({ book, reviewListRef }: Props) {
       );
     },
     onError: () => {
+      // 책 목록 쿼리 데이터 원상 복구
+      // API 호출이 실패한 경우, 낙관적으로 업데이트했던 책 목록의
+      // 좋아요 상태를 이전 상태로 되돌림
+      queryClient.setQueriesData<
+        InfiniteData<AxiosResponse<PaginatedResponse<BookDetail>>>
+      >(
+        {
+          queryKey: ['books'],
+          exact: false,
+        },
+        oldData => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            pages: oldData.pages.map(page => ({
+              ...page,
+              data: {
+                ...page.data,
+                data: page.data.data.map((item: BookDetail) =>
+                  item.id === book.id
+                    ? {
+                        ...item,
+                        isLiked: book.isLiked,
+                        likeCount: book.likeCount,
+                      }
+                    : item
+                ),
+              },
+            })),
+          };
+        }
+      );
+
+      // 단일 책 쿼리 데이터 원상 복구
+      // API 호출이 실패한 경우, 낙관적으로 업데이트했던 단일 책의
+      // 좋아요 상태를 이전 상태로 되돌림
       queryClient.setQueryData<AxiosResponse<BookDetail>>(
         ['book', book.id],
         oldData => {
