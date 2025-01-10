@@ -1,17 +1,17 @@
+'use client';
+
 import { BookSortMode, bookSortModeAtom } from '@/atoms/book';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useQueryParams } from '@/hooks/useQueryParams';
 import { useAtom } from 'jotai';
 
-interface SortModeTabsProps {
-  onValueChange: (value: BookSortMode) => void;
-}
-
-export function SortModeTabs({ onValueChange }: SortModeTabsProps) {
+export function SortModeTabs() {
+  const { updateQueryParams } = useQueryParams();
   const [sortMode, setSortMode] = useAtom(bookSortModeAtom);
 
   const handleValueChange = (value: string) => {
     setSortMode(value as BookSortMode);
-    onValueChange(value as BookSortMode);
+    updateQueryParams({ sort: value });
   };
 
   return (

@@ -20,6 +20,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useQueryParams } from '@/hooks/useQueryParams';
 import { useTextTruncated } from '@/hooks/useTextTruncated';
 import { useQuery } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
@@ -29,11 +30,8 @@ import { useMemo, useRef, useState } from 'react';
 import AuthorCommandEmpty from './AuthorCommandEmpty';
 import AuthorCommandItem from './AuthorCommandItem';
 
-interface AuthorComboboxProps {
-  onValueChange: (authorId: string | undefined) => void;
-}
-
-export default function AuthorCombobox({ onValueChange }: AuthorComboboxProps) {
+export default function AuthorCombobox() {
+  const { updateQueryParams } = useQueryParams();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [selectedAuthor, setSelectedAuthor] = useAtom(authorFilterAtom);
@@ -71,14 +69,14 @@ export default function AuthorCombobox({ onValueChange }: AuthorComboboxProps) {
     );
     const isDeselecting = selectedAuthor?.id.toString() === currentValue;
     setSelectedAuthor(isDeselecting ? undefined : newAuthor);
-    onValueChange(isDeselecting ? undefined : currentValue);
+    updateQueryParams({ authorId: isDeselecting ? undefined : currentValue });
     setOpen(false);
   };
 
   const handleClear = (e: React.MouseEvent) => {
     e.stopPropagation();
     setSelectedAuthor(undefined);
-    onValueChange(undefined);
+    updateQueryParams({ authorId: undefined });
   };
 
   return (

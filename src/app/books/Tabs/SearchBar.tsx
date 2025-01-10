@@ -1,24 +1,24 @@
+'use client';
+
 import { bookSearchKeywordAtom } from '@/atoms/book';
 import { Input } from '@/components/ui/input';
+import { useQueryParams } from '@/hooks/useQueryParams';
 import { useAtom } from 'jotai';
 import { debounce } from 'lodash-es';
 import { SearchIcon } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 
-interface SearchBarProps {
-  onSearch: (value: string) => void;
-}
-
-export function SearchBar({ onSearch }: SearchBarProps) {
+export function SearchBar() {
+  const { updateQueryParams } = useQueryParams();
   const [searchKeyword, setSearchKeyword] = useAtom(bookSearchKeywordAtom);
   const [inputValue, setInputValue] = useState(searchKeyword);
 
   const debouncedSearch = useCallback(
     debounce((value: string) => {
       setSearchKeyword(value);
-      onSearch(value);
+      updateQueryParams({ q: value });
     }, 300),
-    [setSearchKeyword, onSearch]
+    [setSearchKeyword, updateQueryParams]
   );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

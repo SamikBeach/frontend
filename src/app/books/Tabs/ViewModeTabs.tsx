@@ -1,18 +1,18 @@
+'use client';
+
 import { BookViewMode, bookViewModeAtom } from '@/atoms/book';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useQueryParams } from '@/hooks/useQueryParams';
 import { useAtom } from 'jotai';
 import { LayoutGridIcon, ListIcon } from 'lucide-react';
 
-interface ViewModeTabsProps {
-  onValueChange: (value: BookViewMode) => void;
-}
-
-export function ViewModeTabs({ onValueChange }: ViewModeTabsProps) {
+export function ViewModeTabs() {
+  const { updateQueryParams } = useQueryParams();
   const [viewMode, setViewMode] = useAtom(bookViewModeAtom);
 
   const handleValueChange = (value: string) => {
     setViewMode(value as BookViewMode);
-    onValueChange(value as BookViewMode);
+    updateQueryParams({ view: value });
   };
 
   return (
