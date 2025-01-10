@@ -1,5 +1,51 @@
 # 🚦 CHANGELOG
 
+# [1.36.0](https://github.com/SamikBeach/frontend/compare/1.35.0...1.36.0) (2025-01-10)
+
+
+### Bug Fixes
+
+* AuthorCombobox 가상화 리스트 재계산 이슈 수정 ([915ebcf](https://github.com/SamikBeach/frontend/commit/915ebcf1f19feeae05dcca8b2f2688755395a352))
+* AuthorCommandItem 툴팁 동작하도록 수정 ([228bcce](https://github.com/SamikBeach/frontend/commit/228bcce3cc522b2628186c0087e28a6a08cb6e15))
+* **author:** 작가 검색 기능 추가 ([f11b43a](https://github.com/SamikBeach/frontend/commit/f11b43a1dfbfa14c86abab5ae614ec0ee5b4dd9f))
+* **books:** Tabs 레이아웃 시프트 방지 ([3d8d7eb](https://github.com/SamikBeach/frontend/commit/3d8d7ebdfee5e12d680634e5cdd92b014818b494))
+* fix lint ([bd206d2](https://github.com/SamikBeach/frontend/commit/bd206d2ed6b777e6e9a7bc349c3904ba03ab6ba7))
+* fix lint ([891104b](https://github.com/SamikBeach/frontend/commit/891104bda9cfa70abc6820a4077556c228250d6b))
+* fix lint ([db32d52](https://github.com/SamikBeach/frontend/commit/db32d528ba38d4537c95f5b449279b679575265d))
+* hydration 불일치 해결 ([c5e9589](https://github.com/SamikBeach/frontend/commit/c5e95891c038910ef0f0578ca0348f0aa127c8f7))
+* hydration 불일치 해결을 위해 Provider 사용 ([4c2d235](https://github.com/SamikBeach/frontend/commit/4c2d2359226ba63e0fa42d9576b06ff7f42c1c7e))
+* Next.js 자동 스크롤 경고 해결 ([635ee65](https://github.com/SamikBeach/frontend/commit/635ee653543eb859a70f529e333261f06686d659))
+* SearchBar X 버튼 스타일 수정 ([d9fee6a](https://github.com/SamikBeach/frontend/commit/d9fee6ad070ccec662e06479967eea018e5ac590))
+* 가로 스크롤 제거 ([d7f8310](https://github.com/SamikBeach/frontend/commit/d7f8310a472d27aabdeb4c525dee199a9547706e))
+* 도서 그리드 뷰 레이아웃 개선 ([c11a34c](https://github.com/SamikBeach/frontend/commit/c11a34cf7bd78e1f58949f6f9db2b4a8d275e77c))
+* 렌더링 중 상태 업데이트 에러 수정 ([75ad268](https://github.com/SamikBeach/frontend/commit/75ad2680fd4669092a7bd6e8dc506b3ebcd2ba34))
+* 스켈레톤 개수 수정 ([56457a6](https://github.com/SamikBeach/frontend/commit/56457a69a8d048764c036ef3090a830e19b6ece3))
+* 스타일 수정 ([0254565](https://github.com/SamikBeach/frontend/commit/0254565aa73f3a895dd51a3654769b311f0024c2))
+* 책 목록 필터링 API 파라미터 수정 ([aa6c315](https://github.com/SamikBeach/frontend/commit/aa6c31569711c40cc9ae124440dd7a9feb9f6b17))
+* 책 목록 필터링 기능 복구 ([9dd9826](https://github.com/SamikBeach/frontend/commit/9dd98266b1dcb61a1617524dba734b475a476a06))
+
+
+### Features
+
+* **author:** AuthorCombobox 가상화 적용 ([ada617f](https://github.com/SamikBeach/frontend/commit/ada617f21949c433e79d803fdc636f4af18e077c))
+* AuthorCombobox 개선 ([014e506](https://github.com/SamikBeach/frontend/commit/014e506dcd7f801d9691b4d7025aacd878175321))
+* axios 주석 보강 ([76c9b3b](https://github.com/SamikBeach/frontend/commit/76c9b3b63c1f9e28e9ed4024e14b96abadc5301d))
+* Empty 컴포넌트 추가 ([b482325](https://github.com/SamikBeach/frontend/commit/b482325495648353f2311d4718821110bc2dc888))
+* shadcn popover, command 설치 ([8e880e1](https://github.com/SamikBeach/frontend/commit/8e880e142c00db43890a744005e43702bf414f92))
+* tooltip ui 컴포넌트 추가 ([48a9549](https://github.com/SamikBeach/frontend/commit/48a9549d2bba25ec22da3cfcd6fa4987c2d04cce))
+* useTextTruncated 훅 추가 ([ce73663](https://github.com/SamikBeach/frontend/commit/ce7366311eea1cc1578b7653b13225d9105bab94))
+* 댓글 버튼 클릭시 댓글 영역으로 스크롤 처리 ([631c4fc](https://github.com/SamikBeach/frontend/commit/631c4fcd9f0ab0f0b7fbe143599cd649fcea5caa))
+* 도서 검색 입력에 디바운스 추가 ([b07873f](https://github.com/SamikBeach/frontend/commit/b07873fc8fb2a30ef5cfc64f834ba3099ef0d211))
+* 도서 목록 스켈레톤 UI 구현 ([24dbf2d](https://github.com/SamikBeach/frontend/commit/24dbf2d7c61c7ee622594ea08d9b839459f78c30))
+* 도서 목록 페이지 UI/UX 개선 ([405e54f](https://github.com/SamikBeach/frontend/commit/405e54feee22758a08da3eb49fc6cd640be2805f))
+* 도서 목록 페이지 구현 ([14aea4f](https://github.com/SamikBeach/frontend/commit/14aea4f4f4bf8cc66c52bd362bf5b16736e873a4))
+* 작가 선택 Combobox 구현 ([a6d84d4](https://github.com/SamikBeach/frontend/commit/a6d84d44f0ed1b36f1f19163182e6ed7ce6b36cf))
+* 작가 필터 URL query param 연동 ([9f3d0de](https://github.com/SamikBeach/frontend/commit/9f3d0dea4a22a5428a77b15f770b4ea2a8a49180))
+* 작가 필터 결과 없을 때 Empty 상태 추가 ([062fead](https://github.com/SamikBeach/frontend/commit/062feadb1b26349979cbcb3957939ed9c1fff5df))
+* 작가 필터 기능 추가 ([8ff1a14](https://github.com/SamikBeach/frontend/commit/8ff1a1411d962dddab304d117057f7c973a0fcb2))
+* 좋아요 버튼 스타일 개선 ([6c49f0e](https://github.com/SamikBeach/frontend/commit/6c49f0e408b4162c617fab07a1ff19316d406220))
+* 책 검색 기능 구현 ([70b0609](https://github.com/SamikBeach/frontend/commit/70b0609b77fe0596a55ef68d071c808a8f85861c))
+
 # [1.35.0](https://github.com/SamikBeach/frontend/compare/1.34.0...1.35.0) (2025-01-09)
 
 
