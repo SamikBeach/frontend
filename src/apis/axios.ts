@@ -2,6 +2,21 @@ import { authApi } from '@/apis/auth/auth';
 import { STORAGE_KEYS } from '@/constants/storage-keys';
 import originalAxios from 'axios';
 
+const getToken = () => {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
+};
+
+const setToken = (token: string) => {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, token);
+};
+
+const removeToken = () => {
+  if (typeof window === 'undefined') return;
+  localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
+};
+
 /**
  * 커스텀 Axios 인스턴스를 생성합니다.
  * - baseURL: 서버의 기본 URL
@@ -39,10 +54,10 @@ const refreshAccessToken = async () => {
     const response = await authApi.refresh();
 
     const { accessToken } = response.data;
-    localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, accessToken);
+    setToken(accessToken);
     return accessToken;
   } catch (error) {
-    localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
+    removeToken();
     throw error;
   }
 };
@@ -52,10 +67,12 @@ const refreshAccessToken = async () => {
  * 모든 요청에 Authorization 헤더를 자동으로 추가합니다.
  */
 axios.interceptors.request.use(config => {
-  const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
+  const token = getToken();
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 });
 
