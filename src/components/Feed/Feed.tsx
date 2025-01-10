@@ -7,8 +7,10 @@ import { User } from '@/apis/user/types';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { formatDate } from '@/utils/date';
 import { useMutation } from '@tanstack/react-query';
-import { MessageSquareIcon, MoreHorizontal, ThumbsUpIcon } from 'lucide-react';
+import { MoreHorizontal } from 'lucide-react';
 import { useState } from 'react';
+import { CommentButton } from '../CommentButton';
+import { LikeButton } from '../LikeButton';
 import { ReviewDialog } from '../ReviewDialog';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
@@ -22,7 +24,7 @@ interface FeedProps {
 
 function Feed({ review, user, book }: FeedProps) {
   const [openDialog, setOpenDialog] = useState(false);
-  const [isLiked, setIsLiked] = useState(review.isLiked);
+  const [isLiked, setIsLiked] = useState(review.isLiked ?? false);
   const [likeCount, setLikeCount] = useState(review.likeCount);
   const currentUser = useCurrentUser();
   const isMyFeed = currentUser?.id === user.id;
@@ -30,13 +32,11 @@ function Feed({ review, user, book }: FeedProps) {
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
     onMutate: () => {
-      // 로컬 상태 업데이트
       setIsLiked(prev => !prev);
       setLikeCount(prev => (isLiked ? prev - 1 : prev + 1));
     },
     onError: () => {
-      // 에러 발생 시 이전 상태로 롤백
-      setIsLiked(review.isLiked);
+      setIsLiked(review.isLiked ?? false);
       setLikeCount(review.likeCount);
     },
   });
@@ -96,26 +96,12 @@ function Feed({ review, user, book }: FeedProps) {
               </div>
 
               <div className="mt-4 flex justify-end gap-2">
-                <Button
-                  className={`rounded-full ${
-                    isLiked
-                      ? 'border-gray-700 bg-gray-700 text-white hover:border-gray-900 hover:bg-gray-900'
-                      : ''
-                  }`}
-                  variant="outline"
+                <LikeButton
+                  isLiked={isLiked}
+                  likeCount={likeCount}
                   onClick={handleLikeClick}
-                >
-                  <ThumbsUpIcon
-                    className={`mr-1 h-4 w-4 ${isLiked ? 'text-white' : ''}`}
-                  />
-                  <span className={isLiked ? 'text-white' : ''}>
-                    {likeCount}
-                  </span>
-                </Button>
-                <Button className="rounded-full" variant="outline">
-                  <MessageSquareIcon className="mr-1 h-4 w-4" />
-                  <span>{review.commentCount}</span>
-                </Button>
+                />
+                <CommentButton commentCount={review.commentCount} />
               </div>
             </div>
           </div>

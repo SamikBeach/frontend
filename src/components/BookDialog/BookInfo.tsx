@@ -6,9 +6,11 @@ import { Button } from '@/components/ui/button';
 import { WriteReviewDialog } from '@/components/WriteReviewDialog';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { DialogTitle } from '@radix-ui/react-dialog';
-import { useMutation } from '@tanstack/react-query';
-import { Edit3Icon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
+import { Edit3Icon } from 'lucide-react';
+import { CommentButton } from '../CommentButton';
+import { LikeButton } from '../LikeButton';
 
 interface Props {
   book: BookDetail;
@@ -16,19 +18,44 @@ interface Props {
 }
 
 export default function BookInfo({ book, reviewListRef }: Props) {
-  const [isLiked, setIsLiked] = useState(book.isLiked);
-  const [likeCount, setLikeCount] = useState(book.likeCount);
   const currentUser = useCurrentUser();
+  const queryClient = useQueryClient();
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => bookApi.toggleBookLike(book.id),
     onMutate: () => {
-      setIsLiked(prev => !prev);
-      setLikeCount(prev => (isLiked ? prev - 1 : prev + 1));
+      queryClient.setQueryData<AxiosResponse<BookDetail>>(
+        ['book', book.id],
+        oldData => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            data: {
+              ...oldData.data,
+              isLiked: !oldData.data.isLiked,
+              likeCount: oldData.data.isLiked
+                ? oldData.data.likeCount - 1
+                : oldData.data.likeCount + 1,
+            },
+          };
+        }
+      );
     },
     onError: () => {
-      setIsLiked(book.isLiked);
-      setLikeCount(book.likeCount);
+      queryClient.setQueryData<AxiosResponse<BookDetail>>(
+        ['book', book.id],
+        oldData => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            data: {
+              ...oldData.data,
+              isLiked: book.isLiked,
+              likeCount: book.likeCount,
+            },
+          };
+        }
+      );
     },
   });
 
@@ -73,28 +100,15 @@ export default function BookInfo({ book, reviewListRef }: Props) {
 
           <div className="flex w-full justify-between">
             <div className="flex gap-2">
-              <Button
-                className={`rounded-full ${
-                  isLiked
-                    ? 'border-gray-700 bg-gray-700 text-white hover:border-gray-900 hover:bg-gray-900'
-                    : ''
-                }`}
-                variant="outline"
+              <LikeButton
+                isLiked={book.isLiked ?? false}
+                likeCount={book.likeCount}
                 onClick={handleLikeClick}
-              >
-                <ThumbsUpIcon
-                  className={`h-4 w-4 ${isLiked ? 'text-white' : ''}`}
-                />
-                <span>{likeCount}</span>
-              </Button>
-              <Button
-                className="rounded-full"
-                variant="outline"
+              />
+              <CommentButton
+                commentCount={book.reviewCount}
                 onClick={handleReviewClick}
-              >
-                <MessageSquareIcon className="h-4 w-4" />
-                <span>{book.reviewCount}</span>
-              </Button>
+              />
             </div>
 
             <WriteReviewDialog>
