@@ -1,20 +1,15 @@
 'use client';
 
-import { dialogAtom } from '@/atoms/dialog';
-import { useQueryParams } from '@/hooks/useQueryParams';
-import { useHydrateAtoms } from 'jotai/utils';
+import { BookDialog } from '@/components/BookDialog';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
 
 export function DialogProvider({ children }: { children: React.ReactNode }) {
-  const { searchParams } = useQueryParams();
-  const dialogType = searchParams.get('dialog') as 'book' | 'author' | 'review' | null;
-  const dialogId = searchParams.get('id');
+  const { id } = useDialogQuery({ type: 'book' });
 
-  useHydrateAtoms([
-    [
-      dialogAtom,
-      dialogType && dialogId ? { type: dialogType, id: Number(dialogId) } : null,
-    ],
-  ]);
-
-  return children;
-} 
+  return (
+    <>
+      {children}
+      {id && <BookDialog bookId={id} />}
+    </>
+  );
+}

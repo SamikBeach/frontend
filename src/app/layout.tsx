@@ -2,6 +2,7 @@ import { Header } from '@/components/Header';
 import { Initializer } from '@/components/Initializer';
 import { LeftSidebar } from '@/components/LeftSidebar';
 import { DialogHydrateAtomsProvider } from '@/providers/DialogHydrateAtomsProvider';
+import { DialogProvider } from '@/providers/DialogProvider';
 import ReactQueryProvider from '@/providers/ReactQueryProvider';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -23,21 +24,23 @@ export default async function RootLayout({
         <ReactQueryProvider>
           <Provider>
             <DialogHydrateAtomsProvider>
-              <GoogleOAuthProvider
-                clientId={process.env.GOOGLE_OAUTH_CLIENT_ID ?? ''}
-              >
-                <NextIntlClientProvider messages={messages}>
-                  <Initializer />
-                  <div className="flex h-screen flex-col">
-                    <Header />
-                    <div className="mt-[56px] flex flex-1">
-                      <LeftSidebar />
-                      <main className="ml-[240px] w-full">{children}</main>
+              <DialogProvider>
+                <GoogleOAuthProvider
+                  clientId={process.env.GOOGLE_OAUTH_CLIENT_ID ?? ''}
+                >
+                  <NextIntlClientProvider messages={messages}>
+                    <Initializer />
+                    <div className="flex h-screen flex-col">
+                      <Header />
+                      <div className="mt-[56px] flex flex-1">
+                        <LeftSidebar />
+                        <main className="ml-[240px] w-full">{children}</main>
+                      </div>
                     </div>
-                  </div>
-                </NextIntlClientProvider>
-                <ReactQueryDevtools initialIsOpen={false} />
-              </GoogleOAuthProvider>
+                  </NextIntlClientProvider>
+                  <ReactQueryDevtools initialIsOpen={false} />
+                </GoogleOAuthProvider>
+              </DialogProvider>
             </DialogHydrateAtomsProvider>
           </Provider>
         </ReactQueryProvider>

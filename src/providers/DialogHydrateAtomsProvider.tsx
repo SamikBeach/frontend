@@ -10,15 +10,22 @@ interface Props {
 
 export function DialogHydrateAtomsProvider({ children }: Props) {
   const { searchParams } = useQueryParams();
-  const dialogType = searchParams.get('dialog') as 'book' | 'author' | 'review' | null;
+
+  const dialogType = searchParams.get('dialog') as
+    | 'book'
+    | 'author'
+    | 'review'
+    | null;
   const dialogId = searchParams.get('id');
 
   useHydrateAtoms([
     [
       dialogAtom,
-      dialogType && dialogId ? { type: dialogType, id: Number(dialogId) } : null,
+      dialogType && dialogId
+        ? { type: dialogType, id: Number(dialogId) }
+        : null,
     ],
   ]);
 
-  return children;
-} 
+  return <>{children}</>;
+}

@@ -6,14 +6,14 @@ import {
   CarouselItem,
   CarouselNext,
 } from '@/components/ui/carousel';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { useQuery } from '@tanstack/react-query';
 
 interface Props {
   bookId: number;
-  setBookId: (id: number) => void;
 }
 
-export default function RelativeBooks({ bookId, setBookId }: Props) {
+export default function RelativeBooks({ bookId }: Props) {
   const { data: books = [] } = useQuery({
     queryKey: ['relativeBooks', bookId],
     queryFn: () => bookApi.getAllRelatedBooks(bookId),
@@ -39,13 +39,13 @@ export default function RelativeBooks({ bookId, setBookId }: Props) {
           <CarouselContent className="w-[840px] gap-4">
             {books.map((book: Book) => (
               <CarouselItem key={book.id} className="basis-[110px]">
-                <BookItem book={book} onClick={() => setBookId(book.id)} />
+                <BookItem book={book} />
               </CarouselItem>
             ))}
           </CarouselContent>
           {books.length >= 7 && <CarouselNext className="right-[-10px] z-10" />}
         </Carousel>
-        <div className="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-white to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-white/30 to-transparent" />
       </div>
     </div>
   );
@@ -53,22 +53,25 @@ export default function RelativeBooks({ bookId, setBookId }: Props) {
 
 interface BookItemProps {
   book: Book;
-  onClick: () => void;
 }
 
-function BookItem({ book, onClick }: BookItemProps) {
+function BookItem({ book }: BookItemProps) {
+  const { open } = useDialogQuery({ type: 'book' });
+
   return (
-    <div
-      onClick={onClick}
-      className="group relative h-[160px] w-[110px] flex-shrink-0 cursor-pointer overflow-hidden rounded-lg bg-gray-200"
-    >
-      <img
-        src={book.imageUrl ?? 'https://picsum.photos/110/160'}
-        alt={book.title}
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-        width={110}
-        height={160}
-      />
-    </div>
+    <>
+      <div
+        onClick={() => open(book.id)}
+        className="group relative h-[160px] w-[110px] flex-shrink-0 cursor-pointer overflow-hidden rounded-lg bg-gray-200"
+      >
+        <img
+          src={book.imageUrl ?? 'https://picsum.photos/110/160'}
+          alt={book.title}
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+          width={110}
+          height={160}
+        />
+      </div>
+    </>
   );
 }

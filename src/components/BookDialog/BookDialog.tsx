@@ -14,12 +14,7 @@ interface Props {
 }
 
 export default function BookDialog({ bookId }: Props) {
-  const {
-    isOpen,
-    id: currentBookId,
-    close,
-    open,
-  } = useDialogQuery({ type: 'book' });
+  const { isOpen, id: currentBookId, close } = useDialogQuery({ type: 'book' });
 
   const reviewListRef = useRef<HTMLDivElement>(null);
 
@@ -43,7 +38,7 @@ export default function BookDialog({ bookId }: Props) {
         {book && (
           <>
             <BookInfo book={book} reviewListRef={reviewListRef} />
-            <RelativeBooks bookId={currentBookId ?? bookId} setBookId={open} />
+            <RelativeBooks bookId={currentBookId ?? bookId} />
             <Suspense>
               <ReviewList
                 ref={reviewListRef}
