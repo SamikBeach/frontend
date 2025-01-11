@@ -7,19 +7,23 @@ import {
   bookViewModeAtom,
 } from '@/atoms/book';
 import { useQueryParams } from '@/hooks/useQueryParams';
-import { useHydrateAtoms } from 'jotai/utils';
+import { useSetAtom } from 'jotai';
+import { useEffect } from 'react';
 
 export function useHydrateBookAtoms() {
   const { searchParams } = useQueryParams();
+  const setSearchKeyword = useSetAtom(bookSearchKeywordAtom);
+  const setSortMode = useSetAtom(bookSortModeAtom);
+  const setViewMode = useSetAtom(bookViewModeAtom);
+  const setAuthorId = useSetAtom(authorIdAtom);
 
-  useHydrateAtoms([
-    [bookSearchKeywordAtom, searchParams.get('q') ?? ''],
-    [
-      bookSortModeAtom,
+  useEffect(() => {
+    setSearchKeyword(searchParams.get('q') ?? '');
+    setSortMode(
       (searchParams.get('sort') as 'popular' | 'recent' | 'alphabet') ??
-        'popular',
-    ],
-    [bookViewModeAtom, (searchParams.get('view') as 'grid' | 'list') ?? 'grid'],
-    [authorIdAtom, searchParams.get('authorId') ?? undefined],
-  ]);
+        'popular'
+    );
+    setViewMode((searchParams.get('view') as 'grid' | 'list') ?? 'grid');
+    setAuthorId(searchParams.get('authorId') ?? undefined);
+  }, [searchParams, setSearchKeyword, setSortMode, setViewMode, setAuthorId]);
 }
