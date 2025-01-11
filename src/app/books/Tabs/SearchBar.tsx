@@ -6,12 +6,11 @@ import { useQueryParams } from '@/hooks/useQueryParams';
 import { useAtom } from 'jotai';
 import { debounce } from 'lodash-es';
 import { SearchIcon, X } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 
 export function SearchBar() {
   const { updateQueryParams } = useQueryParams();
   const [searchKeyword, setSearchKeyword] = useAtom(bookSearchKeywordAtom);
-  const [inputValue, setInputValue] = useState(searchKeyword);
 
   const debouncedSearch = useCallback(
     debounce((value: string) => {
@@ -23,15 +22,13 @@ export function SearchBar() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setInputValue(value);
     debouncedSearch(value);
   };
 
   const handleClear = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setInputValue('');
     setSearchKeyword('');
-    updateQueryParams({ q: '' });
+    updateQueryParams({ q: undefined });
   };
 
   useEffect(() => {
@@ -46,11 +43,11 @@ export function SearchBar() {
       <Input
         type="text"
         placeholder="책 제목 검색"
-        value={inputValue}
+        value={searchKeyword}
         onChange={handleChange}
         className="w-[300px] pl-8"
       />
-      {inputValue && (
+      {searchKeyword && (
         <div
           className="absolute right-2 top-1/2 flex h-5 w-5 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-gray-200"
           onClick={handleClear}
