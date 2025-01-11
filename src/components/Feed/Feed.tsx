@@ -6,6 +6,7 @@ import { reviewApi } from '@/apis/review/review';
 import { Review } from '@/apis/review/types';
 import { User } from '@/apis/user/types';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { formatDate } from '@/utils/date';
 import {
   InfiniteData,
@@ -14,10 +15,8 @@ import {
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { MoreHorizontal } from 'lucide-react';
-import { useState } from 'react';
 import { CommentButton } from '../CommentButton';
 import { LikeButton } from '../LikeButton';
-import { ReviewDialog } from '../ReviewDialog';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 import EditDropdownMenu from './EditDropdownMenu';
@@ -29,7 +28,8 @@ interface FeedProps {
 }
 
 function Feed({ review, user, book }: FeedProps) {
-  const [openDialog, setOpenDialog] = useState(false);
+  const { open } = useDialogQuery({ type: 'review' });
+
   const currentUser = useCurrentUser();
   const queryClient = useQueryClient();
   const isMyFeed = currentUser?.id === user.id;
@@ -156,7 +156,7 @@ function Feed({ review, user, book }: FeedProps) {
     <>
       <div
         className="relative mb-4 flex max-w-[800px] gap-4 rounded-lg p-4 transition-colors hover:cursor-pointer hover:bg-gray-100"
-        onClick={() => setOpenDialog(true)}
+        onClick={() => open(review.id)}
       >
         <div className="flex flex-1 flex-col gap-3">
           <div className="flex items-center gap-2">
@@ -228,11 +228,6 @@ function Feed({ review, user, book }: FeedProps) {
           </div>
         )}
       </div>
-      <ReviewDialog
-        open={openDialog}
-        onOpenChange={setOpenDialog}
-        reviewId={review.id}
-      />
     </>
   );
 }
