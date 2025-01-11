@@ -34,17 +34,17 @@ export default function RelativeBooks({ bookId }: Props) {
           opts={{
             loop: true,
             align: 'start',
-            slidesToScroll: 5,
+            slidesToScroll: 6,
           }}
         >
-          <CarouselContent className="w-[400px] gap-2">
+          <CarouselContent className="w-[840px] gap-4">
             {books.map((book: Book) => (
-              <CarouselItem key={book.id} className="basis-[110px] pl-2">
+              <CarouselItem key={book.id} className="basis-[110px]">
                 <BookItem book={book} />
               </CarouselItem>
             ))}
           </CarouselContent>
-          {books.length >= 8 && <CarouselNext className="right-[-10px]" />}
+          {books.length >= 7 && <CarouselNext className="right-[-10px]" />}
         </Carousel>
       </div>
     </div>
