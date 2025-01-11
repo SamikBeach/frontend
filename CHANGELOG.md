@@ -1,5 +1,32 @@
 # 🚦 CHANGELOG
 
+# [1.37.0](https://github.com/SamikBeach/frontend/compare/1.36.0...1.37.0) (2025-01-11)
+
+
+### Bug Fixes
+
+* fix lint ([f087df0](https://github.com/SamikBeach/frontend/commit/f087df0850d0cb65f5d7366757a59f86e1bd3ca0))
+* fix lint ([2ac5028](https://github.com/SamikBeach/frontend/commit/2ac5028a90ae8ca25d6d35ea4b394ff385971ab5))
+* fix type errors ([2f9584f](https://github.com/SamikBeach/frontend/commit/2f9584f883ee39f65985bc81bb60d25d88b5a5ab))
+* fix type errors ([d0fc76c](https://github.com/SamikBeach/frontend/commit/d0fc76c5f5f50f22b1042f16b1c1486a0c616cd5))
+* fix type errors ([bf19260](https://github.com/SamikBeach/frontend/commit/bf1926087d48544cb50fc60339e99e6fc6eafb63))
+* updateQueryParams시 router.push scroll option false로 설정 ([da82478](https://github.com/SamikBeach/frontend/commit/da824780b62594ccb1a458f4659274c0ff531763))
+
+
+### Features
+
+* **api:** 관련 책 목록 API 엔드포인트 분리 ([a93bfc3](https://github.com/SamikBeach/frontend/commit/a93bfc3020c8690136e67d25e240a5b447f1a19b))
+* BookDialog 데이터 연동 구현 ([9e285e4](https://github.com/SamikBeach/frontend/commit/9e285e4ee6b5f735dd151f9effc20b3f86e6d169))
+* books 페이지 구조를 활용한 authors 페이지 구현 ([155f91c](https://github.com/SamikBeach/frontend/commit/155f91cc511bd7fc603d4c1852853157d41e5b64))
+* **dialog:** 관련 책 클릭 시 현재 다이얼로그에서 책 정보 변경 ([15bf225](https://github.com/SamikBeach/frontend/commit/15bf2253730bfd5225ccfc04952f5ef9b4b95cb9))
+* **dialog:** 다이얼로그 상태 관리 개선 ([ec56494](https://github.com/SamikBeach/frontend/commit/ec56494012ce4e70dc49e28bc2c18c35b00aa42e))
+* **dialog:** 리뷰 다이얼로그에 URL 쿼리 파라미터 연동 추가 ([fbcd25a](https://github.com/SamikBeach/frontend/commit/fbcd25a643dbb4c68ab307a6d9c7de38d83a8fb2))
+* LikeButton과 CommentButton 컴포넌트 분리 ([b5e3adf](https://github.com/SamikBeach/frontend/commit/b5e3adf61409f40d517804c4fac82cea7e23ea86))
+* Searchbar에 디바운스 적용 ([88c16cb](https://github.com/SamikBeach/frontend/commit/88c16cb91d856ca0455dbda1aadfa06e7924526a))
+* 작가 영문명 필드 추가 ([0ae2019](https://github.com/SamikBeach/frontend/commit/0ae2019c8af47e7dd7015bf7961c73071cf6718c))
+* 책 다이얼로그에 리뷰 목록 스크롤 기능 추가 ([b31076e](https://github.com/SamikBeach/frontend/commit/b31076ee565bd91053cacbaf4bc18898b075e708))
+* 책 좋아요 토글 시 목록 데이터 동기화 ([d5be497](https://github.com/SamikBeach/frontend/commit/d5be497a7e80b80713e8d251168db5c80979f455))
+
 # [1.36.0](https://github.com/SamikBeach/frontend/compare/1.35.0...1.36.0) (2025-01-10)
 
 
