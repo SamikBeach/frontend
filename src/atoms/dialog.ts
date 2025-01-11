@@ -1,8 +1,8 @@
 import { atom } from 'jotai';
 
 interface DialogState {
-  type: 'book' | 'author' | 'review';
-  id: number;
+  type: 'book' | 'review' | null;
+  id: number | null;
 }
 
 export const dialogAtom = atom<DialogState | null>(null);

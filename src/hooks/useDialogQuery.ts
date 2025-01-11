@@ -5,36 +5,29 @@ import { useQueryParams } from '@/hooks/useQueryParams';
 import { useAtom } from 'jotai';
 import { useCallback } from 'react';
 
-type DialogType = 'book' | 'author' | 'review';
-
-interface UseDialogQueryProps {
-  type: DialogType;
+interface DialogQueryOptions {
+  type: 'book' | 'review';
 }
 
-export function useDialogQuery({ type }: UseDialogQueryProps) {
-  const [dialog, setDialog] = useAtom(dialogAtom);
+export function useDialogQuery({ type }: DialogQueryOptions) {
+  const [dialogState, setDialogState] = useAtom(dialogAtom);
   const { updateQueryParams } = useQueryParams();
 
-  const isOpen = dialog?.type === type;
-  const id = dialog?.id;
+  const isOpen = dialogState?.type === type && dialogState?.id !== null;
+  const id = isOpen ? dialogState?.id : null;
 
   const open = useCallback(
     (id: number) => {
-      setDialog({ type, id });
+      setDialogState({ type, id });
       updateQueryParams({ dialog: type, id: id.toString() });
     },
-    [type, setDialog, updateQueryParams]
+    [type, setDialogState, updateQueryParams]
   );
 
   const close = useCallback(() => {
-    setDialog(null);
+    setDialogState({ type: null, id: null });
     updateQueryParams({ dialog: undefined, id: undefined });
-  }, [setDialog, updateQueryParams]);
+  }, [setDialogState, updateQueryParams]);
 
-  return {
-    isOpen,
-    id: id ?? null,
-    open,
-    close,
-  };
+  return { isOpen, id, open, close };
 }
