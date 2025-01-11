@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function BookGridItem({ book, size = 'medium' }: Props) {
-  const { open, id } = useDialogQuery({ type: 'book' });
+  const { open } = useDialogQuery({ type: 'book' });
 
   const handleClick = () => {
     open(book.id);
