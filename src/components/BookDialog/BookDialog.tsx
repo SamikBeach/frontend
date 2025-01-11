@@ -4,7 +4,7 @@ import { bookApi } from '@/apis/book/book';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { DialogProps, DialogTitle } from '@radix-ui/react-dialog';
 import { useQuery } from '@tanstack/react-query';
-import { Suspense, useRef } from 'react';
+import { Suspense, useRef, useState } from 'react';
 import BookInfo from './BookInfo';
 import RelativeBooks from './RelativeBooks';
 import ReviewList from './ReviewList';
@@ -13,8 +13,14 @@ interface Props extends DialogProps {
   bookId: number;
 }
 
-export default function BookDialog({ bookId, children, ...props }: Props) {
+export default function BookDialog({
+  bookId: initialBookId,
+  children,
+  ...props
+}: Props) {
+  const [bookId, setBookId] = useState(initialBookId);
   const reviewListRef = useRef<HTMLDivElement>(null);
+
   const { data: book, isLoading } = useQuery({
     queryKey: ['book', bookId],
     queryFn: () => bookApi.getBookDetail(bookId),
@@ -33,10 +39,10 @@ export default function BookDialog({ bookId, children, ...props }: Props) {
         id="dialog-content"
       >
         {isLoading && <DialogTitle />}
-        {book ? (
+        {book && (
           <>
             <BookInfo book={book} reviewListRef={reviewListRef} />
-            <RelativeBooks bookId={bookId} />
+            <RelativeBooks bookId={bookId} setBookId={setBookId} />
             <Suspense>
               <ReviewList
                 ref={reviewListRef}
@@ -46,7 +52,7 @@ export default function BookDialog({ bookId, children, ...props }: Props) {
               />
             </Suspense>
           </>
-        ) : null}
+        )}
       </DialogContent>
     </Dialog>
   );
