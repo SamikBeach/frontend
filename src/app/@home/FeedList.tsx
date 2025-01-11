@@ -23,7 +23,7 @@ function FeedList() {
       return await reviewApi.searchReviews({
         page: pageParam as number,
         limit: 10,
-        sortBy: tab === 'popular' ? 'likeCount:desc' : 'createdAt:desc',
+        sortBy: tab === 'popular' ? 'likeCount:DESC' : 'createdAt:DESC',
       });
     },
     initialPageParam: 1,
