@@ -15,12 +15,15 @@ interface Props {
 }
 
 export default function RelativeBooks({ bookId }: Props) {
-  const { data: response } = useQuery({
+  const { data: books = [] } = useQuery({
     queryKey: ['relativeBooks', bookId],
-    queryFn: () => bookApi.searchRelatedBooks(bookId, { page: 1, limit: 20 }),
+    queryFn: () => bookApi.getAllRelatedBooks(bookId),
+    select: data => data.data,
   });
 
-  const books = response?.data.data ?? [];
+  if (books.length === 0) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col gap-3">
@@ -36,12 +39,12 @@ export default function RelativeBooks({ bookId }: Props) {
         >
           <CarouselContent className="w-[400px] gap-2">
             {books.map((book: Book) => (
-              <CarouselItem key={book.id} className="mr-2 basis-[110px]">
+              <CarouselItem key={book.id} className="basis-[110px] pl-2">
                 <BookItem book={book} />
               </CarouselItem>
             ))}
           </CarouselContent>
-          {books.length >= 8 && <CarouselNext className="right-4" />}
+          {books.length >= 8 && <CarouselNext className="right-[-10px]" />}
         </Carousel>
       </div>
     </div>

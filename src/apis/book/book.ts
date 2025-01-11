@@ -37,7 +37,18 @@ export const bookApi = {
    * @returns 페이지네이션된 관련 책 목록
    */
   searchRelatedBooks: (bookId: number, params: PaginationQuery) =>
-    axios.get<PaginatedResponse<Book>>(`/book/${bookId}/related`, { params }),
+    axios.get<PaginatedResponse<Book>>(`/book/${bookId}/related/search`, {
+      params,
+    }),
+
+  /**
+   * 같은 저자가 쓴 모든 다른 책들의 목록을 조회합니다.
+   * 페이지네이션 없이 전체 목록을 반환합니다.
+   * @param bookId - 책 ID
+   * @returns 관련된 모든 책 목록
+   */
+  getAllRelatedBooks: (bookId: number) =>
+    axios.get<Book[]>(`/book/${bookId}/related`),
 
   /**
    * 특정 책에 대한 리뷰 목록을 조회합니다.
