@@ -1,10 +1,9 @@
 'use client';
 
 import { Book } from '@/apis/book/types';
-import { BookDialog } from '@/components/BookDialog';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { cn } from '@/lib/utils';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
-import { useState } from 'react';
 
 interface Props {
   book: Book;
@@ -12,10 +11,10 @@ interface Props {
 }
 
 export default function BookGridItem({ book, size = 'medium' }: Props) {
-  const [openDialog, setOpenDialog] = useState(false);
+  const { open } = useDialogQuery({ type: 'book' });
 
   const handleClick = () => {
-    setOpenDialog(true);
+    open(book.id);
   };
 
   return (
@@ -97,11 +96,6 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
           </div>
         </div>
       </div>
-      <BookDialog
-        bookId={book.id}
-        open={openDialog}
-        onOpenChange={setOpenDialog}
-      />
     </div>
   );
 }

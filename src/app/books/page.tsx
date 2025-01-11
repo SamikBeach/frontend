@@ -1,18 +1,16 @@
 'use client';
 
-import { useHydrateBookAtoms } from '@/hooks/useHydrateBookAtoms';
+import { BookDialog } from '@/components/BookDialog';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
 import BookList from './BookList';
-import Tabs from './Tabs/Tabs';
 
 export default function BooksPage() {
-  useHydrateBookAtoms();
+  const { id } = useDialogQuery({ type: 'book' });
 
   return (
     <>
-      <div className="sticky top-[56px] z-10">
-        <Tabs />
-      </div>
       <BookList />
+      {id && <BookDialog bookId={id} />}
     </>
   );
 }
