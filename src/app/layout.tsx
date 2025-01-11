@@ -1,6 +1,7 @@
 import { Header } from '@/components/Header';
 import { Initializer } from '@/components/Initializer';
 import { LeftSidebar } from '@/components/LeftSidebar';
+import { AtomsProvider } from '@/providers/AtomsProvider';
 import { DialogProvider } from '@/providers/DialogProvider';
 import ReactQueryProvider from '@/providers/ReactQueryProvider';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -22,23 +23,25 @@ export default async function RootLayout({
       <body>
         <ReactQueryProvider>
           <Provider>
-            <DialogProvider>
-              <GoogleOAuthProvider
-                clientId={process.env.GOOGLE_OAUTH_CLIENT_ID ?? ''}
-              >
-                <NextIntlClientProvider messages={messages}>
-                  <Initializer />
-                  <div className="flex h-screen flex-col">
-                    <Header />
-                    <div className="mt-[56px] flex flex-1">
-                      <LeftSidebar />
-                      <main className="ml-[240px] w-full">{children}</main>
+            <AtomsProvider>
+              <DialogProvider>
+                <GoogleOAuthProvider
+                  clientId={process.env.GOOGLE_OAUTH_CLIENT_ID ?? ''}
+                >
+                  <NextIntlClientProvider messages={messages}>
+                    <Initializer />
+                    <div className="flex h-screen flex-col">
+                      <Header />
+                      <div className="mt-[56px] flex flex-1">
+                        <LeftSidebar />
+                        <main className="ml-[240px] w-full">{children}</main>
+                      </div>
                     </div>
-                  </div>
-                </NextIntlClientProvider>
-                <ReactQueryDevtools initialIsOpen={false} />
-              </GoogleOAuthProvider>
-            </DialogProvider>
+                  </NextIntlClientProvider>
+                  <ReactQueryDevtools initialIsOpen={false} />
+                </GoogleOAuthProvider>
+              </DialogProvider>
+            </AtomsProvider>
           </Provider>
         </ReactQueryProvider>
       </body>
