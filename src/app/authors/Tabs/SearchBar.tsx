@@ -1,6 +1,6 @@
 'use client';
 
-import { bookSearchKeywordAtom } from '@/atoms/book';
+import { authorSearchKeywordAtom } from '@/atoms/author';
 import { Input } from '@/components/ui/input';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useAtom } from 'jotai';
@@ -10,12 +10,12 @@ import { useCallback, useEffect } from 'react';
 
 export function SearchBar() {
   const { updateQueryParams } = useQueryParams();
-  const [searchKeyword, setSearchKeyword] = useAtom(bookSearchKeywordAtom);
+  const [searchKeyword, setSearchKeyword] = useAtom(authorSearchKeywordAtom);
 
   const debouncedSearch = useCallback(
     debounce((value: string) => {
       setSearchKeyword(value);
-      updateQueryParams({ q: value });
+      updateQueryParams({ q: value || undefined });
     }, 300),
     [setSearchKeyword, updateQueryParams]
   );
@@ -39,13 +39,13 @@ export function SearchBar() {
 
   return (
     <div className="relative">
-      <SearchIcon className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
       <Input
         type="text"
-        placeholder="책 제목 검색"
+        placeholder="작가 검색"
         value={searchKeyword}
         onChange={handleChange}
-        className="w-[300px] pl-8"
+        className="w-[240px] pl-9"
       />
       {searchKeyword && (
         <div

@@ -1,33 +1,129 @@
+import { PaginatedResponse } from '@/apis/common/types';
 import { reviewApi } from '@/apis/review/review';
 import { Review } from '@/apis/review/types';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { DialogTitle } from '@radix-ui/react-dialog';
-import { useMutation } from '@tanstack/react-query';
+import {
+  InfiniteData,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
 import { format } from 'date-fns';
-import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
-import { RefObject, useState } from 'react';
+import { CommentButton } from '../CommentButton';
+import { LikeButton } from '../LikeButton';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { Button } from '../ui/button';
 
 interface Props {
   review: Review;
-  commentListRef: RefObject<HTMLDivElement | null>;
+  commentListRef: React.RefObject<HTMLDivElement | null>;
 }
 
 export default function ReviewInfo({ review, commentListRef }: Props) {
-  const [isLiked, setIsLiked] = useState(review.isLiked);
-  const [likeCount, setLikeCount] = useState(review.likeCount);
   const currentUser = useCurrentUser();
+  const queryClient = useQueryClient();
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
     onMutate: () => {
-      setIsLiked(prev => !prev);
-      setLikeCount(prev => (isLiked ? prev - 1 : prev + 1));
+      // 리뷰 목록 쿼리 데이터 업데이트
+      queryClient.setQueriesData<
+        InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
+      >(
+        {
+          queryKey: ['reviews'],
+          exact: false,
+        },
+        oldData => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            pages: oldData.pages.map(page => ({
+              ...page,
+              data: {
+                ...page.data,
+                data: page.data.data.map((review: Review) =>
+                  review.id === review.id
+                    ? {
+                        ...review,
+                        isLiked: !review.isLiked,
+                        likeCount: review.isLiked
+                          ? review.likeCount - 1
+                          : review.likeCount + 1,
+                      }
+                    : review
+                ),
+              },
+            })),
+          };
+        }
+      );
+
+      // 단일 리뷰 쿼리 데이터 업데이트
+      queryClient.setQueryData<AxiosResponse<Review>>(
+        ['review', review.id],
+        oldData => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            data: {
+              ...oldData.data,
+              isLiked: !oldData.data.isLiked,
+              likeCount: oldData.data.isLiked
+                ? oldData.data.likeCount - 1
+                : oldData.data.likeCount + 1,
+            },
+          };
+        }
+      );
     },
     onError: () => {
-      setIsLiked(review.isLiked);
-      setLikeCount(review.likeCount);
+      // 리뷰 목록 쿼리 데이터 원상 복구
+      queryClient.setQueriesData<
+        InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
+      >(
+        {
+          queryKey: ['reviews'],
+          exact: false,
+        },
+        oldData => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            pages: oldData.pages.map(page => ({
+              ...page,
+              data: {
+                ...page.data,
+                data: page.data.data.map((review: Review) =>
+                  review.id === review.id
+                    ? {
+                        ...review,
+                        isLiked: review.isLiked,
+                        likeCount: review.likeCount,
+                      }
+                    : review
+                ),
+              },
+            })),
+          };
+        }
+      );
+
+      // 단일 리뷰 쿼리 데이터 원상 복구
+      queryClient.setQueryData<AxiosResponse<Review>>(
+        ['review', review.id],
+        oldData => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            data: {
+              ...oldData.data,
+              isLiked: review.isLiked,
+              likeCount: review.likeCount,
+            },
+          };
+        }
+      );
     },
   });
 
@@ -91,36 +187,15 @@ export default function ReviewInfo({ review, commentListRef }: Props) {
       </div>
 
       <div className="flex justify-center gap-2">
-        <Button
-          className={`min-w-[70px] rounded-full ${
-            isLiked
-              ? 'border-gray-700 bg-gray-700 text-white hover:border-gray-900 hover:bg-gray-900'
-              : 'hover:bg-gray-100'
-          }`}
-          variant="outline"
-          size="sm"
+        <LikeButton
+          isLiked={review.isLiked ?? false}
+          likeCount={review.likeCount}
           onClick={handleLikeClick}
-        >
-          <ThumbsUpIcon
-            className={`mr-1.5 h-4 w-4 ${isLiked ? 'text-white' : 'text-gray-600'}`}
-          />
-          <span
-            className={`text-sm font-medium ${isLiked ? 'text-white' : 'text-gray-700'}`}
-          >
-            {likeCount}
-          </span>
-        </Button>
-        <Button
-          className="min-w-[70px] rounded-full hover:bg-gray-100"
-          variant="outline"
-          size="sm"
+        />
+        <CommentButton
+          commentCount={review.commentCount}
           onClick={handleCommentClick}
-        >
-          <MessageSquareIcon className="mr-1.5 h-4 w-4 text-gray-600" />
-          <span className="text-sm font-medium text-gray-700">
-            {review.commentCount}
-          </span>
-        </Button>
+        />
       </div>
     </div>
   );

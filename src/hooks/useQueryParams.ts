@@ -51,7 +51,7 @@ export function useQueryParams() {
       // 업데이트된 query parameter로 URL 변경
       const search = current.toString();
       const query = search ? `?${search}` : '';
-      router.push(`${pathname}${query}`);
+      router.push(`${pathname}${query}`, { scroll: false });
     },
     [searchParams, pathname, router]
   );

@@ -1,5 +1,3 @@
-import { AuthorItem } from '@/components/AuthorItem';
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function UserHistory() {
@@ -50,13 +48,13 @@ function AuthorList() {
     <div className="flex flex-col gap-2">
       <p className="text-lg font-semibold">작가</p>
       <div className="flex flex-wrap gap-3">
-        <AuthorItem size="small" />
-        <AuthorItem size="small" />
-        <AuthorItem size="small" />
-        <AuthorItem size="small" />
-        <AuthorItem size="small" />
-        <AuthorItem size="small" />
-        <AuthorItem size="small" />
+        {/* <AuthorGridItem size="small" />
+        <AuthorGridItem size="small" />
+        <AuthorGridItem size="small" />
+        <AuthorGridItem size="small" />
+        <AuthorGridItem size="small" />
+        <AuthorGridItem size="small" />
+        <AuthorGridItem size="small" /> */}
       </div>
     </div>
   );

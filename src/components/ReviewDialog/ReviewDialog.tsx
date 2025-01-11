@@ -1,4 +1,5 @@
 import { reviewApi } from '@/apis/review/review';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogProps, DialogTitle } from '@radix-ui/react-dialog';
 import { useQuery } from '@tanstack/react-query';
 import { useRef } from 'react';
@@ -7,22 +8,31 @@ import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import CommentList from './CommentList';
 import ReviewInfo from './ReviewInfo';
 
-interface Props extends DialogProps {
-  reviewId: number;
-}
+interface Props extends DialogProps {}
 
-export default function ReviewDialog({ reviewId, children, ...props }: Props) {
+export default function ReviewDialog(props: Props) {
   const commentListRef = useRef<HTMLDivElement>(null);
+  const { isOpen, id: reviewId, close } = useDialogQuery({ type: 'review' });
+
   const { data: review, isLoading } = useQuery({
     queryKey: ['review', reviewId],
-    queryFn: () => reviewApi.getReviewDetail(reviewId),
+    queryFn: () => {
+      if (!reviewId) {
+        throw new Error('Review ID is required');
+      }
+
+      return reviewApi.getReviewDetail(reviewId);
+    },
     select: data => data.data,
-    enabled: props.open,
+    enabled: isOpen,
   });
 
+  if (!reviewId) {
+    return null;
+  }
+
   return (
-    <Dialog {...props}>
-      {children}
+    <Dialog {...props} open={isOpen} onOpenChange={open => !open && close()}>
       <DialogContent
         overlayClassName="bg-black/10"
         className="fixed left-1/2 top-1/2 flex h-[94vh] w-[900px] min-w-[900px] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 overflow-y-auto p-10"
