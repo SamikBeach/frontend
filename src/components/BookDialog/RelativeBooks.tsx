@@ -1,5 +1,3 @@
-'use client';
-
 import { bookApi } from '@/apis/book/book';
 import { Book } from '@/apis/book/types';
 import {
