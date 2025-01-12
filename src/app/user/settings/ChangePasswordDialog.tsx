@@ -16,6 +16,7 @@ import { AxiosError } from 'axios';
 import { KeyRound } from 'lucide-react';
 import { useState } from 'react';
 import { useController, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 interface Props extends DialogProps {}
 
@@ -52,6 +53,7 @@ export default function ChangePasswordDialog({ children, ...props }: Props) {
     onSuccess: () => {
       setOpen(false);
       reset();
+      toast.success('비밀번호가 변경되었습니다.');
     },
   });
 
@@ -103,7 +105,7 @@ export default function ChangePasswordDialog({ children, ...props }: Props) {
     ?.data?.message;
   const isCurrentPasswordError =
     errorMessage === '현재 비밀번호가 일치하지 않습니다.';
-  const buttonText = isPending ? '변경 중...' : '비밀번호 변경하기';
+  const buttonText = isPending && !isError ? '변경 중...' : '비밀번호 변경하기';
 
   return (
     <Dialog {...props} open={open} onOpenChange={handleOpenChange}>

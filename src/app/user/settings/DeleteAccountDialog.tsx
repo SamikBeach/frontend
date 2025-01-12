@@ -19,6 +19,7 @@ import { useSetAtom } from 'jotai';
 import { AlertTriangle, UserX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface Props extends DialogProps {}
 
@@ -34,6 +35,7 @@ export default function DeleteAccountDialog({ children, ...props }: Props) {
       localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
       setCurrentUser(null);
       router.push('/');
+      toast.success('계정이 삭제되었습니다.');
     },
   });
 
