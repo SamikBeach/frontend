@@ -1,10 +1,8 @@
 'use client';
 
-import { authorApi } from '@/apis/author/author';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogProps } from '@radix-ui/react-dialog';
-import { useQuery } from '@tanstack/react-query';
 import { ExternalLinkIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useRef } from 'react';
@@ -16,21 +14,8 @@ import ReviewList from './ReviewList';
 interface Props extends DialogProps {}
 
 export default function AuthorDialog(props: Props) {
-  const reviewListRef = useRef<HTMLDivElement>(null);
   const { isOpen, id: authorId, close } = useDialogQuery({ type: 'author' });
-
-  const { data: author, isLoading } = useQuery({
-    queryKey: ['author', authorId],
-    queryFn: () => {
-      if (!authorId) {
-        throw new Error('Author ID is required');
-      }
-
-      return authorApi.getAuthorDetail(authorId);
-    },
-    select: data => data.data,
-    enabled: isOpen,
-  });
+  const reviewListRef = useRef<HTMLDivElement>(null);
 
   if (!authorId) {
     return null;
@@ -45,6 +30,7 @@ export default function AuthorDialog(props: Props) {
         onOpenAutoFocus={e => e.preventDefault()}
         id="dialog-content"
       >
+        <DialogTitle className="sr-only">작가 정보</DialogTitle>
         <div className="absolute right-10 top-10 z-10">
           <Link href={`/author/${authorId}`}>
             <Button variant="outline" size="sm">
@@ -53,21 +39,15 @@ export default function AuthorDialog(props: Props) {
             </Button>
           </Link>
         </div>
-        {isLoading && <DialogTitle />}
-        {author ? (
-          <>
-            <div className="flex flex-col gap-7">
-              <AuthorInfo author={author} reviewListRef={reviewListRef} />
-              <RelativeAuthors authorId={authorId} />
-              <ReviewList
-                ref={reviewListRef}
-                authorId={authorId}
-                reviewCount={author.reviewCount}
-                scrollableTarget="dialog-content"
-              />
-            </div>
-          </>
-        ) : null}
+        <div className="flex flex-col gap-7">
+          <AuthorInfo authorId={authorId} reviewListRef={reviewListRef} />
+          <RelativeAuthors authorId={authorId} />
+          <ReviewList
+            ref={reviewListRef}
+            authorId={authorId}
+            scrollableTarget="dialog-content"
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );

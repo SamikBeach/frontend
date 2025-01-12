@@ -1,29 +1,35 @@
+'use client';
+
 import { authorApi } from '@/apis/author/author';
 import { AuthorDetail } from '@/apis/author/types';
 import { PaginatedResponse } from '@/apis/common/types';
+import { CommentButton } from '@/components/CommentButton';
+import { LikeButton } from '@/components/LikeButton';
+import { DialogTitle } from '@/components/ui/dialog';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import { DialogTitle } from '@radix-ui/react-dialog';
 import {
   InfiniteData,
   useMutation,
   useQueryClient,
+  useSuspenseQuery,
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { ExternalLinkIcon } from 'lucide-react';
-import Link from 'next/link';
-import { RefObject } from 'react';
-import { CommentButton } from '../CommentButton';
-import { LikeButton } from '../LikeButton';
-import { Button } from '../ui/button';
+import { RefObject, Suspense } from 'react';
 
 interface Props {
-  author: AuthorDetail;
+  authorId: number;
   reviewListRef: RefObject<HTMLDivElement | null>;
 }
 
-export default function AuthorInfo({ author, reviewListRef }: Props) {
+function AuthorInfoContent({ authorId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
   const queryClient = useQueryClient();
+  const { data: author } = useSuspenseQuery({
+    queryKey: ['author', authorId],
+    queryFn: () => authorApi.getAuthorDetail(authorId),
+    select: response => response.data,
+  });
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => authorApi.toggleAuthorLike(author.id),
@@ -142,13 +148,9 @@ export default function AuthorInfo({ author, reviewListRef }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
-        <div
-          className={
-            'group relative h-[140px] w-[140px] flex-shrink-0 cursor-pointer overflow-hidden rounded-full bg-gray-200'
-          }
-        >
+        <div className="group relative h-[140px] w-[140px] flex-shrink-0 cursor-pointer overflow-hidden rounded-full bg-gray-200">
           <img
-            src={author.imageUrl || 'https://picsum.photos/140/140'}
+            src={author.imageUrl ?? 'https://picsum.photos/140/140'}
             alt={author.name}
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
             width={140}
@@ -157,17 +159,9 @@ export default function AuthorInfo({ author, reviewListRef }: Props) {
         </div>
         <div className="flex w-full flex-col justify-between">
           <div className="flex flex-col gap-0.5">
-            <div className="flex items-start justify-between">
-              <DialogTitle>
-                <p className="text-2xl font-bold">{author.nameInKor}</p>
-              </DialogTitle>
-              <Link href={`/author/${author.id}`}>
-                <Button variant="outline" size="sm">
-                  <ExternalLinkIcon className="mr-1 h-4 w-4" />
-                  페이지로 보기
-                </Button>
-              </Link>
-            </div>
+            <DialogTitle className="text-2xl font-bold">
+              {author.nameInKor}
+            </DialogTitle>
             <p className="text-gray-500">{author.name}</p>
           </div>
 
@@ -185,5 +179,33 @@ export default function AuthorInfo({ author, reviewListRef }: Props) {
         </div>
       </div>
     </div>
+  );
+}
+
+function AuthorInfoSkeleton() {
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex gap-4">
+        <Skeleton className="h-[140px] w-[140px] shrink-0 rounded-full" />
+        <div className="flex w-full flex-col justify-between">
+          <div className="flex flex-col gap-2">
+            <Skeleton className="h-8 w-1/2" />
+            <Skeleton className="h-6 w-1/4" />
+          </div>
+          <div className="flex gap-2">
+            <Skeleton className="h-9 w-20" />
+            <Skeleton className="h-9 w-20" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function AuthorInfo(props: Props) {
+  return (
+    <Suspense fallback={<AuthorInfoSkeleton />}>
+      <AuthorInfoContent {...props} />
+    </Suspense>
   );
 }
