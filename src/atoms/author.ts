@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 
-export type AuthorCategory = 'all' | 'domestic' | 'foreign';
+export type AuthorCategory = 'all' | 'philosophy' | 'science' | 'economy';
 
 export const authorCategoryAtom = atom<AuthorCategory>('all');
 export const authorSearchKeywordAtom = atom<string>('');
