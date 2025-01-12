@@ -30,7 +30,7 @@ function RelativeBooksContent({ authorId }: Props) {
 
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-lg font-semibold">작품</p>
+      <p className="text-lg font-semibold">작가의 다른 책</p>
       <div className="relative">
         <Carousel
           className="w-full"
@@ -57,7 +57,7 @@ function RelativeBooksContent({ authorId }: Props) {
 function RelativeBooksSkeleton() {
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-lg font-semibold">작품</p>
+      <p className="text-lg font-semibold">작가의 다른 책</p>
       <div className="relative">
         <div className="flex gap-4">
           {Array.from({ length: 8 }).map((_, index) => (
