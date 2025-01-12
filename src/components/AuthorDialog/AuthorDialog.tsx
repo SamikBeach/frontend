@@ -5,7 +5,10 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogProps } from '@radix-ui/react-dialog';
 import { useQuery } from '@tanstack/react-query';
+import { ExternalLinkIcon } from 'lucide-react';
+import Link from 'next/link';
 import { useRef } from 'react';
+import { Button } from '../ui/button';
 import AuthorInfo from './AuthorInfo';
 import RelativeAuthors from './RelativeBooks';
 import ReviewList from './ReviewList';
@@ -42,6 +45,14 @@ export default function AuthorDialog(props: Props) {
         onOpenAutoFocus={e => e.preventDefault()}
         id="dialog-content"
       >
+        <div className="absolute right-10 top-10 z-10">
+          <Link href={`/author/${authorId}`}>
+            <Button variant="outline" size="sm">
+              <ExternalLinkIcon className="mr-1 h-4 w-4" />
+              페이지로 보기
+            </Button>
+          </Link>
+        </div>
         {isLoading && <DialogTitle />}
         {author ? (
           <>

@@ -9,9 +9,12 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
+import { ExternalLinkIcon } from 'lucide-react';
+import Link from 'next/link';
 import { RefObject } from 'react';
 import { CommentButton } from '../CommentButton';
 import { LikeButton } from '../LikeButton';
+import { Button } from '../ui/button';
 
 interface Props {
   author: AuthorDetail;
@@ -154,24 +157,30 @@ export default function AuthorInfo({ author, reviewListRef }: Props) {
         </div>
         <div className="flex w-full flex-col justify-between">
           <div className="flex flex-col gap-0.5">
-            <DialogTitle>
-              <p className="text-2xl font-bold">{author.nameInKor}</p>
-            </DialogTitle>
+            <div className="flex items-start justify-between">
+              <DialogTitle>
+                <p className="text-2xl font-bold">{author.nameInKor}</p>
+              </DialogTitle>
+              <Link href={`/author/${author.id}`}>
+                <Button variant="outline" size="sm">
+                  <ExternalLinkIcon className="mr-1 h-4 w-4" />
+                  페이지로 보기
+                </Button>
+              </Link>
+            </div>
             <p className="text-gray-500">{author.name}</p>
           </div>
 
-          <div className="flex w-full">
-            <div className="flex gap-2">
-              <LikeButton
-                isLiked={author.isLiked ?? false}
-                likeCount={author.likeCount}
-                onClick={handleLikeClick}
-              />
-              <CommentButton
-                commentCount={author.reviewCount}
-                onClick={handleReviewClick}
-              />
-            </div>
+          <div className="flex gap-2">
+            <LikeButton
+              isLiked={author.isLiked ?? false}
+              likeCount={author.likeCount}
+              onClick={handleLikeClick}
+            />
+            <CommentButton
+              commentCount={author.reviewCount}
+              onClick={handleReviewClick}
+            />
           </div>
         </div>
       </div>
