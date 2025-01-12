@@ -23,6 +23,7 @@ import { useState } from 'react';
 interface Props extends DialogProps {}
 
 export default function DeleteAccountDialog({ children, ...props }: Props) {
+  const [open, setOpen] = useState(false);
   const [confirmText, setConfirmText] = useState('');
   const router = useRouter();
   const setCurrentUser = useSetAtom(currentUserAtom);
@@ -41,8 +42,16 @@ export default function DeleteAccountDialog({ children, ...props }: Props) {
     deleteAccount();
   };
 
+  const handleOpenChange = (open: boolean) => {
+    setOpen(open);
+
+    if (!open) {
+      setConfirmText('');
+    }
+  };
+
   return (
-    <Dialog {...props}>
+    <Dialog {...props} open={open} onOpenChange={handleOpenChange}>
       {children}
       <DialogContent className="max-w-md">
         <DialogHeader>

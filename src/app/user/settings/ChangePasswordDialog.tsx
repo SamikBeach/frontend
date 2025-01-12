@@ -1,5 +1,6 @@
 'use client';
 
+import { userApi } from '@/apis/user/user';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -10,18 +11,102 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { DialogProps } from '@radix-ui/react-dialog';
+import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { KeyRound } from 'lucide-react';
 import { useState } from 'react';
+import { useController, useForm } from 'react-hook-form';
 
 interface Props extends DialogProps {}
 
+interface ChangePasswordFormData {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
 export default function ChangePasswordDialog({ children, ...props }: Props) {
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [open, setOpen] = useState(false);
+
+  const {
+    control,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm<ChangePasswordFormData>({
+    defaultValues: {
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+    },
+  });
+
+  const {
+    mutate: changePassword,
+    isPending,
+    error,
+    isError,
+  } = useMutation({
+    mutationFn: userApi.changePassword,
+    onSuccess: () => {
+      setOpen(false);
+      reset();
+    },
+  });
+
+  const onSubmit = handleSubmit(data => {
+    changePassword({
+      currentPassword: data.currentPassword,
+      newPassword: data.newPassword,
+    });
+  });
+
+  const { field: currentPasswordField } = useController({
+    name: 'currentPassword',
+    control,
+    rules: {
+      required: '현재 비밀번호를 입력해주세요',
+    },
+  });
+
+  const { field: newPasswordField } = useController({
+    name: 'newPassword',
+    control,
+    rules: {
+      required: '새 비밀번호를 입력해주세요',
+      minLength: {
+        value: 6,
+        message: '비밀번호는 최소 6자 이상이어야 합니다',
+      },
+    },
+  });
+
+  const { field: confirmPasswordField } = useController({
+    name: 'confirmPassword',
+    control,
+    rules: {
+      required: '비밀번호 확인을 입력해주세요',
+      validate: value =>
+        value === watch('newPassword') || '비밀번호가 일치하지 않습니다',
+    },
+  });
+
+  const handleOpenChange = (open: boolean) => {
+    setOpen(open);
+    if (!open) {
+      reset();
+    }
+  };
+
+  const errorMessage = (error as AxiosError<{ message: string }>)?.response
+    ?.data?.message;
+  const isCurrentPasswordError =
+    errorMessage === '현재 비밀번호가 일치하지 않습니다.';
+  const buttonText = isPending ? '변경 중...' : '비밀번호 변경하기';
 
   return (
-    <Dialog {...props}>
+    <Dialog {...props} open={open} onOpenChange={handleOpenChange}>
       {children}
       <DialogContent className="max-w-md">
         <DialogHeader>
@@ -33,54 +118,58 @@ export default function ChangePasswordDialog({ children, ...props }: Props) {
           </div>
         </DialogHeader>
 
-        <div className="flex flex-col gap-6 py-4">
+        <form onSubmit={onSubmit} className="flex flex-col gap-6 py-4">
           <div className="space-y-2">
             <p className="text-sm font-medium">현재 비밀번호</p>
             <Input
-              id="current-password"
+              {...currentPasswordField}
               type="password"
               placeholder="현재 사용중인 비밀번호"
-              value={currentPassword}
-              onChange={e => setCurrentPassword(e.target.value)}
             />
+            {(errors.currentPassword?.message || isCurrentPasswordError) && (
+              <span className="text-xs text-destructive">
+                {errors.currentPassword?.message || errorMessage}
+              </span>
+            )}
           </div>
 
           <div className="space-y-2">
             <p className="text-sm font-medium">새 비밀번호</p>
             <Input
-              id="new-password"
+              {...newPasswordField}
               type="password"
               placeholder="새로운 비밀번호"
-              value={newPassword}
-              onChange={e => setNewPassword(e.target.value)}
             />
+            {errors.newPassword?.message && (
+              <span className="text-xs text-destructive">
+                {errors.newPassword.message}
+              </span>
+            )}
           </div>
 
           <div className="space-y-2">
             <p className="text-sm font-medium">새 비밀번호 확인</p>
             <Input
-              id="confirm-password"
+              {...confirmPasswordField}
               type="password"
               placeholder="새로운 비밀번호 재입력"
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
             />
+            {errors.confirmPassword?.message && (
+              <span className="text-xs text-destructive">
+                {errors.confirmPassword.message}
+              </span>
+            )}
+            {error && !isCurrentPasswordError && (
+              <span className="text-xs text-destructive">
+                {errorMessage || '비밀번호 변경 중 오류가 발생했습니다.'}
+              </span>
+            )}
           </div>
-        </div>
 
-        <div className="flex flex-col gap-2">
-          <Button
-            className="w-full"
-            disabled={
-              !currentPassword ||
-              !newPassword ||
-              !confirmPassword ||
-              newPassword !== confirmPassword
-            }
-          >
-            비밀번호 변경하기
+          <Button type="submit" className="w-full" disabled={isPending}>
+            {buttonText}
           </Button>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   );
