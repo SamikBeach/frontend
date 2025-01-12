@@ -24,7 +24,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 interface Props {
   userId: number;
 }
-
 export default function UserHistory({ userId }: Props) {
   const { searchParams, updateQueryParams } = useQueryParams();
   const currentTab = searchParams.get('tab') ?? 'review';
@@ -37,7 +36,8 @@ export default function UserHistory({ userId }: Props) {
     <Tabs value={currentTab} onValueChange={handleTabChange}>
       <TabsList className="mb-4">
         <TabsTrigger value="review">리뷰</TabsTrigger>
-        <TabsTrigger value="like">좋아요</TabsTrigger>
+        <TabsTrigger value="books">좋아한 책</TabsTrigger>
+        <TabsTrigger value="authors">좋아한 작가</TabsTrigger>
       </TabsList>
       <TabsContent value="review" className="mt-2 flex flex-col gap-6">
         <Suspense
@@ -52,11 +52,11 @@ export default function UserHistory({ userId }: Props) {
           <ReviewList userId={userId} />
         </Suspense>
       </TabsContent>
-      <TabsContent value="like" className="mt-0 flex flex-col gap-6">
+      <TabsContent value="books" className="mt-0 flex flex-col gap-6">
+        <p className="text-lg font-semibold">책</p>
         <Suspense
           fallback={
             <div className="flex flex-col gap-2">
-              <p className="text-lg font-semibold">책</p>
               <div className="flex flex-wrap gap-3">
                 {Array.from({ length: 6 }).map((_, i) => (
                   <BookGridItemSkeleton key={i} size="small" />
@@ -67,10 +67,12 @@ export default function UserHistory({ userId }: Props) {
         >
           <BookList userId={userId} />
         </Suspense>
+      </TabsContent>
+      <TabsContent value="authors" className="mt-0 flex flex-col gap-6">
+        <p className="text-lg font-semibold">작가</p>
         <Suspense
           fallback={
             <div className="flex flex-col gap-2">
-              <p className="text-lg font-semibold">작가</p>
               <div className="flex flex-wrap gap-3">
                 {Array.from({ length: 6 }).map((_, i) => (
                   <AuthorGridItemSkeleton key={i} size="small" />
@@ -173,14 +175,24 @@ function BookList({ userId }: ListProps) {
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <p className="text-lg font-semibold">책</p>
+    <InfiniteScroll
+      dataLength={books.length}
+      next={fetchNextPage}
+      hasMore={hasNextPage ?? false}
+      loader={
+        <div className="flex flex-wrap gap-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <BookGridItemSkeleton key={i} size="small" />
+          ))}
+        </div>
+      }
+    >
       <div className="flex flex-wrap gap-3">
         {books.map(book => (
           <BookGridItem key={book.book.id} book={book.book} size="small" />
         ))}
       </div>
-    </div>
+    </InfiniteScroll>
   );
 }
 
@@ -218,8 +230,18 @@ function AuthorList({ userId }: ListProps) {
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <p className="text-lg font-semibold">작가</p>
+    <InfiniteScroll
+      dataLength={authors.length}
+      next={fetchNextPage}
+      hasMore={hasNextPage ?? false}
+      loader={
+        <div className="flex flex-wrap gap-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <AuthorGridItemSkeleton key={i} size="small" />
+          ))}
+        </div>
+      }
+    >
       <div className="flex flex-wrap gap-3">
         {authors.map(author => (
           <AuthorGridItem
@@ -229,6 +251,6 @@ function AuthorList({ userId }: ListProps) {
           />
         ))}
       </div>
-    </div>
+    </InfiniteScroll>
   );
 }
