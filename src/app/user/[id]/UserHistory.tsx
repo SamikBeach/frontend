@@ -10,6 +10,7 @@ import { BookGridItem } from '@/components/BookItem';
 import { Review } from '@/components/Review';
 import { ReviewListSkeleton } from '@/components/Review/ReviewSkeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useQueryParams } from '@/hooks/useQueryParams';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { Suspense, useMemo } from 'react';
@@ -20,8 +21,15 @@ interface Props {
 }
 
 export default function UserHistory({ userId }: Props) {
+  const { searchParams, updateQueryParams } = useQueryParams();
+  const currentTab = searchParams.get('tab') ?? 'review';
+
+  const handleTabChange = (value: string) => {
+    updateQueryParams({ tab: value });
+  };
+
   return (
-    <Tabs defaultValue="review">
+    <Tabs value={currentTab} onValueChange={handleTabChange}>
       <TabsList>
         <TabsTrigger value="review">리뷰</TabsTrigger>
         <TabsTrigger value="like">좋아요</TabsTrigger>
