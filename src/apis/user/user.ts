@@ -3,7 +3,7 @@ import axios from '../axios';
 import type { Book } from '../book/types';
 import type { PaginatedResponse, PaginationQuery } from '../common/types';
 import type { Review } from '../review/types';
-import type { UpdateUserDto, User, UserBase } from './types';
+import type { ChangePasswordDto, UpdateUserDto, User, UserBase } from './types';
 
 export const userApi = {
   /**
@@ -96,4 +96,12 @@ export const userApi = {
    */
   getMyReviews: (params: PaginationQuery) =>
     axios.get<PaginatedResponse<Review>>('/user/me/reviews', { params }),
+
+  /**
+   * 비밀번호를 변경합니다.
+   * @param data - 현재 비밀번호와 새로운 비밀번호
+   * @returns 비밀번호 변경 성공 메시지
+   */
+  changePassword: (data: ChangePasswordDto) =>
+    axios.post<{ message: string }>('/user/me/password', data),
 };
