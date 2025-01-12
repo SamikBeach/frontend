@@ -19,14 +19,14 @@ export function useDialogQuery({ type }: DialogQueryOptions) {
   const open = useCallback(
     (id: number) => {
       setDialogState({ type, id });
-      updateQueryParams({ dialog: type, id: id.toString() }, { replace: true });
+      updateQueryParams({ dialog: type, id: id.toString() });
     },
     [type, setDialogState, updateQueryParams]
   );
 
   const close = useCallback(() => {
     setDialogState({ type: null, id: null });
-    updateQueryParams({ dialog: undefined, id: undefined }, { replace: true });
+    updateQueryParams({ dialog: undefined, id: undefined });
   }, [setDialogState, updateQueryParams]);
 
   return { isOpen, id, open, close };
