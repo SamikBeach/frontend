@@ -26,7 +26,7 @@ export default function RelativeBooks() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselNext className="right-4" />
+          <CarouselNext className="right-[-10px]" />
         </Carousel>
       </div>
     </div>
