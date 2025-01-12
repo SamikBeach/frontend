@@ -1,5 +1,6 @@
 'use client';
 
+import { userApi } from '@/apis/user/user';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,13 +12,28 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { DialogProps } from '@radix-ui/react-dialog';
+import { useMutation } from '@tanstack/react-query';
 import { AlertTriangle, UserX } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 interface Props extends DialogProps {}
 
 export default function DeleteAccountDialog({ children, ...props }: Props) {
   const [confirmText, setConfirmText] = useState('');
+  const router = useRouter();
+
+  const { mutate: deleteAccount, isPending } = useMutation({
+    mutationFn: userApi.deleteAccount,
+    onSuccess: () => {
+      router.push('/');
+    },
+  });
+
+  const handleDelete = () => {
+    if (confirmText !== '삭제') return;
+    deleteAccount();
+  };
 
   return (
     <Dialog {...props}>
@@ -64,9 +80,10 @@ export default function DeleteAccountDialog({ children, ...props }: Props) {
           <Button
             variant="destructive"
             className="w-full"
-            disabled={confirmText !== '삭제'}
+            disabled={confirmText !== '삭제' || isPending}
+            onClick={handleDelete}
           >
-            계정 영구 삭제하기
+            {isPending ? '삭제 중...' : '계정 영구 삭제하기'}
           </Button>
         </DialogFooter>
       </DialogContent>

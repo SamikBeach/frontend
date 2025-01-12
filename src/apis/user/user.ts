@@ -28,8 +28,10 @@ export const userApi = {
 
   /**
    * 회원 탈퇴를 처리합니다.
+   * 계정이 삭제되면 자동으로 로그아웃되며 리프레시 토큰이 제거됩니다.
+   * @throws {NotFoundException} 사용자를 찾을 수 없는 경우
    */
-  deleteAccount: () => axios.delete('/user/me'),
+  deleteAccount: () => axios.delete<void>('/user/me'),
 
   /**
    * 사용자를 검색합니다.
