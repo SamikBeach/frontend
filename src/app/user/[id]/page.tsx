@@ -2,7 +2,8 @@
 
 import { useParams } from 'next/navigation';
 import { Suspense } from 'react';
-import UserHistory from './UserHistory';
+
+import UserHistory from './UserHistory/UserHistory';
 import UserInfo from './UserInfo';
 
 export default function UserPage() {

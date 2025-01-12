@@ -24,6 +24,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 interface Props {
   userId: number;
 }
+
 export default function UserHistory({ userId }: Props) {
   const { searchParams, updateQueryParams } = useQueryParams();
   const currentTab = searchParams.get('tab') ?? 'review';
