@@ -21,7 +21,7 @@ export default function Settings() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <KeyRound className="h-5 w-5 text-muted-foreground" />
-              <CardTitle>보안</CardTitle>
+              <CardTitle>비밀번호 변경</CardTitle>
             </div>
             <CardDescription>
               안전한 계정 관리를 위해 비밀번호를 변경할 수 있습니다.
