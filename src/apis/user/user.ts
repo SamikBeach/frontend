@@ -46,7 +46,9 @@ export const userApi = {
    * @returns 페이지네이션된 책 목록
    */
   getUserLikedBooks: (userId: number, params: PaginationQuery) =>
-    axios.get<PaginatedResponse<Book>>(`/user/${userId}/books`, { params }),
+    axios.get<PaginatedResponse<{ book: Book }>>(`/user/${userId}/books`, {
+      params,
+    }),
 
   /**
    * 특정 사용자의 좋아요한 작가 목록을 조회합니다.
@@ -55,7 +57,10 @@ export const userApi = {
    * @returns 페이지네이션된 작가 목록
    */
   getUserLikedAuthors: (userId: number, params: PaginationQuery) =>
-    axios.get<PaginatedResponse<Author>>(`/user/${userId}/authors`, { params }),
+    axios.get<PaginatedResponse<{ author: Author }>>(
+      `/user/${userId}/authors`,
+      { params }
+    ),
 
   /**
    * 특정 사용자의 리뷰 목록을 조회합니다.
@@ -72,7 +77,7 @@ export const userApi = {
    * @returns 페이지네이션된 책 목록
    */
   getMyLikedBooks: (params: PaginationQuery) =>
-    axios.get<PaginatedResponse<Book>>('/user/me/books', { params }),
+    axios.get<PaginatedResponse<{ book: Book }>>('/user/me/books', { params }),
 
   /**
    * 내가 좋아요한 작가 목록을 조회합니다.
@@ -80,7 +85,9 @@ export const userApi = {
    * @returns 페이지네이션된 작가 목록
    */
   getMyLikedAuthors: (params: PaginationQuery) =>
-    axios.get<PaginatedResponse<Author>>('/user/me/authors', { params }),
+    axios.get<PaginatedResponse<{ author: Author }>>('/user/me/authors', {
+      params,
+    }),
 
   /**
    * 내가 작성한 리뷰 목록을 조회합니다.

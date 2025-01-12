@@ -6,7 +6,9 @@ import { PaginatedResponse } from '@/apis/common/types';
 import { Review as ReviewType } from '@/apis/review/types';
 import { userApi } from '@/apis/user/user';
 import { AuthorGridItem } from '@/components/AuthorItem';
+import AuthorGridItemSkeleton from '@/components/AuthorItem/AuthorGridItemSkeleton';
 import { BookGridItem } from '@/components/BookItem';
+import BookGridItemSkeleton from '@/components/BookItem/BookGridItemSkeleton';
 import { Review } from '@/components/Review';
 import {
   ReviewListSkeleton,
@@ -51,10 +53,32 @@ export default function UserHistory({ userId }: Props) {
         </Suspense>
       </TabsContent>
       <TabsContent value="like" className="mt-0 flex flex-col gap-6">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+          fallback={
+            <div className="flex flex-col gap-2">
+              <p className="text-lg font-semibold">책</p>
+              <div className="flex flex-wrap gap-3">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <BookGridItemSkeleton key={i} size="small" />
+                ))}
+              </div>
+            </div>
+          }
+        >
           <BookList userId={userId} />
         </Suspense>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+          fallback={
+            <div className="flex flex-col gap-2">
+              <p className="text-lg font-semibold">작가</p>
+              <div className="flex flex-wrap gap-3">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <AuthorGridItemSkeleton key={i} size="small" />
+                ))}
+              </div>
+            </div>
+          }
+        >
           <AuthorList userId={userId} />
         </Suspense>
       </TabsContent>
@@ -117,7 +141,7 @@ function ReviewList({ userId }: ListProps) {
 
 function BookList({ userId }: ListProps) {
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
-    AxiosResponse<PaginatedResponse<Book>>,
+    AxiosResponse<PaginatedResponse<{ book: Book }>>,
     Error
   >({
     queryKey: ['user-liked-books', userId],
@@ -153,7 +177,7 @@ function BookList({ userId }: ListProps) {
       <p className="text-lg font-semibold">책</p>
       <div className="flex flex-wrap gap-3">
         {books.map(book => (
-          <BookGridItem key={book.id} book={book} size="small" />
+          <BookGridItem key={book.book.id} book={book.book} size="small" />
         ))}
       </div>
     </div>
@@ -162,7 +186,7 @@ function BookList({ userId }: ListProps) {
 
 function AuthorList({ userId }: ListProps) {
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
-    AxiosResponse<PaginatedResponse<Author>>,
+    AxiosResponse<PaginatedResponse<{ author: Author }>>,
     Error
   >({
     queryKey: ['user-liked-authors', userId],
@@ -198,7 +222,11 @@ function AuthorList({ userId }: ListProps) {
       <p className="text-lg font-semibold">작가</p>
       <div className="flex flex-wrap gap-3">
         {authors.map(author => (
-          <AuthorGridItem key={author.id} author={author} size="small" />
+          <AuthorGridItem
+            key={author.author.id}
+            author={author.author}
+            size="small"
+          />
         ))}
       </div>
     </div>
