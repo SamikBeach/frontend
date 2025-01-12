@@ -16,7 +16,7 @@ export function CategoryButtons() {
   };
 
   return (
-    <div className="flex gap-3">
+    <div className="mr-4 flex gap-3">
       {(Object.entries(CATEGORY_LABELS) as [BookCategory, string][]).map(
         ([value, label]) => (
           <Button
