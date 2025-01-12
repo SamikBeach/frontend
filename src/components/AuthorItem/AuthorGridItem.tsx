@@ -1,6 +1,7 @@
 'use client';
 
 import { Author } from '@/apis/author/types';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { cn } from '@/lib/utils';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 
@@ -10,6 +11,12 @@ interface Props {
 }
 
 export default function AuthorGridItem({ author, size = 'medium' }: Props) {
+  const { open } = useDialogQuery({ type: 'author' });
+
+  const handleClick = () => {
+    open(author.id);
+  };
+
   return (
     <div
       className={cn('flex flex-col gap-3', {
@@ -25,6 +32,7 @@ export default function AuthorGridItem({ author, size = 'medium' }: Props) {
             'h-[160px]': size === 'small',
           }
         )}
+        onClick={handleClick}
       >
         <img
           src={author.imageUrl ?? 'https://picsum.photos/200/300'}
@@ -35,10 +43,14 @@ export default function AuthorGridItem({ author, size = 'medium' }: Props) {
       <div className="flex flex-col gap-1.5">
         <div className="flex flex-col gap-0.5">
           <h3
-            className={cn('line-clamp-2 font-semibold text-gray-900', {
-              'text-lg': size === 'medium',
-              'text-sm': size === 'small',
-            })}
+            className={cn(
+              'line-clamp-2 cursor-pointer font-semibold text-gray-900 hover:underline',
+              {
+                'text-lg': size === 'medium',
+                'text-sm': size === 'small',
+              }
+            )}
+            onClick={handleClick}
           >
             {author.nameInKor}
           </h3>

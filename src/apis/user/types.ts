@@ -10,8 +10,6 @@ export type UserBase = Pick<User, 'id' | 'email' | 'nickname'>;
 
 export interface UpdateUserDto {
   nickname?: string;
-  currentPassword?: string;
-  newPassword?: string;
 }
 
 export interface UserSearchQuery extends PaginationQuery {
@@ -20,4 +18,9 @@ export interface UserSearchQuery extends PaginationQuery {
     email?: string;
     nickname?: string;
   };
+}
+
+export interface ChangePasswordDto {
+  currentPassword: string;
+  newPassword: string;
 }

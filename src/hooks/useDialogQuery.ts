@@ -6,7 +6,7 @@ import { useAtom } from 'jotai';
 import { useCallback } from 'react';
 
 interface DialogQueryOptions {
-  type: 'book' | 'review';
+  type: 'book' | 'review' | 'author';
 }
 
 export function useDialogQuery({ type }: DialogQueryOptions) {

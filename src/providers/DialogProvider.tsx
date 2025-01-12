@@ -1,6 +1,7 @@
 'use client';
 
 import { dialogAtom } from '@/atoms/dialog';
+import { AuthorDialog } from '@/components/AuthorDialog';
 import { BookDialog } from '@/components/BookDialog';
 import { ReviewDialog } from '@/components/ReviewDialog';
 import { useQueryParams } from '@/hooks/useQueryParams';
@@ -12,7 +13,11 @@ export function DialogProvider({ children }: { children: React.ReactNode }) {
   const { searchParams } = useQueryParams();
 
   useEffect(() => {
-    const dialog = searchParams.get('dialog') as 'book' | 'review' | null;
+    const dialog = searchParams.get('dialog') as
+      | 'book'
+      | 'review'
+      | 'author'
+      | null;
     const urlId = searchParams.get('id');
 
     if (dialog && urlId) {
@@ -27,6 +32,7 @@ export function DialogProvider({ children }: { children: React.ReactNode }) {
       {children}
       <BookDialog />
       <ReviewDialog />
+      <AuthorDialog />
     </>
   );
 }

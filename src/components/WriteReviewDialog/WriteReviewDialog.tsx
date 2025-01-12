@@ -25,7 +25,7 @@ export default function WriteReviewDialog({ children, ...props }: Props) {
       <Dialog {...props}>
         {children}
         <DialogContent
-          className="flex h-[94vh] w-[900px] min-w-[900px] flex-col gap-4 overflow-y-auto p-10"
+          className="flex h-[84vh] w-[800px] min-w-[800px] flex-col gap-4 overflow-y-auto p-10"
           overlayClassName="bg-black/50"
           aria-describedby={undefined}
         >

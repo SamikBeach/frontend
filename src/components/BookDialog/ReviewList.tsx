@@ -9,7 +9,10 @@ import {
   ReviewListSkeleton,
   ReviewSkeleton,
 } from '@/components/Review/ReviewSkeleton';
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import {
+  useSuspenseInfiniteQuery,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { RefObject, Suspense, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -17,16 +20,16 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 interface Props {
   ref: RefObject<HTMLDivElement | null>;
   bookId: number;
-  reviewCount: number;
   scrollableTarget: string;
 }
 
-function ReviewListContent({
-  ref,
-  bookId,
-  reviewCount,
-  scrollableTarget,
-}: Props) {
+function ReviewListContent({ ref, bookId, scrollableTarget }: Props) {
+  const { data: book } = useSuspenseQuery({
+    queryKey: ['book', bookId],
+    queryFn: () => bookApi.getBookDetail(bookId),
+    select: response => response.data,
+  });
+
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<ReviewType>>,
     Error
@@ -60,7 +63,7 @@ function ReviewListContent({
       <div className="flex items-center gap-2">
         <h2 className="text-base font-semibold text-gray-900">리뷰</h2>
         <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
-          {reviewCount}
+          {book.reviewCount}
         </span>
       </div>
       {reviews.length === 0 ? (
@@ -79,7 +82,7 @@ function ReviewListContent({
           }
           scrollableTarget={scrollableTarget}
         >
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
             {reviews.map(review => (
               <Review key={review.id} review={review} />
             ))}
