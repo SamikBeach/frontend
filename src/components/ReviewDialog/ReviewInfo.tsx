@@ -18,6 +18,7 @@ import {
 import { AxiosResponse } from 'axios';
 import { format } from 'date-fns';
 import { RefObject, Suspense } from 'react';
+import Link from 'next/link';
 
 interface Props {
   reviewId: number;
@@ -171,7 +172,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
           </div>
         </div>
 
-        <div className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 p-2.5">
+        <Link href={`/book/${review.book.id}`} target="_blank" className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 p-2.5 hover:bg-gray-100 transition-colors">
           <img
             src={review.book.imageUrl ?? 'https://picsum.photos/200/300'}
             className="h-14 w-10 rounded-sm object-cover shadow-sm"
@@ -187,7 +188,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
                 .join(', ')}
             </span>
           </div>
-        </div>
+        </Link>
       </div>
 
       <div className="mb-8 whitespace-pre-wrap text-base leading-relaxed text-gray-800">

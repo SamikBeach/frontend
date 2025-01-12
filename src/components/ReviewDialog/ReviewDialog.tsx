@@ -2,11 +2,8 @@
 
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogProps, DialogTitle } from '@radix-ui/react-dialog';
-import { ExternalLinkIcon } from 'lucide-react';
-import Link from 'next/link';
 import { useRef } from 'react';
 import { CommentEditor } from '../CommentEditor';
-import { Button } from '../ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import CommentList from './CommentList';
 import ReviewInfo from './ReviewInfo';
@@ -31,15 +28,7 @@ export default function ReviewDialog(props: Props) {
         onOpenAutoFocus={e => e.preventDefault()}
         id="dialog-content"
       >
-        <DialogTitle className="sr-only">리뷰</DialogTitle>
-        <div className="absolute right-10 top-10 z-10">
-          <Link href={`/review/${reviewId}`}>
-            <Button variant="outline" size="sm">
-              <ExternalLinkIcon className="mr-1 h-4 w-4" />
-              페이지로 보기
-            </Button>
-          </Link>
-        </div>
+        <DialogTitle className="sr-only">리뷰 정보</DialogTitle>
         <div className="flex flex-col gap-7">
           <ReviewInfo reviewId={reviewId} commentListRef={commentListRef} />
           <CommentList
