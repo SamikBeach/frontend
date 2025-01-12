@@ -8,15 +8,17 @@ import {
   CarouselItem,
   CarouselNext,
 } from '@/components/ui/carousel';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { Suspense } from 'react';
 
 interface Props {
   bookId: number;
 }
 
-export default function RelativeBooks({ bookId }: Props) {
-  const { data: books = [] } = useQuery({
+function RelativeBooksContent({ bookId }: Props) {
+  const { data: books = [] } = useSuspenseQuery({
     queryKey: ['relative-books', bookId],
     queryFn: () => bookApi.getAllRelatedBooks(bookId),
     select: data => data.data,
@@ -49,6 +51,29 @@ export default function RelativeBooks({ bookId }: Props) {
         </Carousel>
       </div>
     </div>
+  );
+}
+
+function RelativeBooksSkeleton() {
+  return (
+    <div className="flex flex-col gap-3">
+      <p className="text-lg font-semibold">연관된 책</p>
+      <div className="relative">
+        <div className="flex gap-4">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <Skeleton key={index} className="h-[160px] w-[110px]" />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function RelativeBooks(props: Props) {
+  return (
+    <Suspense fallback={<RelativeBooksSkeleton />}>
+      <RelativeBooksContent {...props} />
+    </Suspense>
   );
 }
 

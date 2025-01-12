@@ -1,7 +1,5 @@
 'use client';
 
-import { bookApi } from '@/apis/book/book';
-import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useRef } from 'react';
 import BookInfo from './BookInfo';
@@ -11,27 +9,17 @@ import ReviewList from './ReviewList';
 export default function BookPage() {
   const { id } = useParams();
   const reviewListRef = useRef<HTMLDivElement>(null);
-
-  const { data: book } = useQuery({
-    queryKey: ['book', Number(id)],
-    queryFn: () => bookApi.getBookDetail(Number(id)),
-    select: response => response.data,
-  });
-
-  if (!book) {
-    return null;
-  }
+  const bookId = Number(id);
 
   return (
-    <>
-      <BookInfo book={book} reviewListRef={reviewListRef} />
-      <RelativeBooks bookId={book.id} />
+    <div className="flex flex-col gap-6">
+      <BookInfo bookId={bookId} reviewListRef={reviewListRef} />
+      <RelativeBooks bookId={bookId} />
       <ReviewList
         ref={reviewListRef}
-        bookId={book.id}
-        reviewCount={book.reviewCount}
+        bookId={bookId}
         scrollableTarget="dialog-content"
       />
-    </>
+    </div>
   );
 }

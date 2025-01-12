@@ -5,21 +5,31 @@ import { BookDetail } from '@/apis/book/types';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 import { WriteReviewDialog } from '@/components/WriteReviewDialog';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { Edit3Icon } from 'lucide-react';
-import { RefObject } from 'react';
+import { RefObject, Suspense } from 'react';
 
 interface Props {
-  book: BookDetail;
+  bookId: number;
   reviewListRef: RefObject<HTMLDivElement | null>;
 }
 
-export default function BookInfo({ book, reviewListRef }: Props) {
+function BookInfoContent({ bookId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
   const queryClient = useQueryClient();
+  const { data: book } = useSuspenseQuery({
+    queryKey: ['book', bookId],
+    queryFn: () => bookApi.getBookDetail(bookId),
+    select: response => response.data,
+  });
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => bookApi.toggleBookLike(book.id),
@@ -120,5 +130,36 @@ export default function BookInfo({ book, reviewListRef }: Props) {
         </div>
       </div>
     </div>
+  );
+}
+
+function BookInfoSkeleton() {
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex gap-6">
+        <Skeleton className="h-[300px] w-[200px]" />
+        <div className="flex w-full flex-col justify-between gap-4">
+          <div className="flex flex-col gap-2">
+            <Skeleton className="h-8 w-1/2" />
+            <Skeleton className="h-6 w-1/4" />
+          </div>
+          <div className="flex w-full justify-between pr-6">
+            <div className="flex gap-2">
+              <Skeleton className="h-9 w-20" />
+              <Skeleton className="h-9 w-20" />
+            </div>
+            <Skeleton className="h-9 w-24" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function BookInfo(props: Props) {
+  return (
+    <Suspense fallback={<BookInfoSkeleton />}>
+      <BookInfoContent {...props} />
+    </Suspense>
   );
 }
