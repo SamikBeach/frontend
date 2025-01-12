@@ -67,4 +67,4 @@ export function BookList({ userId }: Props) {
       </div>
     </InfiniteScroll>
   );
-} 
+}
