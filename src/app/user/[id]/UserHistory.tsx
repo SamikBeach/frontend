@@ -8,7 +8,10 @@ import { userApi } from '@/apis/user/user';
 import { AuthorGridItem } from '@/components/AuthorItem';
 import { BookGridItem } from '@/components/BookItem';
 import { Review } from '@/components/Review';
-import { ReviewListSkeleton } from '@/components/Review/ReviewSkeleton';
+import {
+  ReviewListSkeleton,
+  ReviewSkeleton,
+} from '@/components/Review/ReviewSkeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
@@ -30,12 +33,20 @@ export default function UserHistory({ userId }: Props) {
 
   return (
     <Tabs value={currentTab} onValueChange={handleTabChange}>
-      <TabsList>
+      <TabsList className="mb-4">
         <TabsTrigger value="review">리뷰</TabsTrigger>
         <TabsTrigger value="like">좋아요</TabsTrigger>
       </TabsList>
       <TabsContent value="review" className="mt-2 flex flex-col gap-6">
-        <Suspense fallback={<ReviewListSkeleton />}>
+        <Suspense
+          fallback={
+            <div className="flex flex-col gap-4">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <ReviewSkeleton key={i} />
+              ))}
+            </div>
+          }
+        >
           <ReviewList userId={userId} />
         </Suspense>
       </TabsContent>
