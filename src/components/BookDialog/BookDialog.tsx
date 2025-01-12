@@ -45,7 +45,7 @@ export default function BookDialog(props: Props) {
         {isLoading && <DialogTitle />}
         {book ? (
           <>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-7">
               <BookInfo book={book} reviewListRef={reviewListRef} />
               <RelativeBooks bookId={bookId} />
               <ReviewList

@@ -1,4 +1,5 @@
 import { Review as ReviewType } from '@/apis/review/types';
+import { formatDate } from '@/utils/date';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
@@ -20,7 +21,9 @@ export default function Review({ review }: Props) {
           <div className="flex w-full flex-col gap-1">
             <div className="flex items-center gap-2">
               <p className="font-medium">{review.user.nickname}</p>
-              <p className="text-sm text-gray-500">{review.createdAt}</p>
+              <p className="text-sm text-gray-500">
+                {formatDate(review.createdAt)}
+              </p>
             </div>
           </div>
         </div>

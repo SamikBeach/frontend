@@ -79,7 +79,7 @@ function ReviewListContent({
           }
           scrollableTarget={scrollableTarget}
         >
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
             {reviews.map(review => (
               <Review key={review.id} review={review} />
             ))}
