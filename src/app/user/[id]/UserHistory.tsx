@@ -132,7 +132,7 @@ function ReviewList({ userId }: ListProps) {
       hasMore={hasNextPage ?? false}
       loader={<ReviewListSkeleton />}
     >
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
         {reviews.map(review => (
           <Review key={review.id} review={review} hideActions />
         ))}
