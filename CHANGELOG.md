@@ -1,5 +1,57 @@
 # 🚦 CHANGELOG
 
+# [1.38.0](https://github.com/SamikBeach/frontend/compare/1.37.0...1.38.0) (2025-01-12)
+
+
+### Bug Fixes
+
+* AtomsProvider에 누락된 category 관련 코드 추가 ([07372ed](https://github.com/SamikBeach/frontend/commit/07372ed70855290d50ea9913745dac9bb63f2d60))
+* fix lint ([f403aaa](https://github.com/SamikBeach/frontend/commit/f403aaadc584d65974aa061866dff823f7dc92b1))
+* fix typo ([47af048](https://github.com/SamikBeach/frontend/commit/47af048c34a663c3cd306797f984bc24ea7c48d5))
+* SearchBar 컴포넌트 입력 지연 현상 개선 ([e270b45](https://github.com/SamikBeach/frontend/commit/e270b45e236d955a9ad3970cbf43ba982dfcfc49))
+* useDialogQuery에서 query param 업데이트시 replace: false 처리 ([2aba55a](https://github.com/SamikBeach/frontend/commit/2aba55a350755ccc8ca100dfbbb88dbc0912e785))
+* WriteReviewDialog 스타일 수정 ([28c5cf9](https://github.com/SamikBeach/frontend/commit/28c5cf9fd3f51f5a0ade7f174e9ebefbfebf8b3e))
+* 계정 설정 페이지 UI 개선 ([880fed3](https://github.com/SamikBeach/frontend/commit/880fed3e8a86c200ff429b47652bd5a9847efb89))
+* 데이터 누락 시 fallback 처리 추가 ([ec20d44](https://github.com/SamikBeach/frontend/commit/ec20d44095f9d6be30ccfc75fff5b96da07a58c0))
+* 리뷰 UI 개선 ([1b0226e](https://github.com/SamikBeach/frontend/commit/1b0226ec4245c8cd6fe6e3ac82845bb7c0f52e7d))
+* 스타일 수정 ([9e4bda8](https://github.com/SamikBeach/frontend/commit/9e4bda89f81d67293fc6554de4abd5c4e49da46a))
+* 스타일 수정 ([94cd1dd](https://github.com/SamikBeach/frontend/commit/94cd1dd51214025e824d27598dfab04c0fc9ecd5))
+* 스타일 수정 ([36d9254](https://github.com/SamikBeach/frontend/commit/36d925482e7506e607292b0d1011decb89f6f1e9))
+* 스타일 수정 ([d1fc9ad](https://github.com/SamikBeach/frontend/commit/d1fc9adbdc6f720fa42de1301bb1307833adfebe))
+* 조건 수정 ([ca14200](https://github.com/SamikBeach/frontend/commit/ca142000b3b6065fc625d2820dfd7c28c448121f))
+* 좋아요 버튼 스타일 수정 ([230a112](https://github.com/SamikBeach/frontend/commit/230a112e0d5dfe77ce7e411833c8715ef508afc1))
+* 캐러셀 스타일 수정 ([62ef214](https://github.com/SamikBeach/frontend/commit/62ef214de8c6e81e09e7cfd632fa902ba0a2a039))
+
+
+### Features
+
+* **api:** 비밀번호 변경 API 추가 ([ae479e3](https://github.com/SamikBeach/frontend/commit/ae479e391c2a1eaef0934c691c8db077d41879fc))
+* AuthorDialog에 suspense 적용 ([81b91f4](https://github.com/SamikBeach/frontend/commit/81b91f41240089c1865a1202265e8227610c0944))
+* **auth:** 계정 삭제 시 로그아웃 처리 추가 ([fe79082](https://github.com/SamikBeach/frontend/commit/fe79082a6025a41ac36afc1651faa0c13c87e8cb))
+* book page에 suspense ([cc14bba](https://github.com/SamikBeach/frontend/commit/cc14bba1d93030fb2e270893eb963a6b337e01c2))
+* book page에 suspense 적용 ([e977f9a](https://github.com/SamikBeach/frontend/commit/e977f9a6adf5668049c4a3a2a97e6e8e85cc7471))
+* Review 컴포넌트에 하단 액션 숨김 기능 추가 ([57b8990](https://github.com/SamikBeach/frontend/commit/57b8990874ca1d8e8f706476112d928af0fb73b0))
+* ReviewDialog에 Suspense 적용 ([8c58841](https://github.com/SamikBeach/frontend/commit/8c58841553bc289be870ebf1c54e580650890b0d))
+* **settings:** 계정 삭제 API 연동 ([d337b7d](https://github.com/SamikBeach/frontend/commit/d337b7d86c432b797b54c3ef2925f0146edcad89))
+* **settings:** 비밀번호 변경 폼 개선 ([b86d8c3](https://github.com/SamikBeach/frontend/commit/b86d8c3a608fef2c2b8ea88b73ac817f47c1bb98))
+* **settings:** 설정 페이지 UI 개선 ([e47b2c2](https://github.com/SamikBeach/frontend/commit/e47b2c22b0d8c1902c5893b442e613ca2cc70a96))
+* sonner 컴포넌트 추가 ([3c7ab8b](https://github.com/SamikBeach/frontend/commit/3c7ab8b4004a30a388d1e9c8fe86519f05aec277))
+* 누락된 Toaster 추가 ([6693200](https://github.com/SamikBeach/frontend/commit/6693200c2f374f6b6cb26a5b32202c767157d4e3))
+* 누락된 Toaster 추가 ([1403162](https://github.com/SamikBeach/frontend/commit/1403162b669d731d199d39add89e137a22f35a86))
+* 다이얼로그 URL 변경 시 히스토리에 기록되지 않도록 수정 ([023a572](https://github.com/SamikBeach/frontend/commit/023a57256a4b5b2f284d03121d907610f4aef10d))
+* 다이얼로그에 페이지로 보기 버튼 추가 ([078a048](https://github.com/SamikBeach/frontend/commit/078a0481d23e68f6462fe91890e837a159d84600))
+* 리뷰 300자 초과시 더보기 기능 추가 ([00849bd](https://github.com/SamikBeach/frontend/commit/00849bd63fb84dbe299e28d7936557407c987fe7))
+* 유저 히스토리 탭 상태를 URL 쿼리 파라미터와 연동 ([d244c92](https://github.com/SamikBeach/frontend/commit/d244c9210d117d839d363533c564647fd4e2b7da))
+* 유저 히스토리 탭을 URL 쿼리 파라미터와 연동 ([11c61b8](https://github.com/SamikBeach/frontend/commit/11c61b84bc82c19e24d525e45ff05ebfdc20f19c))
+* 유저 히스토리 탭을 URL 쿼리 파라미터와 연동 ([84e6e27](https://github.com/SamikBeach/frontend/commit/84e6e27f8f67ff8714bf953060ebbae2f8620014))
+* 작가 아이템 클릭시 다이얼로그 열기 기능 추가 ([a2c9b3d](https://github.com/SamikBeach/frontend/commit/a2c9b3d912bdcae7e287db58d97b73f0172202f4))
+* 작가 좋아요 기능 구현 ([0887b2b](https://github.com/SamikBeach/frontend/commit/0887b2b90f5f4e9bea8c6a80bf2dab90393d38ed))
+* 작가 페이지 구현 ([8455f4a](https://github.com/SamikBeach/frontend/commit/8455f4abca5435325b5bb8a274b361deb9ebcbc1))
+* 작가의 책 목록 API 연동 ([c18ef15](https://github.com/SamikBeach/frontend/commit/c18ef153833219f597e847266d789f5a320ec08b))
+* 좋아요한 책과 작가 목록에 무한 스크롤 추가 ([061043e](https://github.com/SamikBeach/frontend/commit/061043e8da41a07cfe5e2da2c9f29bdda8a86d55))
+* 책 페이지 구현 ([aa79968](https://github.com/SamikBeach/frontend/commit/aa799686e48458d429e49fdc66a524e2088df924))
+* 책 페이지 컴포넌트들에 Suspense 적용 ([e3f6159](https://github.com/SamikBeach/frontend/commit/e3f6159a7a1c83b05c3360183f0575a41a5a9b8f))
+
 # [1.37.0](https://github.com/SamikBeach/frontend/compare/1.36.0...1.37.0) (2025-01-11)
 
 
