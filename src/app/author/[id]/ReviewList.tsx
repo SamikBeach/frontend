@@ -9,18 +9,26 @@ import {
   ReviewListSkeleton,
   ReviewSkeleton,
 } from '@/components/Review/ReviewSkeleton';
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import {
+  useSuspenseInfiniteQuery,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { ForwardedRef, Suspense, forwardRef, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 interface Props {
   authorId: number;
-  reviewCount: number;
   scrollableTarget: string;
 }
 
-function ReviewListContent({ authorId, reviewCount, scrollableTarget }: Props) {
+function ReviewListContent({ authorId, scrollableTarget }: Props) {
+  const { data: author } = useSuspenseQuery({
+    queryKey: ['author', authorId],
+    queryFn: () => authorApi.getAuthorDetail(authorId),
+    select: response => response.data,
+  });
+
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<ReviewType>>,
     Error
@@ -54,7 +62,7 @@ function ReviewListContent({ authorId, reviewCount, scrollableTarget }: Props) {
       <div className="flex items-center gap-2">
         <h2 className="text-base font-semibold text-gray-900">리뷰</h2>
         <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
-          {reviewCount}
+          {author.reviewCount}
         </span>
       </div>
       {reviews.length === 0 ? (

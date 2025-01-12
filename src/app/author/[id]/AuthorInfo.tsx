@@ -4,19 +4,29 @@ import { authorApi } from '@/apis/author/author';
 import { AuthorDetail } from '@/apis/author/types';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { RefObject } from 'react';
+import { RefObject, Suspense } from 'react';
 
 interface Props {
-  author: AuthorDetail;
+  authorId: number;
   reviewListRef: RefObject<HTMLDivElement | null>;
 }
 
-export default function AuthorInfo({ author, reviewListRef }: Props) {
+function AuthorInfoContent({ authorId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
   const queryClient = useQueryClient();
+  const { data: author } = useSuspenseQuery({
+    queryKey: ['author', authorId],
+    queryFn: () => authorApi.getAuthorDetail(authorId),
+    select: response => response.data,
+  });
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => authorApi.toggleAuthorLike(author.id),
@@ -68,15 +78,11 @@ export default function AuthorInfo({ author, reviewListRef }: Props) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-4">
-        <div
-          className={
-            'group relative h-[200px] w-[200px] flex-shrink-0 cursor-pointer overflow-hidden rounded-full bg-gray-200'
-          }
-        >
+      <div className="flex gap-6">
+        <div className="group relative h-[200px] w-[200px] flex-shrink-0 cursor-pointer overflow-hidden rounded-full bg-gray-200">
           <img
-            src={author.imageUrl || 'https://picsum.photos/200/200'}
-            alt={author.name}
+            src={author.imageUrl ?? 'https://picsum.photos/200/200'}
+            alt={author.nameInKor}
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
             width={200}
             height={200}
@@ -88,21 +94,47 @@ export default function AuthorInfo({ author, reviewListRef }: Props) {
             <p className="text-gray-500">{author.name}</p>
           </div>
 
-          <div className="flex w-full justify-between pr-6">
-            <div className="flex gap-2">
-              <LikeButton
-                isLiked={author.isLiked ?? false}
-                likeCount={author.likeCount}
-                onClick={handleLikeClick}
-              />
-              <CommentButton
-                commentCount={author.reviewCount}
-                onClick={handleReviewClick}
-              />
-            </div>
+          <div className="flex gap-2">
+            <LikeButton
+              isLiked={author.isLiked ?? false}
+              likeCount={author.likeCount}
+              onClick={handleLikeClick}
+            />
+            <CommentButton
+              commentCount={author.reviewCount}
+              onClick={handleReviewClick}
+            />
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+function AuthorInfoSkeleton() {
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex gap-6">
+        <Skeleton className="h-[200px] w-[200px] rounded-full" />
+        <div className="flex w-full flex-col justify-between gap-4">
+          <div className="flex flex-col gap-2">
+            <Skeleton className="h-8 w-1/2" />
+            <Skeleton className="h-6 w-1/4" />
+          </div>
+          <div className="flex gap-2">
+            <Skeleton className="h-9 w-20" />
+            <Skeleton className="h-9 w-20" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function AuthorInfo(props: Props) {
+  return (
+    <Suspense fallback={<AuthorInfoSkeleton />}>
+      <AuthorInfoContent {...props} />
+    </Suspense>
   );
 }

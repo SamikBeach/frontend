@@ -1,7 +1,5 @@
 'use client';
 
-import { authorApi } from '@/apis/author/author';
-import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useRef } from 'react';
 import AuthorInfo from './AuthorInfo';
@@ -11,27 +9,17 @@ import ReviewList from './ReviewList';
 export default function AuthorPage() {
   const { id } = useParams();
   const reviewListRef = useRef<HTMLDivElement>(null);
-
-  const { data: author } = useQuery({
-    queryKey: ['author', Number(id)],
-    queryFn: () => authorApi.getAuthorDetail(Number(id)),
-    select: response => response.data,
-  });
-
-  if (!author) {
-    return null;
-  }
+  const authorId = Number(id);
 
   return (
-    <>
-      <AuthorInfo author={author} reviewListRef={reviewListRef} />
-      <RelativeBooks authorId={author.id} />
+    <div className="flex flex-col gap-6">
+      <AuthorInfo authorId={authorId} reviewListRef={reviewListRef} />
+      <RelativeBooks authorId={authorId} />
       <ReviewList
         ref={reviewListRef}
-        authorId={author.id}
-        reviewCount={author.reviewCount}
+        authorId={authorId}
         scrollableTarget="dialog-content"
       />
-    </>
+    </div>
   );
 }
