@@ -9,9 +9,9 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { RefObject } from 'react';
-import { Button } from '../ui/button';
+import { CommentButton } from '../CommentButton';
+import { LikeButton } from '../LikeButton';
 
 interface Props {
   author: AuthorDetail;
@@ -162,24 +162,15 @@ export default function AuthorInfo({ author, reviewListRef }: Props) {
 
           <div className="flex w-full">
             <div className="flex gap-2">
-              <Button
-                className="rounded-full"
-                variant="outline"
+              <LikeButton
+                isLiked={author.isLiked ?? false}
+                likeCount={author.likeCount}
                 onClick={handleLikeClick}
-              >
-                <ThumbsUpIcon
-                  className={`h-4 w-4 ${author.isLiked ? 'fill-current' : ''}`}
-                />
-                <span>{author.likeCount}</span>
-              </Button>
-              <Button
-                className="rounded-full"
-                variant="outline"
+              />
+              <CommentButton
+                commentCount={author.reviewCount}
                 onClick={handleReviewClick}
-              >
-                <MessageSquareIcon className="h-4 w-4" />
-                <span>{author.reviewCount}</span>
-              </Button>
+              />
             </div>
           </div>
         </div>
