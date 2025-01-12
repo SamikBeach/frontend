@@ -1,5 +1,3 @@
-'use client';
-
 import { Author } from '@/apis/author/types';
 import { AuthorGridItem } from '@/components/AuthorItem';
 import AuthorGridItemSkeleton from '@/components/AuthorItem/AuthorGridItemSkeleton';

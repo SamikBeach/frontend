@@ -1,1 +1,1 @@
-export { default as BookDialog } from './AuthorDialog';
+export { default as AuthorDialog } from './AuthorDialog';

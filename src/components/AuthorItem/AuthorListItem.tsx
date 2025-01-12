@@ -1,6 +1,7 @@
 'use client';
 
 import { Author } from '@/apis/author/types';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 
 interface Props {
@@ -8,9 +9,18 @@ interface Props {
 }
 
 export default function AuthorListItem({ author }: Props) {
+  const { open } = useDialogQuery({ type: 'author' });
+
+  const handleClick = () => {
+    open(author.id);
+  };
+
   return (
     <div className="flex gap-6">
-      <div className="h-[120px] w-[120px] cursor-pointer overflow-hidden rounded-full">
+      <div
+        className="h-[120px] w-[120px] cursor-pointer overflow-hidden rounded-full"
+        onClick={handleClick}
+      >
         <img
           src={author.imageUrl ?? 'https://picsum.photos/200/300'}
           alt={author.nameInKor}
@@ -19,7 +29,10 @@ export default function AuthorListItem({ author }: Props) {
       </div>
       <div className="flex flex-1 flex-col justify-between py-2">
         <div className="flex flex-col gap-0.5">
-          <h3 className="line-clamp-1 text-base font-medium text-gray-900">
+          <h3
+            className="line-clamp-1 cursor-pointer text-base font-medium text-gray-900 hover:underline"
+            onClick={handleClick}
+          >
             {author.nameInKor}
           </h3>
           <p className="line-clamp-1 text-xs text-gray-500">{author.name}</p>

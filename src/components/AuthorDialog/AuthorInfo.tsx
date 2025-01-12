@@ -1,10 +1,15 @@
-import { MessageSquareIcon } from 'lucide-react';
-
+import { Author } from '@/apis/author/types';
 import { DialogTitle } from '@radix-ui/react-dialog';
-import { ThumbsUpIcon } from 'lucide-react';
+import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import { RefObject } from 'react';
 import { Button } from '../ui/button';
 
-export default function AuthorInfo() {
+interface Props {
+  author: Author;
+  reviewListRef: RefObject<HTMLDivElement | null>;
+}
+
+export default function AuthorInfo({ author, reviewListRef }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
@@ -14,8 +19,8 @@ export default function AuthorInfo() {
           }
         >
           <img
-            src="https://picsum.photos/140/140"
-            alt="author"
+            src={author.imageUrl || 'https://picsum.photos/140/140'}
+            alt={author.name}
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
             width={140}
             height={140}
@@ -24,20 +29,32 @@ export default function AuthorInfo() {
         <div className="flex w-full flex-col justify-between">
           <div className="flex flex-col gap-0.5">
             <DialogTitle>
-              <p className="text-2xl font-bold">프리드리히 니체</p>
+              <p className="text-2xl font-bold">{author.nameInKor}</p>
             </DialogTitle>
-            <p className="text-gray-500">Friedrich Nietzsche</p>
+            <p className="text-gray-500">{author.name}</p>
           </div>
 
           <div className="flex w-full">
             <div className="flex gap-2">
-              <Button className="rounded-full" variant="outline">
+              <Button
+                className="rounded-full"
+                variant="outline"
+                onClick={() =>
+                  reviewListRef.current?.scrollIntoView({ behavior: 'smooth' })
+                }
+              >
                 <ThumbsUpIcon className="h-4 w-4" />
-                <span>300</span>
+                <span>{author.likeCount}</span>
               </Button>
-              <Button className="rounded-full" variant="outline">
+              <Button
+                className="rounded-full"
+                variant="outline"
+                onClick={() =>
+                  reviewListRef.current?.scrollIntoView({ behavior: 'smooth' })
+                }
+              >
                 <MessageSquareIcon className="h-4 w-4" />
-                <span>300</span>
+                <span>{author.reviewCount}</span>
               </Button>
             </div>
           </div>

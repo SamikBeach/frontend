@@ -1,6 +1,7 @@
 import axios from '../axios';
 import type { Book } from '../book/types';
 import type { PaginatedResponse, PaginationQuery } from '../common/types';
+import { Review } from '../review/types';
 import type { Author, AuthorDetail, AuthorSearchQuery } from './types';
 
 export const authorApi = {
@@ -42,4 +43,15 @@ export const authorApi = {
    */
   searchAuthorBooks: (authorId: number, params: PaginationQuery) =>
     axios.get<PaginatedResponse<Book>>(`/author/${authorId}/books`, { params }),
+
+  /**
+   * 특정 작가의 리뷰 목록을 조회합니다.
+   * @param authorId - 작가 ID
+   * @param params - 페이지네이션 옵션
+   * @returns 페이지네이션된 리뷰 목록
+   */
+  getAuthorReviews: (authorId: number, params: PaginationQuery) =>
+    axios.get<PaginatedResponse<Review>>(`/author/${authorId}/reviews`, {
+      params,
+    }),
 };
