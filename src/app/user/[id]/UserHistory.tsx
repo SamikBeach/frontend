@@ -134,7 +134,7 @@ function ReviewList({ userId }: ListProps) {
     >
       <div className="flex flex-col gap-2">
         {reviews.map(review => (
-          <Review key={review.id} review={review} />
+          <Review key={review.id} review={review} hideActions />
         ))}
       </div>
     </InfiniteScroll>
