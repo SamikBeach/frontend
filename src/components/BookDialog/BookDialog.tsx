@@ -1,10 +1,8 @@
 'use client';
 
-import { bookApi } from '@/apis/book/book';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogProps } from '@radix-ui/react-dialog';
-import { useQuery } from '@tanstack/react-query';
 import { ExternalLinkIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useRef } from 'react';
@@ -16,21 +14,8 @@ import ReviewList from './ReviewList';
 interface Props extends DialogProps {}
 
 export default function BookDialog(props: Props) {
-  const reviewListRef = useRef<HTMLDivElement>(null);
   const { isOpen, id: bookId, close } = useDialogQuery({ type: 'book' });
-
-  const { data: book, isLoading } = useQuery({
-    queryKey: ['book', bookId],
-    queryFn: () => {
-      if (!bookId) {
-        throw new Error('Book ID is required');
-      }
-
-      return bookApi.getBookDetail(bookId);
-    },
-    select: data => data.data,
-    enabled: isOpen,
-  });
+  const reviewListRef = useRef<HTMLDivElement>(null);
 
   if (!bookId) {
     return null;
@@ -45,6 +30,7 @@ export default function BookDialog(props: Props) {
         onOpenAutoFocus={e => e.preventDefault()}
         id="dialog-content"
       >
+        <DialogTitle className="sr-only">책 정보</DialogTitle>
         <div className="absolute right-10 top-10 z-10">
           <Link href={`/book/${bookId}`}>
             <Button variant="outline" size="sm">
@@ -53,21 +39,15 @@ export default function BookDialog(props: Props) {
             </Button>
           </Link>
         </div>
-        {isLoading && <DialogTitle />}
-        {book ? (
-          <>
-            <div className="flex flex-col gap-7">
-              <BookInfo book={book} reviewListRef={reviewListRef} />
-              <RelativeBooks bookId={bookId} />
-              <ReviewList
-                ref={reviewListRef}
-                bookId={bookId}
-                reviewCount={book.reviewCount}
-                scrollableTarget="dialog-content"
-              />
-            </div>
-          </>
-        ) : null}
+        <div className="flex flex-col gap-7">
+          <BookInfo bookId={bookId} reviewListRef={reviewListRef} />
+          <RelativeBooks bookId={bookId} />
+          <ReviewList
+            ref={reviewListRef}
+            bookId={bookId}
+            scrollableTarget="dialog-content"
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );
