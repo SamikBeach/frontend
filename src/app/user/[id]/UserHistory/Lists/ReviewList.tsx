@@ -61,4 +61,4 @@ export function ReviewList({ userId }: Props) {
       </div>
     </InfiniteScroll>
   );
-} 
+}
