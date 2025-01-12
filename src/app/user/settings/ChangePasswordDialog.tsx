@@ -16,7 +16,7 @@ import { AxiosError } from 'axios';
 import { KeyRound } from 'lucide-react';
 import { useState } from 'react';
 import { useController, useForm } from 'react-hook-form';
-import { toast } from 'sonner';
+import { toast, Toaster } from 'sonner';
 
 interface Props extends DialogProps {}
 
@@ -108,72 +108,75 @@ export default function ChangePasswordDialog({ children, ...props }: Props) {
   const buttonText = isPending && !isError ? '변경 중...' : '비밀번호 변경하기';
 
   return (
-    <Dialog {...props} open={open} onOpenChange={handleOpenChange}>
-      {children}
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <div className="flex items-center gap-2">
-            <div className="rounded-full bg-primary/10 p-2">
-              <KeyRound className="h-6 w-6 text-primary" />
+    <>
+      <Dialog {...props} open={open} onOpenChange={handleOpenChange}>
+        {children}
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <div className="flex items-center gap-2">
+              <div className="rounded-full bg-primary/10 p-2">
+                <KeyRound className="h-6 w-6 text-primary" />
+              </div>
+              <DialogTitle>비밀번호 변경</DialogTitle>
             </div>
-            <DialogTitle>비밀번호 변경</DialogTitle>
-          </div>
-        </DialogHeader>
+          </DialogHeader>
 
-        <form onSubmit={onSubmit} className="flex flex-col gap-6 py-4">
-          <div className="space-y-2">
-            <p className="text-sm font-medium">현재 비밀번호</p>
-            <Input
-              {...currentPasswordField}
-              type="password"
-              placeholder="현재 사용중인 비밀번호"
-            />
-            {(errors.currentPassword?.message || isCurrentPasswordError) && (
-              <span className="text-xs text-destructive">
-                {errors.currentPassword?.message || errorMessage}
-              </span>
-            )}
-          </div>
+          <form onSubmit={onSubmit} className="flex flex-col gap-6 py-4">
+            <div className="space-y-2">
+              <p className="text-sm font-medium">현재 비밀번호</p>
+              <Input
+                {...currentPasswordField}
+                type="password"
+                placeholder="현재 사용중인 비밀번호"
+              />
+              {(errors.currentPassword?.message || isCurrentPasswordError) && (
+                <span className="text-xs text-destructive">
+                  {errors.currentPassword?.message || errorMessage}
+                </span>
+              )}
+            </div>
 
-          <div className="space-y-2">
-            <p className="text-sm font-medium">새 비밀번호</p>
-            <Input
-              {...newPasswordField}
-              type="password"
-              placeholder="새로운 비밀번호"
-            />
-            {errors.newPassword?.message && (
-              <span className="text-xs text-destructive">
-                {errors.newPassword.message}
-              </span>
-            )}
-          </div>
+            <div className="space-y-2">
+              <p className="text-sm font-medium">새 비밀번호</p>
+              <Input
+                {...newPasswordField}
+                type="password"
+                placeholder="새로운 비밀번호"
+              />
+              {errors.newPassword?.message && (
+                <span className="text-xs text-destructive">
+                  {errors.newPassword.message}
+                </span>
+              )}
+            </div>
 
-          <div className="space-y-2">
-            <p className="text-sm font-medium">새 비밀번호 확인</p>
-            <Input
-              {...confirmPasswordField}
-              type="password"
-              placeholder="새로운 비밀번호 재입력"
-            />
-            {errors.confirmPassword?.message && (
-              <span className="text-xs text-destructive">
-                {errors.confirmPassword.message}
-              </span>
-            )}
-            {error && !isCurrentPasswordError && (
-              <span className="text-xs text-destructive">
-                {errorMessage || '비밀번호 변경 중 오류가 발생했습니다.'}
-              </span>
-            )}
-          </div>
+            <div className="space-y-2">
+              <p className="text-sm font-medium">새 비밀번호 확인</p>
+              <Input
+                {...confirmPasswordField}
+                type="password"
+                placeholder="새로운 비밀번호 재입력"
+              />
+              {errors.confirmPassword?.message && (
+                <span className="text-xs text-destructive">
+                  {errors.confirmPassword.message}
+                </span>
+              )}
+              {error && !isCurrentPasswordError && (
+                <span className="text-xs text-destructive">
+                  {errorMessage || '비밀번호 변경 중 오류가 발생했습니다.'}
+                </span>
+              )}
+            </div>
 
-          <Button type="submit" className="w-full" disabled={isPending}>
-            {buttonText}
-          </Button>
-        </form>
-      </DialogContent>
-    </Dialog>
+            <Button type="submit" className="w-full" disabled={isPending}>
+              {buttonText}
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
+      <Toaster />
+    </>
   );
 }
 
