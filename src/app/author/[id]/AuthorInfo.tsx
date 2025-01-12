@@ -1,10 +1,71 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { WriteReviewDialog } from '@/components/WriteReviewDialog';
-import { Edit3Icon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import { authorApi } from '@/apis/author/author';
+import { AuthorDetail } from '@/apis/author/types';
+import { CommentButton } from '@/components/CommentButton';
+import { LikeButton } from '@/components/LikeButton';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
+import { RefObject } from 'react';
 
-export default function AuthorInfo() {
+interface Props {
+  author: AuthorDetail;
+  reviewListRef: RefObject<HTMLDivElement | null>;
+}
+
+export default function AuthorInfo({ author, reviewListRef }: Props) {
+  const currentUser = useCurrentUser();
+  const queryClient = useQueryClient();
+
+  const { mutate: toggleLike } = useMutation({
+    mutationFn: () => authorApi.toggleAuthorLike(author.id),
+    onMutate: () => {
+      queryClient.setQueryData<AxiosResponse<AuthorDetail>>(
+        ['author', author.id],
+        oldData => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            data: {
+              ...oldData.data,
+              isLiked: !oldData.data.isLiked,
+              likeCount: oldData.data.isLiked
+                ? oldData.data.likeCount - 1
+                : oldData.data.likeCount + 1,
+            },
+          };
+        }
+      );
+    },
+    onError: () => {
+      queryClient.setQueryData<AxiosResponse<AuthorDetail>>(
+        ['author', author.id],
+        oldData => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            data: {
+              ...oldData.data,
+              isLiked: author.isLiked,
+              likeCount: author.likeCount,
+            },
+          };
+        }
+      );
+    },
+  });
+
+  const handleLikeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!currentUser) return;
+    toggleLike();
+  };
+
+  const handleReviewClick = () => {
+    reviewListRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
@@ -14,40 +75,31 @@ export default function AuthorInfo() {
           }
         >
           <img
-            src="https://picsum.photos/200/200"
-            alt="author"
+            src={author.imageUrl || 'https://picsum.photos/200/200'}
+            alt={author.name}
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
             width={200}
             height={200}
           />
         </div>
-
         <div className="flex w-full flex-col justify-between gap-4">
           <div className="flex flex-col gap-0.5">
-            <p className="text-2xl font-bold">프리드리히 니체</p>
-            <p className="text-gray-500">Friedrich Nietzsche</p>
+            <h1 className="text-2xl font-bold">{author.nameInKor}</h1>
+            <p className="text-gray-500">{author.name}</p>
           </div>
 
           <div className="flex w-full justify-between pr-6">
             <div className="flex gap-2">
-              <Button className="rounded-full" variant="outline">
-                <ThumbsUpIcon className="h-4 w-4" />
-                <span>300</span>
-              </Button>
-              <Button className="rounded-full" variant="outline">
-                <MessageSquareIcon className="h-4 w-4" />
-                <span>300</span>
-              </Button>
+              <LikeButton
+                isLiked={author.isLiked ?? false}
+                likeCount={author.likeCount}
+                onClick={handleLikeClick}
+              />
+              <CommentButton
+                commentCount={author.reviewCount}
+                onClick={handleReviewClick}
+              />
             </div>
-
-            <WriteReviewDialog>
-              <WriteReviewDialog.Trigger asChild>
-                <Button variant="outline">
-                  <Edit3Icon />
-                  리뷰 쓰기
-                </Button>
-              </WriteReviewDialog.Trigger>
-            </WriteReviewDialog>
           </div>
         </div>
       </div>
