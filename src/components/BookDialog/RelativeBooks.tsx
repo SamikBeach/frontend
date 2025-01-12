@@ -45,7 +45,6 @@ export default function RelativeBooks({ bookId }: Props) {
           </CarouselContent>
           {books.length >= 7 && <CarouselNext className="right-[-10px] z-10" />}
         </Carousel>
-        <div className="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-white/30 to-transparent" />
       </div>
     </div>
   );

@@ -36,13 +36,12 @@ export const authorApi = {
     axios.post<{ liked: boolean }>(`/author/${authorId}/like`),
 
   /**
-   * 특정 작가의 책 목록을 조회합니다.
+   * 특정 작가의 모든 책 목록을 조회합니다.
    * @param authorId - 작가 ID
-   * @param params - 페이지네이션 옵션
-   * @returns 페이지네이션된 책 목록
+   * @returns 책 목록
    */
-  searchAuthorBooks: (authorId: number, params: PaginationQuery) =>
-    axios.get<PaginatedResponse<Book>>(`/author/${authorId}/books`, { params }),
+  getAllAuthorBooks: (authorId: number) =>
+    axios.get<Book[]>(`/author/${authorId}/books`),
 
   /**
    * 특정 작가의 리뷰 목록을 조회합니다.
