@@ -1,15 +1,26 @@
 import { Review as ReviewType } from '@/apis/review/types';
 import { formatDate } from '@/utils/date';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 import CommentList from './CommentList';
+
+const MAX_CONTENT_LENGTH = 300;
 
 interface Props {
   review: ReviewType;
 }
 
 export default function Review({ review }: Props) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const shouldShowMore = review.content.length > MAX_CONTENT_LENGTH;
+
+  const displayContent =
+    shouldShowMore && !isExpanded
+      ? review.content.slice(0, MAX_CONTENT_LENGTH)
+      : review.content;
+
   return (
     <>
       <div className="flex flex-col gap-1">
@@ -30,8 +41,16 @@ export default function Review({ review }: Props) {
 
         <div className="flex flex-col gap-1">
           <div className="w-full">
-            {review.content}
-            <span className="text-sm text-gray-500">...더보기</span>
+            {displayContent}
+            {shouldShowMore && !isExpanded && (
+              <Button
+                variant="link"
+                onClick={() => setIsExpanded(true)}
+                className="h-[14px] p-0 text-sm text-gray-500"
+              >
+                ...더보기
+              </Button>
+            )}
           </div>
         </div>
         <div className="flex justify-between">
