@@ -83,7 +83,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
           <img
             src={author.imageUrl ?? 'https://picsum.photos/200/200'}
             alt={author.nameInKor}
-            className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+            className="absolute inset-0 h-full w-full object-cover"
             width={200}
             height={200}
           />

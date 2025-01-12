@@ -90,7 +90,7 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
           <img
             src={book.imageUrl || 'https://picsum.photos/200/300'}
             alt={book.title}
-            className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+            className="absolute inset-0 h-full w-full object-cover"
             width={200}
             height={300}
           />
