@@ -1,9 +1,12 @@
-import { reviewApi } from '@/apis/review/review';
+'use client';
+
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogProps, DialogTitle } from '@radix-ui/react-dialog';
-import { useQuery } from '@tanstack/react-query';
+import { ExternalLinkIcon } from 'lucide-react';
+import Link from 'next/link';
 import { useRef } from 'react';
 import { CommentEditor } from '../CommentEditor';
+import { Button } from '../ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import CommentList from './CommentList';
 import ReviewInfo from './ReviewInfo';
@@ -11,21 +14,9 @@ import ReviewInfo from './ReviewInfo';
 interface Props extends DialogProps {}
 
 export default function ReviewDialog(props: Props) {
-  const commentListRef = useRef<HTMLDivElement>(null);
   const { isOpen, id: reviewId, close } = useDialogQuery({ type: 'review' });
 
-  const { data: review, isLoading } = useQuery({
-    queryKey: ['review', reviewId],
-    queryFn: () => {
-      if (!reviewId) {
-        throw new Error('Review ID is required');
-      }
-
-      return reviewApi.getReviewDetail(reviewId);
-    },
-    select: data => data.data,
-    enabled: isOpen,
-  });
+  const commentListRef = useRef<HTMLDivElement>(null);
 
   if (!reviewId) {
     return null;
@@ -40,28 +31,31 @@ export default function ReviewDialog(props: Props) {
         onOpenAutoFocus={e => e.preventDefault()}
         id="dialog-content"
       >
-        {isLoading && <DialogTitle />}
-        {review ? (
-          <>
-            <div className="flex flex-col gap-4">
-              <ReviewInfo review={review} commentListRef={commentListRef} />
-              <CommentList
-                ref={commentListRef}
-                reviewId={reviewId}
-                commentCount={review.commentCount}
-                scrollableTarget="dialog-content"
-              />
+        <DialogTitle className="sr-only">리뷰</DialogTitle>
+        <div className="absolute right-10 top-10 z-10">
+          <Link href={`/review/${reviewId}`}>
+            <Button variant="outline" size="sm">
+              <ExternalLinkIcon className="mr-1 h-4 w-4" />
+              페이지로 보기
+            </Button>
+          </Link>
+        </div>
+        <div className="flex flex-col gap-7">
+          <ReviewInfo reviewId={reviewId} commentListRef={commentListRef} />
+          <CommentList
+            ref={commentListRef}
+            reviewId={reviewId}
+            scrollableTarget="dialog-content"
+          />
+        </div>
+        <div className="sticky bottom-0 bg-white pt-4">
+          <div className="relative">
+            <div className="absolute -bottom-10 -left-10 -right-10 -top-4 bg-white shadow-[0_-8px_12px_0px_white]" />
+            <div className="relative">
+              <CommentEditor />
             </div>
-            <div className="sticky bottom-0 bg-white pt-4">
-              <div className="relative">
-                <div className="absolute -bottom-10 -left-10 -right-10 -top-4 bg-white shadow-[0_-8px_12px_0px_white]" />
-                <div className="relative">
-                  <CommentEditor />
-                </div>
-              </div>
-            </div>
-          </>
-        ) : null}
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );

@@ -1,3 +1,5 @@
+'use client';
+
 import { PaginatedResponse } from '@/apis/common/types';
 import { reviewApi } from '@/apis/review/review';
 import { Comment as CommentType } from '@/apis/review/types';
@@ -6,7 +8,10 @@ import {
   CommentItemSkeleton,
   default as CommentListSkeleton,
 } from '@/components/Comment/CommentSkeleton';
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import {
+  useSuspenseInfiniteQuery,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { RefObject, Suspense, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -15,16 +20,16 @@ import EmptyComments from './EmptyComments';
 interface Props {
   ref: RefObject<HTMLDivElement | null>;
   reviewId: number;
-  commentCount: number;
   scrollableTarget: string;
 }
 
-function CommentListContent({
-  ref,
-  reviewId,
-  commentCount,
-  scrollableTarget,
-}: Props) {
+function CommentListContent({ ref, reviewId, scrollableTarget }: Props) {
+  const { data: review } = useSuspenseQuery({
+    queryKey: ['review', reviewId],
+    queryFn: () => reviewApi.getReviewDetail(reviewId),
+    select: response => response.data,
+  });
+
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<CommentType>>,
     Error
@@ -59,7 +64,7 @@ function CommentListContent({
       <div className="flex items-center gap-2">
         <h2 className="text-base font-semibold text-gray-900">댓글</h2>
         <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
-          {commentCount}
+          {review.commentCount}
         </span>
       </div>
       {comments.length === 0 ? (
