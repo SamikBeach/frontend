@@ -1,4 +1,12 @@
-export default function UserInfo() {
+'use client';
+
+import { User } from '@/apis/user/types';
+
+interface Props {
+  user: User;
+}
+
+export default function UserInfo({ user }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
@@ -8,8 +16,8 @@ export default function UserInfo() {
           }
         >
           <img
-            src="https://picsum.photos/200/200"
-            alt="user"
+            src={user.imageUrl || 'https://picsum.photos/200/200'}
+            alt={user.nickname}
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
             width={200}
             height={200}
@@ -18,7 +26,7 @@ export default function UserInfo() {
 
         <div className="flex w-full flex-col justify-between gap-4">
           <div className="flex flex-col gap-0.5">
-            <p className="text-2xl font-bold">BonggeunJeong</p>
+            <h1 className="text-2xl font-bold">{user.nickname}</h1>
           </div>
         </div>
       </div>

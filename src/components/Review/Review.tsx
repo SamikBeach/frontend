@@ -27,11 +27,15 @@ export default function Review({ review }: Props) {
         <div className="flex items-center gap-2">
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>{review.user.nickname.slice(0, 2)}</AvatarFallback>
+            <AvatarFallback>
+              {review.user?.nickname?.slice(0, 2) ?? 'UN'}
+            </AvatarFallback>
           </Avatar>
           <div className="flex w-full flex-col gap-1">
             <div className="flex items-center gap-2">
-              <p className="font-medium">{review.user.nickname}</p>
+              <p className="font-medium">
+                {review.user?.nickname ?? '알 수 없음'}
+              </p>
               <p className="text-sm text-gray-500">
                 {formatDate(review.createdAt)}
               </p>
