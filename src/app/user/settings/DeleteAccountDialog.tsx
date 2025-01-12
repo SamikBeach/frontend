@@ -1,6 +1,7 @@
 'use client';
 
 import { userApi } from '@/apis/user/user';
+import { currentUserAtom } from '@/atoms/auth';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,8 +12,10 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { STORAGE_KEYS } from '@/constants/storage-keys';
 import { DialogProps } from '@radix-ui/react-dialog';
 import { useMutation } from '@tanstack/react-query';
+import { useSetAtom } from 'jotai';
 import { AlertTriangle, UserX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -22,10 +25,13 @@ interface Props extends DialogProps {}
 export default function DeleteAccountDialog({ children, ...props }: Props) {
   const [confirmText, setConfirmText] = useState('');
   const router = useRouter();
+  const setCurrentUser = useSetAtom(currentUserAtom);
 
   const { mutate: deleteAccount, isPending } = useMutation({
     mutationFn: userApi.deleteAccount,
     onSuccess: () => {
+      localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
+      setCurrentUser(null);
       router.push('/');
     },
   });
