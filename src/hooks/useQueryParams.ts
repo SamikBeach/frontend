@@ -33,9 +33,14 @@ export function useQueryParams() {
    * @param {Record<string, string | undefined>} updates - 업데이트할 파라미터 객체
    * - key: 파라미터 이름
    * - value: 파라미터 값 (undefined인 경우 해당 파라미터 삭제)
+   * @param {Object} options - 업데이트 옵션
+   * @param {boolean} options.replace - history에 기록하지 않고 현재 URL을 대체할지 여부
    */
   const updateQueryParams = useCallback(
-    (updates: Record<string, string | undefined>) => {
+    (
+      updates: Record<string, string | undefined>,
+      options: { replace?: boolean } = {}
+    ) => {
       // 현재 URL의 모든 query parameter를 복사
       const current = new URLSearchParams(Array.from(searchParams.entries()));
 
@@ -51,7 +56,12 @@ export function useQueryParams() {
       // 업데이트된 query parameter로 URL 변경
       const search = current.toString();
       const query = search ? `?${search}` : '';
-      router.push(`${pathname}${query}`, { scroll: false });
+
+      if (options.replace) {
+        router.replace(`${pathname}${query}`, { scroll: false });
+      } else {
+        router.push(`${pathname}${query}`, { scroll: false });
+      }
     },
     [searchParams, pathname, router]
   );
