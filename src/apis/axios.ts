@@ -78,15 +78,20 @@ axios.interceptors.request.use(config => {
 
 /**
  * 응답 인터셉터
- * 401 에러 발생 시 토큰 리프레시를 시도하고 요청을 재시도합니다.
+ * 토큰 만료로 인한 401 에러 발생 시에만 토큰 리프레시를 시도하고 요청을 재시도합니다.
  */
 axios.interceptors.response.use(
   response => response,
   async error => {
     const originalRequest = error.config;
 
-    // 401 에러가 아니거나 이미 재시도했던 요청이면 에러를 그대로 반환
-    if (error.response?.status !== 401 || originalRequest._retry) {
+    // 토큰 만료로 인한 401 에러인지 확인
+    const isTokenExpiredError =
+      error.response?.status === 401 &&
+      error.response?.data?.error === 'No-Token';
+
+    // 토큰 만료 에러가 아니거나 이미 재시도했던 요청이면 에러를 그대로 반환
+    if (!isTokenExpiredError || originalRequest._retry) {
       return Promise.reject(error);
     }
 
@@ -105,12 +110,13 @@ axios.interceptors.response.use(
         return axios(originalRequest);
       } catch (refreshError) {
         isRefreshing = false;
-        return Promise.reject(refreshError);
+        refreshSubscribers = [];
+        return Promise.reject(error); // 원본 401 에러를 반환
       }
     }
 
     // 리프레시가 진행 중일 때는 새로운 Promise를 반환하여 토큰 리프레시 완료 후 처리
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       refreshSubscribers.push(token => {
         originalRequest.headers.Authorization = `Bearer ${token}`;
         resolve(axios(originalRequest));
