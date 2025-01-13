@@ -40,7 +40,7 @@ export default function Review({
               {review.user?.nickname?.slice(0, 2) ?? 'UN'}
             </AvatarFallback>
           </Avatar>
-          <div className="flex flex-col">
+          <div className="flex items-center gap-2">
             <p className="font-medium">
               {review.user?.nickname ?? '알 수 없음'}
             </p>
