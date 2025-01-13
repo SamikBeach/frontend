@@ -7,12 +7,14 @@ interface Props {
   books?: Book[];
   authors?: Author[];
   onOpenChange: (open: boolean) => void;
+  onItemClick: (bookId?: number, authorId?: number) => void;
 }
 
 export default function SearchResultList({
   books = [],
   authors = [],
   onOpenChange,
+  onItemClick,
 }: Props) {
   const hasResults = books.length > 0 || authors.length > 0;
 
@@ -31,7 +33,12 @@ export default function SearchResultList({
           <h3 className="px-2 text-sm font-semibold text-foreground">책</h3>
           <div className="flex flex-col">
             {books.map(book => (
-              <BookItem key={book.id} book={book} onOpenChange={onOpenChange} />
+              <BookItem
+                key={book.id}
+                book={book}
+                onOpenChange={onOpenChange}
+                onClick={() => onItemClick(book.id)}
+              />
             ))}
           </div>
         </div>
@@ -46,6 +53,7 @@ export default function SearchResultList({
                 key={author.id}
                 author={author}
                 onOpenChange={onOpenChange}
+                onClick={() => onItemClick(undefined, author.id)}
               />
             ))}
           </div>

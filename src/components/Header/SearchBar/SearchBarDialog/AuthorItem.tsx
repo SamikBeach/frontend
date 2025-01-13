@@ -6,14 +6,20 @@ import Link from 'next/link';
 interface Props {
   author: Author;
   onOpenChange: (open: boolean) => void;
+  onClick: () => void;
 }
 
-export default function AuthorItem({ author, onOpenChange }: Props) {
+export default function AuthorItem({ author, onOpenChange, onClick }: Props) {
+  const handleClick = () => {
+    onClick();
+    onOpenChange(false);
+  };
+
   return (
     <Link
       href={`/author/${author.id}`}
       className="flex items-center gap-3 rounded-md p-2 hover:bg-accent"
-      onClick={() => onOpenChange(false)}
+      onClick={handleClick}
     >
       <Avatar className="h-11 w-11">
         <AvatarImage

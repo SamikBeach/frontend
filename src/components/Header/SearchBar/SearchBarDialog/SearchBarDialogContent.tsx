@@ -1,4 +1,5 @@
 import { searchApi } from '@/apis/search/search';
+import { userApi } from '@/apis/user/user';
 import { Spinner } from '@/components/ui/spinner';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Suspense } from 'react';
@@ -18,18 +19,60 @@ function LoadingSpinner() {
   );
 }
 
+function RecentSearches({
+  onOpenChange,
+}: {
+  onOpenChange: (open: boolean) => void;
+}) {
+  const { data } = useSuspenseQuery({
+    queryKey: ['recentSearches'],
+    queryFn: async () => {
+      const response = await userApi.getRecentSearches();
+      return response.data;
+    },
+  });
+
+  const handleItemClick = async (bookId?: number, authorId?: number) => {
+    try {
+      await userApi.saveSearch({ bookId, authorId });
+    } catch (error) {
+      console.error('Failed to save search history:', error);
+    }
+  };
+
+  return (
+    <RecentSearchList
+      searches={data}
+      onOpenChange={onOpenChange}
+      onItemClick={handleItemClick}
+    />
+  );
+}
+
 function SearchResults({ keyword, onOpenChange }: Props) {
   const { data } = useSuspenseQuery({
     queryKey: ['search', keyword],
-    queryFn: () => searchApi.search(keyword),
+    queryFn: async () => {
+      const response = await searchApi.search(keyword);
+      return response.data;
+    },
     gcTime: 1000 * 60 * 5, // 5분 동안 캐시 유지
   });
 
+  const handleItemClick = async (bookId?: number, authorId?: number) => {
+    try {
+      await userApi.saveSearch({ bookId, authorId });
+    } catch (error) {
+      console.error('Failed to save search history:', error);
+    }
+  };
+
   return (
     <SearchResultList
-      books={data?.data.books}
-      authors={data?.data.authors}
+      books={data.books}
+      authors={data.authors}
       onOpenChange={onOpenChange}
+      onItemClick={handleItemClick}
     />
   );
 }
@@ -39,7 +82,11 @@ export default function SearchBarDialogContent({
   onOpenChange,
 }: Props) {
   if (!keyword.trim()) {
-    return <RecentSearchList />;
+    return (
+      <Suspense fallback={<LoadingSpinner />}>
+        <RecentSearches onOpenChange={onOpenChange} />
+      </Suspense>
+    );
   }
 
   return (

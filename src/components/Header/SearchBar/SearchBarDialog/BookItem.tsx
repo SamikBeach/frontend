@@ -5,14 +5,20 @@ import Link from 'next/link';
 interface Props {
   book: Book;
   onOpenChange: (open: boolean) => void;
+  onClick: () => void;
 }
 
-export default function BookItem({ book, onOpenChange }: Props) {
+export default function BookItem({ book, onOpenChange, onClick }: Props) {
+  const handleClick = () => {
+    onClick();
+    onOpenChange(false);
+  };
+
   return (
     <Link
       href={`/book/${book.id}`}
       className="flex items-start gap-3 rounded-md p-2 hover:bg-accent"
-      onClick={() => onOpenChange(false)}
+      onClick={handleClick}
     >
       <img
         src={book.imageUrl ?? '/placeholder-book.png'}
