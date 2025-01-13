@@ -4,9 +4,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 interface Props {
   user: Pick<User, 'nickname'>;
   size?: 'sm' | 'md' | 'lg';
+  showNickname?: boolean;
 }
 
-export default function UserAvatar({ user, size = 'md' }: Props) {
+export default function UserAvatar({
+  user,
+  size = 'md',
+  showNickname = true,
+}: Props) {
   const avatarSize = {
     sm: 'h-8 w-8',
     md: 'h-10 w-10',
@@ -25,9 +30,11 @@ export default function UserAvatar({ user, size = 'md' }: Props) {
         <AvatarImage src="https://github.com/shadcn.png" />
         <AvatarFallback>{user.nickname?.slice(0, 2) ?? 'UN'}</AvatarFallback>
       </Avatar>
-      <p className={`font-medium ${textSize}`}>
-        {user.nickname ?? '알 수 없음'}
-      </p>
+      {showNickname && (
+        <p className={`font-medium ${textSize}`}>
+          {user.nickname ?? '알 수 없음'}
+        </p>
+      )}
     </div>
   );
 }

@@ -32,7 +32,7 @@ export default function CommentEditor() {
 
   return (
     <div className="flex gap-2">
-      <UserAvatar user={currentUser} size="sm" />
+      <UserAvatar user={currentUser} size="sm" showNickname={false} />
 
       <div className="relative flex-1">
         <LexicalComposer initialConfig={getEditorConfig()}>

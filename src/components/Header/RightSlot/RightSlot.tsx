@@ -56,7 +56,7 @@ export default function RightSlot() {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <div className="relative cursor-pointer after:absolute after:inset-0 after:rounded-full after:border-2 after:border-primary/50 after:opacity-0 after:transition-opacity hover:after:opacity-100">
-          <UserAvatar user={currentUser} size="sm" />
+          <UserAvatar user={currentUser} size="sm" showNickname={false} />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
