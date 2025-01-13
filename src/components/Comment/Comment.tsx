@@ -20,10 +20,12 @@ export default function Comment({
   createdAt,
 }: Props) {
   return (
-    <div className="flex items-start gap-3 py-1">
-      <UserAvatar user={user} size="sm" />
-      <div className="flex w-full flex-col gap-1.5">
+    <div className="flex flex-col items-start gap-2 py-1">
+      <div className="flex items-center gap-2">
+        <UserAvatar user={user} size="sm" />
         <p className="text-xs text-gray-500">{formatDate(createdAt)}</p>
+      </div>
+      <div className="flex w-full flex-col gap-1.5">
         <div className="flex flex-col gap-1">
           <div className="w-full rounded-lg bg-gray-50 p-3 text-sm leading-relaxed text-gray-700">
             {content}
