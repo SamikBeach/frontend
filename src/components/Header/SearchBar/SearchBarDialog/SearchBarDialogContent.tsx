@@ -1,4 +1,5 @@
 import { searchApi } from '@/apis/search/search';
+import { Spinner } from '@/components/ui/spinner';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Suspense } from 'react';
 import RecentSearchList from './RecentSearchList';
@@ -8,10 +9,19 @@ interface Props {
   keyword: string;
 }
 
+function LoadingSpinner() {
+  return (
+    <div className="flex h-[300px] items-center justify-center">
+      <Spinner size="lg" className="text-primary/50" />
+    </div>
+  );
+}
+
 function SearchResults({ keyword }: Props) {
   const { data } = useSuspenseQuery({
     queryKey: ['search', keyword],
     queryFn: () => searchApi.search(keyword),
+    gcTime: 1000 * 60 * 5, // 5분 동안 캐시 유지
   });
 
   return (
@@ -20,18 +30,12 @@ function SearchResults({ keyword }: Props) {
 }
 
 export default function SearchBarDialogContent({ keyword }: Props) {
-  if (keyword === '') {
+  if (!keyword.trim()) {
     return <RecentSearchList />;
   }
 
   return (
-    <Suspense
-      fallback={
-        <div className="flex h-[300px] items-center justify-center text-sm text-gray-500">
-          검색 중...
-        </div>
-      }
-    >
+    <Suspense fallback={<LoadingSpinner />}>
       <SearchResults keyword={keyword.trim()} />
     </Suspense>
   );
