@@ -3,7 +3,6 @@
 import { authApi } from '@/apis/auth/auth';
 import { currentUserAtom, isLoggedInAtom } from '@/atoms/auth';
 import { LoginDialog } from '@/components/LoginDialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -12,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { UserAvatar } from '@/components/UserAvatar';
 import { STORAGE_KEYS } from '@/constants/storage-keys';
 import { useMutation } from '@tanstack/react-query';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -22,6 +22,7 @@ import { useState } from 'react';
 export default function RightSlot() {
   const router = useRouter();
   const isLoggedIn = useAtomValue(isLoggedInAtom);
+  const currentUser = useAtomValue(currentUserAtom);
   const setCurrentUser = useSetAtom(currentUserAtom);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
 
@@ -40,7 +41,7 @@ export default function RightSlot() {
     logoutMutation.mutate();
   };
 
-  if (!isLoggedIn) {
+  if (!isLoggedIn || !currentUser) {
     return (
       <>
         <Button variant="ghost" onClick={() => setShowLoginDialog(true)}>
@@ -54,14 +55,9 @@ export default function RightSlot() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Avatar className="relative h-8 w-8 cursor-pointer after:absolute after:inset-0 after:rounded-full after:border-2 after:border-primary/50 after:opacity-0 after:transition-opacity hover:after:opacity-100">
-          <AvatarImage
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt="User avatar"
-            className="rounded-full"
-          />
-          <AvatarFallback>UN</AvatarFallback>
-        </Avatar>
+        <div className="relative cursor-pointer after:absolute after:inset-0 after:rounded-full after:border-2 after:border-primary/50 after:opacity-0 after:transition-opacity hover:after:opacity-100">
+          <UserAvatar user={currentUser} size="sm" />
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem

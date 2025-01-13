@@ -3,8 +3,8 @@ import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { formatDate } from '@/utils/date';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { useState } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
+import { UserAvatar } from '../UserAvatar';
 import CommentList from './CommentList';
 
 const MAX_CONTENT_LENGTH = 300;
@@ -34,20 +34,10 @@ export default function Review({
     <>
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>
-              {review.user?.nickname?.slice(0, 2) ?? 'UN'}
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex items-center gap-2">
-            <p className="font-medium">
-              {review.user?.nickname ?? '알 수 없음'}
-            </p>
-            <p className="text-sm text-gray-500">
-              {formatDate(review.createdAt)}
-            </p>
-          </div>
+          <UserAvatar user={review.user} />
+          <p className="text-sm text-gray-500">
+            {formatDate(review.createdAt)}
+          </p>
         </div>
 
         <div className="flex items-center gap-2">
