@@ -1,5 +1,5 @@
 import { Author } from '../author/types';
-import { axiosInstance } from '../axios';
+import axios from '../axios';
 import { Book } from '../book/types';
 
 interface SearchResponse {
@@ -9,7 +9,7 @@ interface SearchResponse {
 
 export const searchApi = {
   search: (keyword: string) =>
-    axiosInstance.get<SearchResponse>('/search', {
+    axios.get<SearchResponse>('/search', {
       params: {
         keyword,
       },
