@@ -1,4 +1,5 @@
 import { authApi } from '@/apis/auth/auth';
+import { ERROR_CODES } from '@/constants/error-codes';
 import { STORAGE_KEYS } from '@/constants/storage-keys';
 import originalAxios from 'axios';
 
@@ -88,7 +89,7 @@ axios.interceptors.response.use(
     // 토큰 만료로 인한 401 에러인지 확인
     const isTokenExpiredError =
       error.response?.status === 401 &&
-      error.response?.data?.error === 'No-Token';
+      error.response?.data?.error === ERROR_CODES.TOKEN_EXPIRED;
 
     // 토큰 만료 에러가 아니거나 이미 재시도했던 요청이면 에러를 그대로 반환
     if (!isTokenExpiredError || originalRequest._retry) {
