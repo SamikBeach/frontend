@@ -47,7 +47,6 @@ export default function ChangePasswordDialog({ children, ...props }: Props) {
     mutate: changePassword,
     isPending,
     error,
-    isError,
   } = useMutation({
     mutationFn: userApi.changePassword,
     onSuccess: () => {
@@ -105,11 +104,11 @@ export default function ChangePasswordDialog({ children, ...props }: Props) {
     ?.data?.message;
   const isCurrentPasswordError =
     errorMessage === '현재 비밀번호가 일치하지 않습니다.';
-  const buttonText = isPending && !isError ? '변경 중...' : '비밀번호 변경하기';
+  const buttonText = isPending ? '변경 중...' : '비밀번호 변경하기';
 
   return (
     <>
-      <Dialog {...props} open={open} onOpenChange={handleOpenChange}>
+      <Dialog {...props} open={open} onOpenChange={handleOpenChange} modal>
         {children}
         <DialogContent className="max-w-md">
           <DialogHeader>
