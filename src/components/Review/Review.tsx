@@ -1,4 +1,5 @@
 import { Review as ReviewType } from '@/apis/review/types';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { formatDate } from '@/utils/date';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { useState } from 'react';
@@ -16,11 +17,15 @@ interface Props {
 export default function Review({ review, hideActions = false }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
   const shouldShowMore = review.content.length > MAX_CONTENT_LENGTH;
+  const bookDialog = useDialogQuery({ type: 'book' });
+  const reviewDialog = useDialogQuery({ type: 'review' });
 
   const displayContent =
     shouldShowMore && !isExpanded
       ? review.content.slice(0, MAX_CONTENT_LENGTH)
       : review.content;
+
+  console.log('review.book.title:', review);
 
   return (
     <>
@@ -32,16 +37,29 @@ export default function Review({ review, hideActions = false }: Props) {
               {review.user?.nickname?.slice(0, 2) ?? 'UN'}
             </AvatarFallback>
           </Avatar>
-          <div className="flex w-full flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <p className="font-medium">
-                {review.user?.nickname ?? '알 수 없음'}
-              </p>
-              <p className="text-sm text-gray-500">
-                {formatDate(review.createdAt)}
-              </p>
-            </div>
+          <div className="flex flex-col">
+            <p className="font-medium">
+              {review.user?.nickname ?? '알 수 없음'}
+            </p>
+            <p className="text-sm text-gray-500">
+              {formatDate(review.createdAt)}
+            </p>
           </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <h3
+            onClick={() => reviewDialog.open(review.id)}
+            className="cursor-pointer text-lg font-medium hover:underline"
+          >
+            {review.title}
+          </h3>
+          <span
+            onClick={() => bookDialog.open(review.book.id)}
+            className="cursor-pointer text-sm font-medium hover:underline"
+          >
+            {review.book.title}
+          </span>
         </div>
 
         <div className="flex flex-col gap-1">
