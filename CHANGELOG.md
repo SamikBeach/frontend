@@ -1,5 +1,14 @@
 # 🚦 CHANGELOG
 
+## [1.38.1](https://github.com/SamikBeach/frontend/compare/1.38.0...1.38.1) (2025-01-13)
+
+
+### Bug Fixes
+
+* 401 에러 처리 로직 개선 ([6fe7c3c](https://github.com/SamikBeach/frontend/commit/6fe7c3cdc7fabe0e2febe2dcf0110754eef6cbd4))
+* userInfo, verifyCode 모드에서는 다이얼로그 닫히지 않도록 수정 ([c7747b0](https://github.com/SamikBeach/frontend/commit/c7747b0260f2835075ecb2ecd6c9a8e1a7be5e8b))
+* 불필요한 코드 제거 ([b35c188](https://github.com/SamikBeach/frontend/commit/b35c18828a7ce6f4eb53a717813294ab7a0e82ba))
+
 # [1.38.0](https://github.com/SamikBeach/frontend/compare/1.37.0...1.38.0) (2025-01-12)
 
 
