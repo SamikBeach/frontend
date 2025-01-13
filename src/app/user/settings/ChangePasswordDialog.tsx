@@ -108,7 +108,7 @@ export default function ChangePasswordDialog({ children, ...props }: Props) {
 
   return (
     <>
-      <Dialog {...props} open={open} onOpenChange={handleOpenChange}>
+      <Dialog {...props} open={open} onOpenChange={handleOpenChange} modal>
         {children}
         <DialogContent className="max-w-md">
           <DialogHeader>
