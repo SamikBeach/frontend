@@ -7,6 +7,7 @@ import SearchResultList from './SearchResultList';
 
 interface Props {
   keyword: string;
+  onOpenChange: (open: boolean) => void;
 }
 
 function LoadingSpinner() {
@@ -17,7 +18,7 @@ function LoadingSpinner() {
   );
 }
 
-function SearchResults({ keyword }: Props) {
+function SearchResults({ keyword, onOpenChange }: Props) {
   const { data } = useSuspenseQuery({
     queryKey: ['search', keyword],
     queryFn: () => searchApi.search(keyword),
@@ -25,18 +26,25 @@ function SearchResults({ keyword }: Props) {
   });
 
   return (
-    <SearchResultList books={data?.data.books} authors={data?.data.authors} />
+    <SearchResultList
+      books={data?.data.books}
+      authors={data?.data.authors}
+      onOpenChange={onOpenChange}
+    />
   );
 }
 
-export default function SearchBarDialogContent({ keyword }: Props) {
+export default function SearchBarDialogContent({
+  keyword,
+  onOpenChange,
+}: Props) {
   if (!keyword.trim()) {
     return <RecentSearchList />;
   }
 
   return (
     <Suspense fallback={<LoadingSpinner />}>
-      <SearchResults keyword={keyword.trim()} />
+      <SearchResults keyword={keyword.trim()} onOpenChange={onOpenChange} />
     </Suspense>
   );
 }

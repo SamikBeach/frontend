@@ -5,13 +5,15 @@ import Link from 'next/link';
 
 interface Props {
   author: Author;
+  onOpenChange: (open: boolean) => void;
 }
 
-export default function AuthorItem({ author }: Props) {
+export default function AuthorItem({ author, onOpenChange }: Props) {
   return (
     <Link
-      href={`/authors/${author.id}`}
+      href={`/author/${author.id}`}
       className="flex items-center gap-3 rounded-md p-2 hover:bg-accent"
+      onClick={() => onOpenChange(false)}
     >
       <Avatar className="h-11 w-11">
         <AvatarImage

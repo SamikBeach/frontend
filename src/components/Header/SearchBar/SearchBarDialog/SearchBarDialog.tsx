@@ -12,9 +12,15 @@ import { debounce } from 'lodash-es';
 import { useCallback, useEffect, useState } from 'react';
 import SearchBarDialogContent from './SearchBarDialogContent';
 
-interface Props extends DialogProps {}
+interface Props extends DialogProps {
+  onOpenChange: (open: boolean) => void;
+}
 
-export default function SearchBarDialog({ children, ...props }: Props) {
+export default function SearchBarDialog({
+  children,
+  onOpenChange,
+  ...props
+}: Props) {
   const [searchKeyword, setSearchKeyword] = useAtom(searchKeywordAtom);
   const [inputValue, setInputValue] = useState(searchKeyword);
 
@@ -38,7 +44,7 @@ export default function SearchBarDialog({ children, ...props }: Props) {
   }, [debouncedSearch]);
 
   return (
-    <Dialog {...props}>
+    <Dialog {...props} onOpenChange={onOpenChange}>
       {children}
       <DialogContent
         className="top-[6px] w-[600px] translate-y-0 gap-1 bg-white p-3 sm:max-w-[600px]"
@@ -53,7 +59,10 @@ export default function SearchBarDialog({ children, ...props }: Props) {
           onChange={handleChange}
         />
         <DialogTitle />
-        <SearchBarDialogContent keyword={searchKeyword} />
+        <SearchBarDialogContent
+          keyword={searchKeyword}
+          onOpenChange={onOpenChange}
+        />
       </DialogContent>
     </Dialog>
   );

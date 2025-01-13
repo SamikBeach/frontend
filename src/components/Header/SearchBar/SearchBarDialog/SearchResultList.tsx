@@ -6,9 +6,14 @@ import BookItem from './BookItem';
 interface Props {
   books?: Book[];
   authors?: Author[];
+  onOpenChange: (open: boolean) => void;
 }
 
-export default function SearchResultList({ books = [], authors = [] }: Props) {
+export default function SearchResultList({
+  books = [],
+  authors = [],
+  onOpenChange,
+}: Props) {
   const hasResults = books.length > 0 || authors.length > 0;
 
   if (!hasResults) {
@@ -26,7 +31,7 @@ export default function SearchResultList({ books = [], authors = [] }: Props) {
           <h3 className="px-2 text-sm font-semibold text-foreground">책</h3>
           <div className="flex flex-col">
             {books.map(book => (
-              <BookItem key={book.id} book={book} />
+              <BookItem key={book.id} book={book} onOpenChange={onOpenChange} />
             ))}
           </div>
         </div>
@@ -37,7 +42,11 @@ export default function SearchResultList({ books = [], authors = [] }: Props) {
           <h3 className="px-2 text-sm font-semibold text-foreground">작가</h3>
           <div className="flex flex-col">
             {authors.map(author => (
-              <AuthorItem key={author.id} author={author} />
+              <AuthorItem
+                key={author.id}
+                author={author}
+                onOpenChange={onOpenChange}
+              />
             ))}
           </div>
         </div>
