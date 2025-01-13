@@ -12,9 +12,14 @@ const MAX_CONTENT_LENGTH = 300;
 interface Props {
   review: ReviewType;
   hideActions?: boolean;
+  showBookInfo?: boolean;
 }
 
-export default function Review({ review, hideActions = false }: Props) {
+export default function Review({
+  review,
+  hideActions = false,
+  showBookInfo = false,
+}: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
   const shouldShowMore = review.content.length > MAX_CONTENT_LENGTH;
   const bookDialog = useDialogQuery({ type: 'book' });
@@ -24,8 +29,6 @@ export default function Review({ review, hideActions = false }: Props) {
     shouldShowMore && !isExpanded
       ? review.content.slice(0, MAX_CONTENT_LENGTH)
       : review.content;
-
-  console.log('review.book.title:', review);
 
   return (
     <>
@@ -54,12 +57,14 @@ export default function Review({ review, hideActions = false }: Props) {
           >
             {review.title}
           </h3>
-          <span
-            onClick={() => bookDialog.open(review.book.id)}
-            className="cursor-pointer text-sm font-medium hover:underline"
-          >
-            {review.book.title}
-          </span>
+          {showBookInfo && (
+            <span
+              onClick={() => bookDialog.open(review.book.id)}
+              className="cursor-pointer text-sm font-medium hover:underline"
+            >
+              {review.book.title}
+            </span>
+          )}
         </div>
 
         <div className="flex flex-col gap-1">
