@@ -1,6 +1,7 @@
 import { Author } from '@/apis/author/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import Link from 'next/link';
 
 interface Props {
   author: Author;
@@ -8,32 +9,33 @@ interface Props {
 
 export default function AuthorItem({ author }: Props) {
   return (
-    <div className="flex items-center gap-3 rounded-md p-3 hover:cursor-pointer hover:bg-gray-100">
-      <Avatar className="h-14 w-14">
-        <AvatarImage src={author.imageUrl ?? 'https://picsum.photos/200/300'} />
-        <AvatarFallback>{author.nameInKor.slice(0, 2)}</AvatarFallback>
+    <Link
+      href={`/authors/${author.id}`}
+      className="flex items-center gap-3 rounded-md p-2 hover:bg-accent"
+    >
+      <Avatar className="h-11 w-11">
+        <AvatarImage
+          src={author.imageUrl ?? undefined}
+          alt={author.nameInKor}
+        />
+        <AvatarFallback>{author.nameInKor[0]}</AvatarFallback>
       </Avatar>
-
-      <div className="flex h-full flex-col justify-between py-1">
+      <div className="flex flex-1 flex-col gap-1">
         <div>
-          <p className="text-sm font-semibold">{author.nameInKor}</p>
-          <p className="text-xs text-gray-500">{author.name}</p>
+          <h4 className="text-[15px] font-medium">{author.nameInKor}</h4>
+          <p className="text-[13px] text-muted-foreground">{author.name}</p>
         </div>
-        <div className="flex gap-2 text-sm text-gray-600">
-          <span className="flex items-center gap-0.5">
-            <ThumbsUpIcon className="h-3 w-3 stroke-gray-500" />
-            <p className="text-xs text-gray-500">{author.likeCount}</p>
+        <div className="flex items-center gap-2.5 text-xs text-muted-foreground">
+          <span className="flex items-center gap-1">
+            <ThumbsUpIcon className="h-3.5 w-3.5" />
+            {author.likeCount}
           </span>
-          <span className="flex items-center gap-0.5">
-            <MessageSquareIcon className="h-3 w-3 stroke-gray-500" />
-            <p className="text-xs text-gray-500">{author.reviewCount}</p>
-          </span>
-          <span className="flex items-center gap-0.5">
-            <LibraryIcon className="h-3 w-3 stroke-gray-500" />
-            <p className="text-xs text-gray-500">{author.bookCount ?? 0}</p>
+          <span className="flex items-center gap-1">
+            <MessageSquareIcon className="h-3.5 w-3.5" />
+            {author.reviewCount}
           </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

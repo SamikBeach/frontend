@@ -1,5 +1,6 @@
 import { Book } from '@/apis/book/types';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import Link from 'next/link';
 
 interface Props {
   book: Book;
@@ -7,33 +8,33 @@ interface Props {
 
 export default function BookItem({ book }: Props) {
   return (
-    <div className="flex items-center gap-3 rounded-md p-3 hover:cursor-pointer hover:bg-gray-100">
-      <div className="relative h-[80px] w-[56px] overflow-hidden rounded-sm bg-gray-200">
-        <img
-          src={book.imageUrl ?? 'https://picsum.photos/200/300'}
-          alt={book.title}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-      </div>
-
-      <div className="flex h-full flex-col justify-between py-1">
+    <Link
+      href={`/books/${book.id}`}
+      className="flex items-start gap-3 rounded-md p-2 hover:bg-accent"
+    >
+      <img
+        src={book.imageUrl ?? '/placeholder-book.png'}
+        alt={book.title}
+        className="h-[84px] w-[58px] rounded-[2px] object-cover shadow-sm"
+      />
+      <div className="flex flex-1 flex-col gap-1">
         <div>
-          <p className="text-sm font-semibold">{book.title}</p>
-          <p className="text-xs text-gray-500">
+          <h4 className="line-clamp-1 text-[15px] font-medium">{book.title}</h4>
+          <p className="line-clamp-1 text-[13px] text-muted-foreground">
             {book.authorBooks.map(ab => ab.author.nameInKor).join(', ')}
           </p>
         </div>
-        <div className="flex gap-2 text-sm text-gray-600">
-          <span className="flex items-center gap-0.5">
-            <ThumbsUpIcon className="h-3 w-3 stroke-gray-500" />
-            <p className="text-xs text-gray-500">{book.likeCount}</p>
+        <div className="flex items-center gap-2.5 text-xs text-muted-foreground">
+          <span className="flex items-center gap-1">
+            <ThumbsUpIcon className="h-3.5 w-3.5" />
+            {book.likeCount}
           </span>
-          <span className="flex items-center gap-0.5">
-            <MessageSquareIcon className="h-3 w-3 stroke-gray-500" />
-            <p className="text-xs text-gray-500">{book.reviewCount}</p>
+          <span className="flex items-center gap-1">
+            <MessageSquareIcon className="h-3.5 w-3.5" />
+            {book.reviewCount}
           </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

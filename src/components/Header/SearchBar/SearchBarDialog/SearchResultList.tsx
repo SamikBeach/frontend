@@ -13,18 +13,18 @@ export default function SearchResultList({ books = [], authors = [] }: Props) {
 
   if (!hasResults) {
     return (
-      <div className="flex h-[300px] items-center justify-center text-sm text-gray-500">
-        검색 결과가 없습니다.
+      <div className="flex h-[300px] items-center justify-center">
+        <p className="text-sm text-muted-foreground">검색 결과가 없습니다</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col pt-2">
       {books.length > 0 && (
         <div>
-          <h3 className="mb-2 text-sm font-medium text-gray-500">책</h3>
-          <div className="flex flex-col gap-1">
+          <h3 className="px-2 text-sm font-semibold text-foreground">책</h3>
+          <div className="flex flex-col">
             {books.map(book => (
               <BookItem key={book.id} book={book} />
             ))}
@@ -34,8 +34,8 @@ export default function SearchResultList({ books = [], authors = [] }: Props) {
 
       {authors.length > 0 && (
         <div>
-          <h3 className="mb-2 text-sm font-medium text-gray-500">작가</h3>
-          <div className="flex flex-col gap-1">
+          <h3 className="px-2 text-sm font-semibold text-foreground">작가</h3>
+          <div className="flex flex-col">
             {authors.map(author => (
               <AuthorItem key={author.id} author={author} />
             ))}
