@@ -1,8 +1,9 @@
-import { User } from '@/apis/user/types';
+import { UserBase } from '@/apis/user/types';
+import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 interface Props {
-  user: Pick<User, 'nickname'>;
+  user: UserBase;
   size?: 'sm' | 'md' | 'lg';
   showNickname?: boolean;
 }
@@ -24,17 +25,25 @@ export default function UserAvatar({
     lg: 'text-lg',
   }[size];
 
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
-    <div className="flex items-center gap-2">
+    <Link
+      href={`/user/${user.id}`}
+      className="group flex items-center gap-2"
+      onClick={handleClick}
+    >
       <Avatar className={avatarSize}>
         <AvatarImage src="https://github.com/shadcn.png" />
         <AvatarFallback>{user.nickname?.slice(0, 2) ?? 'UN'}</AvatarFallback>
       </Avatar>
       {showNickname && (
-        <p className={`font-medium ${textSize}`}>
+        <p className={`font-medium ${textSize} group-hover:underline`}>
           {user.nickname ?? '알 수 없음'}
         </p>
       )}
-    </div>
+    </Link>
   );
 }

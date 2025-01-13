@@ -155,12 +155,12 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
           <DialogTitle className="text-3xl font-bold tracking-tight text-gray-900">
             {review.title}
           </DialogTitle>
-          <div className="flex items-center gap-1 text-sm text-gray-500">
+          <div className="flex items-center gap-1">
             <div className="flex items-center gap-2">
               <UserAvatar user={review.user} size="sm" />
             </div>
             <span className="text-gray-300">·</span>
-            <span>
+            <span className="text-sm text-gray-500">
               {format(new Date(review.createdAt), 'yyyy년 M월 d일 HH시 mm분')}
             </span>
           </div>
