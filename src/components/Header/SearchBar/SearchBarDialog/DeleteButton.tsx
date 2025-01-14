@@ -10,7 +10,11 @@ export default function DeleteButton({ onClick }: Props) {
     <Button
       variant="ghost"
       size="icon"
-      onClick={onClick}
+      onClick={e => {
+        e.stopPropagation();
+
+        onClick(e);
+      }}
       className="absolute right-2 top-1/2 h-8 w-8 -translate-y-1/2 opacity-0 hover:bg-gray-200 group-hover:opacity-100"
     >
       <X className="h-4 w-4 text-muted-foreground" />

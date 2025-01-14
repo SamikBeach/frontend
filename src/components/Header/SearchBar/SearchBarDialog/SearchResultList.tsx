@@ -9,6 +9,7 @@ interface Props {
   authors: Author[];
   onOpenChange: (open: boolean) => void;
   onItemClick: (bookId?: number, authorId?: number) => void;
+  searchValue: string;
 }
 
 export default function SearchResultList({
@@ -16,9 +17,8 @@ export default function SearchResultList({
   authors,
   onOpenChange,
   onItemClick,
+  searchValue,
 }: Props) {
-  console.log({ books });
-
   return (
     <>
       {books.length > 0 && (
@@ -29,6 +29,7 @@ export default function SearchResultList({
               book={book}
               onOpenChange={onOpenChange}
               onClick={() => onItemClick(book.id)}
+              searchValue={searchValue}
             />
           ))}
         </CommandGroup>
@@ -42,6 +43,7 @@ export default function SearchResultList({
               author={author}
               onOpenChange={onOpenChange}
               onClick={() => onItemClick(undefined, author.id)}
+              searchValue={searchValue}
             />
           ))}
         </CommandGroup>

@@ -25,8 +25,7 @@ export default function RecentSearchList({
     },
   });
 
-  const handleDelete = (searchId: number, e: React.MouseEvent) => {
-    e.preventDefault();
+  const handleDelete = (searchId: number) => {
     deleteSearch(searchId);
   };
 
@@ -40,7 +39,7 @@ export default function RecentSearchList({
               book={search.book}
               onOpenChange={onOpenChange}
               onClick={() => onItemClick(search.book?.id)}
-              onDelete={e => handleDelete(search.id, e)}
+              onDelete={() => handleDelete(search.id)}
             />
           );
         }
@@ -51,7 +50,7 @@ export default function RecentSearchList({
               author={search.author}
               onOpenChange={onOpenChange}
               onClick={() => onItemClick(undefined, search.author?.id)}
-              onDelete={e => handleDelete(search.id, e)}
+              onDelete={() => handleDelete(search.id)}
             />
           );
         }

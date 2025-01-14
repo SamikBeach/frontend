@@ -107,6 +107,7 @@ function SearchResults({ keyword, onOpenChange }: Props) {
       authors={authors}
       onOpenChange={onOpenChange}
       onItemClick={handleItemClick}
+      searchValue={keyword}
     />
   );
 }

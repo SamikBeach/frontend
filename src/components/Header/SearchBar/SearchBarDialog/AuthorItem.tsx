@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { CommandItem } from '@/components/ui/command';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import Highlighter from 'react-highlight-words';
 import DeleteButton from './DeleteButton';
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
   onOpenChange: (open: boolean) => void;
   onClick: () => void;
   onDelete?: (e: React.MouseEvent) => void;
+  searchValue?: string;
 }
 
 export default function AuthorItem({
@@ -17,6 +19,7 @@ export default function AuthorItem({
   onOpenChange,
   onClick,
   onDelete,
+  searchValue = '',
 }: Props) {
   const router = useRouter();
 
@@ -43,8 +46,20 @@ export default function AuthorItem({
       </Avatar>
       <div className="flex flex-1 flex-col gap-0.5">
         <div>
-          <h4 className="text-xs font-medium">{author.nameInKor}</h4>
-          <p className="text-xs text-muted-foreground/70">{author.name}</p>
+          <h4 className="text-xs font-medium">
+            <Highlighter
+              searchWords={[searchValue]}
+              textToHighlight={author.nameInKor}
+              highlightClassName="text-blue-500 bg-transparent font-bold"
+            />
+          </h4>
+          <p className="text-xs text-muted-foreground/70">
+            <Highlighter
+              searchWords={[searchValue]}
+              textToHighlight={author.name}
+              highlightClassName="text-blue-500 bg-transparent font-bold"
+            />
+          </p>
         </div>
         <div className="flex items-center gap-2 text-muted-foreground/70">
           <span className="flex items-center gap-0.5 text-xs">
