@@ -1,33 +1,76 @@
-import { ThumbsUpIcon } from 'lucide-react';
+import { Book } from '@/apis/book/types';
+import { CommandItem } from '@/components/ui/command';
+import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import Highlighter from 'react-highlight-words';
+import DeleteButton from './DeleteButton';
 
-import { MessageSquareIcon } from 'lucide-react';
+interface Props {
+  book: Book;
+  onOpenChange: (open: boolean) => void;
+  onClick: () => void;
+  onDelete?: (e: React.MouseEvent) => void;
+  searchValue?: string;
+}
 
-export default function BookItem() {
+export default function BookItem({
+  book,
+  onOpenChange,
+  onClick,
+  onDelete,
+  searchValue = '',
+}: Props) {
+  const router = useRouter();
+
+  const handleClick = () => {
+    onClick();
+    onOpenChange(false);
+
+    router.push(`/book/${book.id}`);
+  };
+
   return (
-    <div className="flex gap-3 rounded-md p-3 hover:cursor-pointer hover:rounded-md hover:bg-gray-100">
+    <CommandItem
+      value={book.title}
+      onSelect={handleClick}
+      className="group relative cursor-pointer"
+    >
       <img
-        src="https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9788970132099.jpg"
+        src={book.imageUrl ?? undefined}
+        alt={book.title}
         className="h-20 w-14 rounded-sm object-cover"
-        alt="짜라투스트라는 이렇게 말했다 표지"
       />
-      <div className="flex flex-col justify-between">
+      <div className="flex h-20 flex-1 flex-col justify-between py-1">
         <div>
-          <p className="text-sm font-semibold">짜라투스트라는 이렇게 말했다</p>
-          <p className="text-xs text-gray-500">
-            프리드리히 니체 · 민음사 · 2021
+          <h4 className="line-clamp-1 text-xs font-medium">
+            <Highlighter
+              searchWords={[searchValue]}
+              textToHighlight={book.title}
+              highlightClassName="text-blue-500 bg-transparent font-bold"
+            />
+          </h4>
+          <p className="line-clamp-1 text-xs text-muted-foreground/70">
+            <Highlighter
+              searchWords={[searchValue]}
+              textToHighlight={book.authorBooks
+                .map(ab => ab.author.nameInKor)
+                .join(', ')}
+              highlightClassName="text-blue-500 font-bold bg-transparent"
+            />
           </p>
         </div>
-        <div className="flex gap-2 text-sm text-gray-600">
-          <span className="flex items-center gap-0.5">
-            <ThumbsUpIcon className="h-3 w-3 stroke-gray-500" />
-            <p className="text-xs text-gray-500">300</p>
+        <div className="flex items-center gap-2 text-muted-foreground/70">
+          <span className="flex items-center gap-0.5 text-xs">
+            <ThumbsUpIcon className="!h-3 !w-3" />
+            {book.likeCount}
           </span>
-          <span className="flex items-center gap-0.5">
-            <MessageSquareIcon className="mt-0.5 h-3 w-3 stroke-gray-500" />
-            <p className="text-xs text-gray-500">212</p>
+          <span className="flex items-center gap-0.5 text-xs">
+            <MessageSquareIcon className="!h-3 !w-3" />
+            {book.reviewCount}
           </span>
         </div>
       </div>
-    </div>
+      {onDelete && <DeleteButton onClick={onDelete} />}
+    </CommandItem>
   );
 }

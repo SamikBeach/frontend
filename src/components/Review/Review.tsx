@@ -1,9 +1,10 @@
 import { Review as ReviewType } from '@/apis/review/types';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { formatDate } from '@/utils/date';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { useState } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
+import { UserAvatar } from '../UserAvatar';
 import CommentList from './CommentList';
 
 const MAX_CONTENT_LENGTH = 300;
@@ -11,11 +12,18 @@ const MAX_CONTENT_LENGTH = 300;
 interface Props {
   review: ReviewType;
   hideActions?: boolean;
+  showBookInfo?: boolean;
 }
 
-export default function Review({ review, hideActions = false }: Props) {
+export default function Review({
+  review,
+  hideActions = false,
+  showBookInfo = false,
+}: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
   const shouldShowMore = review.content.length > MAX_CONTENT_LENGTH;
+  const bookDialog = useDialogQuery({ type: 'book' });
+  const reviewDialog = useDialogQuery({ type: 'review' });
 
   const displayContent =
     shouldShowMore && !isExpanded
@@ -26,22 +34,27 @@ export default function Review({ review, hideActions = false }: Props) {
     <>
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>
-              {review.user?.nickname?.slice(0, 2) ?? 'UN'}
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex w-full flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <p className="font-medium">
-                {review.user?.nickname ?? '알 수 없음'}
-              </p>
-              <p className="text-sm text-gray-500">
-                {formatDate(review.createdAt)}
-              </p>
-            </div>
-          </div>
+          <UserAvatar user={review.user} />
+          <p className="text-sm text-gray-500">
+            {formatDate(review.createdAt)}
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <h3
+            onClick={() => reviewDialog.open(review.id)}
+            className="cursor-pointer text-lg font-medium hover:underline"
+          >
+            {review.title}
+          </h3>
+          {showBookInfo && (
+            <span
+              onClick={() => bookDialog.open(review.book.id)}
+              className="cursor-pointer text-sm font-medium hover:underline"
+            >
+              {review.book.title}
+            </span>
+          )}
         </div>
 
         <div className="flex flex-col gap-1">

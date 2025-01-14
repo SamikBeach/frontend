@@ -1,11 +1,12 @@
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { BeautifulMentionsPlugin } from 'lexical-beautiful-mentions';
+import { UserAvatar } from '../UserAvatar';
 import { CustomMenu, CustomMenuItem } from './common';
 import { getEditorConfig } from './utils';
 
@@ -25,15 +26,13 @@ const items = [
 ];
 
 export default function CommentEditor() {
+  const currentUser = useCurrentUser();
+
+  if (!currentUser) return null;
+
   return (
     <div className="flex gap-2">
-      <Avatar>
-        <AvatarImage
-          src="https://github.com/shadcn.png"
-          className="h-8 w-8 rounded-full"
-        />
-        <AvatarFallback>CD</AvatarFallback>
-      </Avatar>
+      <UserAvatar user={currentUser} size="sm" showNickname={false} />
 
       <div className="relative flex-1">
         <LexicalComposer initialConfig={getEditorConfig()}>

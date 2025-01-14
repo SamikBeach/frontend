@@ -1,26 +1,53 @@
+import { Author } from '@/apis/author/types';
+import { Book } from '@/apis/book/types';
+import { CommandGroup } from '@/components/ui/command';
 import AuthorItem from './AuthorItem';
 import BookItem from './BookItem';
 
-export default function SearchResultList() {
+interface Props {
+  books: Book[];
+  authors: Author[];
+  onOpenChange: (open: boolean) => void;
+  onItemClick: (bookId?: number, authorId?: number) => void;
+  searchValue: string;
+}
+
+export default function SearchResultList({
+  books,
+  authors,
+  onOpenChange,
+  onItemClick,
+  searchValue,
+}: Props) {
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex flex-col gap-1">
-        <div className="px-2 text-sm font-semibold">작품</div>
+    <>
+      {books.length > 0 && (
+        <CommandGroup heading="도서">
+          {books.map(book => (
+            <BookItem
+              key={book.id}
+              book={book}
+              onOpenChange={onOpenChange}
+              onClick={() => onItemClick(book.id)}
+              searchValue={searchValue}
+            />
+          ))}
+        </CommandGroup>
+      )}
 
-        <div className="flex flex-col">
-          <BookItem />
-          <BookItem />
-          <BookItem />
-        </div>
-      </div>
-
-      <div className="text-sm font-semibold">작가</div>
-
-      <div className="flex flex-col">
-        <AuthorItem />
-        <AuthorItem />
-        <AuthorItem />
-      </div>
-    </div>
+      {authors.length > 0 && (
+        <CommandGroup heading="작가">
+          {authors.map(author => (
+            <AuthorItem
+              key={author.id}
+              author={author}
+              onOpenChange={onOpenChange}
+              onClick={() => onItemClick(undefined, author.id)}
+              searchValue={searchValue}
+            />
+          ))}
+        </CommandGroup>
+      )}
+    </>
   );
 }

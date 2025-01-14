@@ -1,8 +1,8 @@
 import { Comment as CommentType } from '@/apis/review/types';
 import { formatDate } from '@/utils/date';
-import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { Button } from '../ui/button';
+import { UserAvatar } from '../UserAvatar';
 
 interface Props {
   content: string;
@@ -20,19 +20,12 @@ export default function Comment({
   createdAt,
 }: Props) {
   return (
-    <div className="flex items-start gap-3 py-1">
-      <Avatar className="h-8 w-8 shrink-0">
-        <AvatarImage
-          src="https://github.com/shadcn.png"
-          className="rounded-full"
-        />
-        <AvatarFallback>{user.nickname.slice(0, 2)}</AvatarFallback>
-      </Avatar>
+    <div className="flex flex-col items-start gap-2 py-1">
+      <div className="flex items-center gap-2">
+        <UserAvatar user={user} size="sm" />
+        <p className="text-xs text-gray-500">{formatDate(createdAt)}</p>
+      </div>
       <div className="flex w-full flex-col gap-1.5">
-        <div className="flex items-center gap-2">
-          <p className="text-sm font-medium text-gray-900">{user.nickname}</p>
-          <p className="text-xs text-gray-500">{formatDate(createdAt)}</p>
-        </div>
         <div className="flex flex-col gap-1">
           <div className="w-full rounded-lg bg-gray-50 p-3 text-sm leading-relaxed text-gray-700">
             {content}

@@ -3,7 +3,13 @@ import axios from '../axios';
 import type { Book } from '../book/types';
 import type { PaginatedResponse, PaginationQuery } from '../common/types';
 import type { Review } from '../review/types';
-import type { ChangePasswordDto, UpdateUserDto, User, UserBase } from './types';
+import type {
+  ChangePasswordDto,
+  UpdateUserDto,
+  User,
+  UserBase,
+  UserSearch,
+} from './types';
 
 export const userApi = {
   /**
@@ -106,4 +112,12 @@ export const userApi = {
    */
   changePassword: (data: ChangePasswordDto) =>
     axios.post<{ message: string }>('/user/me/password', data),
+
+  getRecentSearches: () => axios.get<UserSearch[]>('/user/me/search'),
+
+  saveSearch: (params: { bookId?: number; authorId?: number }) =>
+    axios.post('/user/me/save-search', params),
+
+  deleteSearch: (searchId: number) =>
+    axios.delete<{ message: string }>(`/user/me/search/${searchId}`),
 };

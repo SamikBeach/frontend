@@ -17,8 +17,8 @@ import { AxiosResponse } from 'axios';
 import { MoreHorizontal } from 'lucide-react';
 import { CommentButton } from '../CommentButton';
 import { LikeButton } from '../LikeButton';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
+import { UserAvatar } from '../UserAvatar';
 import EditDropdownMenu from './EditDropdownMenu';
 
 interface FeedProps {
@@ -160,11 +160,7 @@ function Feed({ review, user, book }: FeedProps) {
       >
         <div className="flex flex-1 flex-col gap-3">
           <div className="flex items-center gap-2">
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>{user.nickname[0]}</AvatarFallback>
-            </Avatar>
-            <div className="font-medium">{user.nickname}</div>
+            <UserAvatar user={user} />
             <div className="text-muted-foreground">
               {formatDate(review.createdAt)}
             </div>

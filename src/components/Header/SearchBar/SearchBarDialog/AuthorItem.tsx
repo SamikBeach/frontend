@@ -1,36 +1,78 @@
+import { Author } from '@/apis/author/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { LibraryIcon, ThumbsUpIcon } from 'lucide-react';
+import { CommandItem } from '@/components/ui/command';
+import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import Highlighter from 'react-highlight-words';
+import DeleteButton from './DeleteButton';
 
-import { MessageSquareIcon } from 'lucide-react';
+interface Props {
+  author: Author;
+  onOpenChange: (open: boolean) => void;
+  onClick: () => void;
+  onDelete?: (e: React.MouseEvent) => void;
+  searchValue?: string;
+}
 
-export default function AuthorItem() {
+export default function AuthorItem({
+  author,
+  onOpenChange,
+  onClick,
+  onDelete,
+  searchValue = '',
+}: Props) {
+  const router = useRouter();
+
+  const handleClick = () => {
+    onClick();
+    onOpenChange(false);
+
+    router.push(`/author/${author.id}`);
+  };
+
   return (
-    <div className="flex items-center gap-3 rounded-md p-3 hover:cursor-pointer hover:bg-gray-100">
-      <Avatar className="h-14 w-14">
-        <AvatarImage src="https://github.com/shadcn.png" />
-        <AvatarFallback>CN</AvatarFallback>
+    <CommandItem
+      value={author.nameInKor}
+      onSelect={handleClick}
+      className="group relative cursor-pointer"
+    >
+      <Avatar className="h-10 w-10 shrink-0">
+        <AvatarImage
+          src={author.imageUrl ?? undefined}
+          alt={author.nameInKor}
+          className="object-cover"
+        />
+        <AvatarFallback>{author.nameInKor[0]}</AvatarFallback>
       </Avatar>
-
-      <div className="flex h-full flex-col justify-between py-1">
+      <div className="flex flex-1 flex-col gap-0.5">
         <div>
-          <p className="text-sm font-semibold">프리드리히 니체</p>
-          <p className="text-xs text-gray-500">Friedrich Wilhelm Nietzsche</p>
+          <h4 className="text-xs font-medium">
+            <Highlighter
+              searchWords={[searchValue]}
+              textToHighlight={author.nameInKor}
+              highlightClassName="text-blue-500 bg-transparent font-bold"
+            />
+          </h4>
+          <p className="text-xs text-muted-foreground/70">
+            <Highlighter
+              searchWords={[searchValue]}
+              textToHighlight={author.name}
+              highlightClassName="text-blue-500 bg-transparent font-bold"
+            />
+          </p>
         </div>
-        <div className="flex gap-2 text-sm text-gray-600">
-          <span className="flex items-center gap-0.5">
-            <ThumbsUpIcon className="h-3 w-3 stroke-gray-500" />
-            <p className="text-xs text-gray-500">300</p>
+        <div className="flex items-center gap-2 text-muted-foreground/70">
+          <span className="flex items-center gap-0.5 text-xs">
+            <ThumbsUpIcon className="!h-3 !w-3" />
+            {author.likeCount}
           </span>
-          <span className="flex items-center gap-0.5">
-            <MessageSquareIcon className="mt-0.5 h-3 w-3 stroke-gray-500" />
-            <p className="text-xs text-gray-500">212</p>
-          </span>
-          <span className="flex items-center gap-0.5">
-            <LibraryIcon className="h-3 w-3 stroke-gray-500" />
-            <p className="text-xs text-gray-500">212</p>
+          <span className="flex items-center gap-0.5 text-xs">
+            <MessageSquareIcon className="!h-3 !w-3" />
+            {author.reviewCount}
           </span>
         </div>
       </div>
-    </div>
+      {onDelete && <DeleteButton onClick={onDelete} />}
+    </CommandItem>
   );
 }

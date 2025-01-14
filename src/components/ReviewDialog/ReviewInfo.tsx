@@ -5,8 +5,8 @@ import { reviewApi } from '@/apis/review/review';
 import { Review } from '@/apis/review/types';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
+import { UserAvatar } from '@/components/UserAvatar';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import {
@@ -17,8 +17,8 @@ import {
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { format } from 'date-fns';
-import { RefObject, Suspense } from 'react';
 import Link from 'next/link';
+import { RefObject, Suspense } from 'react';
 
 interface Props {
   reviewId: number;
@@ -155,24 +155,22 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
           <DialogTitle className="text-3xl font-bold tracking-tight text-gray-900">
             {review.title}
           </DialogTitle>
-          <div className="flex items-center gap-1 text-sm text-gray-500">
+          <div className="flex items-center gap-1">
             <div className="flex items-center gap-2">
-              <Avatar className="h-7 w-7">
-                <AvatarImage src="https://picsum.photos/200/300" />
-                <AvatarFallback>{review.user.nickname[0]}</AvatarFallback>
-              </Avatar>
-              <span className="font-medium text-gray-700">
-                {review.user.nickname}
-              </span>
+              <UserAvatar user={review.user} size="sm" />
             </div>
             <span className="text-gray-300">·</span>
-            <span>
+            <span className="text-sm text-gray-500">
               {format(new Date(review.createdAt), 'yyyy년 M월 d일 HH시 mm분')}
             </span>
           </div>
         </div>
 
-        <Link href={`/book/${review.book.id}`} target="_blank" className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 p-2.5 hover:bg-gray-100 transition-colors">
+        <Link
+          href={`/book/${review.book.id}`}
+          target="_blank"
+          className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 p-2.5 transition-colors hover:bg-gray-100"
+        >
           <img
             src={review.book.imageUrl ?? 'https://picsum.photos/200/300'}
             className="h-14 w-10 rounded-sm object-cover shadow-sm"

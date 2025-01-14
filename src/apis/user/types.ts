@@ -1,3 +1,5 @@
+import { Author } from '../author/types';
+import { Book } from '../book/types';
 import { BaseEntity, PaginationQuery } from '../common/types';
 
 export interface User extends Omit<BaseEntity, 'deletedAt'> {
@@ -23,4 +25,11 @@ export interface UserSearchQuery extends PaginationQuery {
 export interface ChangePasswordDto {
   currentPassword: string;
   newPassword: string;
+}
+
+export interface UserSearch {
+  id: number;
+  book: Book | null;
+  author: Author | null;
+  createdAt: string;
 }

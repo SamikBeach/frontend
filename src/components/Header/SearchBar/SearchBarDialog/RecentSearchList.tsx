@@ -1,19 +1,61 @@
+import { UserSearch } from '@/apis/user/types';
+import { userApi } from '@/apis/user/user';
+import { CommandGroup } from '@/components/ui/command';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import AuthorItem from './AuthorItem';
-
 import BookItem from './BookItem';
 
-export default function RecentSearchList() {
+interface Props {
+  searches: UserSearch[];
+  onOpenChange: (open: boolean) => void;
+  onItemClick: (bookId?: number, authorId?: number) => void;
+}
+
+export default function RecentSearchList({
+  searches,
+  onOpenChange,
+  onItemClick,
+}: Props) {
+  const queryClient = useQueryClient();
+
+  const { mutate: deleteSearch } = useMutation({
+    mutationFn: userApi.deleteSearch,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['recentSearches'] });
+    },
+  });
+
+  const handleDelete = (searchId: number) => {
+    deleteSearch(searchId);
+  };
+
   return (
-    <div className="flex flex-col gap-2">
-      <div className="px-2 text-sm font-semibold">최근 검색</div>
-      <div className="flex flex-col">
-        <BookItem />
-        <AuthorItem />
-        <BookItem />
-        <BookItem />
-        <AuthorItem />
-        <AuthorItem />
-      </div>
-    </div>
+    <CommandGroup heading="최근 검색">
+      {searches.map(search => {
+        if (search.book) {
+          return (
+            <BookItem
+              key={search.id}
+              book={search.book}
+              onOpenChange={onOpenChange}
+              onClick={() => onItemClick(search.book?.id)}
+              onDelete={() => handleDelete(search.id)}
+            />
+          );
+        }
+        if (search.author) {
+          return (
+            <AuthorItem
+              key={search.id}
+              author={search.author}
+              onOpenChange={onOpenChange}
+              onClick={() => onItemClick(undefined, search.author?.id)}
+              onDelete={() => handleDelete(search.id)}
+            />
+          );
+        }
+        return null;
+      })}
+    </CommandGroup>
   );
 }
