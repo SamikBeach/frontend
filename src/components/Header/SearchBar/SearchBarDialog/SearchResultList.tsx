@@ -1,6 +1,6 @@
 import { Author } from '@/apis/author/types';
 import { Book } from '@/apis/book/types';
-import { CommandGroup, CommandItem } from '@/components/ui/command';
+import { CommandGroup } from '@/components/ui/command';
 import AuthorItem from './AuthorItem';
 import BookItem from './BookItem';
 
@@ -23,25 +23,23 @@ export default function SearchResultList({
     <>
       <CommandGroup heading="도서">
         {books.map(book => (
-          <CommandItem key={book.id}>
-            <BookItem
-              book={book}
-              onOpenChange={onOpenChange}
-              onClick={() => onItemClick(book.id)}
-            />
-          </CommandItem>
+          <BookItem
+            key={book.id}
+            book={book}
+            onOpenChange={onOpenChange}
+            onClick={() => onItemClick(book.id)}
+          />
         ))}
       </CommandGroup>
 
       <CommandGroup heading="작가">
         {authors.map(author => (
-          <CommandItem key={author.id}>
-            <AuthorItem
-              author={author}
-              onOpenChange={onOpenChange}
-              onClick={() => onItemClick(undefined, author.id)}
-            />
-          </CommandItem>
+          <AuthorItem
+            key={author.id}
+            author={author}
+            onOpenChange={onOpenChange}
+            onClick={() => onItemClick(undefined, author.id)}
+          />
         ))}
       </CommandGroup>
     </>

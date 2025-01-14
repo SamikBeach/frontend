@@ -101,8 +101,6 @@ function SearchResults({ keyword, onOpenChange }: Props) {
     );
   }
 
-  console.log(data.books);
-
   return (
     <SearchResultList
       books={books}
@@ -117,21 +115,25 @@ export default function SearchBarDialogContent({
   keyword,
   onOpenChange,
 }: Props) {
-  if (!keyword.trim()) {
-    return (
-      <Suspense fallback={<LoadingSpinner />}>
-        <CommandList>
-          <RecentSearches onOpenChange={onOpenChange} />
-        </CommandList>
-      </Suspense>
-    );
-  }
+  const trimmedKeyword = keyword.trim();
+  const isEmpty = !trimmedKeyword;
 
   return (
     <Suspense fallback={<LoadingSpinner />}>
-      <CommandList>
-        <SearchResults keyword={keyword.trim()} onOpenChange={onOpenChange} />
-      </CommandList>
+      <>
+        {isEmpty ? (
+          <CommandList className="max-h-[1300px]">
+            <RecentSearches onOpenChange={onOpenChange} />
+          </CommandList>
+        ) : (
+          <CommandList className={`max-h-[1300px] min-h-[300px]`}>
+            <SearchResults
+              keyword={trimmedKeyword}
+              onOpenChange={onOpenChange}
+            />
+          </CommandList>
+        )}
+      </>
     </Suspense>
   );
 }
