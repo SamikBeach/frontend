@@ -1,5 +1,24 @@
 # 🚦 CHANGELOG
 
+# [1.40.0](https://github.com/SamikBeach/frontend/compare/1.39.0...1.40.0) (2025-01-14)
+
+
+### Bug Fixes
+
+* 검색 다이얼로그 닫을 때 발생하는 에러 수정 ([a0b0142](https://github.com/SamikBeach/frontend/commit/a0b0142abf34010959ed16a273b6fc5daf9e083c))
+* 내 프로필 링크 수정 ([d5b020d](https://github.com/SamikBeach/frontend/commit/d5b020de8cbb975e720e859ae976968c7ef0fb00))
+* 내 프로필 이미지만 수정 가능하도록 ([a77f728](https://github.com/SamikBeach/frontend/commit/a77f72881e46b57853887a0ca5494e81dcf07d2d))
+* 유저 아바타 폴백 수정 ([c42aab7](https://github.com/SamikBeach/frontend/commit/c42aab73f163fd250bc27563f62cfee445d23d50))
+
+
+### Features
+
+* 비밀번호 리셋 기능 구현 ([53f0165](https://github.com/SamikBeach/frontend/commit/53f01655c4ec49da6082246ebe1e4ab412711372))
+* 비밀번호 재설정 기능 추가 ([4946307](https://github.com/SamikBeach/frontend/commit/4946307beea125ed329f04e83630720af4dbbe1b))
+* 타입스크립트 버전 수정 ([580d358](https://github.com/SamikBeach/frontend/commit/580d358c7040697209db65bacebcc15707f7e2b2))
+* 프로필 이미지 삭제 기능 추가 ([af5feca](https://github.com/SamikBeach/frontend/commit/af5feca3ec36ed1d18905ea35306335741d71f18))
+* 프로필 이미지 업로드 기능 추가 ([b250d41](https://github.com/SamikBeach/frontend/commit/b250d41eee99e61522e2ba8a76e9e6b8da24128c))
+
 # [1.39.0](https://github.com/SamikBeach/frontend/compare/1.38.1...1.39.0) (2025-01-14)
 
 
