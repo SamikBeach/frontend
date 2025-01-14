@@ -25,7 +25,6 @@ export default function ResetPasswordDialog(props: Props) {
   const token = searchParams.get('token');
 
   const { isOpen, close } = useDialogQuery({ type: 'reset-password' });
-  console.log({ isOpen });
 
   const router = useRouter();
 
