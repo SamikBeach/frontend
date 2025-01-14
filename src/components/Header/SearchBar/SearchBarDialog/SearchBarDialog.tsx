@@ -1,23 +1,19 @@
 import { searchKeywordAtom } from '@/atoms/search';
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { DialogProps } from '@radix-ui/react-dialog';
+import { Command, CommandInput } from '@/components/ui/command';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { DialogProps, DialogTitle } from '@radix-ui/react-dialog';
 import { useAtom } from 'jotai';
 import { debounce } from 'lodash-es';
 import { useCallback, useEffect, useState } from 'react';
 import SearchBarDialogContent from './SearchBarDialogContent';
 
-interface Props extends DialogProps {
+interface Props extends Omit<DialogProps, 'open'> {
+  open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
 export default function SearchBarDialog({
-  children,
+  open,
   onOpenChange,
   ...props
 }: Props) {
@@ -31,8 +27,7 @@ export default function SearchBarDialog({
     [setSearchKeyword]
   );
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+  const handleChange = (value: string) => {
     setInputValue(value);
     debouncedSearch(value);
   };
@@ -52,27 +47,27 @@ export default function SearchBarDialog({
   };
 
   return (
-    <Dialog {...props} onOpenChange={handleOpenChange}>
-      {children}
+    <Dialog {...props} open={open} onOpenChange={handleOpenChange}>
       <DialogContent
         className="top-[6px] w-[600px] translate-y-0 gap-1 bg-white p-3 sm:max-w-[600px]"
         overlayClassName="bg-black/10"
         closeClassName="hidden"
         aria-describedby={undefined}
       >
-        <Input
-          className="border-0 bg-gray-100 focus-visible:ring-0"
-          placeholder="책이나 작가를 검색하세요."
-          value={inputValue}
-          onChange={handleChange}
-        />
-        <DialogTitle />
-        <SearchBarDialogContent
-          keyword={searchKeyword}
-          onOpenChange={handleOpenChange}
-        />
+        <Command>
+          <DialogTitle />
+          <CommandInput
+            className="h-10 w-full border-0 bg-transparent text-sm focus-visible:ring-0"
+            placeholder="책이나 작가를 검색하세요."
+            value={inputValue}
+            onValueChange={handleChange}
+          />
+          <SearchBarDialogContent
+            keyword={searchKeyword}
+            onOpenChange={handleOpenChange}
+          />
+        </Command>
       </DialogContent>
     </Dialog>
   );
 }
-SearchBarDialog.Trigger = DialogTrigger;

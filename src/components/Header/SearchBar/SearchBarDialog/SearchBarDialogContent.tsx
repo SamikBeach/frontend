@@ -1,6 +1,7 @@
 import { searchApi } from '@/apis/search/search';
 import { userApi } from '@/apis/user/user';
 import { isLoggedInAtom } from '@/atoms/auth';
+import { CommandEmpty, CommandList } from '@/components/ui/command';
 import { Spinner } from '@/components/ui/spinner';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
@@ -23,9 +24,9 @@ function LoadingSpinner() {
 
 function SearchGuide() {
   return (
-    <div className="flex h-[300px] items-center justify-center text-sm text-muted-foreground">
+    <CommandEmpty className="flex h-[300px] items-center justify-center text-sm text-muted-foreground">
       책이나 작가의 이름을 검색해보세요
-    </div>
+    </CommandEmpty>
   );
 }
 
@@ -57,9 +58,9 @@ function RecentSearches({
 
   if (!data?.length) {
     return (
-      <div className="flex h-[300px] items-center justify-center text-sm text-muted-foreground">
+      <CommandEmpty className="flex h-[300px] items-center justify-center text-sm text-muted-foreground">
         최근 검색 기록이 없습니다
-      </div>
+      </CommandEmpty>
     );
   }
 
@@ -76,9 +77,9 @@ function SearchResults({ keyword, onOpenChange }: Props) {
   const { data } = useSuspenseQuery({
     queryKey: ['search', keyword],
     queryFn: async () => {
-      const response = await searchApi.search(keyword);
-      return response.data;
+      return await searchApi.search(keyword);
     },
+    select: data => data.data,
   });
 
   const handleItemClick = async (bookId?: number, authorId?: number) => {
@@ -89,10 +90,23 @@ function SearchResults({ keyword, onOpenChange }: Props) {
     }
   };
 
+  const books = data?.books ?? [];
+  const authors = data?.authors ?? [];
+
+  if (books.length === 0 && authors.length === 0) {
+    return (
+      <CommandEmpty className="flex h-[300px] items-center justify-center text-sm text-muted-foreground">
+        검색 결과가 없습니다
+      </CommandEmpty>
+    );
+  }
+
+  console.log(data.books);
+
   return (
     <SearchResultList
-      books={data.books}
-      authors={data.authors}
+      books={books}
+      authors={authors}
       onOpenChange={onOpenChange}
       onItemClick={handleItemClick}
     />
@@ -106,14 +120,18 @@ export default function SearchBarDialogContent({
   if (!keyword.trim()) {
     return (
       <Suspense fallback={<LoadingSpinner />}>
-        <RecentSearches onOpenChange={onOpenChange} />
+        <CommandList>
+          <RecentSearches onOpenChange={onOpenChange} />
+        </CommandList>
       </Suspense>
     );
   }
 
   return (
     <Suspense fallback={<LoadingSpinner />}>
-      <SearchResults keyword={keyword.trim()} onOpenChange={onOpenChange} />
+      <CommandList>
+        <SearchResults keyword={keyword.trim()} onOpenChange={onOpenChange} />
+      </CommandList>
     </Suspense>
   );
 }
