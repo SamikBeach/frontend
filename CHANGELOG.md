@@ -1,5 +1,36 @@
 # 🚦 CHANGELOG
 
+# [1.39.0](https://github.com/SamikBeach/frontend/compare/1.38.1...1.39.0) (2025-01-14)
+
+
+### Bug Fixes
+
+* Command shouldFilter={false} 설정 ([7c5d07f](https://github.com/SamikBeach/frontend/commit/7c5d07f0b00c996a7c3ca18fcbe784b35da32a1d))
+* Command이용하여 SearchBarContent 구현 ([2fe9846](https://github.com/SamikBeach/frontend/commit/2fe98467760e0e2b1bf4dc411270e31a7acbdece))
+* SearchBarDialogContent 스타일 수정 ([1187591](https://github.com/SamikBeach/frontend/commit/1187591e1ceda28b3d1cf15c2a1388512e33c554))
+* 불필요한 코드 제거 ([2f7824f](https://github.com/SamikBeach/frontend/commit/2f7824f84a24345d4502f5653793693add93a4ef))
+* 스타일 수정 ([17b7611](https://github.com/SamikBeach/frontend/commit/17b7611a3b7eb331a3ccf2e944c59b7a892771d6))
+* 스타일 수정 ([6624bd3](https://github.com/SamikBeach/frontend/commit/6624bd38f466f305a21ebf8a5b0d38faafc1ae2f))
+* 스타일 수정 ([21169df](https://github.com/SamikBeach/frontend/commit/21169df6a5a2243318a39516f52e532b75e64e05))
+* 아바타 이미지 찌그러지지 않도록 수정 ([4be6620](https://github.com/SamikBeach/frontend/commit/4be6620e8fc2cd6da1868dcc7b8bbc4fad6300a9))
+
+
+### Features
+
+* Review 컴포넌트에 도서 정보 표시 여부 옵션 추가 ([a2a2d03](https://github.com/SamikBeach/frontend/commit/a2a2d03f0ca7e2a63ed2a02f1a5c6ab0bf5c499f))
+* UserAvatar 컴포넌트에 닉네임 표시 여부 옵션 추가 ([60fc32b](https://github.com/SamikBeach/frontend/commit/60fc32bb4817dd555c992934ad0c5e0e49e7e0dc))
+* UserAvatar 클릭 시 유저 페이지로 이동 ([dac6382](https://github.com/SamikBeach/frontend/commit/dac6382e9417f1e6681209aef9b3e99f34b1cba8))
+* 검색 결과 UI 개선 ([88a153e](https://github.com/SamikBeach/frontend/commit/88a153e62285f4f798a533f1e2a6a1c4faa8e62a))
+* 검색 결과 클릭시 다이얼로그 닫기 기능 추가 ([d4decca](https://github.com/SamikBeach/frontend/commit/d4deccab6eda9bc0c2945e74c740811a1e6f1bdc))
+* 검색 기록 기능을 로그인 상태에 따라 조건부로 제공 ([333dd87](https://github.com/SamikBeach/frontend/commit/333dd8777c2071f24c5d144b6d616a0786c6eeab))
+* 검색 다이얼로그 닫을 때 검색어 초기화 ([cad0de2](https://github.com/SamikBeach/frontend/commit/cad0de2daa17c43a146504eb3ce2c2a7522457b1))
+* 검색어 하이라이트 스타일 변경 ([e370fa1](https://github.com/SamikBeach/frontend/commit/e370fa16c8e709df54d2ec4ddea1415919c139c9))
+* 리뷰 컴포넌트에 책과 리뷰 다이얼로그 연결 ([55011db](https://github.com/SamikBeach/frontend/commit/55011dbcffdb30de9c14687c004669d61ae74d71))
+* 최근 검색 기록 구현 ([17e1c95](https://github.com/SamikBeach/frontend/commit/17e1c950f18425d3ce54e39b8272497a05d7383d))
+* 통합 검색 API 추가 ([61b2464](https://github.com/SamikBeach/frontend/commit/61b2464143c6578d0988ab385375bdf543d0d664))
+* 통합 검색 결과에 상세 정보 추가 ([69cf92d](https://github.com/SamikBeach/frontend/commit/69cf92d53fd47b255c2d407ecbf4b97b3b793e06))
+* 통합 검색 로딩 UI 개선 ([d1cc224](https://github.com/SamikBeach/frontend/commit/d1cc224cf9b2ea2645fd0bf92030217a0e8012f3))
+
 ## [1.38.1](https://github.com/SamikBeach/frontend/compare/1.38.0...1.38.1) (2025-01-13)
 
 
