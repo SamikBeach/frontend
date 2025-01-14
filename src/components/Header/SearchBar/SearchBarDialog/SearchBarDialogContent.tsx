@@ -3,7 +3,7 @@ import { userApi } from '@/apis/user/user';
 import { isLoggedInAtom } from '@/atoms/auth';
 import { CommandEmpty, CommandList } from '@/components/ui/command';
 import { Spinner } from '@/components/ui/spinner';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import { Suspense } from 'react';
 import RecentSearchList from './RecentSearchList';
@@ -82,12 +82,12 @@ function SearchResults({ keyword, onOpenChange }: Props) {
     select: data => data.data,
   });
 
+  const { mutate: saveSearch } = useMutation({
+    mutationFn: userApi.saveSearch,
+  });
+
   const handleItemClick = async (bookId?: number, authorId?: number) => {
-    try {
-      await userApi.saveSearch({ bookId, authorId });
-    } catch (error) {
-      console.error('Failed to save search history:', error);
-    }
+    saveSearch({ bookId, authorId });
   };
 
   const books = data?.books ?? [];
