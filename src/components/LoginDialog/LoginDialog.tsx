@@ -8,11 +8,17 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 import LoginForm from './LoginForm';
+import ResetPasswordRequestForm from './ResetPasswordRequestForm';
 import SignUpForm from './SignUpForm';
 import UserInfoForm from './UserInfoForm';
 import VerifyCodeForm from './VerifyCodeForm';
 
-type AuthMode = 'login' | 'signup' | 'userInfo' | 'verifyCode';
+type AuthMode =
+  | 'login'
+  | 'signup'
+  | 'userInfo'
+  | 'verifyCode'
+  | 'resetPassword';
 
 interface Props extends ComponentPropsWithoutRef<typeof Dialog> {}
 
@@ -26,7 +32,11 @@ export default function LoginDialog(props: Props) {
   };
 
   const handlePointerDownOutside = (e: Event) => {
-    if (mode === 'userInfo' || mode === 'verifyCode') {
+    if (
+      mode === 'userInfo' ||
+      mode === 'verifyCode' ||
+      mode === 'resetPassword'
+    ) {
       e.preventDefault();
     }
   };
@@ -58,6 +68,7 @@ export default function LoginDialog(props: Props) {
           {mode === 'login' && (
             <LoginForm
               onClickGoToSignUp={() => setMode('signup')}
+              onClickResetPassword={() => setMode('resetPassword')}
               onSuccess={() => props.onOpenChange?.(false)}
             />
           )}
@@ -79,7 +90,19 @@ export default function LoginDialog(props: Props) {
           {mode === 'verifyCode' && (
             <VerifyCodeForm
               email={signUpEmail}
-              onSuccess={() => props.onOpenChange?.(false)}
+              onSuccess={() => {
+                setMode('login');
+                props.onOpenChange?.(false);
+              }}
+            />
+          )}
+          {mode === 'resetPassword' && (
+            <ResetPasswordRequestForm
+              onClickGoToLogin={() => setMode('login')}
+              onSuccess={() => {
+                setMode('login');
+                props.onOpenChange?.(false);
+              }}
             />
           )}
         </div>

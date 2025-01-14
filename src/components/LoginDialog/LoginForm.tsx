@@ -17,10 +17,15 @@ interface LoginFormData {
 
 interface Props {
   onClickGoToSignUp: () => void;
+  onClickResetPassword: () => void;
   onSuccess?: () => void;
 }
 
-export default function LoginForm({ onClickGoToSignUp, onSuccess }: Props) {
+export default function LoginForm({
+  onClickGoToSignUp,
+  onClickResetPassword,
+  onSuccess,
+}: Props) {
   const setCurrentUser = useSetAtom(currentUserAtom);
   const {
     control,
@@ -170,7 +175,12 @@ export default function LoginForm({ onClickGoToSignUp, onSuccess }: Props) {
         </div>
       </div>
       <div className="flex flex-col items-center gap-1 text-sm">
-        <Button variant="link" className="h-6 py-0 text-gray-500">
+        <Button
+          type="button"
+          variant="link"
+          className="h-6 py-0 text-gray-500"
+          onClick={onClickResetPassword}
+        >
           비밀번호를 잊으셨나요?
         </Button>
 
