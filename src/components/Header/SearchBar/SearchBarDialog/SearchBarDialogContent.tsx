@@ -120,20 +120,13 @@ export default function SearchBarDialogContent({
 
   return (
     <Suspense fallback={<LoadingSpinner />}>
-      <>
+      <CommandList className="max-h-[1300px]">
         {isEmpty ? (
-          <CommandList className="max-h-[1300px]">
-            <RecentSearches onOpenChange={onOpenChange} />
-          </CommandList>
+          <RecentSearches onOpenChange={onOpenChange} />
         ) : (
-          <CommandList className={`max-h-[1300px] min-h-[300px]`}>
-            <SearchResults
-              keyword={trimmedKeyword}
-              onOpenChange={onOpenChange}
-            />
-          </CommandList>
+          <SearchResults keyword={trimmedKeyword} onOpenChange={onOpenChange} />
         )}
-      </>
+      </CommandList>
     </Suspense>
   );
 }

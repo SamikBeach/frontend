@@ -21,27 +21,31 @@ export default function SearchResultList({
 
   return (
     <>
-      <CommandGroup heading="도서">
-        {books.map(book => (
-          <BookItem
-            key={book.id}
-            book={book}
-            onOpenChange={onOpenChange}
-            onClick={() => onItemClick(book.id)}
-          />
-        ))}
-      </CommandGroup>
+      {books.length > 0 && (
+        <CommandGroup heading="도서">
+          {books.map(book => (
+            <BookItem
+              key={book.id}
+              book={book}
+              onOpenChange={onOpenChange}
+              onClick={() => onItemClick(book.id)}
+            />
+          ))}
+        </CommandGroup>
+      )}
 
-      <CommandGroup heading="작가">
-        {authors.map(author => (
-          <AuthorItem
-            key={author.id}
-            author={author}
-            onOpenChange={onOpenChange}
-            onClick={() => onItemClick(undefined, author.id)}
-          />
-        ))}
-      </CommandGroup>
+      {authors.length > 0 && (
+        <CommandGroup heading="작가">
+          {authors.map(author => (
+            <AuthorItem
+              key={author.id}
+              author={author}
+              onOpenChange={onOpenChange}
+              onClick={() => onItemClick(undefined, author.id)}
+            />
+          ))}
+        </CommandGroup>
+      )}
     </>
   );
 }

@@ -54,7 +54,7 @@ export default function SearchBarDialog({
         closeClassName="hidden"
         aria-describedby={undefined}
       >
-        <Command>
+        <Command shouldFilter={false}>
           <DialogTitle className="hidden" />
           <CommandInput
             className="h-10 w-full border-0 bg-transparent text-sm focus-visible:ring-0"
