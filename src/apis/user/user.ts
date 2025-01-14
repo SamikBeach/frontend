@@ -117,4 +117,7 @@ export const userApi = {
 
   saveSearch: (params: { bookId?: number; authorId?: number }) =>
     axios.post('/user/me/save-search', params),
+
+  deleteSearch: (searchId: number) =>
+    axios.delete<{ message: string }>(`/user/me/search/${searchId}`),
 };
