@@ -43,8 +43,16 @@ export default function SearchBarDialog({
     };
   }, [debouncedSearch]);
 
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      setSearchKeyword('');
+      setInputValue('');
+    }
+    onOpenChange(open);
+  };
+
   return (
-    <Dialog {...props} onOpenChange={onOpenChange}>
+    <Dialog {...props} onOpenChange={handleOpenChange}>
       {children}
       <DialogContent
         className="top-[6px] w-[600px] translate-y-0 gap-1 bg-white p-3 sm:max-w-[600px]"
@@ -61,11 +69,10 @@ export default function SearchBarDialog({
         <DialogTitle />
         <SearchBarDialogContent
           keyword={searchKeyword}
-          onOpenChange={onOpenChange}
+          onOpenChange={handleOpenChange}
         />
       </DialogContent>
     </Dialog>
   );
 }
-
 SearchBarDialog.Trigger = DialogTrigger;

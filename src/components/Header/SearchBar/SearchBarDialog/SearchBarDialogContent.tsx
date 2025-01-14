@@ -21,6 +21,14 @@ function LoadingSpinner() {
   );
 }
 
+function SearchGuide() {
+  return (
+    <div className="flex h-[300px] items-center justify-center text-sm text-muted-foreground">
+      책이나 작가의 이름을 검색해보세요
+    </div>
+  );
+}
+
 function RecentSearches({
   onOpenChange,
 }: {
@@ -28,15 +36,15 @@ function RecentSearches({
 }) {
   const isLoggedIn = useAtomValue(isLoggedInAtom);
 
-  console.log({ isLoggedIn });
   if (!isLoggedIn) {
-    return null;
+    return <SearchGuide />;
   }
 
   const { data } = useSuspenseQuery({
     queryKey: ['recentSearches'],
     queryFn: userApi.getRecentSearches,
     select: data => data.data,
+    staleTime: 0,
   });
 
   const handleItemClick = async (bookId?: number, authorId?: number) => {
@@ -48,7 +56,11 @@ function RecentSearches({
   };
 
   if (!data?.length) {
-    return null;
+    return (
+      <div className="flex h-[300px] items-center justify-center text-sm text-muted-foreground">
+        최근 검색 기록이 없습니다
+      </div>
+    );
   }
 
   return (
