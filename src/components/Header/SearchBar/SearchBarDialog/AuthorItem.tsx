@@ -28,38 +28,36 @@ export default function AuthorItem({
   };
 
   return (
-    <div className="group relative">
-      <CommandItem
-        value={author.nameInKor}
-        onSelect={handleClick}
-        className="cursor-pointer"
-      >
-        <Avatar className="h-11 w-11 shrink-0">
-          <AvatarImage
-            src={author.imageUrl ?? undefined}
-            alt={author.nameInKor}
-            className="object-cover"
-          />
-          <AvatarFallback>{author.nameInKor[0]}</AvatarFallback>
-        </Avatar>
-        <div className="flex flex-1 flex-col gap-1">
-          <div>
-            <h4 className="text-[15px] font-medium">{author.nameInKor}</h4>
-            <p className="text-[13px] text-muted-foreground">{author.name}</p>
-          </div>
-          <div className="flex items-center gap-2.5 text-xs text-muted-foreground">
-            <span className="flex items-center gap-1">
-              <ThumbsUpIcon className="h-3.5 w-3.5" />
-              {author.likeCount}
-            </span>
-            <span className="flex items-center gap-1">
-              <MessageSquareIcon className="h-3.5 w-3.5" />
-              {author.reviewCount}
-            </span>
-          </div>
+    <CommandItem
+      value={author.nameInKor}
+      onSelect={handleClick}
+      className="group relative cursor-pointer"
+    >
+      <Avatar className="h-10 w-10 shrink-0">
+        <AvatarImage
+          src={author.imageUrl ?? undefined}
+          alt={author.nameInKor}
+          className="object-cover"
+        />
+        <AvatarFallback>{author.nameInKor[0]}</AvatarFallback>
+      </Avatar>
+      <div className="flex flex-1 flex-col gap-0.5">
+        <div>
+          <h4 className="text-xs font-medium">{author.nameInKor}</h4>
+          <p className="text-xs text-muted-foreground/70">{author.name}</p>
         </div>
-      </CommandItem>
+        <div className="flex items-center gap-2 text-muted-foreground/70">
+          <span className="flex items-center gap-0.5 text-xs">
+            <ThumbsUpIcon className="!h-3 !w-3" />
+            {author.likeCount}
+          </span>
+          <span className="flex items-center gap-0.5 text-xs">
+            <MessageSquareIcon className="!h-3 !w-3" />
+            {author.reviewCount}
+          </span>
+        </div>
+      </div>
       {onDelete && <DeleteButton onClick={onDelete} />}
-    </div>
+    </CommandItem>
   );
 }

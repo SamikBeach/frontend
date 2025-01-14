@@ -27,39 +27,35 @@ export default function BookItem({
   };
 
   return (
-    <div className="group relative">
-      <CommandItem
-        value={book.title}
-        onSelect={handleClick}
-        className="cursor-pointer"
-      >
-        <img
-          src={book.imageUrl ?? '/placeholder-book.png'}
-          alt={book.title}
-          className="h-[84px] w-[58px] rounded-[2px] object-cover shadow-sm"
-        />
-        <div className="flex flex-1 flex-col gap-1">
-          <div>
-            <h4 className="line-clamp-1 text-[15px] font-medium">
-              {book.title}
-            </h4>
-            <p className="line-clamp-1 text-[13px] text-muted-foreground">
-              {book.authorBooks.map(ab => ab.author.nameInKor).join(', ')}
-            </p>
-          </div>
-          <div className="flex items-center gap-2.5 text-xs text-muted-foreground">
-            <span className="flex items-center gap-1">
-              <ThumbsUpIcon className="h-3.5 w-3.5" />
-              {book.likeCount}
-            </span>
-            <span className="flex items-center gap-1">
-              <MessageSquareIcon className="h-3.5 w-3.5" />
-              {book.reviewCount}
-            </span>
-          </div>
+    <CommandItem
+      value={book.title}
+      onSelect={handleClick}
+      className="group relative cursor-pointer"
+    >
+      <img
+        src={book.imageUrl ?? undefined}
+        alt={book.title}
+        className="h-20 w-14 rounded-sm object-cover"
+      />
+      <div className="flex h-20 flex-1 flex-col justify-between py-1">
+        <div>
+          <h4 className="line-clamp-1 text-xs font-medium">{book.title}</h4>
+          <p className="line-clamp-1 text-xs text-muted-foreground/70">
+            {book.authorBooks.map(ab => ab.author.nameInKor).join(', ')}
+          </p>
         </div>
-      </CommandItem>
+        <div className="flex items-center gap-2 text-muted-foreground/70">
+          <span className="flex items-center gap-0.5 text-xs">
+            <ThumbsUpIcon className="!h-3 !w-3" />
+            {book.likeCount}
+          </span>
+          <span className="flex items-center gap-0.5 text-xs">
+            <MessageSquareIcon className="!h-3 !w-3" />
+            {book.reviewCount}
+          </span>
+        </div>
+      </div>
       {onDelete && <DeleteButton onClick={onDelete} />}
-    </div>
+    </CommandItem>
   );
 }
