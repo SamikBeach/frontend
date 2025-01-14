@@ -18,6 +18,7 @@ export default function SearchResultList({
   onItemClick,
 }: Props) {
   console.log({ books });
+
   return (
     <>
       <CommandGroup heading="도서">

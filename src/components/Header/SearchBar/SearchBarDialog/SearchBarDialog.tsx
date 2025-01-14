@@ -55,7 +55,7 @@ export default function SearchBarDialog({
         aria-describedby={undefined}
       >
         <Command>
-          <DialogTitle />
+          <DialogTitle className="hidden" />
           <CommandInput
             className="h-10 w-full border-0 bg-transparent text-sm focus-visible:ring-0"
             placeholder="책이나 작가를 검색하세요."
