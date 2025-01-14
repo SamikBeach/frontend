@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/sonner';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MoreHorizontalIcon, Trash2Icon } from 'lucide-react';
 import { Suspense } from 'react';
@@ -19,6 +20,8 @@ interface Props {
 
 function UserInfoContent({ userId }: Props) {
   const queryClient = useQueryClient();
+  const currentUser = useCurrentUser();
+  const isMyProfile = currentUser?.id === userId;
 
   const { data: user } = useQuery({
     queryKey: ['user', userId],
@@ -67,19 +70,21 @@ function UserInfoContent({ userId }: Props) {
               width={200}
               height={200}
             />
-            <label className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
-              <span className="text-sm font-medium text-white">
-                이미지 변경
-              </span>
-              <Input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleImageUpload}
-              />
-            </label>
+            {isMyProfile && (
+              <label className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
+                <span className="text-sm font-medium text-white">
+                  이미지 변경
+                </span>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageUpload}
+                />
+              </label>
+            )}
           </div>
-          {user?.imageUrl && (
+          {isMyProfile && user?.imageUrl && (
             <div className="absolute bottom-3 right-3">
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex h-8 w-8 items-center justify-center rounded-full bg-background shadow-md ring-1 ring-border hover:bg-accent">
