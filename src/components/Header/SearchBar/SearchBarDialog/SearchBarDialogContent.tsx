@@ -1,7 +1,9 @@
 import { searchApi } from '@/apis/search/search';
 import { userApi } from '@/apis/user/user';
+import { isLoggedInAtom } from '@/atoms/auth';
 import { Spinner } from '@/components/ui/spinner';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { useAtomValue } from 'jotai';
 import { Suspense } from 'react';
 import RecentSearchList from './RecentSearchList';
 import SearchResultList from './SearchResultList';
@@ -24,12 +26,17 @@ function RecentSearches({
 }: {
   onOpenChange: (open: boolean) => void;
 }) {
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
+
+  console.log({ isLoggedIn });
+  if (!isLoggedIn) {
+    return null;
+  }
+
   const { data } = useSuspenseQuery({
     queryKey: ['recentSearches'],
-    queryFn: async () => {
-      const response = await userApi.getRecentSearches();
-      return response.data;
-    },
+    queryFn: userApi.getRecentSearches,
+    select: data => data.data,
   });
 
   const handleItemClick = async (bookId?: number, authorId?: number) => {
@@ -39,6 +46,10 @@ function RecentSearches({
       console.error('Failed to save search history:', error);
     }
   };
+
+  if (!data?.length) {
+    return null;
+  }
 
   return (
     <RecentSearchList
