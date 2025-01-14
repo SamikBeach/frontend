@@ -54,19 +54,21 @@ export default function SearchBarDialog({
         closeClassName="hidden"
         aria-describedby={undefined}
       >
-        <Command shouldFilter={false}>
-          <DialogTitle className="hidden" />
-          <CommandInput
-            className="h-10 w-full border-0 bg-transparent text-sm focus-visible:ring-0"
-            placeholder="책이나 작가를 검색하세요."
-            value={inputValue}
-            onValueChange={handleChange}
-          />
-          <SearchBarDialogContent
-            keyword={searchKeyword}
-            onOpenChange={handleOpenChange}
-          />
-        </Command>
+        {open && (
+          <Command shouldFilter={false}>
+            <DialogTitle className="hidden" />
+            <CommandInput
+              className="h-10 w-full border-0 bg-transparent text-sm focus-visible:ring-0"
+              placeholder="책이나 작가를 검색하세요."
+              value={inputValue}
+              onValueChange={handleChange}
+            />
+            <SearchBarDialogContent
+              keyword={searchKeyword}
+              onOpenChange={handleOpenChange}
+            />
+          </Command>
+        )}
       </DialogContent>
     </Dialog>
   );
