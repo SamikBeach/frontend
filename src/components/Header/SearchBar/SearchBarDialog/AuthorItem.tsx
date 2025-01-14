@@ -21,10 +21,11 @@ export default function AuthorItem({ author, onOpenChange, onClick }: Props) {
       className="flex items-center gap-3 rounded-md p-2 hover:bg-accent"
       onClick={handleClick}
     >
-      <Avatar className="h-11 w-11">
+      <Avatar className="h-11 w-11 shrink-0">
         <AvatarImage
           src={author.imageUrl ?? undefined}
           alt={author.nameInKor}
+          className="object-cover"
         />
         <AvatarFallback>{author.nameInKor[0]}</AvatarFallback>
       </Avatar>
