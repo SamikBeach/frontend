@@ -6,14 +6,17 @@ import { useAtom } from 'jotai';
 import { useCallback } from 'react';
 
 interface DialogQueryOptions {
-  type: 'book' | 'review' | 'author';
+  type: 'book' | 'review' | 'author' | 'reset-password';
 }
 
 export function useDialogQuery({ type }: DialogQueryOptions) {
   const [dialogState, setDialogState] = useAtom(dialogAtom);
   const { updateQueryParams } = useQueryParams();
 
-  const isOpen = dialogState?.type === type && dialogState?.id !== null;
+  const isOpen =
+    dialogState?.type === type &&
+    (dialogState?.id !== null || type === 'reset-password');
+
   const id = isOpen ? dialogState?.id : null;
 
   const open = useCallback(

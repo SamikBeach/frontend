@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { toast } from '@/components/ui/sonner';
 import { STORAGE_KEYS } from '@/constants/storage-keys';
 import { DialogProps } from '@radix-ui/react-dialog';
 import { useMutation } from '@tanstack/react-query';
@@ -19,7 +20,6 @@ import { useSetAtom } from 'jotai';
 import { AlertTriangle, UserX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { toast, Toaster } from 'sonner';
 
 interface Props extends DialogProps {}
 
@@ -106,7 +106,6 @@ export default function DeleteAccountDialog({ children, ...props }: Props) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      <Toaster />
     </>
   );
 }

@@ -10,13 +10,13 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { toast } from '@/components/ui/sonner';
 import { DialogProps } from '@radix-ui/react-dialog';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { KeyRound } from 'lucide-react';
 import { useState } from 'react';
 import { useController, useForm } from 'react-hook-form';
-import { toast, Toaster } from 'sonner';
 
 interface Props extends DialogProps {}
 
@@ -174,7 +174,6 @@ export default function ChangePasswordDialog({ children, ...props }: Props) {
           </form>
         </DialogContent>
       </Dialog>
-      <Toaster />
     </>
   );
 }

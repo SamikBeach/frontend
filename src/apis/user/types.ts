@@ -5,10 +5,11 @@ import { BaseEntity, PaginationQuery } from '../common/types';
 export interface User extends Omit<BaseEntity, 'deletedAt'> {
   email: string;
   nickname: string;
+  imageUrl: string | null;
   verified: boolean;
 }
 
-export type UserBase = Pick<User, 'id' | 'email' | 'nickname'>;
+export type UserBase = Pick<User, 'id' | 'email' | 'nickname' | 'imageUrl'>;
 
 export interface UpdateUserDto {
   nickname?: string;

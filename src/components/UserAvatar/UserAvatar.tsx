@@ -6,12 +6,14 @@ interface Props {
   user: UserBase;
   size?: 'sm' | 'md' | 'lg';
   showNickname?: boolean;
+  className?: string;
 }
 
 export default function UserAvatar({
   user,
   size = 'md',
   showNickname = true,
+  className,
 }: Props) {
   const avatarSize = {
     sm: 'h-8 w-8',
@@ -35,9 +37,9 @@ export default function UserAvatar({
       className="group flex items-center gap-2"
       onClick={handleClick}
     >
-      <Avatar className={avatarSize}>
-        <AvatarImage src="https://github.com/shadcn.png" />
-        <AvatarFallback>{user.nickname?.slice(0, 2) ?? 'UN'}</AvatarFallback>
+      <Avatar className={`${avatarSize} ${className ?? ''}`}>
+        <AvatarImage src={user.imageUrl ?? undefined} />
+        <AvatarFallback>{user.nickname?.slice(0, 1) ?? 'U'}</AvatarFallback>
       </Avatar>
       {showNickname && (
         <p className={`font-medium ${textSize} group-hover:underline`}>

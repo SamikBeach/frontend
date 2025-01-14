@@ -118,6 +118,28 @@ export const userApi = {
   saveSearch: (params: { bookId?: number; authorId?: number }) =>
     axios.post('/user/me/save-search', params),
 
+  /**
+   * 프로필 이미지를 업로드합니다.
+   * @param file - 업로드할 이미지 파일
+   * @returns 업데이트된 사용자 정보
+   */
+  uploadProfileImage: (file: File) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    return axios.post<User>('/user/me/profile-image', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+
+  /**
+   * 프로필 이미지를 삭제합니다.
+   * @returns 업데이트된 사용자 정보
+   */
+  deleteProfileImage: () => axios.delete<User>('/user/me/profile-image'),
+
   deleteSearch: (searchId: number) =>
     axios.delete<{ message: string }>(`/user/me/search/${searchId}`),
 };

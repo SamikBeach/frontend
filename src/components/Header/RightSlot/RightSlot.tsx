@@ -62,7 +62,7 @@ export default function RightSlot() {
       <DropdownMenuContent align="end">
         <DropdownMenuItem
           className="cursor-pointer"
-          onClick={() => router.push('/user/1')}
+          onClick={() => router.push(`/user/${currentUser.id}`)}
         >
           <User className="mr-2 h-4 w-4" />내 프로필
         </DropdownMenuItem>

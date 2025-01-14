@@ -109,7 +109,7 @@ axios.interceptors.response.use(
         // 원래 요청을 새로운 토큰으로 재시도
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axios(originalRequest);
-      } catch (refreshError) {
+      } catch {
         isRefreshing = false;
         refreshSubscribers = [];
         return Promise.reject(error); // 원본 401 에러를 반환
@@ -117,7 +117,7 @@ axios.interceptors.response.use(
     }
 
     // 리프레시가 진행 중일 때는 새로운 Promise를 반환하여 토큰 리프레시 완료 후 처리
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       refreshSubscribers.push(token => {
         originalRequest.headers.Authorization = `Bearer ${token}`;
         resolve(axios(originalRequest));

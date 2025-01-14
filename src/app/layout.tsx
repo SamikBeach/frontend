@@ -1,6 +1,7 @@
 import { Header } from '@/components/Header';
 import { Initializer } from '@/components/Initializer';
 import { LeftSidebar } from '@/components/LeftSidebar';
+import { Toaster } from '@/components/ui/sonner';
 import { AtomsProvider } from '@/providers/AtomsProvider';
 import { DialogProvider } from '@/providers/DialogProvider';
 import ReactQueryProvider from '@/providers/ReactQueryProvider';
@@ -37,6 +38,7 @@ export default async function RootLayout({
                         <main className="ml-[240px] w-full">{children}</main>
                       </div>
                     </div>
+                    <Toaster />
                   </NextIntlClientProvider>
                   <ReactQueryDevtools initialIsOpen={false} />
                 </GoogleOAuthProvider>
