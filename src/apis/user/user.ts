@@ -134,6 +134,12 @@ export const userApi = {
     });
   },
 
+  /**
+   * 프로필 이미지를 삭제합니다.
+   * @returns 업데이트된 사용자 정보
+   */
+  deleteProfileImage: () => axios.delete<User>('/user/me/profile-image'),
+
   deleteSearch: (searchId: number) =>
     axios.delete<{ message: string }>(`/user/me/search/${searchId}`),
 };

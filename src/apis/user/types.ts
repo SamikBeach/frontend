@@ -34,4 +34,3 @@ export interface UserSearch {
   author: Author | null;
   createdAt: string;
 }
-
