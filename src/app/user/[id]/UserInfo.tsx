@@ -9,8 +9,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/sonner';
+import { UserAvatar } from '@/components/UserAvatar';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import { MoreHorizontalIcon, Trash2Icon } from 'lucide-react';
 import { Suspense } from 'react';
 
@@ -23,7 +28,7 @@ function UserInfoContent({ userId }: Props) {
   const currentUser = useCurrentUser();
   const isMyProfile = currentUser?.id === userId;
 
-  const { data: user } = useQuery({
+  const { data: user } = useSuspenseQuery({
     queryKey: ['user', userId],
     queryFn: () => userApi.getUserDetail(userId),
     select: response => response.data,
@@ -33,6 +38,11 @@ function UserInfoContent({ userId }: Props) {
     mutationFn: (file: File) => userApi.uploadProfileImage(file),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user', userId] });
+
+      if (isMyProfile) {
+        queryClient.invalidateQueries({ queryKey: ['me'] });
+      }
+
       toast.success('프로필 이미지가 업데이트되었습니다.');
     },
     onError: () => {
@@ -63,12 +73,10 @@ function UserInfoContent({ userId }: Props) {
       <div className="flex gap-4">
         <div className="relative">
           <div className="group relative h-[200px] w-[200px] flex-shrink-0 overflow-hidden rounded-full bg-gray-200">
-            <img
-              src={user?.imageUrl || 'https://picsum.photos/200/200'}
-              alt={user?.nickname}
-              className="absolute inset-0 h-full w-full object-cover"
-              width={200}
-              height={200}
+            <UserAvatar
+              user={user}
+              showNickname={false}
+              className="h-[200px] w-[200px]"
             />
             {isMyProfile && (
               <label className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
@@ -84,7 +92,7 @@ function UserInfoContent({ userId }: Props) {
               </label>
             )}
           </div>
-          {isMyProfile && user?.imageUrl && (
+          {isMyProfile && user.imageUrl && (
             <div className="absolute bottom-3 right-3">
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex h-8 w-8 items-center justify-center rounded-full bg-background shadow-md ring-1 ring-border hover:bg-accent">
@@ -106,7 +114,7 @@ function UserInfoContent({ userId }: Props) {
 
         <div className="flex w-full flex-col justify-between gap-4">
           <div className="flex flex-col gap-0.5">
-            <h1 className="text-2xl font-bold">{user?.nickname}</h1>
+            <h1 className="text-2xl font-bold">{user.nickname}</h1>
           </div>
         </div>
       </div>
