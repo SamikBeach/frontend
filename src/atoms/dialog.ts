@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 
 interface DialogState {
-  type: 'book' | 'review' | 'author' | null;
+  type: 'book' | 'review' | 'author' | 'reset-password' | null;
   id: number | null;
 }
 

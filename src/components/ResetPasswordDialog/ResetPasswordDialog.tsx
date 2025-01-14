@@ -1,32 +1,34 @@
 import { authApi } from '@/apis/auth/auth';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
+import { useQueryParams } from '@/hooks/useQueryParams';
+import { DialogProps } from '@radix-ui/react-dialog';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useController, useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 import { Input } from '../ui/input';
+import { toast } from '../ui/sonner';
 
 interface ResetPasswordFormData {
   newPassword: string;
   confirmPassword: string;
 }
 
-interface Props {
-  isOpen: boolean;
-  onClose: () => void;
-  email: string;
-  token: string;
-}
+interface Props extends DialogProps {}
 
-export default function ResetPasswordDialog({
-  isOpen,
-  onClose,
-  email,
-  token,
-}: Props) {
+export default function ResetPasswordDialog(props: Props) {
+  const { searchParams } = useQueryParams();
+
+  const email = searchParams.get('email');
+  const token = searchParams.get('token');
+
+  const { isOpen, close } = useDialogQuery({ type: 'reset-password' });
+  console.log({ isOpen });
+
   const router = useRouter();
+
   const {
     control,
     handleSubmit,
@@ -62,21 +64,30 @@ export default function ResetPasswordDialog({
   });
 
   const { mutate: verifyToken, isPending: isVerifying } = useMutation({
-    mutationFn: () => authApi.verifyPasswordResetToken(email, token),
+    mutationFn: () => {
+      if (!email || !token) {
+        throw new Error('이메일 또는 토큰이 없습니다.');
+      }
+
+      return authApi.verifyPasswordResetToken(email, token);
+    },
     onError: () => {
       toast.error('유효하지 않거나 만료된 링크입니다.');
-      onClose();
       router.push('/');
     },
   });
 
   const { mutate: resetPassword, isPending: isResetting } = useMutation({
-    mutationFn: (data: ResetPasswordFormData) =>
-      authApi.resetPassword(email, token, data.newPassword),
+    mutationFn: (data: ResetPasswordFormData) => {
+      if (!email || !token) {
+        throw new Error('이메일 또는 토큰이 없습니다.');
+      }
+
+      return authApi.resetPassword(email, token, data.newPassword);
+    },
     onSuccess: () => {
-      toast.success('비밀번호가 성공적으로 변경되었습니다.');
-      onClose();
       router.push('/');
+      toast.success('비밀번호가 변경되었습니다.');
     },
   });
 
@@ -91,7 +102,7 @@ export default function ResetPasswordDialog({
   });
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog {...props} open={isOpen} onOpenChange={open => !open && close()}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>새로운 비밀번호 설정</DialogTitle>
