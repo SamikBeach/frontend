@@ -22,9 +22,9 @@ export default function UserAvatar({
   }[size];
 
   const textSize = {
-    sm: 'text-sm',
-    md: 'text-base',
-    lg: 'text-lg',
+    sm: 'text-xs',
+    md: 'text-sm',
+    lg: 'text-base',
   }[size];
 
   const handleClick = (e: React.MouseEvent) => {
@@ -39,7 +39,9 @@ export default function UserAvatar({
     >
       <Avatar className={`${avatarSize} ${className ?? ''}`}>
         <AvatarImage src={user.imageUrl ?? undefined} />
-        <AvatarFallback>{user.nickname?.slice(0, 1) ?? 'U'}</AvatarFallback>
+        <AvatarFallback>
+          {user.nickname?.slice(0, 1).toUpperCase() ?? 'U'}
+        </AvatarFallback>
       </Avatar>
       {showNickname && (
         <p className={`font-medium ${textSize} group-hover:underline`}>

@@ -3,11 +3,10 @@
 import { PaginatedResponse } from '@/apis/common/types';
 import { reviewApi } from '@/apis/review/review';
 import { Comment as CommentType } from '@/apis/review/types';
-import { Comment } from '@/components/Comment';
 import {
   CommentItemSkeleton,
   default as CommentListSkeleton,
-} from '@/components/Comment/CommentSkeleton';
+} from '@/components/CommentItem/CommentSkeleton';
 import {
   useSuspenseInfiniteQuery,
   useSuspenseQuery,
@@ -15,15 +14,22 @@ import {
 import { AxiosResponse } from 'axios';
 import { RefObject, Suspense, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import CommentItem from '../CommentItem/CommentItem';
 import EmptyComments from './EmptyComments';
 
 interface Props {
   ref: RefObject<HTMLDivElement | null>;
   reviewId: number;
   scrollableTarget: string;
+  onReply: (user: { nickname: string }) => void;
 }
 
-function CommentListContent({ ref, reviewId, scrollableTarget }: Props) {
+function CommentListContent({
+  ref,
+  reviewId,
+  scrollableTarget,
+  onReply,
+}: Props) {
   const { data: review } = useSuspenseQuery({
     queryKey: ['review', reviewId],
     queryFn: () => reviewApi.getReviewDetail(reviewId),
@@ -85,13 +91,11 @@ function CommentListContent({ ref, reviewId, scrollableTarget }: Props) {
         >
           <div className="flex flex-col">
             {comments.map(comment => (
-              <Comment
+              <CommentItem
                 key={comment.id}
-                content={comment.content}
-                user={comment.user}
-                likeCount={comment.likeCount}
-                isLiked={comment.isLiked}
-                createdAt={comment.createdAt}
+                comment={comment}
+                reviewId={reviewId}
+                onReply={onReply}
               />
             ))}
           </div>

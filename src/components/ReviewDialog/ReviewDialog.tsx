@@ -1,8 +1,11 @@
 'use client';
 
+import { reviewApi } from '@/apis/review/review';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogProps, DialogTitle } from '@radix-ui/react-dialog';
-import { useRef } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useRef, useState } from 'react';
+import { toast } from 'sonner';
 import { CommentEditor } from '../CommentEditor';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import CommentList from './CommentList';
@@ -13,7 +16,39 @@ interface Props extends DialogProps {}
 export default function ReviewDialog(props: Props) {
   const { isOpen, id: reviewId, close } = useDialogQuery({ type: 'review' });
 
+  const queryClient = useQueryClient();
+
   const commentListRef = useRef<HTMLDivElement>(null);
+  const [replyToUser, setReplyToUser] = useState<{ nickname: string } | null>(
+    null
+  );
+
+  const { mutate: createComment } = useMutation({
+    mutationFn: (comment: string) => {
+      if (!reviewId) throw new Error('Review ID is required');
+      return reviewApi.createComment(reviewId, { content: comment });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['comments', reviewId],
+      });
+
+      // 새로운 댓글은 항상 목록 가장 앞에 추가되므로 첫 번째 댓글로 스크롤
+      setTimeout(() => {
+        commentListRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+
+      toast.success('댓글이 작성되었습니다.');
+      setReplyToUser(null);
+    },
+    onError: () => {
+      toast.error('댓글 작성에 실패했습니다.');
+    },
+  });
+
+  const handleReply = useCallback((user: { nickname: string }) => {
+    setReplyToUser(user);
+  }, []);
 
   if (!reviewId) {
     return null;
@@ -29,19 +64,23 @@ export default function ReviewDialog(props: Props) {
         id="dialog-content"
       >
         <DialogTitle className="sr-only">리뷰 정보</DialogTitle>
-        <div className="flex flex-col gap-7">
+        <div className="flex h-[99999px] flex-col gap-7">
           <ReviewInfo reviewId={reviewId} commentListRef={commentListRef} />
           <CommentList
             ref={commentListRef}
             reviewId={reviewId}
             scrollableTarget="dialog-content"
+            onReply={handleReply}
           />
         </div>
         <div className="sticky bottom-0 bg-white pt-4">
           <div className="relative">
             <div className="absolute -bottom-10 -left-10 -right-10 -top-4 bg-white shadow-[0_-8px_12px_0px_white]" />
             <div className="relative">
-              <CommentEditor />
+              <CommentEditor
+                onSubmit={createComment}
+                replyToUser={replyToUser ?? undefined}
+              />
             </div>
           </div>
         </div>

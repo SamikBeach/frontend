@@ -1,20 +1,43 @@
+import { UserAvatar } from '@/components/UserAvatar';
 import { BeautifulMentionsMenuItemProps } from 'lexical-beautiful-mentions';
 import { forwardRef } from 'react';
 
-interface Props extends BeautifulMentionsMenuItemProps {}
+interface MentionUser {
+  id: number;
+  nickname: string;
+  email: string;
+  imageUrl?: string | null;
+  type: 'user';
+}
 
-const CustomMenuItem = forwardRef<HTMLLIElement, Props>(
-  ({ item, ...props }, ref) => {
-    return (
-      <li
-        ref={ref}
-        className={`flex h-7 w-[200px] items-center gap-2 rounded px-1 text-sm ${props.selected ? 'bg-gray-100' : ''}`}
-        {...props}
-      >
-        {item.value}
-      </li>
-    );
-  }
-);
+const CustomMenuItem = forwardRef<
+  HTMLLIElement,
+  BeautifulMentionsMenuItemProps
+>(({ item, selected }, ref) => {
+  const user = item.data as MentionUser;
+
+  return (
+    <li
+      ref={ref}
+      role="option"
+      aria-selected={selected}
+      className={`flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm ${
+        selected ? 'bg-gray-100' : ''
+      }`}
+    >
+      <UserAvatar
+        user={{
+          id: user.id,
+          nickname: user.nickname,
+          email: user.email,
+          imageUrl: user.imageUrl ?? null,
+        }}
+        size="sm"
+      />
+    </li>
+  );
+});
+
+CustomMenuItem.displayName = 'CustomMenuItem';
 
 export default CustomMenuItem;
