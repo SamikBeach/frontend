@@ -1,8 +1,11 @@
 'use client';
 
+import { reviewApi } from '@/apis/review/review';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogProps, DialogTitle } from '@radix-ui/react-dialog';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRef } from 'react';
+import { toast } from 'sonner';
 import { CommentEditor } from '../CommentEditor';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import CommentList from './CommentList';
@@ -12,8 +15,22 @@ interface Props extends DialogProps {}
 
 export default function ReviewDialog(props: Props) {
   const { isOpen, id: reviewId, close } = useDialogQuery({ type: 'review' });
-
+  const queryClient = useQueryClient();
   const commentListRef = useRef<HTMLDivElement>(null);
+
+  const { mutate: createComment } = useMutation({
+    mutationFn: (comment: string) => {
+      if (!reviewId) throw new Error('Review ID is required');
+      return reviewApi.createComment(reviewId, { content: comment });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comments', reviewId] });
+      toast.success('댓글이 작성되었습니다.');
+    },
+    onError: () => {
+      toast.error('댓글 작성에 실패했습니다.');
+    },
+  });
 
   if (!reviewId) {
     return null;
@@ -41,7 +58,7 @@ export default function ReviewDialog(props: Props) {
           <div className="relative">
             <div className="absolute -bottom-10 -left-10 -right-10 -top-4 bg-white shadow-[0_-8px_12px_0px_white]" />
             <div className="relative">
-              <CommentEditor />
+              <CommentEditor onSubmit={createComment} />
             </div>
           </div>
         </div>

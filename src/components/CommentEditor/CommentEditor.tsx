@@ -10,7 +10,7 @@ import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { useQuery } from '@tanstack/react-query';
-import { $getRoot, CLEAR_EDITOR_COMMAND } from 'lexical';
+import { $getRoot } from 'lexical';
 import { BeautifulMentionsPlugin } from 'lexical-beautiful-mentions';
 import { SendIcon } from 'lucide-react';
 import { useCallback, useState } from 'react';
@@ -51,7 +51,10 @@ function CommentEditor({ onSubmit }: Props) {
 
       if (text.trim().length > 0) {
         onSubmit(JSON.stringify(editor.getEditorState()));
-        editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined);
+        editor.update(() => {
+          const root = $getRoot();
+          root.clear();
+        });
       }
     });
   }, [editor, onSubmit]);

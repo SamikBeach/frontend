@@ -15,7 +15,6 @@ const CustomMenuItem = forwardRef<
   BeautifulMentionsMenuItemProps
 >(({ item, selected }, ref) => {
   const user = item.data as MentionUser;
-  console.log({ user });
 
   return (
     <li
