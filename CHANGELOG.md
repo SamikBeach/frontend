@@ -1,5 +1,27 @@
 # 🚦 CHANGELOG
 
+# [1.41.0](https://github.com/SamikBeach/frontend/compare/1.40.0...1.41.0) (2025-01-15)
+
+
+### Bug Fixes
+
+* CommentEditor 스타일 수정 ([12c93a7](https://github.com/SamikBeach/frontend/commit/12c93a768ad3969de87c31df6c18e44a023aaa4d))
+* CommentItem 디자인 수정 ([dc116b6](https://github.com/SamikBeach/frontend/commit/dc116b6a77a7d18899ea43e955ff7180ab0d7f96))
+* trailing space 제거 ([1a94d7b](https://github.com/SamikBeach/frontend/commit/1a94d7bf54038683f639b379f810c44ebac06f7d))
+* 답글 달기 클릭시 에디터 멘션 활성화 ([b1f950a](https://github.com/SamikBeach/frontend/commit/b1f950a20a84a53473989841f6aae722230bf025))
+* 댓글 내용 표시 시 Lexical 파싱 에러 수정 ([5746251](https://github.com/SamikBeach/frontend/commit/57462515abfc24c28f3a4a0b625e2f8d85d0528f))
+* 댓글 작성 후 캐시 업데이트 로직 단순화 ([0b81e1a](https://github.com/SamikBeach/frontend/commit/0b81e1ac5fd0edb7aaa4a2f6ef7f49776c4aae70))
+* 리뷰 컨텐츠 높이 수정 ([078174c](https://github.com/SamikBeach/frontend/commit/078174c9a80463aa898488e97731131c3d312fb3))
+* 좋아요 버튼 스타일 수정 ([9682158](https://github.com/SamikBeach/frontend/commit/9682158a36f4abbb789127ff407761fc6fbfd137))
+
+
+### Features
+
+* CommentEditor에 멘션 기능 추가 ([71ead28](https://github.com/SamikBeach/frontend/commit/71ead286728fc3bd27dedcf63291347db0475a43))
+* 답글달기 기능 추가 ([e3c06c4](https://github.com/SamikBeach/frontend/commit/e3c06c4007f3f5d9bdcdef8acd7b9eb8eaf1f236))
+* 댓글 추가시 새 댓글로 스크롤 ([9adec1c](https://github.com/SamikBeach/frontend/commit/9adec1ca2a0ef931cfd295619f094c08ab2f4fe1))
+* 멘션 기능이 있는 댓글 작성 구현 ([baec1eb](https://github.com/SamikBeach/frontend/commit/baec1eb1b21c637fd0f596ad57c4c75b2daa1cd7))
+
 # [1.40.0](https://github.com/SamikBeach/frontend/compare/1.39.0...1.40.0) (2025-01-14)
 
 
