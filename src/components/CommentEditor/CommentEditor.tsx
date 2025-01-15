@@ -10,22 +10,37 @@ import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { useQuery } from '@tanstack/react-query';
-import { $getRoot } from 'lexical';
+import { $createTextNode, $getRoot } from 'lexical';
 import { BeautifulMentionsPlugin } from 'lexical-beautiful-mentions';
 import { SendIcon } from 'lucide-react';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { UserAvatar } from '../UserAvatar';
 import { CustomMenu, CustomMenuItem } from './common';
 import { getEditorConfig } from './utils';
 
 interface Props {
   onSubmit?: (comment: string) => void;
+  replyToUser?: {
+    nickname: string;
+  };
 }
 
-function CommentEditor({ onSubmit }: Props) {
+function CommentEditor({ onSubmit, replyToUser }: Props) {
   const currentUser = useCurrentUser();
   const [editor] = useLexicalComposerContext();
   const [searchValue, setSearchValue] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!replyToUser) return;
+
+    editor.update(() => {
+      const root = $getRoot();
+      root.clear();
+      const text = `@${replyToUser.nickname} `;
+      root.append($createTextNode(text));
+      root.append($createTextNode('adf'));
+    });
+  }, [editor, replyToUser]);
 
   const { data: users = [] } = useQuery({
     queryKey: ['users', searchValue],
@@ -128,10 +143,13 @@ function CommentEditor({ onSubmit }: Props) {
   );
 }
 
-export default function CommentEditorWithLexicalComposer({ onSubmit }: Props) {
+export default function CommentEditorWithLexicalComposer({
+  onSubmit,
+  replyToUser,
+}: Props) {
   return (
     <LexicalComposer initialConfig={getEditorConfig()}>
-      <CommentEditor onSubmit={onSubmit} />
+      <CommentEditor onSubmit={onSubmit} replyToUser={replyToUser} />
     </LexicalComposer>
   );
 }

@@ -21,9 +21,15 @@ interface Props {
   ref: RefObject<HTMLDivElement | null>;
   reviewId: number;
   scrollableTarget: string;
+  onReply: (user: { nickname: string }) => void;
 }
 
-function CommentListContent({ ref, reviewId, scrollableTarget }: Props) {
+function CommentListContent({
+  ref,
+  reviewId,
+  scrollableTarget,
+  onReply,
+}: Props) {
   const { data: review } = useSuspenseQuery({
     queryKey: ['review', reviewId],
     queryFn: () => reviewApi.getReviewDetail(reviewId),
@@ -85,7 +91,12 @@ function CommentListContent({ ref, reviewId, scrollableTarget }: Props) {
         >
           <div className="flex flex-col">
             {comments.map(comment => (
-              <CommentItem key={comment.id} comment={comment} />
+              <CommentItem
+                key={comment.id}
+                comment={comment}
+                reviewId={reviewId}
+                onReply={onReply}
+              />
             ))}
           </div>
         </InfiniteScroll>

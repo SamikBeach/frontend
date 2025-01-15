@@ -1,15 +1,50 @@
+import { reviewApi } from '@/apis/review/review';
 import { Comment } from '@/apis/review/types';
 import { formatDate } from '@/utils/date';
-import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { ThumbsUpIcon } from 'lucide-react';
 import { CommentContent } from '.';
 import { Button } from '../ui/button';
 import { UserAvatar } from '../UserAvatar';
 
 interface Props {
   comment: Comment;
+  reviewId: number;
+  onReply: (user: { nickname: string }) => void;
 }
 
-export default function CommentItem({ comment }: Props) {
+export default function CommentItem({ comment, reviewId, onReply }: Props) {
+  const queryClient = useQueryClient();
+
+  const { mutate: toggleLike } = useMutation({
+    mutationFn: () => reviewApi.toggleCommentLike(reviewId, comment.id),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ['comments', reviewId] });
+      const previousComments = queryClient.getQueryData(['comments', reviewId]);
+
+      queryClient.setQueryData(['comments', reviewId], (old: any) => ({
+        ...old,
+        pages: old.pages.map((page: any) => ({
+          ...page,
+          data: {
+            ...page.data,
+            data: page.data.data.map((c: Comment) =>
+              c.id === comment.id
+                ? {
+                    ...c,
+                    isLiked: !c.isLiked,
+                    likeCount: c.likeCount + (c.isLiked ? -1 : 1),
+                  }
+                : c
+            ),
+          },
+        })),
+      }));
+
+      return { previousComments };
+    },
+  });
+
   return (
     <div className="flex flex-col items-start gap-2 py-1.5">
       <div className="flex items-center gap-2">
@@ -31,6 +66,7 @@ export default function CommentItem({ comment }: Props) {
             <div className="flex items-center gap-2 text-xs text-gray-600">
               <Button
                 variant="ghost"
+                onClick={() => toggleLike()}
                 className="h-5 px-0 text-xs font-medium hover:bg-transparent hover:text-gray-900"
               >
                 좋아요
@@ -38,27 +74,22 @@ export default function CommentItem({ comment }: Props) {
               <span className="text-gray-300">·</span>
               <Button
                 variant="ghost"
+                onClick={() => onReply({ nickname: comment.user.nickname })}
                 className="h-5 px-0 text-xs font-medium hover:bg-transparent hover:text-gray-900"
               >
                 답글 달기
               </Button>
             </div>
 
-            <div className="flex items-center gap-3 text-xs text-gray-600">
-              <div className="flex items-center gap-1">
-                <ThumbsUpIcon
-                  className={`h-3.5 w-3.5 ${
-                    comment.isLiked
-                      ? 'fill-blue-500 stroke-blue-500'
-                      : 'stroke-gray-500'
-                  }`}
-                />
-                <span>{comment.likeCount}</span>
-              </div>
-              <div className="flex cursor-pointer items-center gap-1">
-                <MessageSquareIcon className="h-3.5 w-3.5 stroke-gray-500" />
-                <span>2</span>
-              </div>
+            <div className="flex items-center gap-1 text-xs text-gray-600">
+              <ThumbsUpIcon
+                className={`h-3.5 w-3.5 ${
+                  comment.isLiked
+                    ? 'fill-blue-500 stroke-blue-500'
+                    : 'stroke-gray-500'
+                }`}
+              />
+              <span>{comment.likeCount}</span>
             </div>
           </div>
         </div>
