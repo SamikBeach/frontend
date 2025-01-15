@@ -72,11 +72,14 @@ export default function CommentItem({ comment, reviewId, onReply }: Props) {
               <Button
                 variant="ghost"
                 onClick={() => toggleLike()}
-                className="h-5 px-0 text-xs font-medium hover:bg-transparent hover:text-gray-900"
+                className={`h-5 px-0 text-xs hover:bg-transparent hover:text-gray-900 ${
+                  comment.isLiked
+                    ? 'font-bold text-gray-900'
+                    : 'font-medium text-gray-600'
+                }`}
               >
                 좋아요
               </Button>
-              <span className="text-gray-300">·</span>
               <Button
                 variant="ghost"
                 onClick={() => onReply({ nickname: comment.user.nickname })}
