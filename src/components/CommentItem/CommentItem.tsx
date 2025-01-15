@@ -3,10 +3,10 @@ import { Comment } from '@/apis/review/types';
 import { formatDate } from '@/utils/date';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ThumbsUpIcon } from 'lucide-react';
+import { forwardRef } from 'react';
 import { CommentContent } from '.';
 import { Button } from '../ui/button';
 import { UserAvatar } from '../UserAvatar';
-import { forwardRef } from 'react';
 
 interface Props {
   comment: Comment;

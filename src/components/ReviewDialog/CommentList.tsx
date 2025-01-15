@@ -12,7 +12,7 @@ import {
   useSuspenseQuery,
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { RefObject, Suspense, useEffect, useMemo, useRef } from 'react';
+import { RefObject, Suspense, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CommentItem from '../CommentItem/CommentItem';
 import EmptyComments from './EmptyComments';
@@ -30,10 +30,6 @@ function CommentListContent({
   scrollableTarget,
   onReply,
 }: Props) {
-  const newCommentRef = useRef<HTMLDivElement>(null);
-  const prevCommentsRef = useRef<Set<number>>(new Set());
-  const isInitialLoad = useRef(true);
-
   const { data: review } = useSuspenseQuery({
     queryKey: ['review', reviewId],
     queryFn: () => reviewApi.getReviewDetail(reviewId),
@@ -69,31 +65,6 @@ function CommentListContent({
     [data]
   );
 
-  useEffect(() => {
-    if (isInitialLoad.current) {
-      isInitialLoad.current = false;
-      prevCommentsRef.current = new Set(comments.map(comment => comment.id));
-      return;
-    }
-
-    const currentCommentIds = new Set(comments.map(comment => comment.id));
-    const newCommentId = Array.from(currentCommentIds).find(
-      id => !prevCommentsRef.current.has(id)
-    );
-
-    if (newCommentId) {
-      const newCommentIndex = comments.findIndex(
-        comment => comment.id === newCommentId
-      );
-
-      if (newCommentIndex !== -1) {
-        newCommentRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-
-    prevCommentsRef.current = currentCommentIds;
-  }, [comments]);
-
   return (
     <div ref={ref} className="flex flex-1 flex-col gap-4">
       <div className="flex items-center gap-2">
@@ -122,11 +93,6 @@ function CommentListContent({
             {comments.map(comment => (
               <CommentItem
                 key={comment.id}
-                ref={
-                  !prevCommentsRef.current.has(comment.id)
-                    ? newCommentRef
-                    : undefined
-                }
                 comment={comment}
                 reviewId={reviewId}
                 onReply={onReply}

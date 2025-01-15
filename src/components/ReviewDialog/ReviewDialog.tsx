@@ -15,7 +15,9 @@ interface Props extends DialogProps {}
 
 export default function ReviewDialog(props: Props) {
   const { isOpen, id: reviewId, close } = useDialogQuery({ type: 'review' });
+
   const queryClient = useQueryClient();
+
   const commentListRef = useRef<HTMLDivElement>(null);
   const [replyToUser, setReplyToUser] = useState<{ nickname: string } | null>(
     null
@@ -27,7 +29,15 @@ export default function ReviewDialog(props: Props) {
       return reviewApi.createComment(reviewId, { content: comment });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['comments', reviewId] });
+      queryClient.invalidateQueries({
+        queryKey: ['comments', reviewId],
+      });
+
+      // 새로운 댓글은 항상 목록 가장 앞에 추가되므로 첫 번째 댓글로 스크롤
+      setTimeout(() => {
+        commentListRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+
       toast.success('댓글이 작성되었습니다.');
       setReplyToUser(null);
     },
