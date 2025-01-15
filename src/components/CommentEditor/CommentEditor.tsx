@@ -10,8 +10,11 @@ import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { useQuery } from '@tanstack/react-query';
-import { $createTextNode, $getRoot } from 'lexical';
-import { BeautifulMentionsPlugin } from 'lexical-beautiful-mentions';
+import { $getRoot } from 'lexical';
+import {
+  BeautifulMentionsPlugin,
+  useBeautifulMentions,
+} from 'lexical-beautiful-mentions';
 import { SendIcon } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { UserAvatar } from '../UserAvatar';
@@ -30,16 +33,18 @@ function CommentEditor({ onSubmit, replyToUser }: Props) {
   const [editor] = useLexicalComposerContext();
   const [searchValue, setSearchValue] = useState<string | null>(null);
 
+  const { insertMention } = useBeautifulMentions();
+
   useEffect(() => {
     if (!replyToUser) return;
 
     editor.update(() => {
       const root = $getRoot();
+
       root.clear();
-      const text = `@${replyToUser.nickname} `;
-      root.append($createTextNode(text));
-      root.append($createTextNode('adf'));
     });
+
+    insertMention({ trigger: '@', value: replyToUser.nickname });
   }, [editor, replyToUser]);
 
   const { data: users = [] } = useQuery({

@@ -18,10 +18,7 @@ export default function CommentItem({ comment, reviewId, onReply }: Props) {
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleCommentLike(reviewId, comment.id),
-    onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: ['comments', reviewId] });
-      const previousComments = queryClient.getQueryData(['comments', reviewId]);
-
+    onMutate: () => {
       queryClient.setQueryData(['comments', reviewId], (old: any) => ({
         ...old,
         pages: old.pages.map((page: any) => ({
@@ -40,8 +37,16 @@ export default function CommentItem({ comment, reviewId, onReply }: Props) {
           },
         })),
       }));
-
-      return { previousComments };
+    },
+    onError: () => {
+      queryClient.setQueryData(['comments', reviewId], (old: any) => ({
+        ...old,
+        data: {
+          ...old.data,
+          isLiked: comment.isLiked,
+          likeCount: comment.likeCount,
+        },
+      }));
     },
   });
 
