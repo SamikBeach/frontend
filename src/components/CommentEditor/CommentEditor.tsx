@@ -76,8 +76,10 @@ function CommentEditor({ onSubmit }: Props) {
             contentEditable={
               <ContentEditable
                 className="relative min-h-[40px] w-full resize-none rounded-lg px-4 py-2.5 pr-[76px] text-sm text-gray-900 outline-none"
-                onKeyDown={e => {
+                onKeyDownCapture={e => {
                   if (e.metaKey && e.key === 'Enter') {
+                    e.preventDefault();
+                    e.stopPropagation();
                     handleSubmit();
                   }
                 }}

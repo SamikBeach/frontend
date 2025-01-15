@@ -10,7 +10,7 @@ export default function getEditorConfig(params?: Params): InitialConfigType {
   return {
     namespace: 'comment-item',
     onError: (error: Error) => {
-      console.error(error);
+      console.log(error);
     },
     nodes: [...createBeautifulMentionNode(CustomMentionComponent)],
     theme: {
