@@ -29,7 +29,7 @@ export default function ReviewDialog(props: Props) {
         id="dialog-content"
       >
         <DialogTitle className="sr-only">리뷰 정보</DialogTitle>
-        <div className="flex flex-col gap-7">
+        <div className="flex h-full flex-col gap-7">
           <ReviewInfo reviewId={reviewId} commentListRef={commentListRef} />
           <CommentList
             ref={commentListRef}
