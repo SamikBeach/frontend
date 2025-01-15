@@ -6,7 +6,7 @@ import { Comment as CommentType } from '@/apis/review/types';
 import {
   CommentItemSkeleton,
   default as CommentListSkeleton,
-} from '@/components/Comment/CommentSkeleton';
+} from '@/components/CommentItem/CommentSkeleton';
 import {
   useSuspenseInfiniteQuery,
   useSuspenseQuery,
@@ -14,7 +14,7 @@ import {
 import { AxiosResponse } from 'axios';
 import { RefObject, Suspense, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import CommentItem from './CommentItem';
+import CommentItem from '../CommentItem/CommentItem';
 import EmptyComments from './EmptyComments';
 
 interface Props {
