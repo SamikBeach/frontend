@@ -22,9 +22,9 @@ export default function UserAvatar({
   }[size];
 
   const textSize = {
-    sm: 'text-sm',
-    md: 'text-base',
-    lg: 'text-lg',
+    sm: 'text-xs',
+    md: 'text-sm',
+    lg: 'text-base',
   }[size];
 
   const handleClick = (e: React.MouseEvent) => {
