@@ -74,7 +74,14 @@ function CommentEditor({ onSubmit }: Props) {
         <div className="relative rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow focus-within:ring-1 focus-within:ring-blue-500">
           <RichTextPlugin
             contentEditable={
-              <ContentEditable className="relative min-h-[40px] w-full resize-none rounded-lg px-4 py-2.5 pr-[76px] text-sm text-gray-900 outline-none" />
+              <ContentEditable
+                className="relative min-h-[40px] w-full resize-none rounded-lg px-4 py-2.5 pr-[76px] text-sm text-gray-900 outline-none"
+                onKeyDown={e => {
+                  if (e.metaKey && e.key === 'Enter') {
+                    handleSubmit();
+                  }
+                }}
+              />
             }
             placeholder={
               <div className="pointer-events-none absolute left-4 top-2.5 text-sm text-gray-400">

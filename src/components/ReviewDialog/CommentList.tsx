@@ -3,7 +3,6 @@
 import { PaginatedResponse } from '@/apis/common/types';
 import { reviewApi } from '@/apis/review/review';
 import { Comment as CommentType } from '@/apis/review/types';
-import { Comment } from '@/components/Comment';
 import {
   CommentItemSkeleton,
   default as CommentListSkeleton,
@@ -15,6 +14,7 @@ import {
 import { AxiosResponse } from 'axios';
 import { RefObject, Suspense, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import CommentItem from './CommentItem';
 import EmptyComments from './EmptyComments';
 
 interface Props {
@@ -85,14 +85,7 @@ function CommentListContent({ ref, reviewId, scrollableTarget }: Props) {
         >
           <div className="flex flex-col">
             {comments.map(comment => (
-              <Comment
-                key={comment.id}
-                content={comment.content}
-                user={comment.user}
-                likeCount={comment.likeCount}
-                isLiked={comment.isLiked}
-                createdAt={comment.createdAt}
-              />
+              <CommentItem key={comment.id} comment={comment} />
             ))}
           </div>
         </InfiniteScroll>
