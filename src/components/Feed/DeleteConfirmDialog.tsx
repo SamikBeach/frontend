@@ -16,7 +16,7 @@ export default function DeleteConfirmDialog({ children, ...props }: Props) {
   return (
     <AlertDialog {...props}>
       {children}
-      <AlertDialogContent onClick={e => e.stopPropagation()}>
+      <AlertDialogContent>
         <AlertDialogTitle>정말로 삭제할까요?</AlertDialogTitle>
         <AlertDialogDescription>
           삭제하면 복구할 수 없어요.

@@ -14,15 +14,13 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { MoreHorizontal, PencilIcon, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { CommentButton } from '../CommentButton';
 import { LikeButton } from '../LikeButton';
 import DeleteReviewDialog from '../ReviewDialog/DeleteReviewDialog';
-import { Button } from '../ui/button';
 import { toast } from '../ui/sonner';
 import { UserAvatar } from '../UserAvatar';
-import EditDropdownMenu from './EditDropdownMenu';
+import FeedActions from './FeedActions';
 
 interface FeedProps {
   review: Review;
@@ -156,6 +154,7 @@ function Feed({ review, user, book }: FeedProps) {
       queryClient.invalidateQueries({
         queryKey: ['reviews'],
       });
+
       toast.success('리뷰가 삭제되었습니다.');
     },
     onError: () => {
@@ -226,37 +225,14 @@ function Feed({ review, user, book }: FeedProps) {
         </div>
 
         {isMyFeed && (
-          <div className="absolute right-4 top-4">
-            <EditDropdownMenu>
-              <EditDropdownMenu.Trigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 hover:bg-gray-200"
-                >
-                  <MoreHorizontal className="h-4 w-4 text-gray-500" />
-                </Button>
-              </EditDropdownMenu.Trigger>
-              <EditDropdownMenu.Content>
-                <EditDropdownMenu.Item
-                  onClick={() => {}}
-                  className="cursor-pointer"
-                >
-                  <PencilIcon className="h-4 w-4" />
-                  수정하기
-                </EditDropdownMenu.Item>
-                <EditDropdownMenu.Item
-                  onClick={(e: React.MouseEvent) => {
-                    e.stopPropagation();
-                    setShowDeleteAlert(true);
-                  }}
-                  className="cursor-pointer text-red-600"
-                >
-                  <Trash2 className="h-4 w-4" />
-                  삭제하기
-                </EditDropdownMenu.Item>
-              </EditDropdownMenu.Content>
-            </EditDropdownMenu>
+          <div
+            className="absolute right-4 top-4"
+            onClick={e => e.stopPropagation()}
+          >
+            <FeedActions
+              onEdit={() => {}}
+              onDelete={() => setShowDeleteAlert(true)}
+            />
           </div>
         )}
       </div>
@@ -265,7 +241,6 @@ function Feed({ review, user, book }: FeedProps) {
         onOpenChange={setShowDeleteAlert}
         onConfirm={() => {
           deleteReview();
-          setShowDeleteAlert(false);
         }}
       />
     </>
