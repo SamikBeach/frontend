@@ -1,5 +1,30 @@
 # 🚦 CHANGELOG
 
+# [1.42.0](https://github.com/SamikBeach/frontend/compare/1.41.0...1.42.0) (2025-01-16)
+
+
+### Bug Fixes
+
+* DeleteConfirmDialog 사용하도록 수정 ([418fab3](https://github.com/SamikBeach/frontend/commit/418fab3485ffb4ca19a6c5bc6e0f467d614a884f))
+* insertMention를 queueMicrotask로 감싸기 ([b153c07](https://github.com/SamikBeach/frontend/commit/b153c07d179bcf714baf2aeb8071dd117918fdac))
+* 리뷰의 답글 달기 토글 기능 복구 ([3f710ea](https://github.com/SamikBeach/frontend/commit/3f710eab54e8c6ea3e62ac5e0cec60843c9351ca))
+* 불필요한 인자 제거 ([fa77b7d](https://github.com/SamikBeach/frontend/commit/fa77b7d6e8ded79f0c3b08ec81a7b40d245c1bfc))
+* 아이콘 스타일 수정 ([66b0c20](https://github.com/SamikBeach/frontend/commit/66b0c20e0949bc4cf3fb5f82658ca5f73b79009c))
+* 에디터 스테이트 업데이트 후 포커스하기 ([2fec67f](https://github.com/SamikBeach/frontend/commit/2fec67f3a88c983465fdf5ec945209cd454a6911))
+* 컴펌 다이얼로그 띄울 때 드롭다운 명시적으로 닫기 ([9b6401d](https://github.com/SamikBeach/frontend/commit/9b6401d1623bafee7deae97d3fb683c80af81bd3))
+
+
+### Features
+
+* CommentEditor 아바타 표시 여부 제어 기능 추가 ([32bc993](https://github.com/SamikBeach/frontend/commit/32bc9931fb07b3ba8a0238f42d6161bd506c8deb))
+* **Feed:** 리뷰 삭제 기능 연동 ([e1f1c13](https://github.com/SamikBeach/frontend/commit/e1f1c13d873a3972805613e1efd18fd497e386cf))
+* 댓글 추가 삭제 애니메이션 적용(framer-motion) ([3faa3dc](https://github.com/SamikBeach/frontend/commit/3faa3dc09bf68a7e24576bb0f1fd9d281711235d))
+* 리뷰 답글 달기 UX 개선 ([cd43424](https://github.com/SamikBeach/frontend/commit/cd43424108e894bfeb6131caec51b1c68309ac23))
+* 리뷰 댓글 목록 구현 ([eb1526c](https://github.com/SamikBeach/frontend/commit/eb1526ce75e670228fa7bed17af1295ae395a54e))
+* 리뷰 댓글 영역 UI/UX 개선 ([f561d07](https://github.com/SamikBeach/frontend/commit/f561d073ea53345abfc43b50f652e11d3d56dda6))
+* 리뷰 목록 애니메이션 추가 ([33189c6](https://github.com/SamikBeach/frontend/commit/33189c678154fdfdd64590b09e0d3346025dac7e))
+* 리뷰 좋아요 기능 추가 ([c051fa0](https://github.com/SamikBeach/frontend/commit/c051fa0a41d46738a35de14624e566185420989a))
+
 # [1.41.0](https://github.com/SamikBeach/frontend/compare/1.40.0...1.41.0) (2025-01-15)
 
 
