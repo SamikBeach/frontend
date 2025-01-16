@@ -1,6 +1,5 @@
 import { $createListNode, $isListNode } from '@lexical/list';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { $createQuoteNode, $isQuoteNode } from '@lexical/rich-text';
 import {
   $createParagraphNode,
   $getRoot,
@@ -13,10 +12,8 @@ import {
 import {
   BoldIcon,
   ItalicIcon,
-  LinkIcon,
   ListIcon,
   ListOrderedIcon,
-  QuoteIcon,
   StrikethroughIcon,
   UnderlineIcon,
 } from 'lucide-react';
@@ -74,18 +71,6 @@ export function ToolbarPlugin() {
     [editor]
   );
 
-  const insertLink = useCallback(() => {
-    if (!editor.isEditable()) return;
-
-    const selection = $getSelection();
-    if ($isRangeSelection(selection)) {
-      const url = prompt('URL을 입력하세요:');
-      if (url) {
-        selection.insertText(url);
-      }
-    }
-  }, [editor]);
-
   const formatList = useCallback(
     (listType: 'number' | 'bullet') => {
       if (!editor.isEditable()) return;
@@ -116,34 +101,6 @@ export function ToolbarPlugin() {
     },
     [editor]
   );
-
-  const formatQuote = useCallback(() => {
-    if (!editor.isEditable()) return;
-
-    editor.update(() => {
-      const selection = $getSelection();
-      if ($isRangeSelection(selection)) {
-        const nodes = selection.getNodes();
-        nodes.forEach(node => {
-          const parent = node.getParent();
-          if ($isRootOrShadowRoot(parent)) {
-            if ($isQuoteNode(node)) {
-              const paragraph = $createParagraphNode();
-              node.replace(paragraph);
-            } else {
-              const quote = $createQuoteNode();
-              if (node.is($getRoot())) {
-                const paragraph = $createParagraphNode();
-                quote.append(paragraph);
-              } else {
-                node.replace(quote);
-              }
-            }
-          }
-        });
-      }
-    });
-  }, [editor]);
 
   return (
     <div className="flex items-center gap-1 border-b p-1">
@@ -179,12 +136,6 @@ export function ToolbarPlugin() {
       <Divider />
 
       <UtilityButton
-        tooltip="링크"
-        onClick={insertLink}
-        icon={LinkIcon}
-        ariaLabel="Link"
-      />
-      <UtilityButton
         tooltip="글머리 기호 (*)"
         onClick={() => formatList('bullet')}
         icon={ListIcon}
@@ -195,12 +146,6 @@ export function ToolbarPlugin() {
         onClick={() => formatList('number')}
         icon={ListOrderedIcon}
         ariaLabel="Numbered List"
-      />
-      <UtilityButton
-        tooltip="인용구 (>)"
-        onClick={formatQuote}
-        icon={QuoteIcon}
-        ariaLabel="Quote"
       />
     </div>
   );

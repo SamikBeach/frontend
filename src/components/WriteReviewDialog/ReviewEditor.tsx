@@ -1,18 +1,15 @@
 import { CodeHighlightNode, CodeNode } from '@lexical/code';
 import { AutoLinkNode, LinkNode } from '@lexical/link';
 import { ListItemNode, ListNode } from '@lexical/list';
-import { TRANSFORMERS } from '@lexical/markdown';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
-import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { HeadingNode, QuoteNode } from '@lexical/rich-text';
-import { $getRoot, ParagraphNode, TextNode } from 'lexical';
+import { HeadingNode } from '@lexical/rich-text';
+import { ParagraphNode, TextNode } from 'lexical';
 import { TooltipProvider } from '../ui/tooltip';
 import { AutoFocusPlugin } from './plugins/AutoFocusPlugin';
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
@@ -35,8 +32,8 @@ const theme = {
     strikethrough: 'line-through',
     code: 'font-mono bg-muted px-1.5 py-0.5 rounded-sm',
   },
-  quote: 'border-l-4 border-gray-200 pl-4 italic',
   code: 'font-mono bg-muted p-4 rounded-md',
+  link: 'text-blue-500 hover:underline',
 };
 
 interface Props {
@@ -60,7 +57,6 @@ export default function ReviewEditor({
       ParagraphNode,
       TextNode,
       HeadingNode,
-      QuoteNode,
       ListNode,
       ListItemNode,
       AutoLinkNode,
@@ -82,7 +78,7 @@ export default function ReviewEditor({
                 <ContentEditable className="min-h-[180px] outline-none" />
               }
               placeholder={
-                <div className="pointer-events-none absolute left-[13px] top-[45px] select-none text-muted-foreground">
+                <div className="pointer-events-none absolute left-3 top-12 select-none text-muted-foreground">
                   {placeholder}
                 </div>
               }
@@ -92,7 +88,6 @@ export default function ReviewEditor({
           <OnChangePlugin
             onChange={editorState => {
               editorState.read(() => {
-                const root = $getRoot();
                 onChange(JSON.stringify(editorState));
               });
             }}
@@ -100,8 +95,6 @@ export default function ReviewEditor({
           <HistoryPlugin />
           <AutoFocusPlugin />
           <ListPlugin />
-          <LinkPlugin />
-          <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
         </div>
       </LexicalComposer>
     </TooltipProvider>
