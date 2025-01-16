@@ -438,6 +438,7 @@ export default function Review({
       />
       <WriteReviewDialog
         bookId={review.book.id}
+        reviewId={review.id}
         open={showEditDialog}
         onOpenChange={setShowEditDialog}
         initialTitle={review.title}

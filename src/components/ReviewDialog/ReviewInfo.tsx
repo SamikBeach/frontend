@@ -252,6 +252,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
       />
       <WriteReviewDialog
         bookId={review.book.id}
+        reviewId={review.id}
         open={showEditDialog}
         onOpenChange={setShowEditDialog}
         initialTitle={review.title}
