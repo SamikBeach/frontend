@@ -68,7 +68,10 @@ function CommentEditor({
         const root = $getRoot();
         root.clear();
       });
-      insertMention({ trigger: '@', value: replyToUser.nickname });
+
+      queueMicrotask(() => {
+        insertMention({ trigger: '@', value: replyToUser.nickname });
+      });
     }
   }, [editor, replyToUser, initialContent, insertMention]);
 
