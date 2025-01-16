@@ -378,43 +378,29 @@ export default function Review({
         </div>
         {!hideActions && (
           <div className="flex justify-between">
-            <div className="flex items-center gap-2 text-gray-500">
+            <div className="flex items-center gap-0.5 text-gray-500">
               <Button
                 variant="ghost"
+                className="group flex h-5 w-5 cursor-pointer items-center gap-0.5 text-xs text-gray-500 transition-colors hover:bg-transparent hover:text-gray-900"
                 onClick={() => toggleLike()}
-                className={`h-[14px] p-0 hover:bg-transparent ${
-                  review.isLiked ? 'font-bold text-gray-900' : ''
-                }`}
               >
-                좋아요
+                <ThumbsUpIcon
+                  className={`!h-3.5 !w-3.5 ${
+                    review.isLiked
+                      ? 'fill-blue-500 stroke-blue-500'
+                      : 'stroke-gray-500'
+                  } transition-colors group-hover:stroke-gray-900`}
+                />
+                <span>{review.likeCount}</span>
               </Button>
               <Button
                 variant="ghost"
                 onClick={handleReplyButtonClick}
-                className="h-[14px] p-0 hover:bg-transparent"
+                className="group flex h-5 w-5 cursor-pointer items-center gap-0.5 text-xs text-gray-500 transition-colors hover:bg-transparent hover:text-gray-900"
               >
-                답글 달기
-              </Button>
-            </div>
-
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <div className="flex items-center gap-0.5">
-                <ThumbsUpIcon
-                  className={`h-4 w-4 ${
-                    review.isLiked
-                      ? 'fill-blue-500 stroke-blue-500'
-                      : 'stroke-gray-500'
-                  }`}
-                />
-                <span>{review.likeCount}</span>
-              </div>
-              <div
-                onClick={() => reviewDialog.open(review.id)}
-                className="flex cursor-pointer items-center gap-0.5"
-              >
-                <MessageSquareIcon className="mt-0.5 h-4 w-4 stroke-gray-500" />
+                <MessageSquareIcon className="mt-0.5 !h-3.5 !w-3.5 transition-colors group-hover:stroke-gray-900" />
                 <span>{review.commentCount}</span>
-              </div>
+              </Button>
             </div>
           </div>
         )}
