@@ -12,9 +12,9 @@ interface Props {
 }
 
 const commentAnimation = {
-  initial: { opacity: 0, height: 0, marginBottom: 0 },
-  animate: { opacity: 1, height: 'auto', marginBottom: '0.5rem' },
-  exit: { opacity: 0, height: 0, marginBottom: 0 },
+  initial: { opacity: 0, y: -10 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -10 },
   transition: { duration: 0.2 },
 };
 
@@ -30,19 +30,17 @@ export default function CommentList({ reviewId, onReply }: Props) {
   });
 
   return (
-    <div className="mt-4">
-      <AnimatePresence initial={false}>
-        <div className="flex flex-col">
-          {comments.map(comment => (
-            <motion.div key={comment.id} layout {...commentAnimation}>
-              <CommentItem
-                comment={comment}
-                reviewId={reviewId}
-                onReply={onReply}
-              />
-            </motion.div>
-          ))}
-        </div>
+    <div className="flex flex-col">
+      <AnimatePresence mode="popLayout" initial={false}>
+        {comments.map(comment => (
+          <motion.div key={comment.id} layout {...commentAnimation}>
+            <CommentItem
+              comment={comment}
+              reviewId={reviewId}
+              onReply={onReply}
+            />
+          </motion.div>
+        ))}
       </AnimatePresence>
     </div>
   );

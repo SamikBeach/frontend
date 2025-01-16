@@ -3,6 +3,7 @@ import { Review as ReviewType } from '@/apis/review/types';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { formatDate } from '@/utils/date';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AnimatePresence, motion } from 'framer-motion';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -104,7 +105,6 @@ export default function Review({
       reviewApi.createComment(review.id, { content }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', review.id] });
-      setIsReplying(false);
       toast.success('댓글이 작성되었습니다.');
     },
     onError: () => {
@@ -172,7 +172,7 @@ export default function Review({
               </Button>
               <Button
                 variant="ghost"
-                onClick={() => setIsReplying(true)}
+                onClick={() => setIsReplying(prev => !prev)}
                 className="h-[14px] p-0 hover:bg-transparent"
               >
                 답글 달기
@@ -202,20 +202,30 @@ export default function Review({
         )}
       </div>
       {!hideActions && (
-        <>
+        <AnimatePresence>
           {isReplying && (
-            <div className="mt-4">
-              <CommentEditor
-                onSubmit={createComment}
-                onCancel={() => setIsReplying(false)}
-              />
-            </div>
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="mt-4 overflow-hidden pl-10"
+            >
+              <div className="flex flex-col gap-4">
+                <div className="p-0.5">
+                  <CommentEditor
+                    onSubmit={createComment}
+                    onCancel={() => setIsReplying(false)}
+                  />
+                </div>
+                <CommentList
+                  reviewId={review.id}
+                  onReply={() => setIsReplying(true)}
+                />
+              </div>
+            </motion.div>
           )}
-          <CommentList
-            reviewId={review.id}
-            onReply={() => setIsReplying(true)}
-          />
-        </>
+        </AnimatePresence>
       )}
     </>
   );
