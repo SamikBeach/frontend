@@ -1,14 +1,9 @@
-import { CodeHighlightNode, CodeNode } from '@lexical/code';
-import { AutoLinkNode, LinkNode } from '@lexical/link';
-import { ListItemNode, ListNode } from '@lexical/list';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { HeadingNode } from '@lexical/rich-text';
 import { ParagraphNode, TextNode } from 'lexical';
 import { TooltipProvider } from '../ui/tooltip';
 import { AutoFocusPlugin } from './plugins/AutoFocusPlugin';
@@ -53,17 +48,7 @@ export default function ReviewEditor({
     onError: (error: Error) => {
       console.error(error);
     },
-    nodes: [
-      ParagraphNode,
-      TextNode,
-      HeadingNode,
-      ListNode,
-      ListItemNode,
-      AutoLinkNode,
-      LinkNode,
-      CodeNode,
-      CodeHighlightNode,
-    ],
+    nodes: [ParagraphNode, TextNode],
     editorState: content ? JSON.parse(content) : undefined,
   };
 
@@ -75,12 +60,15 @@ export default function ReviewEditor({
           <div className="px-3 py-2">
             <RichTextPlugin
               contentEditable={
-                <ContentEditable className="min-h-[180px] outline-none" />
-              }
-              placeholder={
-                <div className="pointer-events-none absolute left-3 top-12 select-none text-muted-foreground">
-                  {placeholder}
-                </div>
+                <ContentEditable
+                  className="min-h-[180px] outline-none"
+                  placeholder={
+                    <div className="pointer-events-none absolute left-3 top-12 select-none text-muted-foreground">
+                      {placeholder}
+                    </div>
+                  }
+                  aria-placeholder={placeholder ?? ''}
+                />
               }
               ErrorBoundary={LexicalErrorBoundary}
             />
@@ -94,7 +82,6 @@ export default function ReviewEditor({
           />
           <HistoryPlugin />
           <AutoFocusPlugin />
-          <ListPlugin />
         </div>
       </LexicalComposer>
     </TooltipProvider>

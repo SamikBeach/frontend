@@ -49,6 +49,7 @@ export function ToolbarPlugin() {
     (format: TextFormat) => {
       editor.dispatchCommand(FORMAT_TEXT_COMMAND, format);
 
+      // Immediately update the active formats
       setActiveFormats(prev => {
         const newFormats = new Set(prev);
         if (newFormats.has(format)) {
