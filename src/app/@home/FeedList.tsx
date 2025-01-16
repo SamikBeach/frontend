@@ -8,6 +8,7 @@ import { FeedSkeleton } from '@/components/Feed/FeedSkeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useMemo, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -70,14 +71,20 @@ function FeedList() {
             hasMore={hasNextPage ?? false}
             loader={<FeedSkeleton />}
           >
-            {reviews.map(review => (
-              <Feed
-                key={review.id}
-                review={review}
-                user={review.user}
-                book={review.book}
-              />
-            ))}
+            <AnimatePresence mode="popLayout">
+              {reviews.map(review => (
+                <motion.div
+                  key={review.id}
+                  layout
+                  initial={false}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="mb-5"
+                >
+                  <Feed review={review} user={review.user} book={review.book} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </InfiniteScroll>
         )}
       </TabsContent>
@@ -97,14 +104,20 @@ function FeedList() {
             hasMore={hasNextPage ?? false}
             loader={<FeedSkeleton />}
           >
-            {reviews.map(review => (
-              <Feed
-                key={review.id}
-                review={review}
-                user={review.user}
-                book={review.book}
-              />
-            ))}
+            <AnimatePresence mode="popLayout">
+              {reviews.map(review => (
+                <motion.div
+                  key={review.id}
+                  layout
+                  initial={false}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="mb-5"
+                >
+                  <Feed review={review} user={review.user} book={review.book} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </InfiniteScroll>
         )}
       </TabsContent>

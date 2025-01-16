@@ -10,20 +10,26 @@ import {
   AlertDialogTrigger,
 } from '../ui/alert-dialog';
 
-interface Props extends AlertDialogProps {}
+interface Props extends AlertDialogProps {
+  onConfirm: () => void;
+}
 
-export default function DeleteConfirmDialog({ children, ...props }: Props) {
+export default function DeleteConfirmDialog({
+  children,
+  onConfirm,
+  ...props
+}: Props) {
   return (
     <AlertDialog {...props}>
       {children}
-      <AlertDialogContent onClick={e => e.stopPropagation()}>
+      <AlertDialogContent>
         <AlertDialogTitle>정말로 삭제할까요?</AlertDialogTitle>
         <AlertDialogDescription>
           삭제하면 복구할 수 없어요.
         </AlertDialogDescription>
         <AlertDialogFooter>
           <AlertDialogCancel>취소</AlertDialogCancel>
-          <AlertDialogAction>삭제</AlertDialogAction>
+          <AlertDialogAction onClick={onConfirm}>삭제</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

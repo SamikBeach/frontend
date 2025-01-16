@@ -13,7 +13,7 @@ export function LikeButton({ isLiked, likeCount, onClick }: Props) {
 
   return (
     <Button
-      className={`rounded-full min-w-[72px] ${
+      className={`min-w-[72px] rounded-full ${
         isLiked
           ? 'border-gray-900 bg-gray-900 text-white hover:border-gray-700 hover:bg-gray-700'
           : ''

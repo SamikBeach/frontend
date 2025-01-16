@@ -14,6 +14,7 @@ import {
   useSuspenseQuery,
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ForwardedRef, Suspense, forwardRef, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -21,6 +22,13 @@ interface Props {
   authorId: number;
   scrollableTarget: string;
 }
+
+const reviewAnimation = {
+  initial: { opacity: 0, height: 0, marginBottom: 0 },
+  animate: { opacity: 1, height: 'auto', marginBottom: '1rem' },
+  exit: { opacity: 0, height: 0, marginBottom: 0 },
+  transition: { duration: 0.3 },
+};
 
 function ReviewListContent({ authorId, scrollableTarget }: Props) {
   const { data: author } = useSuspenseQuery({
@@ -81,11 +89,15 @@ function ReviewListContent({ authorId, scrollableTarget }: Props) {
           }
           scrollableTarget={scrollableTarget}
         >
-          <div className="flex flex-col gap-2">
-            {reviews.map(review => (
-              <Review key={review.id} review={review} />
-            ))}
-          </div>
+          <AnimatePresence mode="popLayout" initial={false}>
+            <div className="flex flex-col">
+              {reviews.map(review => (
+                <motion.div key={review.id} layout {...reviewAnimation}>
+                  <Review review={review} />
+                </motion.div>
+              ))}
+            </div>
+          </AnimatePresence>
         </InfiniteScroll>
       )}
     </div>

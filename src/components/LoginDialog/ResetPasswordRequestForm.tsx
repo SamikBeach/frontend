@@ -2,9 +2,9 @@ import { authApi } from '@/apis/auth/auth';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useController, useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import { toast } from '../ui/sonner';
 
 interface ResetPasswordRequestFormData {
   email: string;

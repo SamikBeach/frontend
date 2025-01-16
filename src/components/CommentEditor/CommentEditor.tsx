@@ -23,12 +23,23 @@ import { getEditorConfig } from './utils';
 
 interface Props {
   onSubmit?: (comment: string) => void;
+  onCancel?: () => void;
   replyToUser?: {
     nickname: string;
   };
+  initialContent?: string;
+  showAvatar?: boolean;
+  ref?: React.RefObject<HTMLDivElement | null>;
 }
 
-function CommentEditor({ onSubmit, replyToUser }: Props) {
+function CommentEditor({
+  onSubmit,
+  onCancel,
+  replyToUser,
+  initialContent,
+  showAvatar = true,
+  ref,
+}: Props) {
   const currentUser = useCurrentUser();
   const [editor] = useLexicalComposerContext();
   const [searchValue, setSearchValue] = useState<string | null>(null);
@@ -36,16 +47,33 @@ function CommentEditor({ onSubmit, replyToUser }: Props) {
   const { insertMention } = useBeautifulMentions();
 
   useEffect(() => {
-    if (!replyToUser) return;
+    if (initialContent) {
+      try {
+        // 초기 내용이 있는 경우, 이를 파싱하여 에디터 상태로 설정
+        const editorState = editor.parseEditorState(initialContent);
 
-    editor.update(() => {
-      const root = $getRoot();
+        queueMicrotask(() => {
+          editor.setEditorState(editorState);
+        });
 
-      root.clear();
-    });
+        setTimeout(() => {
+          editor.focus();
+        }, 200);
+      } catch (error) {
+        console.error('Failed to parse initial content:', error);
+      }
+    } else if (replyToUser) {
+      // replyToUser가 있는 경우, 에디터를 초기화하고 멘션을 삽입
+      editor.update(() => {
+        const root = $getRoot();
+        root.clear();
+      });
 
-    insertMention({ trigger: '@', value: replyToUser.nickname });
-  }, [editor, replyToUser]);
+      queueMicrotask(() => {
+        insertMention({ trigger: '@', value: replyToUser.nickname });
+      });
+    }
+  }, [editor, replyToUser, initialContent, insertMention]);
 
   const { data: users = [] } = useQuery({
     queryKey: ['users', searchValue],
@@ -71,6 +99,7 @@ function CommentEditor({ onSubmit, replyToUser }: Props) {
 
       if (text.trim().length > 0) {
         onSubmit(JSON.stringify(editor.getEditorState()));
+
         editor.update(() => {
           const root = $getRoot();
           root.clear();
@@ -83,24 +112,31 @@ function CommentEditor({ onSubmit, replyToUser }: Props) {
 
   return (
     <div className="flex items-start gap-3">
-      <UserAvatar
-        user={currentUser}
-        size="sm"
-        showNickname={false}
-        className="mt-0.5"
-      />
+      {showAvatar && (
+        <UserAvatar
+          user={currentUser}
+          size="sm"
+          showNickname={false}
+          className="mt-0.5"
+        />
+      )}
 
-      <div className="relative flex-1">
+      <div className={`relative ${showAvatar ? 'flex-1' : 'w-full'}`}>
         <div className="relative rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow focus-within:ring-1 focus-within:ring-blue-500">
           <RichTextPlugin
             contentEditable={
               <ContentEditable
+                ref={ref}
                 className="relative min-h-[40px] w-full resize-none rounded-lg px-4 py-2.5 pr-[76px] text-sm text-gray-900 outline-none"
                 onKeyDownCapture={e => {
                   if (e.metaKey && e.key === 'Enter') {
                     e.preventDefault();
                     e.stopPropagation();
                     handleSubmit();
+                  } else if (e.key === 'Escape' && onCancel) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onCancel();
                   }
                 }}
               />
@@ -112,7 +148,17 @@ function CommentEditor({ onSubmit, replyToUser }: Props) {
             }
             ErrorBoundary={LexicalErrorBoundary}
           />
-          <div className="absolute bottom-1.5 right-2">
+          <div className="absolute bottom-1.5 right-2 flex gap-1">
+            {onCancel && (
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={onCancel}
+                className="h-7 rounded-md px-3 text-sm font-medium"
+              >
+                취소
+              </Button>
+            )}
             <Button
               size="sm"
               variant="outline"
@@ -150,11 +196,22 @@ function CommentEditor({ onSubmit, replyToUser }: Props) {
 
 export default function CommentEditorWithLexicalComposer({
   onSubmit,
+  onCancel,
   replyToUser,
+  initialContent,
+  showAvatar,
+  ref,
 }: Props) {
   return (
     <LexicalComposer initialConfig={getEditorConfig()}>
-      <CommentEditor onSubmit={onSubmit} replyToUser={replyToUser} />
+      <CommentEditor
+        ref={ref}
+        onSubmit={onSubmit}
+        onCancel={onCancel}
+        replyToUser={replyToUser}
+        initialContent={initialContent}
+        showAvatar={showAvatar}
+      />
     </LexicalComposer>
   );
 }
