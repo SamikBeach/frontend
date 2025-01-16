@@ -4,6 +4,7 @@ import { Comment } from '@/apis/review/types';
 import CommentItem from '@/components/CommentItem/CommentItem';
 import { CommentItemSkeleton } from '@/components/CommentItem/CommentSkeleton';
 import { Button } from '@/components/ui/button';
+import { commentItemAnimation } from '@/constants/animations';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -13,13 +14,6 @@ interface Props {
   reviewId: number;
   onReply: (user: { nickname: string }) => void;
 }
-
-const commentAnimation = {
-  initial: { opacity: 0, y: -10 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -10 },
-  transition: { duration: 0.2 },
-};
 
 function CommentListContent({ reviewId, onReply }: Props) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
@@ -54,7 +48,11 @@ function CommentListContent({ reviewId, onReply }: Props) {
       <AnimatePresence mode="popLayout" initial={false}>
         <div className="flex flex-col gap-2">
           {comments.map(comment => (
-            <motion.div key={comment.id} layout {...commentAnimation}>
+            <motion.div
+              key={comment.id}
+              layout="position"
+              {...commentItemAnimation}
+            >
               <CommentItem
                 comment={comment}
                 reviewId={reviewId}
