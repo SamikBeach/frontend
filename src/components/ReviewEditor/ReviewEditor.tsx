@@ -1,35 +1,21 @@
+import { THEME } from '@/constants/lexical';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { ParagraphNode, TextNode } from 'lexical';
+import {
+  $createParagraphNode,
+  $getRoot,
+  ParagraphNode,
+  TextNode,
+} from 'lexical';
+import { useEffect, useRef } from 'react';
 import { TooltipProvider } from '../ui/tooltip';
 import { AutoFocusPlugin } from './plugins/AutoFocusPlugin';
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
-
-const theme = {
-  paragraph: 'mb-1',
-  heading: {
-    h1: 'text-2xl font-bold',
-    h2: 'text-xl font-bold',
-    h3: 'text-lg font-bold',
-  },
-  list: {
-    ul: 'list-disc list-inside',
-    ol: 'list-decimal list-inside',
-  },
-  text: {
-    bold: 'font-bold',
-    italic: 'italic',
-    underline: 'underline',
-    strikethrough: 'line-through',
-    code: 'font-mono bg-muted px-1.5 py-0.5 rounded-sm',
-  },
-  code: 'font-mono bg-muted p-4 rounded-md',
-  link: 'text-blue-500 hover:underline',
-};
 
 interface Props {
   content: string;
@@ -44,12 +30,18 @@ export default function ReviewEditor({
 }: Props) {
   const initialConfig = {
     namespace: 'ReviewEditor',
-    theme,
+    theme: THEME,
     onError: (error: Error) => {
       console.error(error);
     },
     nodes: [ParagraphNode, TextNode],
-    editorState: content ? JSON.parse(content) : undefined,
+    editorState: () => {
+      const root = $getRoot();
+      if (root.getFirstChild() === null) {
+        const paragraph = $createParagraphNode();
+        root.append(paragraph);
+      }
+    },
   };
 
   return (
@@ -83,7 +75,33 @@ export default function ReviewEditor({
         />
         <HistoryPlugin />
         <AutoFocusPlugin />
+        <InitialStatePlugin content={content} />
       </LexicalComposer>
     </TooltipProvider>
   );
+}
+
+function InitialStatePlugin({ content }: { content: string }) {
+  const [editor] = useLexicalComposerContext();
+  const initialized = useRef(false);
+
+  useEffect(() => {
+    if (initialized.current) {
+      return;
+    }
+    initialized.current = true;
+
+    if (!content) {
+      return;
+    }
+
+    try {
+      const editorState = editor.parseEditorState(content);
+      editor.setEditorState(editorState);
+    } catch (error) {
+      console.error('Failed to parse initial content:', error);
+    }
+  }, [content, editor]);
+
+  return null;
 }

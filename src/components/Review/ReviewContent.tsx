@@ -1,12 +1,12 @@
 'use client';
 
+import { THEME } from '@/constants/lexical';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { useEffect } from 'react';
-import { getEditorConfig } from '../CommentEditor/utils';
 
 interface Props {
   content: string;
@@ -38,7 +38,17 @@ function Content({ content }: Props) {
 
 export default function ReviewContent({ content, className }: Props) {
   return (
-    <LexicalComposer initialConfig={getEditorConfig({ editable: false })}>
+    <LexicalComposer
+      initialConfig={{
+        namespace: 'feed-content',
+        theme: THEME,
+        onError: (error: Error) => {
+          console.error(error);
+        },
+        editorState: undefined,
+        editable: false,
+      }}
+    >
       <div className={className}>
         <Content content={content} />
       </div>

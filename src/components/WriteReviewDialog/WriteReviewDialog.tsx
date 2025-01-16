@@ -11,43 +11,87 @@ import {
 import { isLexicalContentEmpty } from '@/utils/lexical';
 import { DialogProps } from '@radix-ui/react-dialog';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import ReviewEditor from '../ReviewEditor/ReviewEditor';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { toast } from '../ui/sonner';
+import { BookInfo, BookInfoSkeleton } from './BookInfo';
 import LeaveConfirmDialog from './LeaveConfirmDialog';
 
 interface Props extends DialogProps {
-  bookId: number;
+  bookId?: number;
+  reviewId?: number;
   onOpenChange?: (open: boolean) => void;
+  initialTitle?: string;
+  initialContent?: string;
+  isEditMode?: boolean;
 }
 
 export default function WriteReviewDialog({
   bookId,
+  reviewId,
   children,
   onOpenChange,
+  initialTitle = '',
+  initialContent = '',
+  isEditMode = false,
   ...props
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenLeaveConfirmDialog, setIsOpenLeaveConfirmDialog] =
     useState(false);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState(initialTitle);
+  const [content, setContent] = useState(initialContent);
 
   const queryClient = useQueryClient();
 
+  useEffect(() => {
+    setTitle(initialTitle);
+    setContent(initialContent);
+  }, [initialTitle, initialContent]);
+
   const resetForm = () => {
-    setTitle('');
-    setContent('');
+    setTitle(initialTitle);
+    setContent(initialContent);
   };
 
-  const { mutate: createReview, isPending } = useMutation({
-    mutationFn: () => reviewApi.createReview(bookId, { title, content }),
+  const { mutate: updateReview, isPending: isUpdatePending } = useMutation({
+    mutationFn: () => {
+      if (!reviewId) {
+        throw new Error('Review ID is required');
+      }
+
+      return reviewApi.updateReview(reviewId, { title, content });
+    },
     onSuccess: () => {
-      // Invalidate book reviews query
       queryClient.invalidateQueries({ queryKey: ['book-reviews', bookId] });
       queryClient.invalidateQueries({ queryKey: ['book', bookId] });
+      queryClient.invalidateQueries({ queryKey: ['reviews'] });
+
+      toast.success('리뷰가 수정되었습니다.');
+      resetForm();
+
+      setIsOpen(false);
+      onOpenChange?.(false);
+    },
+    onError: () => {
+      toast.error('리뷰 수정에 실패했습니다.');
+    },
+  });
+
+  const { mutate: createReview, isPending: isCreatePending } = useMutation({
+    mutationFn: () => {
+      if (!bookId) {
+        throw new Error('Book ID is required');
+      }
+
+      return reviewApi.createReview(bookId, { title, content });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['book-reviews', bookId] });
+      queryClient.invalidateQueries({ queryKey: ['book', bookId] });
+      queryClient.invalidateQueries({ queryKey: ['reviews'] });
 
       toast.success('리뷰가 작성되었습니다.');
       resetForm();
@@ -71,7 +115,11 @@ export default function WriteReviewDialog({
       return;
     }
 
-    createReview();
+    if (isEditMode) {
+      updateReview();
+    } else {
+      createReview();
+    }
   };
 
   const handleOpenChange = (open: boolean) => {
@@ -95,6 +143,8 @@ export default function WriteReviewDialog({
     onOpenChange?.(false);
   };
 
+  const isPending = isEditMode ? isUpdatePending : isCreatePending;
+
   return (
     <>
       <Dialog
@@ -115,20 +165,11 @@ export default function WriteReviewDialog({
         >
           <DialogHeader>
             <DialogTitle />
-            <div className="flex items-center gap-2">
-              <img
-                src="https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9788970132099.jpg"
-                className="h-[40px] rounded-sm"
-              />
-              <div className="flex flex-col">
-                <p className="text-sm font-semibold">
-                  차라투스트라는 이렇게 말했다
-                </p>
-                <p className="text-xs text-gray-500">
-                  프리드리히 니체 · 민음사 · 2021
-                </p>
-              </div>
-            </div>
+            {bookId && (
+              <Suspense fallback={<BookInfoSkeleton />}>
+                <BookInfo bookId={bookId} />
+              </Suspense>
+            )}
           </DialogHeader>
           <Input
             placeholder="제목"
@@ -142,7 +183,7 @@ export default function WriteReviewDialog({
           />
           <div className="flex justify-end">
             <Button onClick={handleSubmit} disabled={isPending}>
-              {isPending ? '제출 중...' : '제출하기'}
+              {isPending ? '제출 중...' : isEditMode ? '수정하기' : '제출하기'}
             </Button>
           </div>
         </DialogContent>

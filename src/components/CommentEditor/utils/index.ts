@@ -1,1 +1,1 @@
-export { default as getEditorConfig } from './getEditorConfig';
+export { default as getCommentEditorConfig } from './getCommentEditorConfig';

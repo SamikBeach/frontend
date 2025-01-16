@@ -8,7 +8,6 @@ import { LikeButton } from '@/components/LikeButton';
 import { Skeleton } from '@/components/ui/skeleton';
 import { UserAvatar } from '@/components/UserAvatar';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import {
   InfiniteData,
@@ -22,6 +21,7 @@ import Link from 'next/link';
 import { RefObject, Suspense, useState } from 'react';
 import ReviewContent from '../Review/ReviewContent';
 import { toast } from '../ui/sonner';
+import { WriteReviewDialog } from '../WriteReviewDialog';
 import DeleteReviewDialog from './DeleteReviewDialog';
 import ReviewActions from './ReviewActions';
 
@@ -33,7 +33,6 @@ interface Props {
 function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   const currentUser = useCurrentUser();
   const queryClient = useQueryClient();
-  const { close } = useDialogQuery({ type: 'review' });
   const { data: review } = useSuspenseQuery({
     queryKey: ['review', reviewId],
     queryFn: () => reviewApi.getReviewDetail(reviewId),
@@ -41,6 +40,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   });
 
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
@@ -152,7 +152,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
       queryClient.invalidateQueries({
         queryKey: ['reviews'],
       });
-      close();
+
       toast.success('리뷰가 삭제되었습니다.');
     },
     onError: () => {
@@ -174,7 +174,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-4">
         <div className="flex items-start justify-between gap-8">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-4">
@@ -215,7 +215,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
           </div>
           {isMyReview && (
             <ReviewActions
-              onEdit={() => {}}
+              onEdit={() => setShowEditDialog(true)}
               onDelete={() => setShowDeleteAlert(true)}
             />
           )}
@@ -245,8 +245,16 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
         onOpenChange={setShowDeleteAlert}
         onConfirm={() => {
           deleteReview();
-          setShowDeleteAlert(false);
         }}
+      />
+      <WriteReviewDialog
+        bookId={review.book.id}
+        reviewId={review.id}
+        open={showEditDialog}
+        onOpenChange={setShowEditDialog}
+        initialTitle={review.title}
+        initialContent={review.content}
+        isEditMode
       />
     </>
   );

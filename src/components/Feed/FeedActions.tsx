@@ -28,7 +28,13 @@ export default function FeedActions({ onEdit, onDelete }: Props) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem className="cursor-pointer" onSelect={onEdit}>
+        <DropdownMenuItem
+          className="cursor-pointer"
+          onSelect={() => {
+            setOpen(false);
+            onEdit();
+          }}
+        >
           <PencilIcon className="mr-2 h-4 w-4" />
           수정하기
         </DropdownMenuItem>

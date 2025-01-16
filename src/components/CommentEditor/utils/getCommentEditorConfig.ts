@@ -6,7 +6,7 @@ interface Params {
   editable?: boolean;
 }
 
-export default function getEditorConfig(params?: Params): InitialConfigType {
+export default function getCommentEditorConfig(params?: Params): InitialConfigType {
   return {
     namespace: 'comment-item',
     onError: (error: Error) => {
