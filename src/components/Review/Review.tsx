@@ -45,66 +45,104 @@ export default function Review({
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
     onMutate: () => {
-      // 리뷰 목록에서의 낙관적 업데이트
-      queryClient.setQueryData(['reviews', review.book.id], (old: any) => ({
-        ...old,
-        pages: old.pages.map((page: any) => ({
-          ...page,
-          data: {
-            ...page.data,
-            data: page.data.data.map((r: ReviewType) =>
-              r.id === review.id
-                ? {
-                    ...r,
-                    isLiked: !r.isLiked,
-                    likeCount: r.likeCount + (r.isLiked ? -1 : 1),
-                  }
-                : r
-            ),
-          },
-        })),
-      }));
+      // 리뷰 목록에서의 낙관적 업데이트 (책)
+      queryClient.setQueryData(['reviews', review.book.id], (old: any) => {
+        if (!old) return old;
+        return {
+          ...old,
+          pages: old.pages.map((page: any) => ({
+            ...page,
+            data: {
+              ...page.data,
+              data: page.data.data.map((r: ReviewType) =>
+                r.id === review.id
+                  ? {
+                      ...r,
+                      isLiked: !r.isLiked,
+                      likeCount: r.likeCount + (r.isLiked ? -1 : 1),
+                    }
+                  : r
+              ),
+            },
+          })),
+        };
+      });
+
+      // 작가의 리뷰 목록에서의 낙관적 업데이트
+      queryClient.setQueryData(
+        ['author-reviews', review.book.authorBooks[0].author.id],
+        (old: any) => {
+          if (!old) return old;
+          return {
+            ...old,
+            pages: old.pages.map((page: any) => ({
+              ...page,
+              data: {
+                ...page.data,
+                data: page.data.data.map((r: ReviewType) =>
+                  r.id === review.id
+                    ? {
+                        ...r,
+                        isLiked: !r.isLiked,
+                        likeCount: r.likeCount + (r.isLiked ? -1 : 1),
+                      }
+                    : r
+                ),
+              },
+            })),
+          };
+        }
+      );
 
       // 리뷰 상세에서의 낙관적 업데이트
-      queryClient.setQueryData(['review', review.id], (old: any) => ({
-        ...old,
-        data: {
-          ...old?.data,
-          isLiked: !review.isLiked,
-          likeCount: review.likeCount + (review.isLiked ? -1 : 1),
-        },
-      }));
+      queryClient.setQueryData(['review', review.id], (old: any) => {
+        if (!old) return old;
+        return {
+          ...old,
+          data: {
+            ...old.data,
+            isLiked: !review.isLiked,
+            likeCount: review.likeCount + (review.isLiked ? -1 : 1),
+          },
+        };
+      });
     },
     onError: () => {
       // 리뷰 목록에서의 롤백
-      queryClient.setQueryData(['reviews', review.book.id], (old: any) => ({
-        ...old,
-        pages: old.pages.map((page: any) => ({
-          ...page,
-          data: {
-            ...page.data,
-            data: page.data.data.map((r: ReviewType) =>
-              r.id === review.id
-                ? {
-                    ...r,
-                    isLiked: review.isLiked,
-                    likeCount: review.likeCount,
-                  }
-                : r
-            ),
-          },
-        })),
-      }));
+      queryClient.setQueryData(['reviews', review.book.id], (old: any) => {
+        if (!old) return old;
+        return {
+          ...old,
+          pages: old.pages.map((page: any) => ({
+            ...page,
+            data: {
+              ...page.data,
+              data: page.data.data.map((r: ReviewType) =>
+                r.id === review.id
+                  ? {
+                      ...r,
+                      isLiked: review.isLiked,
+                      likeCount: review.likeCount,
+                    }
+                  : r
+              ),
+            },
+          })),
+        };
+      });
 
       // 리뷰 상세에서의 롤백
-      queryClient.setQueryData(['review', review.id], (old: any) => ({
-        ...old,
-        data: {
-          ...old?.data,
-          isLiked: review.isLiked,
-          likeCount: review.likeCount,
-        },
-      }));
+      queryClient.setQueryData(['review', review.id], (old: any) => {
+        if (!old) return old;
+        return {
+          ...old,
+          data: {
+            ...old.data,
+            isLiked: review.isLiked,
+            likeCount: review.likeCount,
+          },
+        };
+      });
 
       toast.error('좋아요 처리에 실패했습니다.');
     },
@@ -157,7 +195,70 @@ export default function Review({
   const { mutate: deleteReview } = useMutation({
     mutationFn: () => reviewApi.deleteReview(review.id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reviews', review.book.id] });
+      // 책의 리뷰 목록 업데이트
+      queryClient.setQueryData(['reviews', review.book.id], (old: any) => {
+        if (!old) return old;
+        return {
+          ...old,
+          pages: old.pages.map((page: any) => ({
+            ...page,
+            data: {
+              ...page.data,
+              data: page.data.data.filter(
+                (r: ReviewType) => r.id !== review.id
+              ),
+            },
+          })),
+        };
+      });
+
+      // 작가의 리뷰 목록 업데이트
+      queryClient.setQueryData(
+        ['author-reviews', review.book.authorBooks[0].author.id],
+        (old: any) => {
+          if (!old) return old;
+          return {
+            ...old,
+            pages: old.pages.map((page: any) => ({
+              ...page,
+              data: {
+                ...page.data,
+                data: page.data.data.filter(
+                  (r: ReviewType) => r.id !== review.id
+                ),
+              },
+            })),
+          };
+        }
+      );
+
+      // 책 상세 정보의 리뷰 카운트 업데이트
+      queryClient.setQueryData(['book', review.book.id], (old: any) => {
+        if (!old) return old;
+        return {
+          ...old,
+          data: {
+            ...old.data,
+            reviewCount: (old.data.reviewCount ?? 0) - 1,
+          },
+        };
+      });
+
+      // 작가 상세 정보의 리뷰 카운트 업데이트
+      queryClient.setQueryData(
+        ['author', review.book.authorBooks[0].author.id],
+        (old: any) => {
+          if (!old) return old;
+          return {
+            ...old,
+            data: {
+              ...old.data,
+              reviewCount: (old.data.reviewCount ?? 0) - 1,
+            },
+          };
+        }
+      );
+
       toast.success('리뷰가 삭제되었습니다.');
     },
     onError: () => {
