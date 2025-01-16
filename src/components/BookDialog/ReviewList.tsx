@@ -42,7 +42,7 @@ function ReviewListContent({ ref, bookId, scrollableTarget }: Props) {
     AxiosResponse<PaginatedResponse<ReviewType>>,
     Error
   >({
-    queryKey: ['reviews', bookId],
+    queryKey: ['book-reviews', bookId],
     queryFn: ({ pageParam = 1 }) =>
       bookApi.searchBookReviews(bookId, {
         page: pageParam as number,

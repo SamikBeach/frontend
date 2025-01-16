@@ -1,9 +1,17 @@
+import { AuthorDetail } from '@/apis/author/types';
+import { BookDetail } from '@/apis/book/types';
+import { PaginatedResponse } from '@/apis/common/types';
 import { reviewApi } from '@/apis/review/review';
 import { Review as ReviewType } from '@/apis/review/types';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { formatDate } from '@/utils/date';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  InfiniteData,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { useCallback, useRef, useState } from 'react';
@@ -46,11 +54,13 @@ export default function Review({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
     onMutate: () => {
       // 리뷰 목록에서의 낙관적 업데이트 (책)
-      queryClient.setQueryData(['reviews', review.book.id], (old: any) => {
+      queryClient.setQueryData<
+        InfiniteData<AxiosResponse<PaginatedResponse<ReviewType>>>
+      >(['book-reviews', review.book.id], old => {
         if (!old) return old;
         return {
           ...old,
-          pages: old.pages.map((page: any) => ({
+          pages: old.pages.map(page => ({
             ...page,
             data: {
               ...page.data,
@@ -69,13 +79,14 @@ export default function Review({
       });
 
       // 작가의 리뷰 목록에서의 낙관적 업데이트
-      queryClient.setQueryData(
-        ['author-reviews', review.book.authorBooks[0].author.id],
-        (old: any) => {
+      if (review.book.authorBooks?.[0]?.author.id) {
+        queryClient.setQueryData<
+          InfiniteData<AxiosResponse<PaginatedResponse<ReviewType>>>
+        >(['author-reviews', review.book.authorBooks[0].author.id], old => {
           if (!old) return old;
           return {
             ...old,
-            pages: old.pages.map((page: any) => ({
+            pages: old.pages.map(page => ({
               ...page,
               data: {
                 ...page.data,
@@ -91,29 +102,34 @@ export default function Review({
               },
             })),
           };
-        }
-      );
+        });
+      }
 
       // 리뷰 상세에서의 낙관적 업데이트
-      queryClient.setQueryData(['review', review.id], (old: any) => {
-        if (!old) return old;
-        return {
-          ...old,
-          data: {
-            ...old.data,
-            isLiked: !review.isLiked,
-            likeCount: review.likeCount + (review.isLiked ? -1 : 1),
-          },
-        };
-      });
+      queryClient.setQueryData<AxiosResponse<ReviewType>>(
+        ['review', review.id],
+        old => {
+          if (!old) return old;
+          return {
+            ...old,
+            data: {
+              ...old.data,
+              isLiked: !review.isLiked,
+              likeCount: review.likeCount + (review.isLiked ? -1 : 1),
+            },
+          };
+        }
+      );
     },
     onError: () => {
       // 리뷰 목록에서의 롤백
-      queryClient.setQueryData(['reviews', review.book.id], (old: any) => {
+      queryClient.setQueryData<
+        InfiniteData<AxiosResponse<PaginatedResponse<ReviewType>>>
+      >(['reviews', review.book.id], old => {
         if (!old) return old;
         return {
           ...old,
-          pages: old.pages.map((page: any) => ({
+          pages: old.pages.map(page => ({
             ...page,
             data: {
               ...page.data,
@@ -132,17 +148,20 @@ export default function Review({
       });
 
       // 리뷰 상세에서의 롤백
-      queryClient.setQueryData(['review', review.id], (old: any) => {
-        if (!old) return old;
-        return {
-          ...old,
-          data: {
-            ...old.data,
-            isLiked: review.isLiked,
-            likeCount: review.likeCount,
-          },
-        };
-      });
+      queryClient.setQueryData<AxiosResponse<ReviewType>>(
+        ['review', review.id],
+        old => {
+          if (!old) return old;
+          return {
+            ...old,
+            data: {
+              ...old.data,
+              isLiked: review.isLiked,
+              likeCount: review.likeCount,
+            },
+          };
+        }
+      );
 
       toast.error('좋아요 처리에 실패했습니다.');
     },
@@ -196,11 +215,13 @@ export default function Review({
     mutationFn: () => reviewApi.deleteReview(review.id),
     onSuccess: () => {
       // 책의 리뷰 목록 업데이트
-      queryClient.setQueryData(['reviews', review.book.id], (old: any) => {
+      queryClient.setQueryData<
+        InfiniteData<AxiosResponse<PaginatedResponse<ReviewType>>>
+      >(['book-reviews', review.book.id], old => {
         if (!old) return old;
         return {
           ...old,
-          pages: old.pages.map((page: any) => ({
+          pages: old.pages.map(page => ({
             ...page,
             data: {
               ...page.data,
@@ -213,13 +234,14 @@ export default function Review({
       });
 
       // 작가의 리뷰 목록 업데이트
-      queryClient.setQueryData(
-        ['author-reviews', review.book.authorBooks[0].author.id],
-        (old: any) => {
+      if (review.book.authorBooks?.[0]?.author.id) {
+        queryClient.setQueryData<
+          InfiniteData<AxiosResponse<PaginatedResponse<ReviewType>>>
+        >(['author-reviews', review.book.authorBooks[0].author.id], old => {
           if (!old) return old;
           return {
             ...old,
-            pages: old.pages.map((page: any) => ({
+            pages: old.pages.map(page => ({
               ...page,
               data: {
                 ...page.data,
@@ -229,25 +251,28 @@ export default function Review({
               },
             })),
           };
-        }
-      );
+        });
+
+        // 작가 상세 정보의 리뷰 카운트 업데이트
+        queryClient.setQueryData<AxiosResponse<AuthorDetail>>(
+          ['author', review.book.authorBooks[0].author.id],
+          old => {
+            if (!old) return old;
+            return {
+              ...old,
+              data: {
+                ...old.data,
+                reviewCount: (old.data.reviewCount ?? 0) - 1,
+              },
+            };
+          }
+        );
+      }
 
       // 책 상세 정보의 리뷰 카운트 업데이트
-      queryClient.setQueryData(['book', review.book.id], (old: any) => {
-        if (!old) return old;
-        return {
-          ...old,
-          data: {
-            ...old.data,
-            reviewCount: (old.data.reviewCount ?? 0) - 1,
-          },
-        };
-      });
-
-      // 작가 상세 정보의 리뷰 카운트 업데이트
-      queryClient.setQueryData(
-        ['author', review.book.authorBooks[0].author.id],
-        (old: any) => {
+      queryClient.setQueryData<AxiosResponse<BookDetail>>(
+        ['book', review.book.id],
+        old => {
           if (!old) return old;
           return {
             ...old,
@@ -260,6 +285,7 @@ export default function Review({
       );
 
       toast.success('리뷰가 삭제되었습니다.');
+      reviewDialog.close();
     },
     onError: () => {
       toast.error('리뷰 삭제에 실패했습니다.');
