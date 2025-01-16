@@ -1,5 +1,7 @@
 'use client';
 
+import { bookApi } from '@/apis/book/book';
+import { BookDetail } from '@/apis/book/types';
 import { reviewApi } from '@/apis/review/review';
 import {
   Dialog,
@@ -10,11 +12,17 @@ import {
 } from '@/components/ui/dialog';
 import { isLexicalContentEmpty } from '@/utils/lexical';
 import { DialogProps } from '@radix-ui/react-dialog';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
+import { Suspense, useEffect, useState } from 'react';
 import ReviewEditor from '../ReviewEditor/ReviewEditor';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import { Skeleton } from '../ui/skeleton';
 import { toast } from '../ui/sonner';
 import LeaveConfirmDialog from './LeaveConfirmDialog';
 
@@ -25,6 +33,52 @@ interface Props extends DialogProps {
   initialTitle?: string;
   initialContent?: string;
   isEditMode?: boolean;
+}
+
+function BookInfo({ bookId }: { bookId: number }) {
+  const { data: book } = useSuspenseQuery<
+    AxiosResponse<BookDetail>,
+    Error,
+    BookDetail
+  >({
+    queryKey: ['book', bookId],
+    queryFn: () => bookApi.getBookDetail(bookId),
+    select: response => response.data,
+  });
+
+  return (
+    <div className="flex items-center gap-2">
+      <img
+        src={book.imageUrl ?? 'https://picsum.photos/200/300'}
+        className="h-[40px] rounded-sm"
+        alt={book.title}
+      />
+      <div className="flex flex-col">
+        <p className="text-sm font-semibold">{book.title}</p>
+        <p className="text-xs text-gray-500">
+          {book.authorBooks
+            .map(
+              (authorBook: { author: { nameInKor: string } }) =>
+                authorBook.author.nameInKor
+            )
+            .join(', ')}{' '}
+          · {book.publisher} · {book.publicationDate?.split('-')[0]}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function BookInfoSkeleton() {
+  return (
+    <div className="flex items-center gap-2">
+      <Skeleton className="h-[40px] w-[40px] rounded-sm" />
+      <div className="flex flex-col gap-1">
+        <Skeleton className="h-4 w-32" />
+        <Skeleton className="h-3 w-48" />
+      </div>
+    </div>
+  );
 }
 
 export default function WriteReviewDialog({
@@ -164,20 +218,11 @@ export default function WriteReviewDialog({
         >
           <DialogHeader>
             <DialogTitle />
-            <div className="flex items-center gap-2">
-              <img
-                src="https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9788970132099.jpg"
-                className="h-[40px] rounded-sm"
-              />
-              <div className="flex flex-col">
-                <p className="text-sm font-semibold">
-                  차라투스트라는 이렇게 말했다
-                </p>
-                <p className="text-xs text-gray-500">
-                  프리드리히 니체 · 민음사 · 2021
-                </p>
-              </div>
-            </div>
+            {bookId && (
+              <Suspense fallback={<BookInfoSkeleton />}>
+                <BookInfo bookId={bookId} />
+              </Suspense>
+            )}
           </DialogHeader>
           <Input
             placeholder="제목"
