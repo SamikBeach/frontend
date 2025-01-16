@@ -14,8 +14,8 @@ import { useState } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { toast } from '../ui/sonner';
-import { Textarea } from '../ui/textarea';
 import LeaveConfirmDialog from './LeaveConfirmDialog';
+import ReviewEditor from './ReviewEditor';
 
 interface Props extends DialogProps {
   bookId: number;
@@ -117,11 +117,10 @@ export default function WriteReviewDialog({
             value={title}
             onChange={e => setTitle(e.target.value)}
           />
-          <Textarea
-            placeholder="내용"
-            className="flex-1"
-            value={content}
-            onChange={e => setContent(e.target.value)}
+          <ReviewEditor
+            content={content}
+            onChange={setContent}
+            placeholder="내용을 입력하세요..."
           />
           <div className="flex justify-end">
             <Button onClick={handleSubmit} disabled={isPending}>
