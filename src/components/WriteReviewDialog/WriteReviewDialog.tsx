@@ -15,7 +15,7 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { toast } from '../ui/sonner';
 import LeaveConfirmDialog from './LeaveConfirmDialog';
-import ReviewEditor from './ReviewEditor';
+import ReviewEditor from '../ReviewEditor/ReviewEditor';
 
 interface Props extends DialogProps {
   bookId: number;
