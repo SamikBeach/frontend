@@ -22,6 +22,7 @@ import Link from 'next/link';
 import { RefObject, Suspense, useState } from 'react';
 import ReviewContent from '../Review/ReviewContent';
 import { toast } from '../ui/sonner';
+import { WriteReviewDialog } from '../WriteReviewDialog';
 import DeleteReviewDialog from './DeleteReviewDialog';
 import ReviewActions from './ReviewActions';
 
@@ -41,6 +42,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   });
 
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
@@ -174,7 +176,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-4">
         <div className="flex items-start justify-between gap-8">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-4">
@@ -215,7 +217,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
           </div>
           {isMyReview && (
             <ReviewActions
-              onEdit={() => {}}
+              onEdit={() => setShowEditDialog(true)}
               onDelete={() => setShowDeleteAlert(true)}
             />
           )}
@@ -247,6 +249,14 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
           deleteReview();
           setShowDeleteAlert(false);
         }}
+      />
+      <WriteReviewDialog
+        bookId={review.book.id}
+        open={showEditDialog}
+        onOpenChange={setShowEditDialog}
+        initialTitle={review.title}
+        initialContent={review.content}
+        isEditMode
       />
     </>
   );

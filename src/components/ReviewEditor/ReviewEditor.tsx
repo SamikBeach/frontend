@@ -1,10 +1,17 @@
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { ParagraphNode, TextNode } from 'lexical';
+import {
+  $createParagraphNode,
+  $getRoot,
+  ParagraphNode,
+  TextNode,
+} from 'lexical';
+import { useEffect, useRef } from 'react';
 import { TooltipProvider } from '../ui/tooltip';
 import { AutoFocusPlugin } from './plugins/AutoFocusPlugin';
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
@@ -49,7 +56,13 @@ export default function ReviewEditor({
       console.error(error);
     },
     nodes: [ParagraphNode, TextNode],
-    editorState: content ? JSON.parse(content) : undefined,
+    editorState: () => {
+      const root = $getRoot();
+      if (root.getFirstChild() === null) {
+        const paragraph = $createParagraphNode();
+        root.append(paragraph);
+      }
+    },
   };
 
   return (
@@ -83,7 +96,33 @@ export default function ReviewEditor({
         />
         <HistoryPlugin />
         <AutoFocusPlugin />
+        <InitialStatePlugin content={content} />
       </LexicalComposer>
     </TooltipProvider>
   );
+}
+
+function InitialStatePlugin({ content }: { content: string }) {
+  const [editor] = useLexicalComposerContext();
+  const initialized = useRef(false);
+
+  useEffect(() => {
+    if (initialized.current) {
+      return;
+    }
+    initialized.current = true;
+
+    if (!content) {
+      return;
+    }
+
+    try {
+      const editorState = editor.parseEditorState(content);
+      editor.setEditorState(editorState);
+    } catch (error) {
+      console.error('Failed to parse initial content:', error);
+    }
+  }, [content, editor]);
+
+  return null;
 }

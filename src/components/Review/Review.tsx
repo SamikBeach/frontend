@@ -19,6 +19,7 @@ import CommentEditor from '../CommentEditor/CommentEditor';
 import { Button } from '../ui/button';
 import { toast } from '../ui/sonner';
 import { UserAvatar } from '../UserAvatar';
+import { WriteReviewDialog } from '../WriteReviewDialog';
 import CommentList from './CommentList';
 import DeleteReviewDialog from './DeleteReviewDialog';
 import ReviewActions from './ReviewActions';
@@ -40,6 +41,7 @@ export default function Review({
   const [isExpanded, setIsExpanded] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
   const [isTruncated, setIsTruncated] = useState(false);
   const [replyToUser, setReplyToUser] = useState<{ nickname: string } | null>(
     null
@@ -326,7 +328,7 @@ export default function Review({
           {isMyReview && (
             <div className="ml-auto p-0.5">
               <ReviewActions
-                onEdit={() => {}}
+                onEdit={() => setShowEditDialog(true)}
                 onDelete={() => setShowDeleteAlert(true)}
               />
             </div>
@@ -433,6 +435,14 @@ export default function Review({
         open={showDeleteAlert}
         onOpenChange={setShowDeleteAlert}
         onConfirm={() => deleteReview()}
+      />
+      <WriteReviewDialog
+        bookId={review.book.id}
+        open={showEditDialog}
+        onOpenChange={setShowEditDialog}
+        initialTitle={review.title}
+        initialContent={review.content}
+        isEditMode
       />
     </>
   );

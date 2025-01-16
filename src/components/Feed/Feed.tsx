@@ -19,6 +19,7 @@ import { CommentButton } from '../CommentButton';
 import { LikeButton } from '../LikeButton';
 import { toast } from '../ui/sonner';
 import { UserAvatar } from '../UserAvatar';
+import { WriteReviewDialog } from '../WriteReviewDialog';
 import DeleteConfirmDialog from './DeleteConfirmDialog';
 import FeedActions from './FeedActions';
 import FeedContent from './FeedContent';
@@ -32,6 +33,7 @@ interface FeedProps {
 function Feed({ review, user, book }: FeedProps) {
   const { open } = useDialogQuery({ type: 'review' });
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
 
   const currentUser = useCurrentUser();
   const queryClient = useQueryClient();
@@ -233,7 +235,7 @@ function Feed({ review, user, book }: FeedProps) {
             onClick={e => e.stopPropagation()}
           >
             <FeedActions
-              onEdit={() => {}}
+              onEdit={() => setShowEditDialog(true)}
               onDelete={() => setShowDeleteAlert(true)}
             />
           </div>
@@ -245,6 +247,15 @@ function Feed({ review, user, book }: FeedProps) {
         onConfirm={() => {
           deleteReview();
         }}
+      />
+      <WriteReviewDialog
+        reviewId={review.id}
+        bookId={book.id}
+        open={showEditDialog}
+        onOpenChange={setShowEditDialog}
+        initialTitle={review.title}
+        initialContent={review.content}
+        isEditMode
       />
     </>
   );

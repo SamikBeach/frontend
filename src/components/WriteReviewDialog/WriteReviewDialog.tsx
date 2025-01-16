@@ -11,7 +11,7 @@ import {
 import { isLexicalContentEmpty } from '@/utils/lexical';
 import { DialogProps } from '@radix-ui/react-dialog';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReviewEditor from '../ReviewEditor/ReviewEditor';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -19,35 +19,78 @@ import { toast } from '../ui/sonner';
 import LeaveConfirmDialog from './LeaveConfirmDialog';
 
 interface Props extends DialogProps {
-  bookId: number;
+  bookId?: number;
+  reviewId?: number;
   onOpenChange?: (open: boolean) => void;
+  initialTitle?: string;
+  initialContent?: string;
+  isEditMode?: boolean;
 }
 
 export default function WriteReviewDialog({
   bookId,
+  reviewId,
   children,
   onOpenChange,
+  initialTitle = '',
+  initialContent = '',
+  isEditMode = false,
   ...props
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenLeaveConfirmDialog, setIsOpenLeaveConfirmDialog] =
     useState(false);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState(initialTitle);
+  const [content, setContent] = useState(initialContent);
 
   const queryClient = useQueryClient();
 
+  useEffect(() => {
+    setTitle(initialTitle);
+    setContent(initialContent);
+  }, [initialTitle, initialContent]);
+
   const resetForm = () => {
-    setTitle('');
-    setContent('');
+    setTitle(initialTitle);
+    setContent(initialContent);
   };
 
-  const { mutate: createReview, isPending } = useMutation({
-    mutationFn: () => reviewApi.createReview(bookId, { title, content }),
+  const { mutate: updateReview, isPending: isUpdatePending } = useMutation({
+    mutationFn: () => {
+      if (!reviewId) {
+        throw new Error('Review ID is required');
+      }
+
+      return reviewApi.updateReview(reviewId, { title, content });
+    },
     onSuccess: () => {
-      // Invalidate book reviews query
       queryClient.invalidateQueries({ queryKey: ['book-reviews', bookId] });
       queryClient.invalidateQueries({ queryKey: ['book', bookId] });
+      queryClient.invalidateQueries({ queryKey: ['reviews'] });
+
+      toast.success('리뷰가 수정되었습니다.');
+      resetForm();
+
+      setIsOpen(false);
+      onOpenChange?.(false);
+    },
+    onError: () => {
+      toast.error('리뷰 수정에 실패했습니다.');
+    },
+  });
+
+  const { mutate: createReview, isPending: isCreatePending } = useMutation({
+    mutationFn: () => {
+      if (!bookId) {
+        throw new Error('Book ID is required');
+      }
+
+      return reviewApi.createReview(bookId, { title, content });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['book-reviews', bookId] });
+      queryClient.invalidateQueries({ queryKey: ['book', bookId] });
+      queryClient.invalidateQueries({ queryKey: ['reviews'] });
 
       toast.success('리뷰가 작성되었습니다.');
       resetForm();
@@ -71,7 +114,11 @@ export default function WriteReviewDialog({
       return;
     }
 
-    createReview();
+    if (isEditMode) {
+      updateReview();
+    } else {
+      createReview();
+    }
   };
 
   const handleOpenChange = (open: boolean) => {
@@ -94,6 +141,8 @@ export default function WriteReviewDialog({
     setIsOpenLeaveConfirmDialog(false);
     onOpenChange?.(false);
   };
+
+  const isPending = isEditMode ? isUpdatePending : isCreatePending;
 
   return (
     <>
@@ -142,7 +191,7 @@ export default function WriteReviewDialog({
           />
           <div className="flex justify-end">
             <Button onClick={handleSubmit} disabled={isPending}>
-              {isPending ? '제출 중...' : '제출하기'}
+              {isPending ? '제출 중...' : isEditMode ? '수정하기' : '제출하기'}
             </Button>
           </div>
         </DialogContent>
