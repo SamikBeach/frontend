@@ -112,7 +112,7 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
         </div>
 
         <div className="flex w-full flex-col gap-1.5">
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-0.5">
             <div
               className={`w-full rounded-lg ${isEditing ? '' : 'bg-gray-50'} p-3`}
             >
@@ -135,33 +135,25 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
               <div className="flex items-center gap-2 text-xs text-gray-600">
                 <Button
                   variant="ghost"
+                  className="group flex h-5 w-5 cursor-pointer items-center gap-0.5 text-xs text-gray-500 transition-colors hover:bg-transparent hover:text-gray-900"
                   onClick={() => toggleLike()}
-                  className={`h-5 px-0 text-xs hover:bg-transparent hover:text-gray-900 ${
-                    comment.isLiked
-                      ? 'font-bold text-gray-900'
-                      : 'font-medium text-gray-600'
-                  }`}
                 >
-                  좋아요
+                  <ThumbsUpIcon
+                    className={`!h-3.5 !w-3.5 ${
+                      comment.isLiked
+                        ? 'fill-blue-500 stroke-blue-500'
+                        : 'stroke-gray-500'
+                    } transition-colors group-hover:stroke-gray-900`}
+                  />
+                  <span>{comment.likeCount}</span>
                 </Button>
                 <Button
                   variant="ghost"
                   onClick={() => onReply({ nickname: comment.user.nickname })}
-                  className="h-5 px-0 text-xs font-medium hover:bg-transparent hover:text-gray-900"
+                  className="h-5 px-0 text-xs hover:bg-transparent hover:text-gray-900"
                 >
                   답글 달기
                 </Button>
-              </div>
-
-              <div className="flex items-center gap-1 text-xs text-gray-500">
-                <ThumbsUpIcon
-                  className={`h-3.5 w-3.5 ${
-                    comment.isLiked
-                      ? 'fill-blue-500 stroke-blue-500'
-                      : 'stroke-gray-500'
-                  }`}
-                />
-                <span>{comment.likeCount}</span>
               </div>
             </div>
           </div>
