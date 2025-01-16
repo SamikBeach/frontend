@@ -1,26 +1,18 @@
-import { $createListNode, $isListNode } from '@lexical/list';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
-  $createParagraphNode,
-  $getRoot,
   $getSelection,
   $isRangeSelection,
-  $isRootOrShadowRoot,
   FORMAT_TEXT_COMMAND,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
 import {
   BoldIcon,
   ItalicIcon,
-  ListIcon,
-  ListOrderedIcon,
   StrikethroughIcon,
   UnderlineIcon,
 } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
-import { Divider } from './toolbar/Divider';
 import { TextFormatButton } from './toolbar/TextFormatButton';
-import { UtilityButton } from './toolbar/UtilityButton';
 
 type TextFormat = 'bold' | 'italic' | 'underline' | 'strikethrough';
 
@@ -57,7 +49,6 @@ export function ToolbarPlugin() {
     (format: TextFormat) => {
       editor.dispatchCommand(FORMAT_TEXT_COMMAND, format);
 
-      // Immediately update the active formats
       setActiveFormats(prev => {
         const newFormats = new Set(prev);
         if (newFormats.has(format)) {
@@ -66,37 +57,6 @@ export function ToolbarPlugin() {
           newFormats.add(format);
         }
         return newFormats;
-      });
-    },
-    [editor]
-  );
-
-  const formatList = useCallback(
-    (listType: 'number' | 'bullet') => {
-      if (!editor.isEditable()) return;
-
-      editor.update(() => {
-        const selection = $getSelection();
-        if ($isRangeSelection(selection)) {
-          const nodes = selection.getNodes();
-          nodes.forEach(node => {
-            const parent = node.getParent();
-            if ($isRootOrShadowRoot(parent)) {
-              if ($isListNode(node)) {
-                const paragraph = $createParagraphNode();
-                node.replace(paragraph);
-              } else {
-                const list = $createListNode(listType);
-                if (node.is($getRoot())) {
-                  const paragraph = $createParagraphNode();
-                  list.append(paragraph);
-                } else {
-                  node.replace(list);
-                }
-              }
-            }
-          });
-        }
       });
     },
     [editor]
@@ -131,21 +91,6 @@ export function ToolbarPlugin() {
         icon={StrikethroughIcon}
         ariaLabel="Strikethrough"
         isActive={activeFormats.has('strikethrough')}
-      />
-
-      <Divider />
-
-      <UtilityButton
-        tooltip="글머리 기호 (*)"
-        onClick={() => formatList('bullet')}
-        icon={ListIcon}
-        ariaLabel="Bullet List"
-      />
-      <UtilityButton
-        tooltip="번호 매기기 (1.)"
-        onClick={() => formatList('number')}
-        icon={ListOrderedIcon}
-        ariaLabel="Numbered List"
       />
     </div>
   );
