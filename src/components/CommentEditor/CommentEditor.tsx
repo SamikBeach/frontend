@@ -47,12 +47,21 @@ function CommentEditor({
   useEffect(() => {
     if (initialContent) {
       try {
+        // 초기 내용이 있는 경우, 이를 파싱하여 에디터 상태로 설정
         const editorState = editor.parseEditorState(initialContent);
-        editor.setEditorState(editorState);
+
+        queueMicrotask(() => {
+          editor.setEditorState(editorState);
+        });
+
+        setTimeout(() => {
+          editor.focus();
+        }, 200);
       } catch (error) {
         console.error('Failed to parse initial content:', error);
       }
     } else if (replyToUser) {
+      // replyToUser가 있는 경우, 에디터를 초기화하고 멘션을 삽입
       editor.update(() => {
         const root = $getRoot();
         root.clear();
@@ -85,6 +94,7 @@ function CommentEditor({
 
       if (text.trim().length > 0) {
         onSubmit(JSON.stringify(editor.getEditorState()));
+
         editor.update(() => {
           const root = $getRoot();
           root.clear();
