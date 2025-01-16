@@ -17,7 +17,7 @@ export default function CommentActions({ onEdit, onDelete }: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-8 w-8 p-0" aria-label="더보기">
-          <MoreHorizontal className="h-4 w-4" />
+          <MoreHorizontal className="h-4 w-4 text-gray-500" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

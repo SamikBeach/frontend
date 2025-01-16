@@ -153,7 +153,7 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
                 </Button>
               </div>
 
-              <div className="flex items-center gap-1 text-xs text-gray-600">
+              <div className="flex items-center gap-1 text-xs text-gray-500">
                 <ThumbsUpIcon
                   className={`h-3.5 w-3.5 ${
                     comment.isLiked
