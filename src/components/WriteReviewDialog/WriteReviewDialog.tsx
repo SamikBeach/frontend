@@ -8,14 +8,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { isLexicalContentEmpty } from '@/utils/lexical';
 import { DialogProps } from '@radix-ui/react-dialog';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
+import ReviewEditor from '../ReviewEditor/ReviewEditor';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { toast } from '../ui/sonner';
 import LeaveConfirmDialog from './LeaveConfirmDialog';
-import ReviewEditor from '../ReviewEditor/ReviewEditor';
 
 interface Props extends DialogProps {
   bookId: number;
@@ -65,7 +66,7 @@ export default function WriteReviewDialog({
       return;
     }
 
-    if (!content.trim()) {
+    if (isLexicalContentEmpty(content)) {
       toast.error('내용을 입력해주세요.');
       return;
     }
@@ -75,11 +76,23 @@ export default function WriteReviewDialog({
 
   const handleOpenChange = (open: boolean) => {
     if (!open) {
+      if (title.trim() || !isLexicalContentEmpty(content)) {
+        setIsOpenLeaveConfirmDialog(true);
+
+        return;
+      }
       resetForm();
     }
 
     setIsOpen(open);
     onOpenChange?.(open);
+  };
+
+  const handleConfirmLeave = () => {
+    resetForm();
+    setIsOpen(false);
+    setIsOpenLeaveConfirmDialog(false);
+    onOpenChange?.(false);
   };
 
   return (
@@ -94,6 +107,11 @@ export default function WriteReviewDialog({
           className="flex h-[84vh] w-[800px] min-w-[800px] flex-col gap-4 overflow-y-auto p-10"
           overlayClassName="bg-black/50"
           aria-describedby={undefined}
+          onPointerDownOutside={e => {
+            if (!isLexicalContentEmpty(content) || title.trim() !== '') {
+              e.preventDefault();
+            }
+          }}
         >
           <DialogHeader>
             <DialogTitle />
@@ -132,6 +150,7 @@ export default function WriteReviewDialog({
       <LeaveConfirmDialog
         open={isOpenLeaveConfirmDialog}
         onOpenChange={setIsOpenLeaveConfirmDialog}
+        onConfirm={handleConfirmLeave}
       />
     </>
   );
