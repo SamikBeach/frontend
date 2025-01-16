@@ -8,6 +8,7 @@ import { LikeButton } from '@/components/LikeButton';
 import { Skeleton } from '@/components/ui/skeleton';
 import { UserAvatar } from '@/components/UserAvatar';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import {
   InfiniteData,
@@ -18,7 +19,9 @@ import {
 import { AxiosResponse } from 'axios';
 import { format } from 'date-fns';
 import Link from 'next/link';
-import { RefObject, Suspense } from 'react';
+import { RefObject, Suspense, useState } from 'react';
+import { toast } from '../ui/sonner';
+import DeleteReviewDialog from './DeleteReviewDialog';
 import ReviewActions from './ReviewActions';
 
 interface Props {
@@ -29,11 +32,14 @@ interface Props {
 function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   const currentUser = useCurrentUser();
   const queryClient = useQueryClient();
+  const { close } = useDialogQuery({ type: 'review' });
   const { data: review } = useSuspenseQuery({
     queryKey: ['review', reviewId],
     queryFn: () => reviewApi.getReviewDetail(reviewId),
     select: response => response.data,
   });
+
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
@@ -139,6 +145,20 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
     },
   });
 
+  const { mutate: deleteReview } = useMutation({
+    mutationFn: () => reviewApi.deleteReview(review.id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['reviews'],
+      });
+      close();
+      toast.success('리뷰가 삭제되었습니다.');
+    },
+    onError: () => {
+      toast.error('리뷰 삭제에 실패했습니다.');
+    },
+  });
+
   const handleLikeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (!currentUser) return;
@@ -152,64 +172,79 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   const isMyReview = review.user.id === currentUser?.id;
 
   return (
-    <div className="flex flex-col">
-      <div className="flex items-start justify-between gap-8">
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-4">
-            <DialogTitle className="text-3xl font-bold tracking-tight text-gray-900">
-              {review.title}
-            </DialogTitle>
-            <Link
-              href={`/book/${review.book.id}`}
-              target="_blank"
-              className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 p-2.5 transition-colors hover:bg-gray-100"
-            >
-              <img
-                src={review.book.imageUrl ?? 'https://picsum.photos/200/300'}
-                className="h-7 w-5 rounded-sm object-cover shadow-sm"
-                alt={review.book.title}
-              />
-              <div className="flex flex-col gap-0.5">
-                <span className="text-xs font-medium text-gray-900">
-                  {review.book.title}
-                </span>
-                <span className="text-[11px] text-gray-500">
-                  {review.book.authorBooks
-                    .map(authorBook => authorBook.author.nameInKor)
-                    .join(', ')}
-                </span>
-              </div>
-            </Link>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="flex items-center gap-2">
-              <UserAvatar user={review.user} size="sm" />
+    <>
+      <div className="flex flex-col">
+        <div className="flex items-start justify-between gap-8">
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-4">
+              <DialogTitle className="text-3xl font-bold tracking-tight text-gray-900">
+                {review.title}
+              </DialogTitle>
+              <Link
+                href={`/book/${review.book.id}`}
+                target="_blank"
+                className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 p-2.5 transition-colors hover:bg-gray-100"
+              >
+                <img
+                  src={review.book.imageUrl ?? 'https://picsum.photos/200/300'}
+                  className="h-7 w-5 rounded-sm object-cover shadow-sm"
+                  alt={review.book.title}
+                />
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-xs font-medium text-gray-900">
+                    {review.book.title}
+                  </span>
+                  <span className="text-[11px] text-gray-500">
+                    {review.book.authorBooks
+                      .map(authorBook => authorBook.author.nameInKor)
+                      .join(', ')}
+                  </span>
+                </div>
+              </Link>
             </div>
-            <span className="text-gray-300">·</span>
-            <span className="text-sm text-gray-500">
-              {format(new Date(review.createdAt), 'yyyy년 M월 d일 HH시 mm분')}
-            </span>
+            <div className="flex items-center gap-1">
+              <div className="flex items-center gap-2">
+                <UserAvatar user={review.user} size="sm" />
+              </div>
+              <span className="text-gray-300">·</span>
+              <span className="text-sm text-gray-500">
+                {format(new Date(review.createdAt), 'yyyy년 M월 d일 HH시 mm분')}
+              </span>
+            </div>
           </div>
+          {isMyReview && (
+            <ReviewActions
+              onEdit={() => {}}
+              onDelete={() => setShowDeleteAlert(true)}
+            />
+          )}
         </div>
-        {isMyReview && <ReviewActions onEdit={() => {}} onDelete={() => {}} />}
-      </div>
 
-      <div className="mb-8 whitespace-pre-wrap text-base leading-relaxed text-gray-800">
-        {review.content}
-      </div>
+        <div className="mb-8 whitespace-pre-wrap text-base leading-relaxed text-gray-800">
+          {review.content}
+        </div>
 
-      <div className="flex justify-center gap-2">
-        <LikeButton
-          isLiked={review.isLiked ?? false}
-          likeCount={review.likeCount}
-          onClick={handleLikeClick}
-        />
-        <CommentButton
-          commentCount={review.commentCount}
-          onClick={handleCommentClick}
-        />
+        <div className="flex justify-center gap-2">
+          <LikeButton
+            isLiked={review.isLiked ?? false}
+            likeCount={review.likeCount}
+            onClick={handleLikeClick}
+          />
+          <CommentButton
+            commentCount={review.commentCount}
+            onClick={handleCommentClick}
+          />
+        </div>
       </div>
-    </div>
+      <DeleteReviewDialog
+        open={showDeleteAlert}
+        onOpenChange={setShowDeleteAlert}
+        onConfirm={() => {
+          deleteReview();
+          setShowDeleteAlert(false);
+        }}
+      />
+    </>
   );
 }
 
@@ -251,6 +286,7 @@ function ReviewInfoSkeleton() {
     </div>
   );
 }
+
 export default function ReviewInfo(props: Props) {
   return (
     <Suspense fallback={<ReviewInfoSkeleton />}>

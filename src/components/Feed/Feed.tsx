@@ -15,9 +15,12 @@ import {
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { MoreHorizontal } from 'lucide-react';
+import { useState } from 'react';
 import { CommentButton } from '../CommentButton';
 import { LikeButton } from '../LikeButton';
+import DeleteReviewDialog from '../ReviewDialog/DeleteReviewDialog';
 import { Button } from '../ui/button';
+import { toast } from '../ui/sonner';
 import { UserAvatar } from '../UserAvatar';
 import EditDropdownMenu from './EditDropdownMenu';
 
@@ -29,6 +32,7 @@ interface FeedProps {
 
 function Feed({ review, user, book }: FeedProps) {
   const { open } = useDialogQuery({ type: 'review' });
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
 
   const currentUser = useCurrentUser();
   const queryClient = useQueryClient();
@@ -146,6 +150,19 @@ function Feed({ review, user, book }: FeedProps) {
     },
   });
 
+  const { mutate: deleteReview } = useMutation({
+    mutationFn: () => reviewApi.deleteReview(review.id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['reviews'],
+      });
+      toast.success('리뷰가 삭제되었습니다.');
+    },
+    onError: () => {
+      toast.error('리뷰 삭제에 실패했습니다.');
+    },
+  });
+
   const handleLikeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (!currentUser) return;
@@ -220,10 +237,32 @@ function Feed({ review, user, book }: FeedProps) {
                   <MoreHorizontal className="h-4 w-4 text-gray-500" />
                 </Button>
               </EditDropdownMenu.Trigger>
+              <EditDropdownMenu.Content>
+                <EditDropdownMenu.Item onClick={() => {}}>
+                  수정하기
+                </EditDropdownMenu.Item>
+                <EditDropdownMenu.Item
+                  onClick={(e: React.MouseEvent) => {
+                    e.stopPropagation();
+                    setShowDeleteAlert(true);
+                  }}
+                  className="text-red-600"
+                >
+                  삭제하기
+                </EditDropdownMenu.Item>
+              </EditDropdownMenu.Content>
             </EditDropdownMenu>
           </div>
         )}
       </div>
+      <DeleteReviewDialog
+        open={showDeleteAlert}
+        onOpenChange={setShowDeleteAlert}
+        onConfirm={() => {
+          deleteReview();
+          setShowDeleteAlert(false);
+        }}
+      />
     </>
   );
 }

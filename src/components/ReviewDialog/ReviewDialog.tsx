@@ -5,9 +5,9 @@ import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogProps, DialogTitle } from '@radix-ui/react-dialog';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useRef, useState } from 'react';
-import { toast } from 'sonner';
 import CommentEditor from '../CommentEditor/CommentEditor';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
+import { toast } from '../ui/sonner';
 import CommentList from './CommentList';
 import ReviewInfo from './ReviewInfo';
 
