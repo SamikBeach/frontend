@@ -247,10 +247,6 @@ export default function Review({
                   <CommentEditor
                     ref={editorRef}
                     onSubmit={createComment}
-                    onCancel={() => {
-                      setIsReplying(false);
-                      setReplyToUser(null);
-                    }}
                     replyToUser={replyToUser ?? undefined}
                   />
                 </div>

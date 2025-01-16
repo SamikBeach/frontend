@@ -79,9 +79,6 @@ export default function ReviewDialog(props: Props) {
             <div className="relative">
               <CommentEditor
                 onSubmit={createComment}
-                onCancel={() => {
-                  setReplyToUser(null);
-                }}
                 replyToUser={replyToUser ?? undefined}
               />
             </div>
