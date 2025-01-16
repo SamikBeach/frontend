@@ -3,29 +3,15 @@ import { Comment } from '@/apis/review/types';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { formatDate } from '@/utils/date';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { MoreHorizontal, PencilIcon, ThumbsUpIcon, Trash2 } from 'lucide-react';
+import { ThumbsUpIcon } from 'lucide-react';
 import { forwardRef, useState } from 'react';
 import { toast } from 'sonner';
 import { CommentContent } from '.';
 import { CommentEditor } from '../CommentEditor';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '../ui/alert-dialog';
 import { Button } from '../ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
 import { UserAvatar } from '../UserAvatar';
+import CommentActions from './CommentActions';
+import DeleteAlertDialog from './DeleteAlertDialog';
 
 interface Props {
   comment: Comment;
@@ -38,8 +24,6 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
     const queryClient = useQueryClient();
     const [isEditing, setIsEditing] = useState(false);
     const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-    const [showEditAlert, setShowEditAlert] = useState(false);
-    const [editedContent, setEditedContent] = useState(comment.content);
 
     const currentUser = useCurrentUser();
     const isMyComment = comment.user.id === currentUser?.id;
@@ -104,20 +88,10 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
 
     const handleEditStart = () => {
       setIsEditing(true);
-      setEditedContent(comment.content);
     };
 
     const handleEditCancel = () => {
-      if (editedContent !== comment.content) {
-        setShowEditAlert(true);
-      } else {
-        setIsEditing(false);
-      }
-    };
-
-    const handleEditConfirm = () => {
       setIsEditing(false);
-      setShowEditAlert(false);
     };
 
     return (
@@ -130,33 +104,10 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
             </span>
           </div>
           {isMyComment && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="h-8 w-8 p-0"
-                  aria-label="더보기"
-                >
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem
-                  className="cursor-pointer"
-                  onSelect={handleEditStart}
-                >
-                  <PencilIcon className="h-4 w-4" />
-                  수정하기
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onSelect={() => setShowDeleteAlert(true)}
-                  className="cursor-pointer text-red-600"
-                >
-                  <Trash2 className="h-4 w-4" />
-                  삭제하기
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <CommentActions
+              onEdit={handleEditStart}
+              onDelete={() => setShowDeleteAlert(true)}
+            />
           )}
         </div>
 
@@ -216,40 +167,11 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
           </div>
         </div>
 
-        <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>댓글 삭제</AlertDialogTitle>
-              <AlertDialogDescription>
-                정말로 이 댓글을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>취소</AlertDialogCancel>
-              <AlertDialogAction onClick={() => deleteComment()}>
-                삭제
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-
-        <AlertDialog open={showEditAlert} onOpenChange={setShowEditAlert}>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>수정 취소</AlertDialogTitle>
-              <AlertDialogDescription>
-                댓글 수정을 취소하시겠습니까? 작성 중인 내용은 저장되지
-                않습니다.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>계속 수정</AlertDialogCancel>
-              <AlertDialogAction onClick={handleEditConfirm}>
-                수정 취소
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <DeleteAlertDialog
+          open={showDeleteAlert}
+          onOpenChange={setShowDeleteAlert}
+          onConfirm={() => deleteComment()}
+        />
       </div>
     );
   }
