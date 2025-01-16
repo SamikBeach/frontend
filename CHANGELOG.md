@@ -1,5 +1,30 @@
 # 🚦 CHANGELOG
 
+# [1.43.0](https://github.com/SamikBeach/frontend/compare/1.42.0...1.43.0) (2025-01-16)
+
+
+### Bug Fixes
+
+* fix lint ([8b72d11](https://github.com/SamikBeach/frontend/commit/8b72d11e3ade4a0165c6c0d66118fb04c5b45f43))
+* ReviewEditor에 불필요한 코드 제거 ([839b1fb](https://github.com/SamikBeach/frontend/commit/839b1fba0dc60b65671b7bebdd354b11301d70c6))
+* 더보기 스타일 수정 ([1e4e2b2](https://github.com/SamikBeach/frontend/commit/1e4e2b21f957df9e2680b9c5eae3655b7518a40b))
+* 리뷰 리스트에 애니메이션 적용 ([8fe3a3e](https://github.com/SamikBeach/frontend/commit/8fe3a3e566a6449921793f50047591585204ef9e))
+* 리뷰 좋아요/삭제 시 쿼리 업데이트 로직 개선 ([df4d838](https://github.com/SamikBeach/frontend/commit/df4d838962d1af374b6be57a79e062781aca8198))
+* 리스트 버튼 제거 ([890ef0f](https://github.com/SamikBeach/frontend/commit/890ef0f5357236b3d2175c5cc1b4189260efbe81))
+
+
+### Features
+
+* @lexical/utils 패키지 추가 ([7f9615b](https://github.com/SamikBeach/frontend/commit/7f9615b0118e1e7f86af01bb2238d4a0bc6c204b))
+* Feed 컴포넌트에서 Lexical 컨텐츠 파싱 지원 ([24e67c4](https://github.com/SamikBeach/frontend/commit/24e67c47eb8ab05b6d71f0d76e14408c9ea6d922))
+* ReviewEditor 스타일 수정 ([c6314d5](https://github.com/SamikBeach/frontend/commit/c6314d53eda9e8126e5fd10eb111b1c079b451b1))
+* WriteReviewDialog API 연동 ([7bbdb4b](https://github.com/SamikBeach/frontend/commit/7bbdb4be1d0ef30eeadca3e3b6f20600b9436c9d))
+* 리뷰 더보기 버튼 표시 로직 개선 ([e8e8a3b](https://github.com/SamikBeach/frontend/commit/e8e8a3bc0f64966cc763692959c2ff43207f1720))
+* 리뷰 작성 취소 시 확인 다이얼로그 추가 ([2d99ac4](https://github.com/SamikBeach/frontend/commit/2d99ac407aabfa154bb043ec3d00f69beb7f8f33))
+* 리뷰 컨텐츠를 Lexical 에디터로 표시하도록 변경 ([3ae93fd](https://github.com/SamikBeach/frontend/commit/3ae93fddda4c0fd011faa379f551d7d2a3864bd0))
+* 작가 다이얼로그에 리뷰/코멘트 기능 추가 ([00ba6ec](https://github.com/SamikBeach/frontend/commit/00ba6ecb56be17c891df9e48a1526ff49433ba94))
+* 텍스트 포맷 버튼 토글 상태 개선 ([f416171](https://github.com/SamikBeach/frontend/commit/f416171fe9a7b6d7a6fc3d1cd79fae2eeb35127e))
+
 # [1.42.0](https://github.com/SamikBeach/frontend/compare/1.41.0...1.42.0) (2025-01-16)
 
 
