@@ -5,9 +5,9 @@ import { formatDate } from '@/utils/date';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { toast } from 'sonner';
-import { CommentEditor } from '../CommentEditor';
+import CommentEditor from '../CommentEditor/CommentEditor';
 import { Button } from '../ui/button';
 import { UserAvatar } from '../UserAvatar';
 import CommentList from './CommentList';
@@ -25,6 +25,7 @@ export default function Review({
   hideActions = false,
   showBookInfo = false,
 }: Props) {
+  const editorRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
   const [replyToUser, setReplyToUser] = useState<{ nickname: string } | null>(
@@ -117,14 +118,35 @@ export default function Review({
   });
 
   const handleReply = useCallback((user: { nickname: string }) => {
-    setReplyToUser(user);
     setIsReplying(true);
+
+    if (editorRef.current) {
+      editorRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
+
+    setTimeout(() => {
+      setReplyToUser(user);
+    }, 500);
   }, []);
 
   const displayContent =
     shouldShowMore && !isExpanded
       ? review.content.slice(0, MAX_CONTENT_LENGTH)
       : review.content;
+
+  const handleReplyButtonClick = () => {
+    // Focus editor after animation completes
+    setIsReplying(prev => !prev);
+
+    if (!isReplying) {
+      setTimeout(() => {
+        editorRef.current?.focus();
+      }, 300);
+    }
+  };
 
   return (
     <>
@@ -181,7 +203,7 @@ export default function Review({
               </Button>
               <Button
                 variant="ghost"
-                onClick={() => setIsReplying(prev => !prev)}
+                onClick={handleReplyButtonClick}
                 className="h-[14px] p-0 hover:bg-transparent"
               >
                 답글 달기
@@ -223,6 +245,7 @@ export default function Review({
               <div className="flex flex-col gap-4">
                 <div className="p-0.5">
                   <CommentEditor
+                    ref={editorRef}
                     onSubmit={createComment}
                     onCancel={() => {
                       setIsReplying(false);

@@ -6,7 +6,7 @@ import { DialogProps, DialogTitle } from '@radix-ui/react-dialog';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useRef, useState } from 'react';
 import { toast } from 'sonner';
-import { CommentEditor } from '../CommentEditor';
+import CommentEditor from '../CommentEditor/CommentEditor';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import CommentList from './CommentList';
 import ReviewInfo from './ReviewInfo';
@@ -79,6 +79,9 @@ export default function ReviewDialog(props: Props) {
             <div className="relative">
               <CommentEditor
                 onSubmit={createComment}
+                onCancel={() => {
+                  setReplyToUser(null);
+                }}
                 replyToUser={replyToUser ?? undefined}
               />
             </div>

@@ -29,6 +29,7 @@ interface Props {
   };
   initialContent?: string;
   showAvatar?: boolean;
+  ref?: React.RefObject<HTMLDivElement | null>;
 }
 
 function CommentEditor({
@@ -37,6 +38,7 @@ function CommentEditor({
   replyToUser,
   initialContent,
   showAvatar = true,
+  ref,
 }: Props) {
   const currentUser = useCurrentUser();
   const [editor] = useLexicalComposerContext();
@@ -121,6 +123,7 @@ function CommentEditor({
           <RichTextPlugin
             contentEditable={
               <ContentEditable
+                ref={ref}
                 className="relative min-h-[40px] w-full resize-none rounded-lg px-4 py-2.5 pr-[76px] text-sm text-gray-900 outline-none"
                 onKeyDownCapture={e => {
                   if (e.metaKey && e.key === 'Enter') {
@@ -194,10 +197,12 @@ export default function CommentEditorWithLexicalComposer({
   replyToUser,
   initialContent,
   showAvatar,
+  ref,
 }: Props) {
   return (
     <LexicalComposer initialConfig={getEditorConfig()}>
       <CommentEditor
+        ref={ref}
         onSubmit={onSubmit}
         onCancel={onCancel}
         replyToUser={replyToUser}

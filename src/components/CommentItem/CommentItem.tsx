@@ -7,7 +7,7 @@ import { ThumbsUpIcon } from 'lucide-react';
 import { forwardRef, useState } from 'react';
 import { toast } from 'sonner';
 import { CommentContent } from '.';
-import { CommentEditor } from '../CommentEditor';
+import CommentEditor from '../CommentEditor/CommentEditor';
 import { Button } from '../ui/button';
 import { UserAvatar } from '../UserAvatar';
 import CommentActions from './CommentActions';
