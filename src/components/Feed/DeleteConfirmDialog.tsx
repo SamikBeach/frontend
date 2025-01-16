@@ -10,9 +10,15 @@ import {
   AlertDialogTrigger,
 } from '../ui/alert-dialog';
 
-interface Props extends AlertDialogProps {}
+interface Props extends AlertDialogProps {
+  onConfirm: () => void;
+}
 
-export default function DeleteConfirmDialog({ children, ...props }: Props) {
+export default function DeleteConfirmDialog({
+  children,
+  onConfirm,
+  ...props
+}: Props) {
   return (
     <AlertDialog {...props}>
       {children}
@@ -23,7 +29,7 @@ export default function DeleteConfirmDialog({ children, ...props }: Props) {
         </AlertDialogDescription>
         <AlertDialogFooter>
           <AlertDialogCancel>취소</AlertDialogCancel>
-          <AlertDialogAction>삭제</AlertDialogAction>
+          <AlertDialogAction onClick={onConfirm}>삭제</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -17,9 +17,9 @@ import { AxiosResponse } from 'axios';
 import { useState } from 'react';
 import { CommentButton } from '../CommentButton';
 import { LikeButton } from '../LikeButton';
-import DeleteReviewDialog from '../ReviewDialog/DeleteReviewDialog';
 import { toast } from '../ui/sonner';
 import { UserAvatar } from '../UserAvatar';
+import DeleteConfirmDialog from './DeleteConfirmDialog';
 import FeedActions from './FeedActions';
 
 interface FeedProps {
@@ -236,7 +236,7 @@ function Feed({ review, user, book }: FeedProps) {
           </div>
         )}
       </div>
-      <DeleteReviewDialog
+      <DeleteConfirmDialog
         open={showDeleteAlert}
         onOpenChange={setShowDeleteAlert}
         onConfirm={() => {
