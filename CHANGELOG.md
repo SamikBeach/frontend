@@ -1,5 +1,14 @@
 # 🚦 CHANGELOG
 
+## [1.43.1](https://github.com/SamikBeach/frontend/compare/1.43.0...1.43.1) (2025-01-16)
+
+
+### Bug Fixes
+
+* CommentItem 스타일 수정 ([70db063](https://github.com/SamikBeach/frontend/commit/70db063d3149e3822f72d44c053f23a960a8c60e))
+* Review 스타일 수정 ([e54c298](https://github.com/SamikBeach/frontend/commit/e54c298daeb56275d6b9f03a113f73bc761307fa))
+* WriteReviewDialog 수정 시 초기값 업데이트 문제 해결 ([e13330a](https://github.com/SamikBeach/frontend/commit/e13330a1c8bce7f2277a61b3d23a40c6f5142931))
+
 # [1.43.0](https://github.com/SamikBeach/frontend/compare/1.42.0...1.43.0) (2025-01-16)
 
 
