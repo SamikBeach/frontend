@@ -1,5 +1,6 @@
 import { reviewApi } from '@/apis/review/review';
 import { Review as ReviewType } from '@/apis/review/types';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { formatDate } from '@/utils/date';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -11,6 +12,8 @@ import CommentEditor from '../CommentEditor/CommentEditor';
 import { Button } from '../ui/button';
 import { UserAvatar } from '../UserAvatar';
 import CommentList from './CommentList';
+import DeleteReviewDialog from './DeleteReviewDialog';
+import ReviewActions from './ReviewActions';
 
 const MAX_CONTENT_LENGTH = 300;
 
@@ -28,6 +31,7 @@ export default function Review({
   const editorRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [replyToUser, setReplyToUser] = useState<{ nickname: string } | null>(
     null
   );
@@ -35,6 +39,8 @@ export default function Review({
   const bookDialog = useDialogQuery({ type: 'book' });
   const reviewDialog = useDialogQuery({ type: 'review' });
   const queryClient = useQueryClient();
+  const currentUser = useCurrentUser();
+  const isMyReview = review.user.id === currentUser?.id;
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
@@ -148,6 +154,17 @@ export default function Review({
     }
   };
 
+  const { mutate: deleteReview } = useMutation({
+    mutationFn: () => reviewApi.deleteReview(review.id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['reviews', review.book.id] });
+      toast.success('리뷰가 삭제되었습니다.');
+    },
+    onError: () => {
+      toast.error('리뷰 삭제에 실패했습니다.');
+    },
+  });
+
   return (
     <>
       <div className="flex flex-col gap-1">
@@ -156,6 +173,14 @@ export default function Review({
           <p className="text-sm text-gray-500">
             {formatDate(review.createdAt)}
           </p>
+          {isMyReview && (
+            <div className="ml-auto p-0.5">
+              <ReviewActions
+                onEdit={() => {}}
+                onDelete={() => setShowDeleteAlert(true)}
+              />
+            </div>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
@@ -256,6 +281,11 @@ export default function Review({
           )}
         </AnimatePresence>
       )}
+      <DeleteReviewDialog
+        open={showDeleteAlert}
+        onOpenChange={setShowDeleteAlert}
+        onConfirm={() => deleteReview()}
+      />
     </>
   );
 }
