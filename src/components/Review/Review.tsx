@@ -5,7 +5,7 @@ import { formatDate } from '@/utils/date';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
 import { CommentEditor } from '../CommentEditor';
 import { Button } from '../ui/button';
@@ -27,6 +27,9 @@ export default function Review({
 }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
+  const [replyToUser, setReplyToUser] = useState<{ nickname: string } | null>(
+    null
+  );
   const shouldShowMore = review.content.length > MAX_CONTENT_LENGTH;
   const bookDialog = useDialogQuery({ type: 'book' });
   const reviewDialog = useDialogQuery({ type: 'review' });
@@ -106,11 +109,17 @@ export default function Review({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', review.id] });
       toast.success('댓글이 작성되었습니다.');
+      setReplyToUser(null);
     },
     onError: () => {
       toast.error('댓글 작성에 실패했습니다.');
     },
   });
+
+  const handleReply = useCallback((user: { nickname: string }) => {
+    setReplyToUser(user);
+    setIsReplying(true);
+  }, []);
 
   const displayContent =
     shouldShowMore && !isExpanded
@@ -215,13 +224,14 @@ export default function Review({
                 <div className="p-0.5">
                   <CommentEditor
                     onSubmit={createComment}
-                    onCancel={() => setIsReplying(false)}
+                    onCancel={() => {
+                      setIsReplying(false);
+                      setReplyToUser(null);
+                    }}
+                    replyToUser={replyToUser ?? undefined}
                   />
                 </div>
-                <CommentList
-                  reviewId={review.id}
-                  onReply={() => setIsReplying(true)}
-                />
+                <CommentList reviewId={review.id} onReply={handleReply} />
               </div>
             </motion.div>
           )}
