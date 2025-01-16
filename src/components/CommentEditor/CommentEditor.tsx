@@ -23,12 +23,21 @@ import { getEditorConfig } from './utils';
 
 interface Props {
   onSubmit?: (comment: string) => void;
+  onCancel?: () => void;
   replyToUser?: {
     nickname: string;
   };
+  initialContent?: string;
+  showAvatar?: boolean;
 }
 
-function CommentEditor({ onSubmit, replyToUser }: Props) {
+function CommentEditor({
+  onSubmit,
+  onCancel,
+  replyToUser,
+  initialContent,
+  showAvatar = true,
+}: Props) {
   const currentUser = useCurrentUser();
   const [editor] = useLexicalComposerContext();
   const [searchValue, setSearchValue] = useState<string | null>(null);
@@ -36,16 +45,21 @@ function CommentEditor({ onSubmit, replyToUser }: Props) {
   const { insertMention } = useBeautifulMentions();
 
   useEffect(() => {
-    if (!replyToUser) return;
-
-    editor.update(() => {
-      const root = $getRoot();
-
-      root.clear();
-    });
-
-    insertMention({ trigger: '@', value: replyToUser.nickname });
-  }, [editor, replyToUser]);
+    if (initialContent) {
+      try {
+        const editorState = editor.parseEditorState(initialContent);
+        editor.setEditorState(editorState);
+      } catch (error) {
+        console.error('Failed to parse initial content:', error);
+      }
+    } else if (replyToUser) {
+      editor.update(() => {
+        const root = $getRoot();
+        root.clear();
+      });
+      insertMention({ trigger: '@', value: replyToUser.nickname });
+    }
+  }, [editor, replyToUser, initialContent, insertMention]);
 
   const { data: users = [] } = useQuery({
     queryKey: ['users', searchValue],
@@ -83,14 +97,16 @@ function CommentEditor({ onSubmit, replyToUser }: Props) {
 
   return (
     <div className="flex items-start gap-3">
-      <UserAvatar
-        user={currentUser}
-        size="sm"
-        showNickname={false}
-        className="mt-0.5"
-      />
+      {showAvatar && (
+        <UserAvatar
+          user={currentUser}
+          size="sm"
+          showNickname={false}
+          className="mt-0.5"
+        />
+      )}
 
-      <div className="relative flex-1">
+      <div className={`relative ${showAvatar ? 'flex-1' : 'w-full'}`}>
         <div className="relative rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow focus-within:ring-1 focus-within:ring-blue-500">
           <RichTextPlugin
             contentEditable={
@@ -101,6 +117,10 @@ function CommentEditor({ onSubmit, replyToUser }: Props) {
                     e.preventDefault();
                     e.stopPropagation();
                     handleSubmit();
+                  } else if (e.key === 'Escape' && onCancel) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onCancel();
                   }
                 }}
               />
@@ -112,7 +132,17 @@ function CommentEditor({ onSubmit, replyToUser }: Props) {
             }
             ErrorBoundary={LexicalErrorBoundary}
           />
-          <div className="absolute bottom-1.5 right-2">
+          <div className="absolute bottom-1.5 right-2 flex gap-1">
+            {onCancel && (
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={onCancel}
+                className="h-7 rounded-md px-3 text-sm font-medium"
+              >
+                취소
+              </Button>
+            )}
             <Button
               size="sm"
               variant="outline"
@@ -150,11 +180,20 @@ function CommentEditor({ onSubmit, replyToUser }: Props) {
 
 export default function CommentEditorWithLexicalComposer({
   onSubmit,
+  onCancel,
   replyToUser,
+  initialContent,
+  showAvatar,
 }: Props) {
   return (
     <LexicalComposer initialConfig={getEditorConfig()}>
-      <CommentEditor onSubmit={onSubmit} replyToUser={replyToUser} />
+      <CommentEditor
+        onSubmit={onSubmit}
+        onCancel={onCancel}
+        replyToUser={replyToUser}
+        initialContent={initialContent}
+        showAvatar={showAvatar}
+      />
     </LexicalComposer>
   );
 }
