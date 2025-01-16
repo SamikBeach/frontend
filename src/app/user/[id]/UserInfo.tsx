@@ -102,8 +102,6 @@ function UserInfoContent({ userId }: Props) {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
-    console.log({ file });
-    console.log({ e });
     if (file) {
       uploadImage(file);
       e.target.value = '';
