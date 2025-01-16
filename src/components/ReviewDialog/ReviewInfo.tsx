@@ -20,6 +20,7 @@ import { AxiosResponse } from 'axios';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { RefObject, Suspense, useState } from 'react';
+import ReviewContent from '../Review/ReviewContent';
 import { toast } from '../ui/sonner';
 import DeleteReviewDialog from './DeleteReviewDialog';
 import ReviewActions from './ReviewActions';
@@ -221,7 +222,10 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
         </div>
 
         <div className="mb-8 whitespace-pre-wrap text-base leading-relaxed text-gray-800">
-          {review.content}
+          <ReviewContent
+            content={review.content}
+            className="text-base leading-relaxed text-gray-800"
+          />
         </div>
 
         <div className="flex justify-center gap-2">

@@ -22,6 +22,7 @@ import { UserAvatar } from '../UserAvatar';
 import CommentList from './CommentList';
 import DeleteReviewDialog from './DeleteReviewDialog';
 import ReviewActions from './ReviewActions';
+import ReviewContent from './ReviewContent';
 
 const MAX_CONTENT_LENGTH = 300;
 
@@ -329,7 +330,17 @@ export default function Review({
 
         <div className="flex flex-col gap-1">
           <div className="w-full">
-            {displayContent}
+            {isExpanded ? (
+              <ReviewContent
+                content={review.content}
+                className="text-base leading-relaxed text-gray-800"
+              />
+            ) : (
+              <ReviewContent
+                content={review.content}
+                className="line-clamp-3 text-base leading-relaxed text-gray-800"
+              />
+            )}
             {shouldShowMore && !isExpanded && (
               <Button
                 variant="link"
