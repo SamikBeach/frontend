@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { CommentEditor } from '../CommentEditor';
 import { Button } from '../ui/button';
 import { UserAvatar } from '../UserAvatar';
 import CommentList from './CommentList';
@@ -24,6 +25,7 @@ export default function Review({
   showBookInfo = false,
 }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isReplying, setIsReplying] = useState(false);
   const shouldShowMore = review.content.length > MAX_CONTENT_LENGTH;
   const bookDialog = useDialogQuery({ type: 'book' });
   const reviewDialog = useDialogQuery({ type: 'review' });
@@ -97,6 +99,19 @@ export default function Review({
     },
   });
 
+  const { mutate: createComment } = useMutation({
+    mutationFn: (content: string) =>
+      reviewApi.createComment(review.id, { content }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comments', review.id] });
+      setIsReplying(false);
+      toast.success('댓글이 작성되었습니다.');
+    },
+    onError: () => {
+      toast.error('댓글 작성에 실패했습니다.');
+    },
+  });
+
   const displayContent =
     shouldShowMore && !isExpanded
       ? review.content.slice(0, MAX_CONTENT_LENGTH)
@@ -157,7 +172,7 @@ export default function Review({
               </Button>
               <Button
                 variant="ghost"
-                onClick={() => reviewDialog.open(review.id)}
+                onClick={() => setIsReplying(true)}
                 className="h-[14px] p-0 hover:bg-transparent"
               >
                 답글 달기
@@ -186,7 +201,22 @@ export default function Review({
           </div>
         )}
       </div>
-      {!hideActions && <CommentList />}
+      {!hideActions && (
+        <>
+          {isReplying && (
+            <div className="mt-4">
+              <CommentEditor
+                onSubmit={createComment}
+                onCancel={() => setIsReplying(false)}
+              />
+            </div>
+          )}
+          <CommentList
+            reviewId={review.id}
+            onReply={() => setIsReplying(true)}
+          />
+        </>
+      )}
     </>
   );
 }
