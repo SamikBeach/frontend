@@ -21,6 +21,7 @@ import { toast } from '../ui/sonner';
 import { UserAvatar } from '../UserAvatar';
 import DeleteConfirmDialog from './DeleteConfirmDialog';
 import FeedActions from './FeedActions';
+import FeedContent from './FeedContent';
 
 interface FeedProps {
   review: Review;
@@ -209,7 +210,9 @@ function Feed({ review, user, book }: FeedProps) {
                 <p className="mb-2 text-lg font-semibold leading-snug">
                   {review.title}
                 </p>
-                <p className="line-clamp-6 text-gray-600">{review.content}</p>
+                <div className="text-gray-600 [-webkit-box-orient:vertical] [-webkit-line-clamp:13] [display:-webkit-box] [overflow:hidden]">
+                  <FeedContent content={review.content} />
+                </div>
               </div>
 
               <div className="mt-4 flex justify-end gap-2">
