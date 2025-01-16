@@ -19,6 +19,7 @@ import { AxiosResponse } from 'axios';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { RefObject, Suspense } from 'react';
+import ReviewActions from './ReviewActions';
 
 interface Props {
   reviewId: number;
@@ -148,13 +149,38 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
     commentListRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const isMyReview = review.user.id === currentUser?.id;
+
   return (
     <div className="flex flex-col">
       <div className="flex items-start justify-between gap-8">
         <div className="flex flex-col gap-1">
-          <DialogTitle className="text-3xl font-bold tracking-tight text-gray-900">
-            {review.title}
-          </DialogTitle>
+          <div className="flex items-center gap-4">
+            <DialogTitle className="text-3xl font-bold tracking-tight text-gray-900">
+              {review.title}
+            </DialogTitle>
+            <Link
+              href={`/book/${review.book.id}`}
+              target="_blank"
+              className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 p-2.5 transition-colors hover:bg-gray-100"
+            >
+              <img
+                src={review.book.imageUrl ?? 'https://picsum.photos/200/300'}
+                className="h-7 w-5 rounded-sm object-cover shadow-sm"
+                alt={review.book.title}
+              />
+              <div className="flex flex-col gap-0.5">
+                <span className="text-xs font-medium text-gray-900">
+                  {review.book.title}
+                </span>
+                <span className="text-[11px] text-gray-500">
+                  {review.book.authorBooks
+                    .map(authorBook => authorBook.author.nameInKor)
+                    .join(', ')}
+                </span>
+              </div>
+            </Link>
+          </div>
           <div className="flex items-center gap-1">
             <div className="flex items-center gap-2">
               <UserAvatar user={review.user} size="sm" />
@@ -165,28 +191,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
             </span>
           </div>
         </div>
-
-        <Link
-          href={`/book/${review.book.id}`}
-          target="_blank"
-          className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 p-2.5 transition-colors hover:bg-gray-100"
-        >
-          <img
-            src={review.book.imageUrl ?? 'https://picsum.photos/200/300'}
-            className="h-14 w-10 rounded-sm object-cover shadow-sm"
-            alt={review.book.title}
-          />
-          <div className="flex flex-col gap-0.5">
-            <span className="text-xs font-medium text-gray-900">
-              {review.book.title}
-            </span>
-            <span className="text-[11px] text-gray-500">
-              {review.book.authorBooks
-                .map(authorBook => authorBook.author.nameInKor)
-                .join(', ')}
-            </span>
-          </div>
-        </Link>
+        {isMyReview && <ReviewActions onEdit={() => {}} onDelete={() => {}} />}
       </div>
 
       <div className="mb-8 whitespace-pre-wrap text-base leading-relaxed text-gray-800">
@@ -246,7 +251,6 @@ function ReviewInfoSkeleton() {
     </div>
   );
 }
-
 export default function ReviewInfo(props: Props) {
   return (
     <Suspense fallback={<ReviewInfoSkeleton />}>

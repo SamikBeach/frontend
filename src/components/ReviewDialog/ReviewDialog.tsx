@@ -88,5 +88,4 @@ export default function ReviewDialog(props: Props) {
     </Dialog>
   );
 }
-
 ReviewDialog.Trigger = DialogTrigger;
