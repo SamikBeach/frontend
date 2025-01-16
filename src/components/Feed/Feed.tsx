@@ -14,7 +14,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, PencilIcon, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { CommentButton } from '../CommentButton';
 import { LikeButton } from '../LikeButton';
@@ -238,7 +238,11 @@ function Feed({ review, user, book }: FeedProps) {
                 </Button>
               </EditDropdownMenu.Trigger>
               <EditDropdownMenu.Content>
-                <EditDropdownMenu.Item onClick={() => {}}>
+                <EditDropdownMenu.Item
+                  onClick={() => {}}
+                  className="cursor-pointer"
+                >
+                  <PencilIcon className="h-4 w-4" />
                   수정하기
                 </EditDropdownMenu.Item>
                 <EditDropdownMenu.Item
@@ -246,8 +250,9 @@ function Feed({ review, user, book }: FeedProps) {
                     e.stopPropagation();
                     setShowDeleteAlert(true);
                   }}
-                  className="text-red-600"
+                  className="cursor-pointer text-red-600"
                 >
+                  <Trash2 className="h-4 w-4" />
                   삭제하기
                 </EditDropdownMenu.Item>
               </EditDropdownMenu.Content>
