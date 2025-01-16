@@ -1,5 +1,6 @@
 'use client';
 
+import { reviewApi } from '@/apis/review/review';
 import {
   Dialog,
   DialogContent,
@@ -8,21 +9,86 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { DialogProps } from '@radix-ui/react-dialog';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import { toast } from '../ui/sonner';
 import { Textarea } from '../ui/textarea';
 import LeaveConfirmDialog from './LeaveConfirmDialog';
 
-interface Props extends DialogProps {}
+interface Props extends DialogProps {
+  bookId: number;
+  onOpenChange?: (open: boolean) => void;
+}
 
-export default function WriteReviewDialog({ children, ...props }: Props) {
+export default function WriteReviewDialog({
+  bookId,
+  children,
+  onOpenChange,
+  ...props
+}: Props) {
+  const [isOpen, setIsOpen] = useState(false);
   const [isOpenLeaveConfirmDialog, setIsOpenLeaveConfirmDialog] =
     useState(false);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+
+  const queryClient = useQueryClient();
+
+  const resetForm = () => {
+    setTitle('');
+    setContent('');
+  };
+
+  const { mutate: createReview, isPending } = useMutation({
+    mutationFn: () => reviewApi.createReview(bookId, { title, content }),
+    onSuccess: () => {
+      // Invalidate book reviews query
+      queryClient.invalidateQueries({ queryKey: ['book-reviews', bookId] });
+      queryClient.invalidateQueries({ queryKey: ['book', bookId] });
+
+      toast.success('리뷰가 작성되었습니다.');
+      resetForm();
+
+      setIsOpen(false);
+      onOpenChange?.(false);
+    },
+    onError: () => {
+      toast.error('리뷰 작성에 실패했습니다.');
+    },
+  });
+
+  const handleSubmit = () => {
+    if (!title.trim()) {
+      toast.error('제목을 입력해주세요.');
+      return;
+    }
+
+    if (!content.trim()) {
+      toast.error('내용을 입력해주세요.');
+      return;
+    }
+
+    createReview();
+  };
+
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      resetForm();
+    }
+
+    setIsOpen(open);
+    onOpenChange?.(open);
+  };
 
   return (
     <>
-      <Dialog {...props}>
+      <Dialog
+        {...props}
+        open={props.open ?? isOpen}
+        onOpenChange={handleOpenChange}
+      >
         {children}
         <DialogContent
           className="flex h-[84vh] w-[800px] min-w-[800px] flex-col gap-4 overflow-y-auto p-10"
@@ -46,11 +112,20 @@ export default function WriteReviewDialog({ children, ...props }: Props) {
               </div>
             </div>
           </DialogHeader>
-          <Input placeholder="제목" />
-          <Textarea placeholder="내용" className="flex-1" />
+          <Input
+            placeholder="제목"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+          />
+          <Textarea
+            placeholder="내용"
+            className="flex-1"
+            value={content}
+            onChange={e => setContent(e.target.value)}
+          />
           <div className="flex justify-end">
-            <Button onClick={() => setIsOpenLeaveConfirmDialog(true)}>
-              제출하기
+            <Button onClick={handleSubmit} disabled={isPending}>
+              {isPending ? '제출 중...' : '제출하기'}
             </Button>
           </div>
         </DialogContent>

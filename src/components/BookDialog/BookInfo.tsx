@@ -186,7 +186,7 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
               />
             </div>
 
-            <WriteReviewDialog>
+            <WriteReviewDialog bookId={book.id}>
               <WriteReviewDialog.Trigger asChild>
                 <Button variant="outline">
                   <Edit3Icon className="mr-1" />
