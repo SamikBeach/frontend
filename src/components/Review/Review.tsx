@@ -345,9 +345,9 @@ export default function Review({
               <Button
                 variant="link"
                 onClick={() => setIsExpanded(true)}
-                className="h-[14px] p-0 text-sm text-gray-500"
+                className="h-[14px] p-0 text-sm text-blue-500"
               >
-                ...더보기
+                더보기
               </Button>
             )}
           </div>
