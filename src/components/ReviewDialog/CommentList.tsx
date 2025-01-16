@@ -12,6 +12,7 @@ import {
   useSuspenseQuery,
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
+import { AnimatePresence, motion } from 'framer-motion';
 import { RefObject, Suspense, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CommentItem from '../CommentItem/CommentItem';
@@ -23,6 +24,13 @@ interface Props {
   scrollableTarget: string;
   onReply: (user: { nickname: string }) => void;
 }
+
+const commentAnimation = {
+  initial: { opacity: 0, height: 0, marginBottom: 0 },
+  animate: { opacity: 1, height: 'auto', marginBottom: '0.5rem' },
+  exit: { opacity: 0, height: 0, marginBottom: 0 },
+  transition: { duration: 0.3 },
+};
 
 function CommentListContent({
   ref,
@@ -89,16 +97,19 @@ function CommentListContent({
           }
           scrollableTarget={scrollableTarget}
         >
-          <div className="flex flex-col">
-            {comments.map(comment => (
-              <CommentItem
-                key={comment.id}
-                comment={comment}
-                reviewId={reviewId}
-                onReply={onReply}
-              />
-            ))}
-          </div>
+          <AnimatePresence initial={false}>
+            <div className="flex flex-col">
+              {comments.map(comment => (
+                <motion.div key={comment.id} layout {...commentAnimation}>
+                  <CommentItem
+                    comment={comment}
+                    reviewId={reviewId}
+                    onReply={onReply}
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </AnimatePresence>
         </InfiniteScroll>
       )}
     </div>
