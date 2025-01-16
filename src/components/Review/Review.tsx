@@ -14,7 +14,7 @@ import {
 import { AxiosResponse } from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import CommentEditor from '../CommentEditor/CommentEditor';
 import { Button } from '../ui/button';
 import { toast } from '../ui/sonner';
@@ -23,8 +23,6 @@ import CommentList from './CommentList';
 import DeleteReviewDialog from './DeleteReviewDialog';
 import ReviewActions from './ReviewActions';
 import ReviewContent from './ReviewContent';
-
-const MAX_CONTENT_LENGTH = 300;
 
 interface Props {
   review: ReviewType;
@@ -38,18 +36,47 @@ export default function Review({
   showBookInfo = false,
 }: Props) {
   const editorRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [isTruncated, setIsTruncated] = useState(false);
   const [replyToUser, setReplyToUser] = useState<{ nickname: string } | null>(
     null
   );
-  const shouldShowMore = review.content.length > MAX_CONTENT_LENGTH;
   const bookDialog = useDialogQuery({ type: 'book' });
   const reviewDialog = useDialogQuery({ type: 'review' });
   const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
   const isMyReview = review.user.id === currentUser?.id;
+
+  useEffect(() => {
+    if (!contentRef.current) return;
+
+    const checkTruncation = () => {
+      const element = contentRef.current;
+      if (!element) return;
+
+      // 여러 줄의 텍스트가 있을 수 있으므로 모든 p 태그의 높이를 합산
+      const contentHeight = Array.from(element.querySelectorAll('p')).reduce(
+        (total, p) => total + p.scrollHeight,
+        0
+      );
+      const containerHeight = element.clientHeight;
+
+      setIsTruncated(contentHeight > containerHeight);
+    };
+
+    const resizeObserver = new ResizeObserver(checkTruncation);
+    resizeObserver.observe(contentRef.current);
+
+    // 초기 체크
+    setTimeout(checkTruncation, 0);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [review.content]);
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
@@ -196,11 +223,6 @@ export default function Review({
     }, 500);
   }, []);
 
-  const displayContent =
-    shouldShowMore && !isExpanded
-      ? review.content.slice(0, MAX_CONTENT_LENGTH)
-      : review.content;
-
   const handleReplyButtonClick = () => {
     // Focus editor after animation completes
     setIsReplying(prev => !prev);
@@ -336,19 +358,21 @@ export default function Review({
                 className="text-base leading-relaxed text-gray-800"
               />
             ) : (
-              <ReviewContent
-                content={review.content}
-                className="line-clamp-3 text-base leading-relaxed text-gray-800"
-              />
-            )}
-            {shouldShowMore && !isExpanded && (
-              <Button
-                variant="link"
-                onClick={() => setIsExpanded(true)}
-                className="h-[14px] p-0 text-sm text-blue-500"
-              >
-                더보기
-              </Button>
+              <div ref={contentRef} className="relative">
+                <ReviewContent
+                  content={review.content}
+                  className="line-clamp-3 text-base leading-relaxed text-gray-800"
+                />
+                {isTruncated && (
+                  <Button
+                    variant="link"
+                    onClick={() => setIsExpanded(true)}
+                    className="h-[14px] p-0 text-sm text-blue-500"
+                  >
+                    더보기
+                  </Button>
+                )}
+              </div>
             )}
           </div>
         </div>
