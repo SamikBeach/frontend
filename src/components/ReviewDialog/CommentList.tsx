@@ -7,6 +7,7 @@ import {
   CommentItemSkeleton,
   default as CommentListSkeleton,
 } from '@/components/CommentItem/CommentSkeleton';
+import { commentItemAnimation } from '@/constants/animations';
 import {
   useSuspenseInfiniteQuery,
   useSuspenseQuery,
@@ -24,13 +25,6 @@ interface Props {
   scrollableTarget: string;
   onReply: (user: { nickname: string }) => void;
 }
-
-const commentAnimation = {
-  initial: { opacity: 0, height: 0, marginBottom: 0 },
-  animate: { opacity: 1, height: 'auto', marginBottom: '0.5rem' },
-  exit: { opacity: 0, height: 0, marginBottom: 0 },
-  transition: { duration: 0.3 },
-};
 
 function CommentListContent({
   ref,
@@ -100,7 +94,11 @@ function CommentListContent({
           <AnimatePresence initial={false}>
             <div className="flex flex-col">
               {comments.map(comment => (
-                <motion.div key={comment.id} layout {...commentAnimation}>
+                <motion.div
+                  key={comment.id}
+                  layout="position"
+                  {...commentItemAnimation}
+                >
                   <CommentItem
                     comment={comment}
                     reviewId={reviewId}

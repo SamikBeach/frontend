@@ -6,6 +6,7 @@ import { Review } from '@/apis/review/types';
 import { Feed } from '@/components/Feed';
 import { FeedSkeleton } from '@/components/Feed/FeedSkeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { feedItemAnimation } from '@/constants/animations';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -75,10 +76,8 @@ function FeedList() {
               {reviews.map(review => (
                 <motion.div
                   key={review.id}
-                  layout
-                  initial={false}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.2 }}
+                  layout="position"
+                  {...feedItemAnimation}
                   className="mb-5"
                 >
                   <Feed review={review} user={review.user} book={review.book} />
@@ -108,10 +107,8 @@ function FeedList() {
               {reviews.map(review => (
                 <motion.div
                   key={review.id}
-                  layout
-                  initial={false}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.2 }}
+                  layout="position"
+                  {...feedItemAnimation}
                   className="mb-5"
                 >
                   <Feed review={review} user={review.user} book={review.book} />

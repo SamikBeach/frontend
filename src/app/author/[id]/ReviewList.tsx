@@ -9,11 +9,13 @@ import {
   ReviewListSkeleton,
   ReviewSkeleton,
 } from '@/components/Review/ReviewSkeleton';
+import { reviewItemAnimation } from '@/constants/animations';
 import {
   useSuspenseInfiniteQuery,
   useSuspenseQuery,
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ForwardedRef, Suspense, forwardRef, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -81,11 +83,19 @@ function ReviewListContent({ authorId, scrollableTarget }: Props) {
           }
           scrollableTarget={scrollableTarget}
         >
-          <div className="flex flex-col gap-2">
-            {reviews.map(review => (
-              <Review key={review.id} review={review} />
-            ))}
-          </div>
+          <AnimatePresence mode="popLayout" initial={false}>
+            <div className="flex flex-col">
+              {reviews.map(review => (
+                <motion.div
+                  key={review.id}
+                  layout="position"
+                  {...reviewItemAnimation}
+                >
+                  <Review review={review} showBookInfo />
+                </motion.div>
+              ))}
+            </div>
+          </AnimatePresence>
         </InfiniteScroll>
       )}
     </div>

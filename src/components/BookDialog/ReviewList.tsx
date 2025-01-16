@@ -9,6 +9,7 @@ import {
   ReviewListSkeleton,
   ReviewSkeleton,
 } from '@/components/Review/ReviewSkeleton';
+import { reviewItemAnimation } from '@/constants/animations';
 import {
   useSuspenseInfiniteQuery,
   useSuspenseQuery,
@@ -24,13 +25,6 @@ interface Props {
   scrollableTarget: string;
 }
 
-const reviewAnimation = {
-  initial: { opacity: 0, height: 0, marginBottom: 0 },
-  animate: { opacity: 1, height: 'auto', marginBottom: '1rem' },
-  exit: { opacity: 0, height: 0, marginBottom: 0 },
-  transition: { duration: 0.3 },
-};
-
 function ReviewListContent({ ref, bookId, scrollableTarget }: Props) {
   const { data: book } = useSuspenseQuery({
     queryKey: ['book', bookId],
@@ -42,7 +36,7 @@ function ReviewListContent({ ref, bookId, scrollableTarget }: Props) {
     AxiosResponse<PaginatedResponse<ReviewType>>,
     Error
   >({
-    queryKey: ['reviews', bookId],
+    queryKey: ['book-reviews', bookId],
     queryFn: ({ pageParam = 1 }) =>
       bookApi.searchBookReviews(bookId, {
         page: pageParam as number,
@@ -93,7 +87,11 @@ function ReviewListContent({ ref, bookId, scrollableTarget }: Props) {
           <AnimatePresence mode="popLayout" initial={false}>
             <div className="flex flex-col">
               {reviews.map(review => (
-                <motion.div key={review.id} layout {...reviewAnimation}>
+                <motion.div
+                  key={review.id}
+                  layout="position"
+                  {...reviewItemAnimation}
+                >
                   <Review review={review} />
                 </motion.div>
               ))}

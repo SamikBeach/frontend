@@ -1,5 +1,3 @@
-'use client';
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,24 +9,30 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { DialogProps } from '@radix-ui/react-dialog';
 
-interface Props extends DialogProps {}
+interface Props {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onConfirm: () => void;
+}
 
-export default function LeaveConfirmDialog({ children, ...props }: Props) {
+export default function LeaveConfirmDialog({
+  open,
+  onOpenChange,
+  onConfirm,
+}: Props) {
   return (
-    <AlertDialog {...props}>
-      {children}
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>정말 나가시겠어요?</AlertDialogTitle>
+          <AlertDialogTitle>작성을 취소하시겠습니까?</AlertDialogTitle>
           <AlertDialogDescription>
-            작성 중인 내용은 저장되지 않아요.
+            작성 중인 내용은 저장되지 않습니다.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>취소</AlertDialogCancel>
-          <AlertDialogAction>나가기</AlertDialogAction>
+          <AlertDialogAction onClick={onConfirm}>확인</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
