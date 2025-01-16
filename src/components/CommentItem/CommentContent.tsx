@@ -6,7 +6,7 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { useEffect } from 'react';
-import { getEditorConfig } from '../CommentEditor/utils';
+import { getCommentEditorConfig } from '../CommentEditor/utils';
 
 interface Props {
   content: string;
@@ -38,7 +38,9 @@ function Content({ content }: Props) {
 
 export default function CommentContent({ content, className }: Props) {
   return (
-    <LexicalComposer initialConfig={getEditorConfig({ editable: false })}>
+    <LexicalComposer
+      initialConfig={getCommentEditorConfig({ editable: false })}
+    >
       <div className={className}>
         <Content content={content} />
       </div>

@@ -8,7 +8,6 @@ import { LikeButton } from '@/components/LikeButton';
 import { Skeleton } from '@/components/ui/skeleton';
 import { UserAvatar } from '@/components/UserAvatar';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import {
   InfiniteData,
@@ -34,7 +33,6 @@ interface Props {
 function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   const currentUser = useCurrentUser();
   const queryClient = useQueryClient();
-  const { close } = useDialogQuery({ type: 'review' });
   const { data: review } = useSuspenseQuery({
     queryKey: ['review', reviewId],
     queryFn: () => reviewApi.getReviewDetail(reviewId),
@@ -154,7 +152,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
       queryClient.invalidateQueries({
         queryKey: ['reviews'],
       });
-      close();
+
       toast.success('리뷰가 삭제되었습니다.');
     },
     onError: () => {
@@ -247,7 +245,6 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
         onOpenChange={setShowDeleteAlert}
         onConfirm={() => {
           deleteReview();
-          setShowDeleteAlert(false);
         }}
       />
       <WriteReviewDialog

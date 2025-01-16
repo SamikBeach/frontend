@@ -19,7 +19,7 @@ import { SendIcon } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { UserAvatar } from '../UserAvatar';
 import { CustomMenu, CustomMenuItem } from './common';
-import { getEditorConfig } from './utils';
+import { getCommentEditorConfig } from './utils';
 
 interface Props {
   onSubmit?: (comment: string) => void;
@@ -203,7 +203,7 @@ export default function CommentEditorWithLexicalComposer({
   ref,
 }: Props) {
   return (
-    <LexicalComposer initialConfig={getEditorConfig()}>
+    <LexicalComposer initialConfig={getCommentEditorConfig()}>
       <CommentEditor
         ref={ref}
         onSubmit={onSubmit}

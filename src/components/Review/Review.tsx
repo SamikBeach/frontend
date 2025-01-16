@@ -310,7 +310,6 @@ export default function Review({
       );
 
       toast.success('리뷰가 삭제되었습니다.');
-      reviewDialog.close();
     },
     onError: () => {
       toast.error('리뷰 삭제에 실패했습니다.');
