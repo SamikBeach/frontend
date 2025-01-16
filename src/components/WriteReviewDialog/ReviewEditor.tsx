@@ -57,32 +57,32 @@ export default function ReviewEditor({
       <LexicalComposer initialConfig={initialConfig}>
         <div className="relative flex min-h-[200px] w-full flex-col rounded-md border border-input bg-background text-sm ring-offset-background">
           <ToolbarPlugin />
-          <div className="px-3 py-2">
-            <RichTextPlugin
-              contentEditable={
+          <RichTextPlugin
+            contentEditable={
+              <div className="relative flex-grow overflow-auto">
                 <ContentEditable
-                  className="min-h-[180px] outline-none"
+                  className="min-h-[calc(100vh-20rem)] w-full resize-none px-3 py-2 outline-none"
                   placeholder={
-                    <div className="pointer-events-none absolute left-3 top-12 select-none text-muted-foreground">
+                    <div className="pointer-events-none absolute left-3 top-2 select-none text-muted-foreground">
                       {placeholder}
                     </div>
                   }
                   aria-placeholder={placeholder ?? ''}
                 />
-              }
-              ErrorBoundary={LexicalErrorBoundary}
-            />
-          </div>
-          <OnChangePlugin
-            onChange={editorState => {
-              editorState.read(() => {
-                onChange(JSON.stringify(editorState));
-              });
-            }}
+              </div>
+            }
+            ErrorBoundary={LexicalErrorBoundary}
           />
-          <HistoryPlugin />
-          <AutoFocusPlugin />
         </div>
+        <OnChangePlugin
+          onChange={editorState => {
+            editorState.read(() => {
+              onChange(JSON.stringify(editorState));
+            });
+          }}
+        />
+        <HistoryPlugin />
+        <AutoFocusPlugin />
       </LexicalComposer>
     </TooltipProvider>
   );
