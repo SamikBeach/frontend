@@ -22,6 +22,7 @@ export interface AuthorSearchQuery extends PaginationQuery {
     era?: number;
     name?: string;
     nameInKor?: string;
+    genre_id?: number;
   };
-  searchBy?: ('name' | 'nameInKor')[];
+  searchBy?: ('name' | 'nameInKor' | 'genre_id')[];
 }

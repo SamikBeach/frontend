@@ -3,6 +3,7 @@
 import { bookApi } from '@/apis/book/book';
 import { Book } from '@/apis/book/types';
 import { PaginatedResponse } from '@/apis/common/types';
+import { authorGenreAtom } from '@/atoms/author';
 import {
   authorIdAtom,
   bookSearchKeywordAtom,
@@ -12,6 +13,7 @@ import {
 import BookGridItemSkeleton from '@/components/BookItem/BookGridItemSkeleton';
 import BookListItemSkeleton from '@/components/BookItem/BookListItemSkeleton';
 import { Empty } from '@/components/Empty';
+import { GENRE_IDS } from '@/constants/genre';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { useAtomValue } from 'jotai';
@@ -21,6 +23,7 @@ import BookGridView from './BookGridView';
 import BookListView from './BookListView';
 
 function BookListContent() {
+  const genre = useAtomValue(authorGenreAtom);
   const viewMode = useAtomValue(bookViewModeAtom);
   const searchKeyword = useAtomValue(bookSearchKeywordAtom);
   const sortMode = useAtomValue(bookSortModeAtom);
@@ -55,6 +58,7 @@ function BookListContent() {
         sortBy,
         filter: {
           authorId: selectedAuthorId,
+          genre_id: GENRE_IDS[genre] ?? undefined,
         },
       });
     },

@@ -1,23 +1,24 @@
 'use client';
 
-import { BookGenre, bookGenreAtom } from '@/atoms/book';
+import { bookGenreAtom } from '@/atoms/book';
 import { Button } from '@/components/ui/button';
 import { GENRE_LABELS } from '@/constants/genre';
 import { useQueryParams } from '@/hooks/useQueryParams';
+import { Genre } from '@/types/genre';
 import { useAtom } from 'jotai';
 
 export function GenreButtons() {
   const { updateQueryParams } = useQueryParams();
   const [genre, setGenre] = useAtom(bookGenreAtom);
 
-  const handleGenreChange = (newGenre: BookGenre) => {
+  const handleGenreChange = (newGenre: Genre) => {
     setGenre(newGenre);
     updateQueryParams({ genre: newGenre });
   };
 
   return (
     <div className="mr-4 flex gap-3">
-      {(Object.entries(GENRE_LABELS) as [BookGenre, string][]).map(
+      {(Object.entries(GENRE_LABELS) as [Genre, string][]).map(
         ([value, label]) => (
           <Button
             key={value}
