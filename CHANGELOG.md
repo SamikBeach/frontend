@@ -1,5 +1,31 @@
 # 🚦 CHANGELOG
 
+# [1.44.0](https://github.com/SamikBeach/frontend/compare/1.43.1...1.44.0) (2025-01-19)
+
+
+### Bug Fixes
+
+* BookList 스타일 수정 ([2ac57b1](https://github.com/SamikBeach/frontend/commit/2ac57b1bea45119263d0fa8376b61c534c4db6a2))
+* BookListItem 스타일 수정 ([76e1f15](https://github.com/SamikBeach/frontend/commit/76e1f1524330c8609f46aa68bef9528e6cc1bc8c))
+* FeedList 스타일 수정 ([a80a706](https://github.com/SamikBeach/frontend/commit/a80a706821bf26e7ed3d26f52bc5a52ae90fac3a))
+* FeedSkeleton 스타일 수정 ([4d99df7](https://github.com/SamikBeach/frontend/commit/4d99df77f4c7cfbeb5265fd54357ea520e67b2fc))
+* search API에 genre 파라미터 추가 ([90d05ac](https://github.com/SamikBeach/frontend/commit/90d05acd40ca390cff40c516e635f195dd1f0be8))
+* SearchBar 스타일 수정 ([25c46a9](https://github.com/SamikBeach/frontend/commit/25c46a967e3d4744ea5cc1cee298c1a9b06d1913))
+* SearchBar 스타일 수정 ([c60b102](https://github.com/SamikBeach/frontend/commit/c60b1029947442e38a48e8a2c1541afa1e876fc0))
+* TabContent 포커스 스타일 수정 ([0c1cfe3](https://github.com/SamikBeach/frontend/commit/0c1cfe327b8a0aab225b5477bdcb730f1394d83c))
+* 누락된 query key 추가 ([a570211](https://github.com/SamikBeach/frontend/commit/a570211526627f40dd1c8d03f084338592360ee4))
+* 리뷰 삭제시 다이얼로그 닫기 ([289eecc](https://github.com/SamikBeach/frontend/commit/289eeccbf4d8dc079b210de7699bbd34a3c7b996))
+* 리뷰 수정시 author-reviews query invalidate 처리 ([8494756](https://github.com/SamikBeach/frontend/commit/8494756e359e74428cbf808bcc4b521f48268289))
+* 피드 스타일 수정 ([51d04e2](https://github.com/SamikBeach/frontend/commit/51d04e24d65258a39ef7b3b287b5c8446a67ff05))
+* 피드 스타일 수정 ([2d1e4d8](https://github.com/SamikBeach/frontend/commit/2d1e4d8e7f65b6cecb943d576c00c97fc7b3a50d))
+
+
+### Features
+
+* 관련 서적 정보 아이콘 추가 ([9c6432a](https://github.com/SamikBeach/frontend/commit/9c6432a89fd8502e4c28334dfea497a09f30f929))
+* 이 책의 다른 번역서 정보 표기 ([b76f61a](https://github.com/SamikBeach/frontend/commit/b76f61a5a9287273ea3cf0a6f0ccab4e16b89991))
+* 저자 모델 및 컴포넌트 개선 ([7bb5415](https://github.com/SamikBeach/frontend/commit/7bb541535738a48cb6411220e1cc7a41be47a03f))
+
 ## [1.43.1](https://github.com/SamikBeach/frontend/compare/1.43.0...1.43.1) (2025-01-16)
 
 
