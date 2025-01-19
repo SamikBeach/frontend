@@ -1,44 +1,42 @@
-import { Skeleton } from '../../ui/skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function FeedSkeleton() {
   return (
-    <div className="relative mb-11 flex max-w-[800px] rounded-lg p-4">
-      <div className="flex flex-1 flex-col gap-3">
-        <div className="flex items-center gap-2">
-          <Skeleton className="h-10 w-10 rounded-full" />
-          <Skeleton className="h-4 w-20" />
-          <Skeleton className="h-4 w-24" />
+    <div className="relative mb-4 flex max-w-[700px] gap-4 rounded-lg bg-white p-5">
+      <div className="flex flex-1 flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-10 w-10 rounded-full" />
+            <Skeleton className="h-3 w-16" />
+          </div>
         </div>
 
-        <div className="flex gap-6">
+        <div className="flex gap-5">
           <div className="flex-shrink-0">
-            <Skeleton className="h-[300px] w-[200px] rounded-lg" />
-            <div className="mt-2">
-              <Skeleton className="h-5 w-[200px]" />
-              <Skeleton className="mt-1 h-4 w-[200px]" />
+            <Skeleton className="h-[180px] w-[120px] rounded-md" />
+            <div className="mt-2 max-w-[120px] space-y-1">
+              <Skeleton className="h-[18px] w-full" />
+              <Skeleton className="h-[14px] w-full" />
             </div>
           </div>
 
-          <div className="flex h-full flex-1 flex-col justify-between">
+          <div className="flex flex-1 flex-col justify-between">
             <div>
-              <Skeleton className="mb-2 h-6 w-[300px]" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="mt-2 h-4 w-[90%]" />
-              <Skeleton className="mt-2 h-4 w-[95%]" />
-              <Skeleton className="mt-2 h-4 w-[85%]" />
-              <Skeleton className="mt-2 h-4 w-[92%]" />
+              <Skeleton className="mb-2 h-[28px] w-3/4" />
+              <div className="space-y-2">
+                <Skeleton className="h-[18px] w-full" />
+                <Skeleton className="h-[18px] w-full" />
+                <Skeleton className="h-[18px] w-full" />
+                <Skeleton className="h-[18px] w-3/4" />
+              </div>
             </div>
 
-            <div className="flex justify-end gap-2">
-              <Skeleton className="h-9 w-[72px] rounded-full" />
-              <Skeleton className="h-9 w-[72px] rounded-full" />
+            <div className="mt-[90px] flex justify-end gap-3">
+              <Skeleton className="h-9 w-[70px] rounded-full" />
+              <Skeleton className="h-9 w-[70px] rounded-full" />
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="absolute right-4 top-4">
-        <Skeleton className="h-8 w-8 rounded-md" />
       </div>
     </div>
   );

@@ -174,7 +174,7 @@ function Feed({ review, user, book }: FeedProps) {
   return (
     <>
       <div
-        className="relative mb-4 flex max-w-[700px] gap-4 rounded-lg bg-white p-5 transition-colors duration-200 hover:cursor-pointer hover:bg-gray-50"
+        className="relative flex max-w-[700px] gap-4 rounded-lg bg-white p-5 transition-colors duration-200 hover:cursor-pointer hover:bg-gray-50"
         onClick={() => open(review.id)}
       >
         <div className="flex flex-1 flex-col gap-4">
