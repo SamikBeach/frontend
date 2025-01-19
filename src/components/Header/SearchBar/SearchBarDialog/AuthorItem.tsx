@@ -34,9 +34,9 @@ export default function AuthorItem({
     <CommandItem
       value={author.nameInKor}
       onSelect={handleClick}
-      className="group relative cursor-pointer"
+      className="group relative cursor-pointer data-[highlighted]:bg-gray-50"
     >
-      <Avatar className="h-14 w-14 shrink-0">
+      <Avatar className="h-16 w-16 shrink-0">
         <AvatarImage
           src={author.imageUrl ?? undefined}
           alt={author.nameInKor}
@@ -44,8 +44,8 @@ export default function AuthorItem({
         />
         <AvatarFallback>{author.nameInKor[0]}</AvatarFallback>
       </Avatar>
-      <div className="flex flex-1 flex-col gap-0.5">
-        <div className="flex flex-col gap-0.5">
+      <div className="flex flex-1 flex-col gap-1 py-1 pl-2">
+        <div className="flex flex-col gap-1">
           <h4 className="text-sm font-medium">
             <Highlighter
               searchWords={[searchValue]}
@@ -53,7 +53,7 @@ export default function AuthorItem({
               highlightClassName="text-blue-500 bg-transparent font-bold"
             />
           </h4>
-          <p className="text-xs text-muted-foreground/70">
+          <p className="text-xs text-gray-500">
             <Highlighter
               searchWords={[searchValue]}
               textToHighlight={author.name}
@@ -61,7 +61,7 @@ export default function AuthorItem({
             />
           </p>
         </div>
-        <div className="flex items-center gap-2 text-muted-foreground/70">
+        <div className="flex items-center gap-2 text-gray-400">
           <span className="flex items-center gap-0.5 text-xs">
             <ThumbsUpIcon className="!h-3 !w-3" />
             {author.likeCount}

@@ -33,15 +33,15 @@ export default function BookItem({
     <CommandItem
       value={book.title}
       onSelect={handleClick}
-      className="group relative cursor-pointer"
+      className="group relative cursor-pointer data-[highlighted]:bg-gray-50"
     >
       <img
         src={book.imageUrl ?? undefined}
         alt={book.title}
-        className="h-20 w-14 rounded-sm object-cover"
+        className="h-24 w-16 rounded-sm object-cover"
       />
-      <div className="flex h-20 flex-1 flex-col justify-between py-1">
-        <div className="flex flex-col gap-0.5">
+      <div className="flex h-24 flex-1 flex-col justify-between py-1.5 pl-2">
+        <div className="flex flex-col gap-1">
           <h4 className="line-clamp-1 text-sm font-medium">
             <Highlighter
               searchWords={[searchValue]}
@@ -49,7 +49,7 @@ export default function BookItem({
               highlightClassName="text-blue-500 bg-transparent font-bold"
             />
           </h4>
-          <p className="line-clamp-1 text-xs text-muted-foreground/70">
+          <p className="line-clamp-1 text-xs text-gray-500">
             <Highlighter
               searchWords={[searchValue]}
               textToHighlight={book.authorBooks
@@ -59,7 +59,7 @@ export default function BookItem({
             />
           </p>
         </div>
-        <div className="flex items-center gap-2 text-muted-foreground/70">
+        <div className="flex items-center gap-2 text-gray-400">
           <span className="flex items-center gap-0.5 text-xs">
             <ThumbsUpIcon className="!h-3 !w-3" />
             {book.likeCount}
