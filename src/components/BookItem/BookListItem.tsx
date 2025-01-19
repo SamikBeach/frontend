@@ -2,7 +2,7 @@
 
 import { Book } from '@/apis/book/types';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
-import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 
 interface Props {
   book: Book;
@@ -55,6 +55,10 @@ export default function BookListItem({ book }: Props) {
             </div>
             <div className="flex items-center gap-1">
               <MessageSquareIcon className="h-3.5 w-3.5" />
+              <span>{book.reviewCount}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <LibraryIcon className="h-3.5 w-3.5" />
               <span>{book.reviewCount}</span>
             </div>
           </div>

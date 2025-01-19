@@ -2,7 +2,7 @@
 
 import { Author } from '@/apis/author/types';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
-import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 
 interface Props {
   author: Author;
@@ -44,6 +44,10 @@ export default function AuthorListItem({ author }: Props) {
           </div>
           <div className="flex items-center gap-1">
             <MessageSquareIcon className="h-3.5 w-3.5" />
+            <span>{author.reviewCount}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <LibraryIcon className="h-3.5 w-3.5" />
             <span>{author.reviewCount}</span>
           </div>
         </div>

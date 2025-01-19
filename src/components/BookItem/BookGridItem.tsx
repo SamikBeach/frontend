@@ -3,7 +3,7 @@
 import { Book } from '@/apis/book/types';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { cn } from '@/lib/utils';
-import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 
 interface Props {
   book: Book;
@@ -64,7 +64,7 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
               ?.map(authorBook => authorBook.author.nameInKor)
               .join(', ') ?? '작가 미상'}
           </p>
-          <div className="flex items-center gap-1.5 text-gray-400">
+          <div className="flex items-center gap-1.5 text-gray-500">
             <div className="flex items-center gap-0.5">
               <ThumbsUpIcon
                 className={cn('h-3 w-3', {
@@ -81,6 +81,20 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
             </div>
             <div className="flex items-center gap-0.5">
               <MessageSquareIcon
+                className={cn('h-3 w-3', {
+                  'h-3.5 w-3.5': size === 'medium',
+                })}
+              />
+              <span
+                className={cn('text-xs', {
+                  'text-sm': size === 'medium',
+                })}
+              >
+                {book.reviewCount}
+              </span>
+            </div>
+            <div className="flex items-center gap-0.5">
+              <LibraryIcon
                 className={cn('h-3 w-3', {
                   'h-3.5 w-3.5': size === 'medium',
                 })}

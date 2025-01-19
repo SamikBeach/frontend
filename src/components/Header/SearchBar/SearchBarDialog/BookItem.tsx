@@ -1,6 +1,6 @@
 import { Book } from '@/apis/book/types';
 import { CommandItem } from '@/components/ui/command';
-import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Highlighter from 'react-highlight-words';
 import DeleteButton from './DeleteButton';
@@ -67,6 +67,10 @@ export default function BookItem({
           </span>
           <span className="flex items-center gap-0.5 text-xs">
             <MessageSquareIcon className="!h-3 !w-3" />
+            {book.reviewCount}
+          </span>
+          <span className="flex items-center gap-0.5 text-xs">
+            <LibraryIcon className="!h-3 !w-3" />
             {book.reviewCount}
           </span>
         </div>
