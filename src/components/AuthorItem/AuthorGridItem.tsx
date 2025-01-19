@@ -35,7 +35,7 @@ export default function AuthorGridItem({ author, size = 'medium' }: Props) {
         onClick={handleClick}
       >
         <img
-          src={author.imageUrl ?? 'https://picsum.photos/200/300'}
+          src={author.imageUrl ?? undefined}
           alt={author.nameInKor}
           className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
         />
@@ -102,7 +102,7 @@ export default function AuthorGridItem({ author, size = 'medium' }: Props) {
                   'text-sm': size === 'medium',
                 })}
               >
-                {author.reviewCount}
+                {author.bookCount}
               </span>
             </div>
           </div>

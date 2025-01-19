@@ -1,3 +1,4 @@
+import { Book } from '../book/types';
 import { BaseEntity, PaginationQuery } from '../common/types';
 
 export interface Author extends BaseEntity {
@@ -5,12 +6,16 @@ export interface Author extends BaseEntity {
   nameInKor: string;
   imageUrl: string | null;
   bornDate: string | null;
-  bornDateIsBc: boolean;
+  bornDateIsBc: boolean | null;
   diedDate: string | null;
-  diedDateIsBc: boolean;
+  diedDateIsBc: boolean | null;
   eraId: number | null;
   likeCount: number;
   reviewCount: number;
+  bookCount: number;
+  authorBooks: {
+    book: Book;
+  }[];
 }
 
 export interface AuthorDetail extends Author {
