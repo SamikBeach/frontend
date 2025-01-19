@@ -36,7 +36,7 @@ export default function AuthorItem({
       onSelect={handleClick}
       className="group relative cursor-pointer"
     >
-      <Avatar className="h-10 w-10 shrink-0">
+      <Avatar className="h-14 w-14 shrink-0">
         <AvatarImage
           src={author.imageUrl ?? undefined}
           alt={author.nameInKor}
@@ -45,8 +45,8 @@ export default function AuthorItem({
         <AvatarFallback>{author.nameInKor[0]}</AvatarFallback>
       </Avatar>
       <div className="flex flex-1 flex-col gap-0.5">
-        <div>
-          <h4 className="text-xs font-medium">
+        <div className="flex flex-col gap-0.5">
+          <h4 className="text-sm font-medium">
             <Highlighter
               searchWords={[searchValue]}
               textToHighlight={author.nameInKor}
