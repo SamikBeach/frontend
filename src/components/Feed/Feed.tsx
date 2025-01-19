@@ -207,16 +207,14 @@ function Feed({ review, user, book }: FeedProps) {
                 />
               </div>
               <div className="mt-2 max-w-[120px]">
-                <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium">
+                <p className="overflow-hidden text-ellipsis text-sm font-medium [-webkit-box-orient:vertical] [-webkit-line-clamp:2] [display:-webkit-box]">
                   {book.title}
                 </p>
-                <p className="overflow-hidden text-ellipsis whitespace-nowrap text-xs text-gray-500">
+                <p className="overflow-hidden text-ellipsis text-xs font-medium text-gray-500 [-webkit-box-orient:vertical] [-webkit-line-clamp:2] [display:-webkit-box]">
                   {book.authorBooks
                     .map(author => author.author.nameInKor)
-                    .join(', ')}
-                </p>
-                <p className="text-xs text-gray-400">
-                  {book.publisher} · {book.publicationDate?.split('-')[0]}
+                    .join(', ')}{' '}
+                  · {book.publisher} · {book.publicationDate?.split('-')[0]}
                 </p>
               </div>
             </div>
