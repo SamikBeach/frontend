@@ -22,6 +22,7 @@ export default function AuthorItem({
   searchValue = '',
 }: Props) {
   const router = useRouter();
+  const searchWords = searchValue ? [searchValue] : [];
 
   const handleClick = () => {
     onClick();
@@ -48,14 +49,14 @@ export default function AuthorItem({
         <div className="flex flex-col gap-1">
           <h4 className="text-sm font-medium">
             <Highlighter
-              searchWords={[searchValue]}
+              searchWords={searchWords}
               textToHighlight={author.nameInKor}
               highlightClassName="text-blue-500 bg-transparent font-bold"
             />
           </h4>
           <p className="text-xs text-gray-500">
             <Highlighter
-              searchWords={[searchValue]}
+              searchWords={searchWords}
               textToHighlight={author.name}
               highlightClassName="text-blue-500 bg-transparent font-bold"
             />

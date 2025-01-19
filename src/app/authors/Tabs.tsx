@@ -11,23 +11,23 @@ import { ListIcon } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Tabs() {
-  const [activeCategory, setActiveCategory] = useState('종합');
+  const [activeGenre, setActiveGenre] = useState('종합');
 
-  const categories = ['종합', '철학', '과학', '경제'];
+  const genres = ['종합', '철학', '과학', '경제'];
 
   return (
     <div className="sticky top-[56px] z-10 flex items-center justify-between bg-white py-4">
       <div className="flex gap-3">
-        {categories.map(category => (
+        {genres.map(genre => (
           <Button
-            key={category}
-            onClick={() => setActiveCategory(category)}
+            key={genre}
+            onClick={() => setActiveGenre(genre)}
             variant="ghost"
             className={`px-0 text-lg font-bold hover:bg-transparent ${
-              activeCategory === category ? 'text-black' : 'text-gray-400'
+              activeGenre === genre ? 'text-black' : 'text-gray-400'
             }`}
           >
-            {category}
+            {genre}
           </Button>
         ))}
       </div>

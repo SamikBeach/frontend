@@ -21,6 +21,7 @@ export default function BookItem({
   searchValue = '',
 }: Props) {
   const router = useRouter();
+  const searchWords = searchValue ? [searchValue] : [];
 
   const handleClick = () => {
     onClick();
@@ -44,14 +45,14 @@ export default function BookItem({
         <div className="flex flex-col gap-1">
           <h4 className="line-clamp-1 text-sm font-medium">
             <Highlighter
-              searchWords={[searchValue]}
+              searchWords={searchWords}
               textToHighlight={book.title}
               highlightClassName="text-blue-500 bg-transparent font-bold"
             />
           </h4>
           <p className="line-clamp-1 text-xs text-gray-500">
             <Highlighter
-              searchWords={[searchValue]}
+              searchWords={searchWords}
               textToHighlight={book.authorBooks
                 .map(ab => ab.author.nameInKor)
                 .join(', ')}
