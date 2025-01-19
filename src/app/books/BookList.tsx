@@ -33,7 +33,7 @@ function BookListContent() {
     AxiosResponse<PaginatedResponse<Book>>,
     Error
   >({
-    queryKey: ['books', searchKeyword, sortMode, selectedAuthorId],
+    queryKey: ['books', searchKeyword, sortMode, selectedAuthorId, genre],
     queryFn: ({ pageParam = 1 }) => {
       const sortBy = (() => {
         switch (sortMode) {

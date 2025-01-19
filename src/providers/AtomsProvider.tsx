@@ -59,7 +59,7 @@ export function AtomsProvider({ children }: Props) {
         | 'all'
         | 'philosophy'
         | 'science'
-        | 'economy') ?? 'all'
+        | 'economics') ?? 'all'
     );
 
     // 작가 관련 상태 업데이트
@@ -74,7 +74,7 @@ export function AtomsProvider({ children }: Props) {
         | 'all'
         | 'philosophy'
         | 'science'
-        | 'economy') ?? 'all'
+        | 'economics') ?? 'all'
     );
   }, [
     searchParams,
@@ -106,7 +106,7 @@ export function AtomsProvider({ children }: Props) {
         | 'all'
         | 'philosophy'
         | 'science'
-        | 'economy') ?? 'all',
+        | 'economics') ?? 'all',
     ],
 
     // 작가 관련 atom 초기화
@@ -126,7 +126,7 @@ export function AtomsProvider({ children }: Props) {
         | 'all'
         | 'philosophy'
         | 'science'
-        | 'economy') ?? 'all',
+        | 'economics') ?? 'all',
     ],
   ]);
 

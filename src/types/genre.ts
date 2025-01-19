@@ -1,1 +1,1 @@
-export type Genre = 'all' | 'philosophy' | 'science' | 'economy';
+export type Genre = 'all' | 'philosophy' | 'science' | 'economics';

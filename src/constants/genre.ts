@@ -4,7 +4,7 @@ export const GENRE_LABELS: Record<Genre, string> = {
   all: '종합',
   philosophy: '철학',
   science: '과학',
-  economy: '경제',
+  economics: '경제',
 };
 
 export const GENRE_IDS: Record<string, number> = {
