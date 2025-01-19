@@ -56,7 +56,7 @@ function FeedList() {
         <TabsTrigger value="popular">인기순</TabsTrigger>
         <TabsTrigger value="recent">최신순</TabsTrigger>
       </TabsList>
-      <TabsContent value="popular">
+      <TabsContent value="popular" className="focus-visible:ring-0">
         {isLoading ? (
           <div className="flex flex-col gap-5">
             {Array(3)
@@ -78,7 +78,6 @@ function FeedList() {
                   key={review.id}
                   layout="position"
                   {...feedItemAnimation}
-                  className="mb-5"
                 >
                   <Feed review={review} user={review.user} book={review.book} />
                 </motion.div>
@@ -87,7 +86,7 @@ function FeedList() {
           </InfiniteScroll>
         )}
       </TabsContent>
-      <TabsContent value="recent">
+      <TabsContent value="recent" className="focus-visible:ring-0">
         {isLoading ? (
           <div className="flex flex-col gap-5">
             {Array(3)
@@ -109,7 +108,6 @@ function FeedList() {
                   key={review.id}
                   layout="position"
                   {...feedItemAnimation}
-                  className="mb-5"
                 >
                   <Feed review={review} user={review.user} book={review.book} />
                 </motion.div>

@@ -30,7 +30,12 @@ function RelativeBooksContent({ bookId }: Props) {
 
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-lg font-semibold">이 책의 다른 번역서</p>
+      <div className="flex items-center gap-2">
+        <p className="text-lg font-semibold">이 책의 다른 번역서</p>
+        <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
+          {books.length}
+        </span>
+      </div>
       <div className="relative">
         <Carousel
           className="w-full"

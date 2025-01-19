@@ -1,8 +1,7 @@
+import { Genre } from '@/types/genre';
 import { atom } from 'jotai';
 
-export type AuthorCategory = 'all' | 'philosophy' | 'science' | 'economy';
-
-export const authorCategoryAtom = atom<AuthorCategory>('all');
+export const authorGenreAtom = atom<Genre>('all');
 export const authorSearchKeywordAtom = atom<string>('');
 export const authorSortModeAtom = atom<'popular' | 'recent' | 'alphabet'>(
   'popular'

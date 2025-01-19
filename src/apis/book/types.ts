@@ -17,6 +17,7 @@ export interface Book extends BaseEntity {
     bookId: number;
     author: Author;
   }[];
+  totalTranslationCount: number;
 }
 
 export interface BookDetail extends Book {

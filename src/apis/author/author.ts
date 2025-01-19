@@ -1,3 +1,4 @@
+import { transformFilterParams } from '@/utils/api';
 import axios from '../axios';
 import type { Book } from '../book/types';
 import type { PaginatedResponse, PaginationQuery } from '../common/types';
@@ -11,7 +12,9 @@ export const authorApi = {
    * @returns 페이지네이션된 작가 목록
    */
   searchAuthors: (params: AuthorSearchQuery) =>
-    axios.get<PaginatedResponse<Author>>('/author/search', { params }),
+    axios.get<PaginatedResponse<Author>>('/author/search', {
+      params: transformFilterParams(params),
+    }),
 
   /**
    * 모든 작가 목록을 가져옵니다.

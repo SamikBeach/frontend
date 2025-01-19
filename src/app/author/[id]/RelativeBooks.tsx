@@ -18,6 +18,12 @@ interface Props {
 }
 
 function RelativeBooksContent({ authorId }: Props) {
+  const { data: author } = useSuspenseQuery({
+    queryKey: ['author', authorId],
+    queryFn: () => authorApi.getAuthorDetail(authorId),
+    select: response => response.data,
+  });
+
   const { data: books = [] } = useSuspenseQuery({
     queryKey: ['author-books', authorId],
     queryFn: () => authorApi.getAllAuthorBooks(authorId),
@@ -30,7 +36,12 @@ function RelativeBooksContent({ authorId }: Props) {
 
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-lg font-semibold">작가의 다른 책</p>
+      <div className="flex items-center gap-2">
+        <p className="text-lg font-semibold">{author.nameInKor}의 책</p>
+        <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
+          {books.length}
+        </span>
+      </div>
       <div className="relative">
         <Carousel
           className="w-full"
@@ -57,7 +68,7 @@ function RelativeBooksContent({ authorId }: Props) {
 function RelativeBooksSkeleton() {
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-lg font-semibold">작가의 다른 책</p>
+      <Skeleton className="h-7 w-24" />
       <div className="relative">
         <div className="flex gap-4">
           {Array.from({ length: 8 }).map((_, index) => (

@@ -174,31 +174,43 @@ function Feed({ review, user, book }: FeedProps) {
   return (
     <>
       <div
-        className="relative mb-4 flex max-w-[800px] gap-4 rounded-lg p-4 transition-colors hover:cursor-pointer hover:bg-gray-100"
+        className="relative flex max-w-[700px] gap-4 rounded-lg bg-white p-5 transition-colors duration-200 hover:cursor-pointer hover:bg-gray-50"
         onClick={() => open(review.id)}
       >
-        <div className="flex flex-1 flex-col gap-3">
-          <div className="flex items-center gap-2">
-            <UserAvatar user={user} />
-            <div className="text-muted-foreground">
-              {formatDate(review.createdAt)}
+        <div className="flex flex-1 flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <UserAvatar user={user} />
+              <span className="text-xs text-gray-500">
+                {formatDate(review.createdAt)}
+              </span>
             </div>
+            {isMyFeed && (
+              <div onClick={e => e.stopPropagation()}>
+                <FeedActions
+                  onEdit={() => setShowEditDialog(true)}
+                  onDelete={() => setShowDeleteAlert(true)}
+                />
+              </div>
+            )}
           </div>
 
-          <div className="flex gap-6">
+          <div className="flex gap-5">
             <div className="flex-shrink-0">
-              <div className="relative h-[300px] w-[200px] overflow-hidden rounded-lg bg-gray-200 shadow-sm">
+              <div className="relative h-[180px] w-[120px] overflow-hidden rounded-md bg-gray-100">
                 <img
                   src={book.imageUrl ?? 'https://picsum.photos/200/300'}
                   alt={book.title}
                   className="absolute inset-0 h-full w-full object-cover"
-                  width={200}
-                  height={300}
+                  width={120}
+                  height={180}
                 />
               </div>
-              <div className="mt-2 max-w-[200px]">
-                <p className="font-semibold">{book.title}</p>
-                <p className="text-sm text-gray-500">
+              <div className="mt-2 max-w-[120px]">
+                <p className="overflow-hidden text-ellipsis text-sm font-medium [-webkit-box-orient:vertical] [-webkit-line-clamp:2] [display:-webkit-box]">
+                  {book.title}
+                </p>
+                <p className="overflow-hidden text-ellipsis text-xs font-medium text-gray-500 [-webkit-box-orient:vertical] [-webkit-line-clamp:2] [display:-webkit-box]">
                   {book.authorBooks
                     .map(author => author.author.nameInKor)
                     .join(', ')}{' '}
@@ -209,15 +221,15 @@ function Feed({ review, user, book }: FeedProps) {
 
             <div className="flex flex-1 flex-col justify-between">
               <div>
-                <p className="mb-2 text-lg font-semibold leading-snug">
+                <h3 className="mb-2 text-lg font-medium leading-snug text-gray-900">
                   {review.title}
-                </p>
-                <div className="text-gray-600 [-webkit-box-orient:vertical] [-webkit-line-clamp:13] [display:-webkit-box] [overflow:hidden]">
+                </h3>
+                <div className="text-sm text-gray-600 [-webkit-box-orient:vertical] [-webkit-line-clamp:8] [display:-webkit-box] [overflow:hidden]">
                   <FeedContent content={review.content} />
                 </div>
               </div>
 
-              <div className="mt-4 flex justify-end gap-2">
+              <div className="mt-4 flex justify-end gap-3">
                 <LikeButton
                   isLiked={review.isLiked ?? false}
                   likeCount={review.likeCount}
@@ -228,18 +240,6 @@ function Feed({ review, user, book }: FeedProps) {
             </div>
           </div>
         </div>
-
-        {isMyFeed && (
-          <div
-            className="absolute right-4 top-4"
-            onClick={e => e.stopPropagation()}
-          >
-            <FeedActions
-              onEdit={() => setShowEditDialog(true)}
-              onDelete={() => setShowDeleteAlert(true)}
-            />
-          </div>
-        )}
       </div>
       <DeleteConfirmDialog
         open={showDeleteAlert}

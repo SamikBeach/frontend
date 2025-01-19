@@ -27,7 +27,7 @@ export default function BookListView({
         </div>
       }
     >
-      <div className="flex flex-col gap-4">
+      <div>
         {books.map(book => (
           <BookListItem key={book.id} book={book} />
         ))}

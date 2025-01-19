@@ -21,6 +21,7 @@ import LeaveConfirmDialog from './LeaveConfirmDialog';
 
 interface Props extends DialogProps {
   bookId?: number;
+  authorId?: number;
   reviewId?: number;
   onOpenChange?: (open: boolean) => void;
   initialTitle?: string;
@@ -30,6 +31,7 @@ interface Props extends DialogProps {
 
 export default function WriteReviewDialog({
   bookId,
+  authorId,
   reviewId,
   children,
   onOpenChange,
@@ -67,6 +69,10 @@ export default function WriteReviewDialog({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['book-reviews', bookId] });
       queryClient.invalidateQueries({ queryKey: ['book', bookId] });
+      queryClient.invalidateQueries({
+        queryKey: ['author-reviews', authorId],
+      });
+      queryClient.invalidateQueries({ queryKey: ['author', authorId] });
       queryClient.invalidateQueries({ queryKey: ['reviews'] });
 
       toast.success('리뷰가 수정되었습니다.');

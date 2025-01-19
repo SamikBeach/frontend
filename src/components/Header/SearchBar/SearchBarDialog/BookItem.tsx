@@ -1,6 +1,6 @@
 import { Book } from '@/apis/book/types';
 import { CommandItem } from '@/components/ui/command';
-import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Highlighter from 'react-highlight-words';
 import DeleteButton from './DeleteButton';
@@ -21,6 +21,7 @@ export default function BookItem({
   searchValue = '',
 }: Props) {
   const router = useRouter();
+  const searchWords = searchValue ? [searchValue] : [];
 
   const handleClick = () => {
     onClick();
@@ -33,25 +34,25 @@ export default function BookItem({
     <CommandItem
       value={book.title}
       onSelect={handleClick}
-      className="group relative cursor-pointer"
+      className="group relative cursor-pointer data-[highlighted]:bg-gray-50"
     >
       <img
         src={book.imageUrl ?? undefined}
         alt={book.title}
-        className="h-20 w-14 rounded-sm object-cover"
+        className="h-24 w-16 rounded-sm object-cover"
       />
-      <div className="flex h-20 flex-1 flex-col justify-between py-1">
-        <div>
-          <h4 className="line-clamp-1 text-xs font-medium">
+      <div className="flex h-24 flex-1 flex-col justify-between py-1.5 pl-2">
+        <div className="flex flex-col gap-1">
+          <h4 className="line-clamp-1 text-sm font-medium">
             <Highlighter
-              searchWords={[searchValue]}
+              searchWords={searchWords}
               textToHighlight={book.title}
               highlightClassName="text-blue-500 bg-transparent font-bold"
             />
           </h4>
-          <p className="line-clamp-1 text-xs text-muted-foreground/70">
+          <p className="line-clamp-1 text-xs text-gray-500">
             <Highlighter
-              searchWords={[searchValue]}
+              searchWords={searchWords}
               textToHighlight={book.authorBooks
                 .map(ab => ab.author.nameInKor)
                 .join(', ')}
@@ -59,7 +60,7 @@ export default function BookItem({
             />
           </p>
         </div>
-        <div className="flex items-center gap-2 text-muted-foreground/70">
+        <div className="flex items-center gap-2 text-gray-400">
           <span className="flex items-center gap-0.5 text-xs">
             <ThumbsUpIcon className="!h-3 !w-3" />
             {book.likeCount}
@@ -67,6 +68,10 @@ export default function BookItem({
           <span className="flex items-center gap-0.5 text-xs">
             <MessageSquareIcon className="!h-3 !w-3" />
             {book.reviewCount}
+          </span>
+          <span className="flex items-center gap-0.5 text-xs">
+            <LibraryIcon className="!h-3 !w-3" />
+            {book.totalTranslationCount}
           </span>
         </div>
       </div>

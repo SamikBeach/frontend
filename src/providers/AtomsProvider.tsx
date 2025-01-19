@@ -1,14 +1,14 @@
 'use client';
 
 import {
-  authorCategoryAtom,
+  authorGenreAtom,
   authorSearchKeywordAtom,
   authorSortModeAtom,
   authorViewModeAtom,
 } from '@/atoms/author';
 import {
   authorIdAtom,
-  bookCategoryAtom,
+  bookGenreAtom,
   bookSearchKeywordAtom,
   bookSortModeAtom,
   bookViewModeAtom,
@@ -36,13 +36,13 @@ export function AtomsProvider({ children }: Props) {
   const setBookSortMode = useSetAtom(bookSortModeAtom);
   const setBookViewMode = useSetAtom(bookViewModeAtom);
   const setAuthorId = useSetAtom(authorIdAtom);
-  const setBookCategory = useSetAtom(bookCategoryAtom);
+  const setBookGenre = useSetAtom(bookGenreAtom);
 
   // 작가 관련 atom setter 함수들
   const setAuthorSearchKeyword = useSetAtom(authorSearchKeywordAtom);
   const setAuthorSortMode = useSetAtom(authorSortModeAtom);
   const setAuthorViewMode = useSetAtom(authorViewModeAtom);
-  const setAuthorCategory = useSetAtom(authorCategoryAtom);
+  const setAuthorGenre = useSetAtom(authorGenreAtom);
 
   // URL 파라미터가 변경될 때마다 관련 atom 값들을 업데이트
   useEffect(() => {
@@ -54,12 +54,12 @@ export function AtomsProvider({ children }: Props) {
     );
     setBookViewMode((searchParams.get('view') as 'grid' | 'list') ?? 'grid');
     setAuthorId(searchParams.get('authorId') ?? undefined);
-    setBookCategory(
-      (searchParams.get('category') as
+    setBookGenre(
+      (searchParams.get('genre') as
         | 'all'
         | 'philosophy'
         | 'science'
-        | 'economy') ?? 'all'
+        | 'economics') ?? 'all'
     );
 
     // 작가 관련 상태 업데이트
@@ -69,12 +69,12 @@ export function AtomsProvider({ children }: Props) {
         'popular'
     );
     setAuthorViewMode((searchParams.get('view') as 'grid' | 'list') ?? 'grid');
-    setAuthorCategory(
-      (searchParams.get('category') as
+    setAuthorGenre(
+      (searchParams.get('genre') as
         | 'all'
         | 'philosophy'
         | 'science'
-        | 'economy') ?? 'all'
+        | 'economics') ?? 'all'
     );
   }, [
     searchParams,
@@ -82,11 +82,11 @@ export function AtomsProvider({ children }: Props) {
     setBookSortMode,
     setBookViewMode,
     setAuthorId,
-    setBookCategory,
+    setBookGenre,
     setAuthorSearchKeyword,
     setAuthorSortMode,
     setAuthorViewMode,
-    setAuthorCategory,
+    setAuthorGenre,
   ]);
 
   // 앱이 처음 로드될 때 atom들의 초기값을 URL 파라미터 기반으로 설정
@@ -101,12 +101,12 @@ export function AtomsProvider({ children }: Props) {
     [bookViewModeAtom, (searchParams.get('view') as 'grid' | 'list') ?? 'grid'],
     [authorIdAtom, searchParams.get('authorId') ?? undefined],
     [
-      bookCategoryAtom,
-      (searchParams.get('category') as
+      bookGenreAtom,
+      (searchParams.get('genre') as
         | 'all'
         | 'philosophy'
         | 'science'
-        | 'economy') ?? 'all',
+        | 'economics') ?? 'all',
     ],
 
     // 작가 관련 atom 초기화
@@ -121,12 +121,12 @@ export function AtomsProvider({ children }: Props) {
       (searchParams.get('view') as 'grid' | 'list') ?? 'grid',
     ],
     [
-      authorCategoryAtom,
-      (searchParams.get('category') as
+      authorGenreAtom,
+      (searchParams.get('genre') as
         | 'all'
         | 'philosophy'
         | 'science'
-        | 'economy') ?? 'all',
+        | 'economics') ?? 'all',
     ],
   ]);
 
