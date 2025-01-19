@@ -108,7 +108,6 @@ function FeedList() {
                   key={review.id}
                   layout="position"
                   {...feedItemAnimation}
-                  className="mb-5"
                 >
                   <Feed review={review} user={review.user} book={review.book} />
                 </motion.div>
