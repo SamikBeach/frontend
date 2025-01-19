@@ -71,7 +71,7 @@ export default function BookItem({
           </span>
           <span className="flex items-center gap-0.5 text-xs">
             <LibraryIcon className="!h-3 !w-3" />
-            {book.reviewCount}
+            {book.totalTranslationCount}
           </span>
         </div>
       </div>

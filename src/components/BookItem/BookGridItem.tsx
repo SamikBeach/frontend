@@ -35,7 +35,7 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
         onClick={handleClick}
       >
         <img
-          src={book.imageUrl ?? 'https://picsum.photos/200/300'}
+          src={book.imageUrl ?? undefined}
           alt={book.title}
           className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
         />
@@ -104,7 +104,7 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
                   'text-sm': size === 'medium',
                 })}
               >
-                {book.reviewCount}
+                {book.totalTranslationCount}
               </span>
             </div>
           </div>

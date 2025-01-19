@@ -44,9 +44,6 @@ export default function BookListItem({ book }: Props) {
               </p>
               <p className="text-sm text-gray-500">{book.publisher}</p>
             </div>
-            <p className="line-clamp-2 text-sm leading-relaxed text-gray-600">
-              {book.description}
-            </p>
           </div>
           <div className="mt-3 flex items-center gap-2 text-sm text-gray-500">
             <div className="flex items-center gap-1">
@@ -59,7 +56,7 @@ export default function BookListItem({ book }: Props) {
             </div>
             <div className="flex items-center gap-1">
               <LibraryIcon className="h-3.5 w-3.5" />
-              <span>{book.reviewCount}</span>
+              <span>{book.totalTranslationCount}</span>
             </div>
           </div>
         </div>
