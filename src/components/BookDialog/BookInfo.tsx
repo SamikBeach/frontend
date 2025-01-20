@@ -64,7 +64,7 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
           imageUrl={book.imageUrl}
           title={book.title}
           width={140}
-          height={196}
+          height={200}
           className="flex-shrink-0 cursor-pointer rounded-lg"
         />
         <div className="flex w-full flex-col justify-between">
