@@ -10,6 +10,7 @@ import { useBookQueryData } from '@/hooks/queries/useBookQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { format } from 'date-fns';
 import { Edit3Icon } from 'lucide-react';
 import { RefObject, Suspense } from 'react';
 import BookInfoSkeleton from './BookInfoSkeleton';
@@ -57,6 +58,10 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
     reviewListRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const formattedPublicationDate = book.publicationDate
+    ? format(new Date(book.publicationDate), 'yyyy년 M월 d일')
+    : '';
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
@@ -76,7 +81,9 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
               {book.authorBooks
                 .map(authorBook => authorBook.author.nameInKor)
                 .join(', ')}{' '}
-              · {book.publisher} · {book.publicationDate?.split('-')[0]}
+            </p>
+            <p className="text-gray-500">
+              {book.publisher} · {formattedPublicationDate}
             </p>
           </div>
 
