@@ -15,8 +15,8 @@ export default function BookGridItemSkeleton({ size = 'medium' }: Props) {
     >
       <Skeleton
         className={cn('rounded-lg', {
-          'h-[400px]': size === 'medium',
-          'h-[230px]': size === 'small',
+          'h-[400px] w-[280px]': size === 'medium',
+          'h-[230px] w-[160px]': size === 'small',
         })}
       />
       <div className="flex flex-col gap-1.5">
