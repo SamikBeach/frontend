@@ -28,7 +28,8 @@ interface Props {
 function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   const currentUser = useCurrentUser();
   const { close } = useDialogQuery({ type: 'review' });
-  const { updateReviewLike, deleteReviewData } = useReviewQueryData();
+  const { updateReviewLikeQueryData, deleteReviewDataQueryData } =
+    useReviewQueryData();
 
   const { data: review } = useSuspenseQuery({
     queryKey: ['review', reviewId],
@@ -42,13 +43,13 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
     onMutate: () => {
-      updateReviewLike({
+      updateReviewLikeQueryData({
         reviewId: review.id,
         isOptimistic: true,
       });
     },
     onError: () => {
-      updateReviewLike({
+      updateReviewLikeQueryData({
         reviewId: review.id,
         isOptimistic: false,
         currentStatus: {
@@ -62,7 +63,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   const { mutate: deleteReview } = useMutation({
     mutationFn: () => reviewApi.deleteReview(review.id),
     onSuccess: () => {
-      deleteReviewData({
+      deleteReviewDataQueryData({
         reviewId: review.id,
         bookId: review.book.id,
         authorId: review.book.authorBooks?.[0]?.author.id,

@@ -37,7 +37,7 @@ interface CreateReviewParams {
 export function useReviewQueryData() {
   const queryClient = useQueryClient();
 
-  function updateReviewLike({
+  function updateReviewLikeQueryData({
     reviewId,
     isOptimistic,
     currentStatus,
@@ -50,15 +50,17 @@ export function useReviewQueryData() {
         queryKey: ['reviews'],
         exact: false,
       },
-      function updateListData(oldData) {
-        if (!oldData) return oldData;
+      function updateReviewListQueryData(reviewListData) {
+        if (!reviewListData) return reviewListData;
         return {
-          ...oldData,
-          pages: oldData.pages.map(page => ({
-            ...page,
+          ...reviewListData,
+          pages: reviewListData.pages.map(reviewPage => ({
+            ...reviewPage,
             data: {
-              ...page.data,
-              data: page.data.data.map(function updateItem(review: Review) {
+              ...reviewPage.data,
+              data: reviewPage.data.data.map(function updateReviewItem(
+                review: Review
+              ) {
                 if (review.id !== reviewId) return review;
                 return {
                   ...review,
@@ -81,36 +83,37 @@ export function useReviewQueryData() {
     // 단일 리뷰 쿼리 데이터 업데이트
     queryClient.setQueryData<AxiosResponse<Review>>(
       ['review', reviewId],
-      function updateDetailData(oldData) {
-        if (!oldData) return oldData;
+      function updateReviewDetailQueryData(reviewDetailData) {
+        if (!reviewDetailData) return reviewDetailData;
 
         if (isOptimistic) {
           return {
-            ...oldData,
+            ...reviewDetailData,
             data: {
-              ...oldData.data,
-              isLiked: !oldData.data.isLiked,
-              likeCount: oldData.data.isLiked
-                ? oldData.data.likeCount - 1
-                : oldData.data.likeCount + 1,
+              ...reviewDetailData.data,
+              isLiked: !reviewDetailData.data.isLiked,
+              likeCount: reviewDetailData.data.isLiked
+                ? reviewDetailData.data.likeCount - 1
+                : reviewDetailData.data.likeCount + 1,
             },
           };
         }
 
         // Rollback case
         return {
-          ...oldData,
+          ...reviewDetailData,
           data: {
-            ...oldData.data,
-            isLiked: currentStatus?.isLiked ?? oldData.data.isLiked,
-            likeCount: currentStatus?.likeCount ?? oldData.data.likeCount,
+            ...reviewDetailData.data,
+            isLiked: currentStatus?.isLiked ?? reviewDetailData.data.isLiked,
+            likeCount:
+              currentStatus?.likeCount ?? reviewDetailData.data.likeCount,
           },
         };
       }
     );
   }
 
-  function updateReviewData({
+  function updateReviewDataQueryData({
     reviewId,
     bookId,
     authorId,
@@ -126,15 +129,15 @@ export function useReviewQueryData() {
     if (bookId) {
       queryClient.setQueriesData<
         InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
-      >({ queryKey: ['book-reviews', bookId] }, old => {
-        if (!old) return old;
+      >({ queryKey: ['book-reviews', bookId] }, reviewListData => {
+        if (!reviewListData) return reviewListData;
         return {
-          ...old,
-          pages: old.pages.map(page => ({
-            ...page,
+          ...reviewListData,
+          pages: reviewListData.pages.map(reviewPage => ({
+            ...reviewPage,
             data: {
-              ...page.data,
-              data: page.data.data.map(review =>
+              ...reviewPage.data,
+              data: reviewPage.data.data.map(review =>
                 review.id === reviewId
                   ? {
                       ...review,
@@ -152,15 +155,15 @@ export function useReviewQueryData() {
     if (authorId) {
       queryClient.setQueriesData<
         InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
-      >({ queryKey: ['author-reviews', authorId] }, old => {
-        if (!old) return old;
+      >({ queryKey: ['author-reviews', authorId] }, reviewListData => {
+        if (!reviewListData) return reviewListData;
         return {
-          ...old,
-          pages: old.pages.map(page => ({
-            ...page,
+          ...reviewListData,
+          pages: reviewListData.pages.map(reviewPage => ({
+            ...reviewPage,
             data: {
-              ...page.data,
-              data: page.data.data.map(review =>
+              ...reviewPage.data,
+              data: reviewPage.data.data.map(review =>
                 review.id === reviewId
                   ? {
                       ...review,
@@ -177,38 +180,38 @@ export function useReviewQueryData() {
     // 전체 리뷰 목록 업데이트
     queryClient.setQueriesData<
       InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
-    >({ queryKey: ['reviews'] }, oldData => {
-      if (!oldData) return oldData;
+    >({ queryKey: ['reviews'] }, reviewListData => {
+      if (!reviewListData) return reviewListData;
       return {
-        ...oldData,
-        pages: oldData.pages.map((page, index) =>
+        ...reviewListData,
+        pages: reviewListData.pages.map((reviewPage, index) =>
           index === 0
             ? {
-                ...page,
+                ...reviewPage,
                 data: {
-                  ...page.data,
+                  ...reviewPage.data,
                   data: [
                     {
-                      ...oldData.pages[0].data.data[0],
+                      ...reviewListData.pages[0].data.data[0],
                       ...updatedReview.data,
                     },
-                    ...page.data.data.filter(
+                    ...reviewPage.data.data.filter(
                       review => review.id !== updatedReview.data.id
                     ),
                   ],
                   meta: {
-                    ...page.data.meta,
-                    totalItems: page.data.meta.totalItems + 1,
+                    ...reviewPage.data.meta,
+                    totalItems: reviewPage.data.meta.totalItems + 1,
                   },
                 },
               }
-            : page
+            : reviewPage
         ),
       };
     });
   }
 
-  function deleteReviewData({
+  function deleteReviewDataQueryData({
     reviewId,
     bookId,
     authorId,
@@ -216,15 +219,17 @@ export function useReviewQueryData() {
     // 책의 리뷰 목록 업데이트
     queryClient.setQueriesData<
       InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
-    >({ queryKey: ['book-reviews', bookId] }, old => {
-      if (!old) return old;
+    >({ queryKey: ['book-reviews', bookId] }, reviewListData => {
+      if (!reviewListData) return reviewListData;
       return {
-        ...old,
-        pages: old.pages.map(page => ({
-          ...page,
+        ...reviewListData,
+        pages: reviewListData.pages.map(reviewPage => ({
+          ...reviewPage,
           data: {
-            ...page.data,
-            data: page.data.data.filter((r: Review) => r.id !== reviewId),
+            ...reviewPage.data,
+            data: reviewPage.data.data.filter(
+              (review: Review) => review.id !== reviewId
+            ),
           },
         })),
       };
@@ -234,15 +239,17 @@ export function useReviewQueryData() {
     if (authorId) {
       queryClient.setQueriesData<
         InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
-      >({ queryKey: ['author-reviews', authorId] }, old => {
-        if (!old) return old;
+      >({ queryKey: ['author-reviews', authorId] }, reviewListData => {
+        if (!reviewListData) return reviewListData;
         return {
-          ...old,
-          pages: old.pages.map(page => ({
-            ...page,
+          ...reviewListData,
+          pages: reviewListData.pages.map(reviewPage => ({
+            ...reviewPage,
             data: {
-              ...page.data,
-              data: page.data.data.filter((r: Review) => r.id !== reviewId),
+              ...reviewPage.data,
+              data: reviewPage.data.data.filter(
+                (review: Review) => review.id !== reviewId
+              ),
             },
           })),
         };
@@ -251,13 +258,13 @@ export function useReviewQueryData() {
       // 작가 상세 정보의 리뷰 카운트 업데이트
       queryClient.setQueryData<AxiosResponse<AuthorDetail>>(
         ['author', authorId],
-        old => {
-          if (!old) return old;
+        authorDetailData => {
+          if (!authorDetailData) return authorDetailData;
           return {
-            ...old,
+            ...authorDetailData,
             data: {
-              ...old.data,
-              reviewCount: (old.data.reviewCount ?? 0) - 1,
+              ...authorDetailData.data,
+              reviewCount: (authorDetailData.data.reviewCount ?? 0) - 1,
             },
           };
         }
@@ -267,113 +274,116 @@ export function useReviewQueryData() {
     // 책 상세 정보의 리뷰 카운트 업데이트
     queryClient.setQueryData<AxiosResponse<BookDetail>>(
       ['book', bookId],
-      old => {
-        if (!old) return old;
+      bookDetailData => {
+        if (!bookDetailData) return bookDetailData;
         return {
-          ...old,
+          ...bookDetailData,
           data: {
-            ...old.data,
-            reviewCount: (old.data.reviewCount ?? 0) - 1,
+            ...bookDetailData.data,
+            reviewCount: (bookDetailData.data.reviewCount ?? 0) - 1,
           },
         };
       }
     );
   }
 
-  function createReviewData({
+  function createReviewDataQueryData({
     bookId,
     newReview,
     currentUser,
   }: CreateReviewParams) {
-    const bookData = queryClient.getQueryData<AxiosResponse<Book>>([
+    const bookDetailData = queryClient.getQueryData<AxiosResponse<Book>>([
       'book',
       bookId,
     ])?.data;
-    if (!bookData) return;
+    if (!bookDetailData) return;
 
     // 책의 리뷰 목록 업데이트
     queryClient.setQueriesData<
       InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
-    >({ queryKey: ['book-reviews', bookId] }, old => {
-      if (!old) return old;
+    >({ queryKey: ['book-reviews', bookId] }, reviewListData => {
+      if (!reviewListData) return reviewListData;
 
       return {
-        ...old,
-        pages: old.pages.map((page, index) =>
+        ...reviewListData,
+        pages: reviewListData.pages.map((reviewPage, index) =>
           index === 0
             ? {
-                ...page,
+                ...reviewPage,
                 data: {
-                  ...page.data,
+                  ...reviewPage.data,
                   data: [
                     {
                       ...newReview,
-                      book: bookData,
+                      book: bookDetailData,
                       user: currentUser,
                     },
-                    ...page.data.data,
+                    ...reviewPage.data.data,
                   ],
                   meta: {
-                    ...page.data.meta,
-                    totalItems: page.data.meta.totalItems + 1,
+                    ...reviewPage.data.meta,
+                    totalItems: reviewPage.data.meta.totalItems + 1,
                   },
                 },
               }
-            : page
+            : reviewPage
         ),
       };
     });
 
     // 책 상세 정보의 리뷰 카운트 업데이트
-    queryClient.setQueryData<AxiosResponse<Book>>(['book', bookId], old => {
-      if (!old) return old;
-      return {
-        ...old,
-        data: {
-          ...old.data,
-          reviewCount: old.data.reviewCount + 1,
-        },
-      };
-    });
+    queryClient.setQueryData<AxiosResponse<Book>>(
+      ['book', bookId],
+      bookDetailData => {
+        if (!bookDetailData) return bookDetailData;
+        return {
+          ...bookDetailData,
+          data: {
+            ...bookDetailData.data,
+            reviewCount: bookDetailData.data.reviewCount + 1,
+          },
+        };
+      }
+    );
 
     // 전체 리뷰 목록 업데이트
     queryClient.setQueriesData<
       InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
-    >({ queryKey: ['reviews'] }, oldData => {
-      if (!oldData) return oldData;
+    >({ queryKey: ['reviews'] }, reviewListData => {
+      if (!reviewListData) return reviewListData;
 
       return {
-        ...oldData,
-        pages: oldData.pages.map((page, index) =>
+        ...reviewListData,
+        pages: reviewListData.pages.map((reviewPage, index) =>
           index === 0
             ? {
-                ...page,
+                ...reviewPage,
                 data: {
-                  ...page.data,
+                  ...reviewPage.data,
                   data: [
                     {
                       ...newReview,
-                      book: bookData,
+                      book: bookDetailData,
                       user: currentUser,
                     },
-                    ...page.data.data,
+                    ...reviewPage.data.data,
                   ],
                   meta: {
-                    ...page.data.meta,
-                    totalItems: page.data.meta.totalItems + 1,
+                    ...reviewPage.data.meta,
+                    totalItems: reviewPage.data.meta.totalItems + 1,
                   },
                 },
               }
-            : page
+            : reviewPage
         ),
       };
     });
   }
 
   return {
-    updateReviewLike,
-    updateReviewData,
-    deleteReviewData,
-    createReviewData,
+    updateReviewLikeQueryData,
+    updateReviewDataQueryData,
+    deleteReviewDataQueryData,
+    createReviewDataQueryData,
   };
 }

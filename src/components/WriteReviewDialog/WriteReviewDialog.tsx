@@ -49,7 +49,8 @@ export default function WriteReviewDialog({
   const [content, setContent] = useState(initialContent);
 
   const currentUser = useCurrentUser();
-  const { updateReviewData, createReviewData } = useReviewQueryData();
+  const { updateReviewDataQueryData, createReviewDataQueryData } =
+    useReviewQueryData();
 
   useEffect(() => {
     setTitle(initialTitle);
@@ -71,7 +72,7 @@ export default function WriteReviewDialog({
     },
     onSuccess: updatedReview => {
       if (reviewId) {
-        updateReviewData({
+        updateReviewDataQueryData({
           reviewId,
           bookId,
           authorId,
@@ -100,7 +101,7 @@ export default function WriteReviewDialog({
     },
     onSuccess: response => {
       if (bookId && currentUser) {
-        createReviewData({
+        createReviewDataQueryData({
           bookId,
           newReview: response.data,
           currentUser,

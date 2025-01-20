@@ -44,7 +44,8 @@ export default function Review({
   const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
   const isMyReview = review.user.id === currentUser?.id;
-  const { updateReviewLike, deleteReviewData } = useReviewQueryData();
+  const { updateReviewLikeQueryData, deleteReviewDataQueryData } =
+    useReviewQueryData();
 
   useEffect(() => {
     if (!contentRef.current) return;
@@ -77,13 +78,13 @@ export default function Review({
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
     onMutate: () => {
-      updateReviewLike({
+      updateReviewLikeQueryData({
         reviewId: review.id,
         isOptimistic: true,
       });
     },
     onError: () => {
-      updateReviewLike({
+      updateReviewLikeQueryData({
         reviewId: review.id,
         isOptimistic: false,
         currentStatus: {
@@ -137,7 +138,7 @@ export default function Review({
   const { mutate: deleteReview } = useMutation({
     mutationFn: () => reviewApi.deleteReview(review.id),
     onSuccess: () => {
-      deleteReviewData({
+      deleteReviewDataQueryData({
         reviewId: review.id,
         bookId: review.book.id,
         authorId: review.book.authorBooks?.[0]?.author.id,
