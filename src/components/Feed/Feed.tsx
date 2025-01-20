@@ -10,6 +10,7 @@ import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { formatDate } from '@/utils/date';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { format } from 'date-fns';
 import { useState } from 'react';
 import { CommentButton } from '../CommentButton';
 import { LikeButton } from '../LikeButton';
@@ -76,6 +77,10 @@ function Feed({ review, user, book }: FeedProps) {
     toggleLike();
   };
 
+  const formattedPublicationDate = book.publicationDate
+    ? format(new Date(book.publicationDate), 'yyyy년 M월 d일')
+    : '';
+
   return (
     <>
       <div
@@ -117,7 +122,7 @@ function Feed({ review, user, book }: FeedProps) {
                   {book.authorBooks
                     .map(author => author.author.nameInKor)
                     .join(', ')}{' '}
-                  · {book.publisher} · {book.publicationDate?.split('-')[0]}
+                  · {book.publisher} · {formattedPublicationDate}
                 </p>
               </div>
             </div>

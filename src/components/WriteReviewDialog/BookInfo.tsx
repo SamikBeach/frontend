@@ -5,6 +5,7 @@ import { BookDetail } from '@/apis/book/types';
 import BookImage from '@/components/BookImage/BookImage';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
+import { format } from 'date-fns';
 import { Skeleton } from '../ui/skeleton';
 
 export function BookInfo({ bookId }: { bookId: number }) {
@@ -17,6 +18,10 @@ export function BookInfo({ bookId }: { bookId: number }) {
     queryFn: () => bookApi.getBookDetail(bookId),
     select: response => response.data,
   });
+
+  const formattedPublicationDate = book.publicationDate
+    ? format(new Date(book.publicationDate), 'yyyy년 M월 d일')
+    : '';
 
   return (
     <div className="flex items-center gap-2">
@@ -38,7 +43,7 @@ export function BookInfo({ bookId }: { bookId: number }) {
                 authorBook.author.nameInKor
             )
             .join(', ')}{' '}
-          · {book.publisher} · {book.publicationDate?.split('-')[0]}
+          · {book.publisher} · {formattedPublicationDate}
         </p>
       </div>
     </div>
