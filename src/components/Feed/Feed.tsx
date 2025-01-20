@@ -33,19 +33,19 @@ function Feed({ review, user, book }: FeedProps) {
 
   const currentUser = useCurrentUser();
   const queryClient = useQueryClient();
-  const { updateReviewLike } = useReviewQueryData();
+  const { updateReviewLikeQueryData } = useReviewQueryData();
   const isMyFeed = currentUser?.id === user.id;
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
     onMutate: () => {
-      updateReviewLike({
+      updateReviewLikeQueryData({
         reviewId: review.id,
         isOptimistic: true,
       });
     },
     onError: () => {
-      updateReviewLike({
+      updateReviewLikeQueryData({
         reviewId: review.id,
         isOptimistic: false,
         currentStatus: {
