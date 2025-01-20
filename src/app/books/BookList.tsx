@@ -125,7 +125,7 @@ export default function BookList() {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col gap-10 py-6">
+            <div className="flex flex-col gap-7 py-6">
               <div className="flex gap-6">
                 {[...Array(4)].map((_, i) => (
                   <BookGridItemSkeleton key={i} />
