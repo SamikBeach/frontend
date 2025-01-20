@@ -1,11 +1,11 @@
 import { Book } from '../book/types';
 import { BaseEntity, PaginationQuery } from '../common/types';
-import { User } from '../user/types';
+import { User, UserBase } from '../user/types';
 
 export interface Review extends BaseEntity {
   title: string;
   content: string;
-  user: User;
+  user: UserBase;
   book: Book;
   likeCount: number;
   commentCount: number;
