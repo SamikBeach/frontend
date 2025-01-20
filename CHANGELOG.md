@@ -1,5 +1,13 @@
 # 🚦 CHANGELOG
 
+## [1.44.1](https://github.com/SamikBeach/frontend/compare/1.44.0...1.44.1) (2025-01-20)
+
+
+### Bug Fixes
+
+* 전체 리뷰 목록 캐시 업데이트 수정 ([c554575](https://github.com/SamikBeach/frontend/commit/c5545759570e3249f3b82d57b2ebd3287447dd2f))
+* 책 이미지 fallback 추가 ([76c91d7](https://github.com/SamikBeach/frontend/commit/76c91d73a4b47f39f6968d1126a94010c4a0f98c))
+
 # [1.44.0](https://github.com/SamikBeach/frontend/compare/1.43.1...1.44.0) (2025-01-19)
 
 
