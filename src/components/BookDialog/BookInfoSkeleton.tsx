@@ -8,9 +8,10 @@ export default function BookInfoSkeleton() {
         <div className="flex w-full flex-col justify-between">
           <div className="flex flex-col gap-2">
             <Skeleton className="h-8 w-1/2" />
-            <Skeleton className="h-6 w-3/4" />
+            <Skeleton className="h-5 w-3/4" />
+            <Skeleton className="h-5 w-1/2" />
           </div>
-          <div className="flex w-full justify-between">
+          <div className="mt-auto flex w-full justify-between">
             <div className="flex gap-2">
               <Skeleton className="h-9 w-20" />
               <Skeleton className="h-9 w-20" />

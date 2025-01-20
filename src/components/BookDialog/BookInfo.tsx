@@ -87,7 +87,7 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
             </p>
           </div>
 
-          <div className="flex w-full justify-between">
+          <div className="mt-auto flex w-full justify-between">
             <div className="flex gap-2">
               <LikeButton
                 isLiked={book.isLiked ?? false}
@@ -102,8 +102,11 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
 
             <WriteReviewDialog bookId={book.id}>
               <WriteReviewDialog.Trigger asChild>
-                <Button variant="outline">
-                  <Edit3Icon className="mr-1" />
+                <Button
+                  variant="outline"
+                  className="gap-1.5 border-2 font-medium"
+                >
+                  <Edit3Icon className="h-4 w-4" />
                   리뷰 쓰기
                 </Button>
               </WriteReviewDialog.Trigger>
