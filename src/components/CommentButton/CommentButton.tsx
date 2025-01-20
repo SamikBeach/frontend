@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/common';
 import { MessageSquareIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 

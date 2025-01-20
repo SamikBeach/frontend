@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/tooltip';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useTextTruncated } from '@/hooks/useTextTruncated';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/common';
 import { useQuery } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useAtom } from 'jotai';

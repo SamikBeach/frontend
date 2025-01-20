@@ -10,3 +10,23 @@ export const formatDate = (date: string) => {
   }
   return format(targetDate, 'yyyy년 M월 d일');
 };
+
+export const formatAuthorDate = (date: string | null, isBc: boolean | null) => {
+  if (!date) return '';
+  const year = date.split('-')[0];
+  return isBc ? `BC ${year}` : year;
+};
+
+export const formatAuthorLifespan = (
+  bornDate: string | null,
+  bornDateIsBc: boolean | null,
+  diedDate: string | null,
+  diedDateIsBc: boolean | null
+) => {
+  const birth = formatAuthorDate(bornDate, bornDateIsBc);
+  const death = formatAuthorDate(diedDate, diedDateIsBc);
+
+  if (!birth && !death) return '';
+  if (!death) return `${birth}년 ~`;
+  return `${birth}년 - ${death}년`;
+};

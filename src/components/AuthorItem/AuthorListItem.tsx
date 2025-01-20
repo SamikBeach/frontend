@@ -4,6 +4,7 @@ import { Author } from '@/apis/author/types';
 import { authorSearchKeywordAtom } from '@/atoms/author';
 import AuthorImage from '@/components/AuthorImage/AuthorImage';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
+import { formatAuthorLifespan } from '@/utils/date';
 import { useAtomValue } from 'jotai';
 import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import Highlighter from 'react-highlight-words';
@@ -21,9 +22,16 @@ export default function AuthorListItem({ author }: Props) {
     open(author.id);
   };
 
+  const lifespan = formatAuthorLifespan(
+    author.bornDate,
+    author.bornDateIsBc,
+    author.diedDate,
+    author.diedDateIsBc
+  );
+
   return (
-    <div className="group relative rounded-xl bg-white p-2 transition-all hover:bg-gray-50/50">
-      <div className="flex gap-6">
+    <div className="relative rounded-xl bg-white p-2">
+      <div className="flex gap-5">
         <AuthorImage
           imageUrl={author.imageUrl}
           name={author.nameInKor}
@@ -49,7 +57,7 @@ export default function AuthorListItem({ author }: Props) {
               className="text-sm text-gray-500"
             />
 
-            <p className="text-sm text-gray-500">{author.bornDate}</p>
+            {lifespan && <p className="text-sm text-gray-500">{lifespan}</p>}
           </div>
           <div className="mt-auto flex items-center gap-1.5 text-gray-500">
             <div className="flex items-center gap-0.5">

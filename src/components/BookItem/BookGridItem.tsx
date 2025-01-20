@@ -4,7 +4,7 @@ import { Book } from '@/apis/book/types';
 import { bookSearchKeywordAtom } from '@/atoms/book';
 import BookImage from '@/components/BookImage/BookImage';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/common';
 import { useAtomValue } from 'jotai';
 import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import Highlighter from 'react-highlight-words';

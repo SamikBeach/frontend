@@ -1,5 +1,5 @@
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/common';
 import { ThumbsUpIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 
