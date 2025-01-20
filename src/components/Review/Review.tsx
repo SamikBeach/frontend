@@ -156,12 +156,36 @@ export default function Review({
 
   return (
     <>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-0.5">
         <div className="flex items-center gap-2">
-          <UserAvatar user={review.user} size="sm" />
-          <p className="text-xs text-gray-500">
-            {formatDate(review.createdAt)}
-          </p>
+          <div className="flex items-center gap-2">
+            <h3 className="text-xl font-medium">{review.title}</h3>
+            {showBookInfo && (
+              <Link
+                href={`/book/${review.book.id}`}
+                target="_blank"
+                className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100"
+              >
+                <BookImage
+                  imageUrl={review.book.imageUrl}
+                  title={review.book.title}
+                  width={20}
+                  height={28}
+                  className="rounded-sm shadow-sm"
+                />
+                <div className="flex flex-col">
+                  <span className="text-xs font-medium text-gray-900">
+                    {review.book.title}
+                  </span>
+                  <span className="text-[11px] text-gray-500">
+                    {review.book.authorBooks
+                      .map(authorBook => authorBook.author.nameInKor)
+                      .join(', ')}
+                  </span>
+                </div>
+              </Link>
+            )}
+          </div>
           {isMyReview && (
             <div className="ml-auto p-0.5">
               <ReviewActions
@@ -171,34 +195,11 @@ export default function Review({
             </div>
           )}
         </div>
-
         <div className="flex items-center gap-2">
-          <h3 className="text-lg font-medium">{review.title}</h3>
-          {showBookInfo && (
-            <Link
-              href={`/book/${review.book.id}`}
-              target="_blank"
-              className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100"
-            >
-              <BookImage
-                imageUrl={review.book.imageUrl}
-                title={review.book.title}
-                width={20}
-                height={28}
-                className="rounded-sm shadow-sm"
-              />
-              <div className="flex flex-col">
-                <span className="text-xs font-medium text-gray-900">
-                  {review.book.title}
-                </span>
-                <span className="text-[11px] text-gray-500">
-                  {review.book.authorBooks
-                    .map(authorBook => authorBook.author.nameInKor)
-                    .join(', ')}
-                </span>
-              </div>
-            </Link>
-          )}
+          <UserAvatar user={review.user} size="sm" />
+          <p className="text-xs text-gray-500">
+            {formatDate(review.createdAt)}
+          </p>
         </div>
 
         <div className="flex flex-col gap-1">
