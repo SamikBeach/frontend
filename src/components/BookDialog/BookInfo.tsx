@@ -64,7 +64,7 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
           imageUrl={book.imageUrl}
           title={book.title}
           width={140}
-          height={210}
+          height={196}
           className="flex-shrink-0 cursor-pointer rounded-lg"
         />
         <div className="flex w-full flex-col justify-between">
@@ -112,7 +112,7 @@ function BookInfoSkeleton() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
-        <Skeleton className="h-[210px] w-[140px] shrink-0 rounded-lg" />
+        <Skeleton className="h-[196px] w-[140px] shrink-0 rounded-lg" />
         <div className="flex w-full flex-col justify-between">
           <div className="flex flex-col gap-2">
             <Skeleton className="h-8 w-1/2" />
