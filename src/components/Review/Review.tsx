@@ -1,20 +1,14 @@
-import { AuthorDetail } from '@/apis/author/types';
-import { BookDetail } from '@/apis/book/types';
-import { PaginatedResponse } from '@/apis/common/types';
 import { reviewApi } from '@/apis/review/review';
 import { Review as ReviewType } from '@/apis/review/types';
+import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { formatDate } from '@/utils/date';
-import {
-  InfiniteData,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import BookImage from '../BookImage/BookImage';
 import CommentEditor from '../CommentEditor/CommentEditor';
 import { Button } from '../ui/button';
 import { toast } from '../ui/sonner';
@@ -46,11 +40,11 @@ export default function Review({
   const [replyToUser, setReplyToUser] = useState<{ nickname: string } | null>(
     null
   );
-  const bookDialog = useDialogQuery({ type: 'book' });
-  const reviewDialog = useDialogQuery({ type: 'review' });
   const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
   const isMyReview = review.user.id === currentUser?.id;
+  const { updateReviewLikeQueryData, deleteReviewDataQueryData } =
+    useReviewQueryData();
 
   useEffect(() => {
     if (!contentRef.current) return;
@@ -83,116 +77,25 @@ export default function Review({
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
     onMutate: () => {
-      // 리뷰 목록에서의 낙관적 업데이트 (책)
-      queryClient.setQueryData<
-        InfiniteData<AxiosResponse<PaginatedResponse<ReviewType>>>
-      >(['book-reviews', review.book.id], old => {
-        if (!old) return old;
-        return {
-          ...old,
-          pages: old.pages.map(page => ({
-            ...page,
-            data: {
-              ...page.data,
-              data: page.data.data.map((r: ReviewType) =>
-                r.id === review.id
-                  ? {
-                      ...r,
-                      isLiked: !r.isLiked,
-                      likeCount: r.likeCount + (r.isLiked ? -1 : 1),
-                    }
-                  : r
-              ),
-            },
-          })),
-        };
+      if (!currentUser) return;
+      updateReviewLikeQueryData({
+        reviewId: review.id,
+        bookId: review.book.id,
+        authorId: review.book.authorBooks?.[0]?.author.id,
+        isOptimistic: true,
       });
-
-      // 작가의 리뷰 목록에서의 낙관적 업데이트
-      if (review.book.authorBooks?.[0]?.author.id) {
-        queryClient.setQueryData<
-          InfiniteData<AxiosResponse<PaginatedResponse<ReviewType>>>
-        >(['author-reviews', review.book.authorBooks[0].author.id], old => {
-          if (!old) return old;
-          return {
-            ...old,
-            pages: old.pages.map(page => ({
-              ...page,
-              data: {
-                ...page.data,
-                data: page.data.data.map((r: ReviewType) =>
-                  r.id === review.id
-                    ? {
-                        ...r,
-                        isLiked: !r.isLiked,
-                        likeCount: r.likeCount + (r.isLiked ? -1 : 1),
-                      }
-                    : r
-                ),
-              },
-            })),
-          };
-        });
-      }
-
-      // 리뷰 상세에서의 낙관적 업데이트
-      queryClient.setQueryData<AxiosResponse<ReviewType>>(
-        ['review', review.id],
-        old => {
-          if (!old) return old;
-          return {
-            ...old,
-            data: {
-              ...old.data,
-              isLiked: !review.isLiked,
-              likeCount: review.likeCount + (review.isLiked ? -1 : 1),
-            },
-          };
-        }
-      );
     },
     onError: () => {
-      // 리뷰 목록에서의 롤백
-      queryClient.setQueryData<
-        InfiniteData<AxiosResponse<PaginatedResponse<ReviewType>>>
-      >(['reviews', review.book.id], old => {
-        if (!old) return old;
-        return {
-          ...old,
-          pages: old.pages.map(page => ({
-            ...page,
-            data: {
-              ...page.data,
-              data: page.data.data.map((r: ReviewType) =>
-                r.id === review.id
-                  ? {
-                      ...r,
-                      isLiked: review.isLiked,
-                      likeCount: review.likeCount,
-                    }
-                  : r
-              ),
-            },
-          })),
-        };
+      updateReviewLikeQueryData({
+        reviewId: review.id,
+        bookId: review.book.id,
+        authorId: review.book.authorBooks?.[0]?.author.id,
+        isOptimistic: false,
+        currentStatus: {
+          isLiked: review.isLiked ?? false,
+          likeCount: review.likeCount,
+        },
       });
-
-      // 리뷰 상세에서의 롤백
-      queryClient.setQueryData<AxiosResponse<ReviewType>>(
-        ['review', review.id],
-        old => {
-          if (!old) return old;
-          return {
-            ...old,
-            data: {
-              ...old.data,
-              isLiked: review.isLiked,
-              likeCount: review.likeCount,
-            },
-          };
-        }
-      );
-
       toast.error('좋아요 처리에 실패했습니다.');
     },
   });
@@ -239,76 +142,11 @@ export default function Review({
   const { mutate: deleteReview } = useMutation({
     mutationFn: () => reviewApi.deleteReview(review.id),
     onSuccess: () => {
-      // 책의 리뷰 목록 업데이트
-      queryClient.setQueryData<
-        InfiniteData<AxiosResponse<PaginatedResponse<ReviewType>>>
-      >(['book-reviews', review.book.id], old => {
-        if (!old) return old;
-        return {
-          ...old,
-          pages: old.pages.map(page => ({
-            ...page,
-            data: {
-              ...page.data,
-              data: page.data.data.filter(
-                (r: ReviewType) => r.id !== review.id
-              ),
-            },
-          })),
-        };
+      deleteReviewDataQueryData({
+        reviewId: review.id,
+        bookId: review.book.id,
+        authorId: review.book.authorBooks?.[0]?.author.id,
       });
-
-      // 작가의 리뷰 목록 업데이트
-      if (review.book.authorBooks?.[0]?.author.id) {
-        queryClient.setQueryData<
-          InfiniteData<AxiosResponse<PaginatedResponse<ReviewType>>>
-        >(['author-reviews', review.book.authorBooks[0].author.id], old => {
-          if (!old) return old;
-          return {
-            ...old,
-            pages: old.pages.map(page => ({
-              ...page,
-              data: {
-                ...page.data,
-                data: page.data.data.filter(
-                  (r: ReviewType) => r.id !== review.id
-                ),
-              },
-            })),
-          };
-        });
-
-        // 작가 상세 정보의 리뷰 카운트 업데이트
-        queryClient.setQueryData<AxiosResponse<AuthorDetail>>(
-          ['author', review.book.authorBooks[0].author.id],
-          old => {
-            if (!old) return old;
-            return {
-              ...old,
-              data: {
-                ...old.data,
-                reviewCount: (old.data.reviewCount ?? 0) - 1,
-              },
-            };
-          }
-        );
-      }
-
-      // 책 상세 정보의 리뷰 카운트 업데이트
-      queryClient.setQueryData<AxiosResponse<BookDetail>>(
-        ['book', review.book.id],
-        old => {
-          if (!old) return old;
-          return {
-            ...old,
-            data: {
-              ...old.data,
-              reviewCount: (old.data.reviewCount ?? 0) - 1,
-            },
-          };
-        }
-      );
-
       toast.success('리뷰가 삭제되었습니다.');
     },
     onError: () => {
@@ -318,12 +156,36 @@ export default function Review({
 
   return (
     <>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-0.5">
         <div className="flex items-center gap-2">
-          <UserAvatar user={review.user} />
-          <p className="text-sm text-gray-500">
-            {formatDate(review.createdAt)}
-          </p>
+          <div className="flex items-center gap-2">
+            <h3 className="text-xl font-medium">{review.title}</h3>
+            {showBookInfo && (
+              <Link
+                href={`/book/${review.book.id}`}
+                target="_blank"
+                className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100"
+              >
+                <BookImage
+                  imageUrl={review.book.imageUrl}
+                  title={review.book.title}
+                  width={20}
+                  height={28}
+                  className="rounded-sm shadow-sm"
+                />
+                <div className="flex flex-col">
+                  <span className="text-xs font-medium text-gray-900">
+                    {review.book.title}
+                  </span>
+                  <span className="text-[11px] text-gray-500">
+                    {review.book.authorBooks
+                      .map(authorBook => authorBook.author.nameInKor)
+                      .join(', ')}
+                  </span>
+                </div>
+              </Link>
+            )}
+          </div>
           {isMyReview && (
             <div className="ml-auto p-0.5">
               <ReviewActions
@@ -333,22 +195,11 @@ export default function Review({
             </div>
           )}
         </div>
-
         <div className="flex items-center gap-2">
-          <h3
-            onClick={() => reviewDialog.open(review.id)}
-            className="cursor-pointer text-lg font-medium hover:underline"
-          >
-            {review.title}
-          </h3>
-          {showBookInfo && (
-            <span
-              onClick={() => bookDialog.open(review.book.id)}
-              className="cursor-pointer text-sm font-medium hover:underline"
-            >
-              {review.book.title}
-            </span>
-          )}
+          <UserAvatar user={review.user} size="sm" />
+          <p className="text-xs text-gray-500">
+            {formatDate(review.createdAt)}
+          </p>
         </div>
 
         <div className="flex flex-col gap-1">

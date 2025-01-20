@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/tooltip';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useTextTruncated } from '@/hooks/useTextTruncated';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/common';
 import { useQuery } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useAtom } from 'jotai';
@@ -74,7 +74,6 @@ export default function AuthorCombobox() {
     const newAuthorId = isDeselecting ? undefined : currentValue;
     setSelectedAuthorId(newAuthorId);
     updateQueryParams({ authorId: newAuthorId });
-    setOpen(false);
   };
 
   const handleClear = (e: React.MouseEvent) => {
@@ -84,7 +83,15 @@ export default function AuthorCombobox() {
   };
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover
+      open={open}
+      onOpenChange={isOpen => {
+        if (!isOpen) {
+          setSearch('');
+        }
+        setOpen(isOpen);
+      }}
+    >
       <TooltipProvider delayDuration={100}>
         <Tooltip>
           <TooltipTrigger asChild>

@@ -58,7 +58,7 @@ function FeedList() {
       </TabsList>
       <TabsContent value="popular" className="focus-visible:ring-0">
         {isLoading ? (
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col">
             {Array(3)
               .fill(0)
               .map((_, i) => (
@@ -88,7 +88,7 @@ function FeedList() {
       </TabsContent>
       <TabsContent value="recent" className="focus-visible:ring-0">
         {isLoading ? (
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col">
             {Array(3)
               .fill(0)
               .map((_, i) => (

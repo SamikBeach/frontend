@@ -2,6 +2,8 @@
 
 import { bookApi } from '@/apis/book/book';
 import { Book } from '@/apis/book/types';
+import BookGridItem from '@/components/BookItem/BookGridItem';
+import BookGridItemSkeleton from '@/components/BookItem/BookGridItemSkeleton';
 import {
   Carousel,
   CarouselContent,
@@ -9,7 +11,6 @@ import {
   CarouselNext,
 } from '@/components/ui/carousel';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Suspense } from 'react';
 
@@ -31,7 +32,7 @@ function RelativeBooksContent({ bookId }: Props) {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center gap-2">
-        <p className="text-lg font-semibold">이 책의 다른 번역서</p>
+        <p className="text-base font-semibold">이 책의 다른 번역서</p>
         <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
           {books.length}
         </span>
@@ -48,7 +49,12 @@ function RelativeBooksContent({ bookId }: Props) {
           <CarouselContent className="w-[840px] gap-4">
             {books.map((book: Book) => (
               <CarouselItem key={book.id} className="basis-[110px]">
-                <BookItem book={book} />
+                <BookGridItem
+                  book={book}
+                  size="xsmall"
+                  showPublisher={true}
+                  showPublicationDate={true}
+                />
               </CarouselItem>
             ))}
           </CarouselContent>
@@ -59,41 +65,13 @@ function RelativeBooksContent({ bookId }: Props) {
   );
 }
 
-interface BookItemProps {
-  book: Book;
-}
-
-function BookItem({ book }: BookItemProps) {
-  const { open } = useDialogQuery({ type: 'book' });
-
-  return (
-    <>
-      <div
-        onClick={() => open(book.id)}
-        className="group relative h-[160px] w-[110px] flex-shrink-0 cursor-pointer overflow-hidden rounded-lg bg-gray-200"
-      >
-        <img
-          src={book.imageUrl ?? 'https://picsum.photos/110/160'}
-          alt={book.title}
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-          width={110}
-          height={160}
-        />
-      </div>
-    </>
-  );
-}
-
 function RelativeBooksSkeleton() {
   return (
     <div className="flex flex-col gap-3">
       <Skeleton className="h-7 w-32" />
       <div className="flex gap-4">
         {Array.from({ length: 6 }).map((_, i) => (
-          <Skeleton
-            key={i}
-            className="h-[160px] w-[110px] flex-shrink-0 rounded-lg"
-          />
+          <BookGridItemSkeleton key={i} size="xsmall" />
         ))}
       </div>
     </div>

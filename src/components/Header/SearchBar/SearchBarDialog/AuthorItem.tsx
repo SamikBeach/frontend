@@ -1,5 +1,5 @@
 import { Author } from '@/apis/author/types';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import AuthorImage from '@/components/AuthorImage/AuthorImage';
 import { CommandItem } from '@/components/ui/command';
 import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -37,14 +37,14 @@ export default function AuthorItem({
       onSelect={handleClick}
       className="group relative cursor-pointer data-[highlighted]:bg-gray-50"
     >
-      <Avatar className="h-16 w-16 shrink-0">
-        <AvatarImage
-          src={author.imageUrl ?? undefined}
-          alt={author.nameInKor}
-          className="object-cover"
-        />
-        <AvatarFallback>{author.nameInKor[0]}</AvatarFallback>
-      </Avatar>
+      <AuthorImage
+        imageUrl={author.imageUrl}
+        name={author.nameInKor}
+        width={64}
+        height={64}
+        className="shrink-0 rounded-full"
+        hover={false}
+      />
       <div className="flex flex-1 flex-col gap-1 py-1 pl-2">
         <div className="flex flex-col gap-1">
           <h4 className="text-sm font-medium">

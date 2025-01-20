@@ -12,7 +12,7 @@ export default function BookPage() {
   const bookId = Number(id);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-10">
       <BookInfo bookId={bookId} reviewListRef={reviewListRef} />
       <RelativeBooks bookId={bookId} />
       <ReviewList

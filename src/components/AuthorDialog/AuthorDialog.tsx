@@ -3,8 +3,9 @@
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogProps } from '@radix-ui/react-dialog';
-import { ExternalLinkIcon } from 'lucide-react';
+import { ArrowLeftIcon, ExternalLinkIcon } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 import { Button } from '../ui/button';
 import AuthorInfo from './AuthorInfo';
@@ -16,6 +17,11 @@ interface Props extends DialogProps {}
 export default function AuthorDialog(props: Props) {
   const { isOpen, id: authorId, close } = useDialogQuery({ type: 'author' });
   const reviewListRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  const handleBack = () => {
+    router.back();
+  };
 
   if (!authorId) {
     return null;
@@ -31,15 +37,28 @@ export default function AuthorDialog(props: Props) {
         id="dialog-content"
       >
         <DialogTitle className="sr-only">작가 정보</DialogTitle>
-        <div className="absolute right-10 top-10 z-10">
-          <Link href={`/author/${authorId}`}>
-            <Button variant="outline" size="sm">
-              <ExternalLinkIcon className="mr-1 h-4 w-4" />
-              페이지로 보기
+        <div className="absolute right-10 top-3 z-10 flex">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 gap-1 p-2 text-gray-500 hover:text-gray-900"
+            onClick={handleBack}
+          >
+            <ArrowLeftIcon className="h-3.5 w-3.5" />
+            뒤로가기
+          </Button>
+          <Link href={`/author/${authorId}`} target="_blank">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-7 gap-1 p-2 text-gray-500 hover:text-gray-900"
+            >
+              <ExternalLinkIcon className="h-3.5 w-3.5" />
+              페이지로 열기
             </Button>
           </Link>
         </div>
-        <div className="flex flex-col gap-7">
+        <div className="flex flex-col gap-10">
           <AuthorInfo authorId={authorId} reviewListRef={reviewListRef} />
           <RelativeAuthors authorId={authorId} />
           <ReviewList

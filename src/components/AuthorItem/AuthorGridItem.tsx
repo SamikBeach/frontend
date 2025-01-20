@@ -1,9 +1,13 @@
 'use client';
 
 import { Author } from '@/apis/author/types';
+import { authorSearchKeywordAtom } from '@/atoms/author';
+import AuthorImage from '@/components/AuthorImage/AuthorImage';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/common';
+import { useAtomValue } from 'jotai';
 import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import Highlighter from 'react-highlight-words';
 
 interface Props {
   author: Author;
@@ -12,6 +16,8 @@ interface Props {
 
 export default function AuthorGridItem({ author, size = 'medium' }: Props) {
   const { open } = useDialogQuery({ type: 'author' });
+  const searchValue = useAtomValue(authorSearchKeywordAtom);
+  const searchWords = searchValue ? [searchValue] : [];
 
   const handleClick = () => {
     open(author.id);
@@ -24,25 +30,21 @@ export default function AuthorGridItem({ author, size = 'medium' }: Props) {
         'w-[160px]': size === 'small',
       })}
     >
-      <div
-        className={cn(
-          'group relative cursor-pointer overflow-hidden rounded-full bg-gray-100',
-          {
-            'h-[280px]': size === 'medium',
-            'h-[160px]': size === 'small',
-          }
-        )}
+      <AuthorImage
+        imageUrl={author.imageUrl}
+        name={author.nameInKor}
+        width={size === 'medium' ? 280 : 160}
+        height={size === 'medium' ? 280 : 160}
+        className={cn('cursor-pointer rounded-full bg-gray-100')}
         onClick={handleClick}
-      >
-        <img
-          src={author.imageUrl ?? undefined}
-          alt={author.nameInKor}
-          className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
-        />
-      </div>
+        priority={size === 'medium'}
+      />
       <div className="flex flex-col gap-1.5">
         <div className="flex flex-col gap-0.5">
-          <h3
+          <Highlighter
+            searchWords={searchWords}
+            textToHighlight={author.nameInKor}
+            highlightClassName="text-blue-500 bg-transparent font-bold"
             className={cn(
               'line-clamp-2 cursor-pointer font-semibold text-gray-900 hover:underline',
               {
@@ -51,17 +53,16 @@ export default function AuthorGridItem({ author, size = 'medium' }: Props) {
               }
             )}
             onClick={handleClick}
-          >
-            {author.nameInKor}
-          </h3>
-          <p
+          />
+          <Highlighter
+            searchWords={searchWords}
+            textToHighlight={author.name}
+            highlightClassName="text-blue-500 bg-transparent font-bold"
             className={cn('line-clamp-1 text-gray-500', {
               'text-sm': size === 'medium',
               'text-xs': size === 'small',
             })}
-          >
-            {author.name}
-          </p>
+          />
           <div className="flex items-center gap-1.5 text-gray-500">
             <div className="flex items-center gap-0.5">
               <ThumbsUpIcon

@@ -7,7 +7,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useTextTruncated } from '@/hooks/useTextTruncated';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/common';
 import { Check } from 'lucide-react';
 import { ComponentPropsWithoutRef } from 'react';
 

@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/common';
 import { Loader2 } from 'lucide-react';
 
 interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {

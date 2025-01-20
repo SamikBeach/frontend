@@ -31,13 +31,13 @@ export default function BookGridView({
         {books.length > 0 && (
           <div className="flex min-w-max gap-6 overflow-auto pb-2">
             {books.slice(0, 4).map(book => (
-              <BookGridItem key={book.id} book={book} />
+              <BookGridItem key={book.id} book={book} showAuthor />
             ))}
           </div>
         )}
         <div className="flex flex-wrap gap-6 py-2">
           {books.slice(4).map(book => (
-            <BookGridItem key={book.id} book={book} size="small" />
+            <BookGridItem key={book.id} book={book} size="small" showAuthor />
           ))}
         </div>
       </div>

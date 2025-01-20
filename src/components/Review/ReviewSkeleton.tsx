@@ -6,13 +6,13 @@ export function ReviewSkeleton() {
   return (
     <div className="flex flex-col gap-1">
       <div className="flex items-center gap-2">
-        <Skeleton className="h-10 w-10 rounded-full" />
-        <div className="flex w-full flex-col gap-1">
-          <div className="flex items-center gap-2">
-            <Skeleton className="h-4 w-20" />
-            <Skeleton className="h-4 w-16" />
-          </div>
+        <div className="flex items-center gap-2">
+          <Skeleton className="h-6 w-32" />
         </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <Skeleton className="h-8 w-8 rounded-full" />
+        <Skeleton className="h-3 w-20" />
       </div>
 
       <div className="flex flex-col gap-1">
@@ -21,13 +21,15 @@ export function ReviewSkeleton() {
         </div>
       </div>
       <div className="flex justify-between">
-        <div className="flex items-center gap-2">
-          <Skeleton className="h-4 w-12" />
-          <Skeleton className="h-4 w-12" />
-        </div>
-        <div className="flex items-center gap-2">
-          <Skeleton className="h-4 w-8" />
-          <Skeleton className="h-4 w-8" />
+        <div className="flex items-center gap-0.5 text-gray-500">
+          <div className="flex items-center gap-0.5">
+            <Skeleton className="h-5 w-5" />
+            <Skeleton className="h-3 w-4" />
+          </div>
+          <div className="flex items-center gap-0.5">
+            <Skeleton className="h-5 w-5" />
+            <Skeleton className="h-3 w-4" />
+          </div>
         </div>
       </div>
     </div>
@@ -36,7 +38,7 @@ export function ReviewSkeleton() {
 
 export function ReviewListSkeleton() {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       <div className="flex items-center gap-2">
         <Skeleton className="h-6 w-12" />
         <Skeleton className="h-6 w-8 rounded-full" />

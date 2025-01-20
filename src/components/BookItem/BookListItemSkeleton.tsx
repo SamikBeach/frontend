@@ -2,7 +2,7 @@ import { Skeleton } from '../ui/skeleton';
 
 export default function BookListItemSkeleton() {
   return (
-    <div className="flex gap-6">
+    <div className="flex gap-6 p-3">
       <Skeleton className="h-[160px] w-[114px] rounded-lg" />
       <div className="flex flex-1 flex-col justify-between py-1">
         <div className="flex flex-col gap-1">

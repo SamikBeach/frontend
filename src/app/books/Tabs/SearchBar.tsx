@@ -52,7 +52,7 @@ export function SearchBar() {
       <SearchIcon className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
       <Input
         type="text"
-        placeholder="책 제목 검색"
+        placeholder="제목, 저자 검색..."
         value={inputValue}
         onChange={handleChange}
         className="w-[300px] pl-8"

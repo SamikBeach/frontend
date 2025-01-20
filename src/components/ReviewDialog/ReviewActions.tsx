@@ -19,7 +19,11 @@ export default function ReviewActions({ onEdit, onDelete }: Props) {
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0" aria-label="더보기">
+        <Button
+          variant="ghost"
+          className="h-8 w-8 min-w-[32px] p-0"
+          aria-label="더보기"
+        >
           <MoreHorizontal className="h-4 w-4 text-gray-500" />
         </Button>
       </DropdownMenuTrigger>

@@ -1,24 +1,19 @@
 'use client';
 
 import { bookApi } from '@/apis/book/book';
-import { BookDetail } from '@/apis/book/types';
-import { PaginatedResponse } from '@/apis/common/types';
+import BookImage from '@/components/BookImage/BookImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
 import { WriteReviewDialog } from '@/components/WriteReviewDialog';
+import { useBookQueryData } from '@/hooks/queries/useBookQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { DialogTitle } from '@radix-ui/react-dialog';
-import {
-  InfiniteData,
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { format } from 'date-fns';
 import { Edit3Icon } from 'lucide-react';
 import { RefObject, Suspense } from 'react';
+import BookInfoSkeleton from './BookInfoSkeleton';
 
 interface Props {
   bookId: number;
@@ -27,7 +22,9 @@ interface Props {
 
 function BookInfoContent({ bookId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
-  const queryClient = useQueryClient();
+
+  const { updateBookLikeQueryData } = useBookQueryData();
+
   const { data: book } = useSuspenseQuery({
     queryKey: ['book', bookId],
     queryFn: () => bookApi.getBookDetail(bookId),
@@ -37,104 +34,17 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => bookApi.toggleBookLike(book.id),
     onMutate: () => {
-      // 책 목록 쿼리 데이터 업데이트
-      queryClient.setQueriesData<
-        InfiniteData<AxiosResponse<PaginatedResponse<BookDetail>>>
-      >(
-        {
-          queryKey: ['books'],
-          exact: false,
-        },
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            pages: oldData.pages.map(page => ({
-              ...page,
-              data: {
-                ...page.data,
-                data: page.data.data.map((item: BookDetail) =>
-                  item.id === book.id
-                    ? {
-                        ...item,
-                        isLiked: !item.isLiked,
-                        likeCount: item.isLiked
-                          ? item.likeCount - 1
-                          : item.likeCount + 1,
-                      }
-                    : item
-                ),
-              },
-            })),
-          };
-        }
-      );
-
-      // 단일 책 쿼리 데이터 업데이트
-      queryClient.setQueryData<AxiosResponse<BookDetail>>(
-        ['book', book.id],
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            data: {
-              ...oldData.data,
-              isLiked: !oldData.data.isLiked,
-              likeCount: oldData.data.isLiked
-                ? oldData.data.likeCount - 1
-                : oldData.data.likeCount + 1,
-            },
-          };
-        }
-      );
+      updateBookLikeQueryData({ bookId: book.id, isOptimistic: true });
     },
     onError: () => {
-      // 책 목록 쿼리 데이터 원상 복구
-      queryClient.setQueriesData<
-        InfiniteData<AxiosResponse<PaginatedResponse<BookDetail>>>
-      >(
-        {
-          queryKey: ['books'],
-          exact: false,
+      updateBookLikeQueryData({
+        bookId: book.id,
+        isOptimistic: false,
+        currentStatus: {
+          isLiked: book.isLiked,
+          likeCount: book.likeCount,
         },
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            pages: oldData.pages.map(page => ({
-              ...page,
-              data: {
-                ...page.data,
-                data: page.data.data.map((item: BookDetail) =>
-                  item.id === book.id
-                    ? {
-                        ...item,
-                        isLiked: book.isLiked,
-                        likeCount: book.likeCount,
-                      }
-                    : item
-                ),
-              },
-            })),
-          };
-        }
-      );
-
-      // 단일 책 쿼리 데이터 원상 복구
-      queryClient.setQueryData<AxiosResponse<BookDetail>>(
-        ['book', book.id],
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            data: {
-              ...oldData.data,
-              isLiked: book.isLiked,
-              likeCount: book.likeCount,
-            },
-          };
-        }
-      );
+      });
     },
   });
 
@@ -148,18 +58,20 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
     reviewListRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const formattedPublicationDate = book.publicationDate
+    ? format(new Date(book.publicationDate), 'yyyy년 M월 d일')
+    : '';
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
-        <div className="group relative h-[210px] w-[140px] flex-shrink-0 cursor-pointer overflow-hidden rounded-lg bg-gray-200">
-          <img
-            src={book.imageUrl ?? 'https://picsum.photos/140/210'}
-            alt={book.title}
-            className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-            width={140}
-            height={210}
-          />
-        </div>
+        <BookImage
+          imageUrl={book.imageUrl}
+          title={book.title}
+          width={140}
+          height={200}
+          className="flex-shrink-0 cursor-pointer rounded-lg"
+        />
         <div className="flex w-full flex-col justify-between">
           <div className="flex flex-col gap-0.5">
             <DialogTitle className="text-2xl font-bold">
@@ -169,11 +81,13 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
               {book.authorBooks
                 .map(authorBook => authorBook.author.nameInKor)
                 .join(', ')}{' '}
-              · {book.publisher} · {book.publicationDate?.split('-')[0]}
+            </p>
+            <p className="text-gray-500">
+              {book.publisher} · {formattedPublicationDate}
             </p>
           </div>
 
-          <div className="flex w-full justify-between">
+          <div className="mt-auto flex w-full justify-between">
             <div className="flex gap-2">
               <LikeButton
                 isLiked={book.isLiked ?? false}
@@ -188,35 +102,15 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
 
             <WriteReviewDialog bookId={book.id}>
               <WriteReviewDialog.Trigger asChild>
-                <Button variant="outline">
-                  <Edit3Icon className="mr-1" />
+                <Button
+                  variant="outline"
+                  className="gap-1.5 border-2 font-medium"
+                >
+                  <Edit3Icon className="h-4 w-4" />
                   리뷰 쓰기
                 </Button>
               </WriteReviewDialog.Trigger>
             </WriteReviewDialog>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function BookInfoSkeleton() {
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="flex gap-4">
-        <Skeleton className="h-[210px] w-[140px] shrink-0 rounded-lg" />
-        <div className="flex w-full flex-col justify-between">
-          <div className="flex flex-col gap-2">
-            <Skeleton className="h-8 w-1/2" />
-            <Skeleton className="h-6 w-3/4" />
-          </div>
-          <div className="flex w-full justify-between">
-            <div className="flex gap-2">
-              <Skeleton className="h-9 w-20" />
-              <Skeleton className="h-9 w-20" />
-            </div>
-            <Skeleton className="h-9 w-24" />
           </div>
         </div>
       </div>

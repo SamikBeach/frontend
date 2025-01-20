@@ -1,17 +1,13 @@
 'use client';
 
 import { authorApi } from '@/apis/author/author';
-import { AuthorDetail } from '@/apis/author/types';
+import AuthorImage from '@/components/AuthorImage/AuthorImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useAuthorQueryData } from '@/hooks/queries/useAuthorQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { RefObject, Suspense } from 'react';
 
 interface Props {
@@ -21,7 +17,7 @@ interface Props {
 
 function AuthorInfoContent({ authorId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
-  const queryClient = useQueryClient();
+  const { updateAuthorLikeQueryData } = useAuthorQueryData();
   const { data: author } = useSuspenseQuery({
     queryKey: ['author', authorId],
     queryFn: () => authorApi.getAuthorDetail(authorId),
@@ -31,38 +27,17 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => authorApi.toggleAuthorLike(author.id),
     onMutate: () => {
-      queryClient.setQueryData<AxiosResponse<AuthorDetail>>(
-        ['author', author.id],
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            data: {
-              ...oldData.data,
-              isLiked: !oldData.data.isLiked,
-              likeCount: oldData.data.isLiked
-                ? oldData.data.likeCount - 1
-                : oldData.data.likeCount + 1,
-            },
-          };
-        }
-      );
+      updateAuthorLikeQueryData({ authorId: author.id, isOptimistic: true });
     },
     onError: () => {
-      queryClient.setQueryData<AxiosResponse<AuthorDetail>>(
-        ['author', author.id],
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            data: {
-              ...oldData.data,
-              isLiked: author.isLiked,
-              likeCount: author.likeCount,
-            },
-          };
-        }
-      );
+      updateAuthorLikeQueryData({
+        authorId: author.id,
+        isOptimistic: false,
+        currentStatus: {
+          isLiked: author.isLiked,
+          likeCount: author.likeCount,
+        },
+      });
     },
   });
 
@@ -79,15 +54,13 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-6">
-        <div className="group relative h-[200px] w-[200px] flex-shrink-0 cursor-pointer overflow-hidden rounded-full bg-gray-200">
-          <img
-            src={author.imageUrl ?? 'https://picsum.photos/200/200'}
-            alt={author.nameInKor}
-            className="absolute inset-0 h-full w-full object-cover"
-            width={200}
-            height={200}
-          />
-        </div>
+        <AuthorImage
+          imageUrl={author.imageUrl}
+          name={author.nameInKor}
+          width={200}
+          height={200}
+          className="rounded-full"
+        />
         <div className="flex w-full flex-col justify-between gap-4">
           <div className="flex flex-col gap-0.5">
             <h1 className="text-2xl font-bold">{author.nameInKor}</h1>
@@ -115,7 +88,7 @@ function AuthorInfoSkeleton() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-6">
-        <Skeleton className="h-[200px] w-[200px] rounded-full" />
+        <Skeleton className="h-[200px] min-h-[200px] w-[200px] min-w-[200px] shrink-0 rounded-full" />
         <div className="flex w-full flex-col justify-between gap-4">
           <div className="flex flex-col gap-2">
             <Skeleton className="h-8 w-1/2" />

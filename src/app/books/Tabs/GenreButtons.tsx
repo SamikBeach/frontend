@@ -12,12 +12,17 @@ export function GenreButtons() {
   const [genre, setGenre] = useAtom(bookGenreAtom);
 
   const handleGenreChange = (newGenre: Genre) => {
+    if (newGenre === 'science' || newGenre === 'economics') {
+      alert('준비 중이에요.');
+      return;
+    }
+
     setGenre(newGenre);
     updateQueryParams({ genre: newGenre });
   };
 
   return (
-    <div className="mr-4 flex gap-3">
+    <div className="mr-4 flex gap-2">
       {(Object.entries(GENRE_LABELS) as [Genre, string][]).map(
         ([value, label]) => (
           <Button

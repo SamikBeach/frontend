@@ -1,6 +1,5 @@
 import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
-
+import { cn } from '@/utils';
 interface Props {
   size?: 'medium' | 'small';
 }
@@ -14,9 +13,9 @@ export default function AuthorGridItemSkeleton({ size = 'medium' }: Props) {
       })}
     >
       <Skeleton
-        className={cn('rounded-full', {
-          'h-[280px]': size === 'medium',
-          'h-[160px]': size === 'small',
+        className={cn('aspect-square rounded-full', {
+          'h-[280px] w-[280px]': size === 'medium',
+          'h-[160px] w-[160px]': size === 'small',
         })}
       />
       <div className="flex flex-col gap-1.5">

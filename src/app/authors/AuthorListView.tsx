@@ -27,7 +27,7 @@ export default function AuthorListView({
         </div>
       }
     >
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col">
         {authors.map(author => (
           <AuthorListItem key={author.id} author={author} />
         ))}
