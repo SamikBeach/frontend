@@ -1,5 +1,55 @@
 # 🚦 CHANGELOG
 
+# [1.45.0](https://github.com/SamikBeach/frontend/compare/1.44.2...1.45.0) (2025-01-20)
+
+
+### Bug Fixes
+
+* AuthorInfo 스타일 수정 ([b633186](https://github.com/SamikBeach/frontend/commit/b633186f0e72fb7b0e4906c7bd9d9b39a9386c95))
+* AuthorListItem 스켈레톤 수정 ([09b50be](https://github.com/SamikBeach/frontend/commit/09b50be9dddc9607dd79752394430290ede43058))
+* BookGridItem 스타일 수정 ([57c4245](https://github.com/SamikBeach/frontend/commit/57c4245c96ddeda239c25554019cd7d65f711773))
+* BookInfo 스타일 수정 ([8ab6b25](https://github.com/SamikBeach/frontend/commit/8ab6b25ba0ab0b952c51492d1e205d4f554dc141))
+* BookInfo 책 크기 수정 ([a46b0ca](https://github.com/SamikBeach/frontend/commit/a46b0ca75043cad67e4722fdcd4866d12e58c0cb))
+* BookListItem 스타일 수정 ([a25c624](https://github.com/SamikBeach/frontend/commit/a25c62461076a00f76fd008751dc0fce7ec79e39))
+* BookListItem 스타일 수정 ([b080ba9](https://github.com/SamikBeach/frontend/commit/b080ba9566a65c20d480007ed891b5e2f58935e1))
+* fix lint ([d06fbfd](https://github.com/SamikBeach/frontend/commit/d06fbfd94b79159f4415867d40bcd43de1453fd1))
+* LikeButton 크기 조정 버그 수정 ([c17182a](https://github.com/SamikBeach/frontend/commit/c17182a39d8d8b199c31f72ed18e063218b12795))
+* Review 스타일 수정 ([49574d6](https://github.com/SamikBeach/frontend/commit/49574d64dc6ecad8bbfe89c17374761939d7b54f))
+* Review, ReviewSkeleton 스타일 수정 ([e130f6c](https://github.com/SamikBeach/frontend/commit/e130f6c7b14d5f8bbffc04271bea841be9ba8416))
+* ReviewList 스타일 수정 ([6f82526](https://github.com/SamikBeach/frontend/commit/6f82526691e71eb97306b8b0fe122c279597b272))
+* ReviewList 스타일 수정 ([a6f6228](https://github.com/SamikBeach/frontend/commit/a6f622837c39a6ec7b79b9a093b3181039b578c9))
+* 데이트 포매팅 수정 ([79e0cb5](https://github.com/SamikBeach/frontend/commit/79e0cb5974219be0384734f23007292f96dff4d1))
+* 스켈레톤 스타일 수정 ([d9b9539](https://github.com/SamikBeach/frontend/commit/d9b95394684e326a03dd66755f77d3f89871fcaf))
+* 스타일 디테일 수정 ([821018a](https://github.com/SamikBeach/frontend/commit/821018a54e96bbf05cb30df7c5168fb370775131))
+* 스타일 디테일 수정 ([a71b703](https://github.com/SamikBeach/frontend/commit/a71b7031209718e073a7f74f68644a949b56cfb5))
+* 스타일 수정 ([0f6ba81](https://github.com/SamikBeach/frontend/commit/0f6ba815dfa2baf8eee332e66735eb3c8578cfe8))
+* 장르 중비중 alert 추가 ([2bd13a7](https://github.com/SamikBeach/frontend/commit/2bd13a737ccf1a70e7d4056fb0916f3eb0f23184))
+* 페이지로 보기 버튼 스타일 수정 ([4e15026](https://github.com/SamikBeach/frontend/commit/4e15026b699cca8e02358b3e49445ed554dfbc30))
+
+
+### Features
+
+* Author 타입 업데이트 ([468b90f](https://github.com/SamikBeach/frontend/commit/468b90fa7ce496a24c219aa6593597ff652d0fa7))
+* AuthorInfo 컴포넌트들의 이미지를 AuthorImage 컴포넌트로 교체 ([0b685f8](https://github.com/SamikBeach/frontend/commit/0b685f824549fe2c3c42e3605755200e93d05d8f))
+* AuthorListItem 스타일 수정 ([0a08b2b](https://github.com/SamikBeach/frontend/commit/0a08b2b110010bd0824ae61209f91ec3fca577d7))
+* book page와 author page의 RelativeBooks 컴포넌트에 BookGridItem 적용 ([54697e5](https://github.com/SamikBeach/frontend/commit/54697e516ad573c8d847220d1f7d20a9abca2fbb))
+* BookGridItem에 xsmall 사이즈 추가 및 RelativeBooks 컴포넌트 리팩토링 ([f4eb094](https://github.com/SamikBeach/frontend/commit/f4eb094f2f1f6fb05fd4c6855f1e73a142353931))
+* BookGridItem에 출판사와 출판년도 정보 추가 ([f64f579](https://github.com/SamikBeach/frontend/commit/f64f579587a85870b62a531b60546d5ae61f9144))
+* RelativeBooks에 BookGridItem 사용하도록 ([4c45539](https://github.com/SamikBeach/frontend/commit/4c4553908acb099fc64847a0178be499d21fd666))
+* ReviewInfo 컴포넌트 구조 개선 ([58610f7](https://github.com/SamikBeach/frontend/commit/58610f7c7ea4d7302c2c3a8a97f76e41f72a5f21))
+* **utils:** 날짜 포맷팅 유틸리티 함수 추가 및 구조 개선 ([6e44343](https://github.com/SamikBeach/frontend/commit/6e443432a5f90ebddad6982eea1c056833fcdf8b))
+* 검색 결과의 작가 아이템에 AuthorImage 컴포넌트 적용 ([7eb72c9](https://github.com/SamikBeach/frontend/commit/7eb72c9da600c696aae88e57802b0a2d2428f74a))
+* 검색어 하이라이팅 ([13a2ea8](https://github.com/SamikBeach/frontend/commit/13a2ea837e97fe424474f67a0d28f0d19c176e0a))
+* 다이얼로그에 뒤로가기 버튼 추가 ([7282a6d](https://github.com/SamikBeach/frontend/commit/7282a6d1b673f28d2802526c60a3d34b202db235))
+* 리뷰 작성/수정 시 캐시 업데이트 로직 개선 ([3e66fc9](https://github.com/SamikBeach/frontend/commit/3e66fc9111217570481aedaf1401583476373c50))
+* 리뷰 좋아요 토글 시 author-reviews 쿼리도 함께 업데이트되도록 수정 ([debe496](https://github.com/SamikBeach/frontend/commit/debe4965da4c79634f76bce3c43b22b579629d86))
+* 리뷰 좋아요 토글 시 book-reviews 쿼리 업데이트 로직 추가 ([67360d7](https://github.com/SamikBeach/frontend/commit/67360d71dac6f4568ec235385b138fd3dc98d73c))
+* 모든 책 이미지 컴포넌트를 BookImage로 교체 ([bcde67a](https://github.com/SamikBeach/frontend/commit/bcde67a8c63e5a45182a51b0eca98dbcc36d9fae))
+* 작가 선택 시에도 검색어가 초기화되도록 수정 ([fd4b34d](https://github.com/SamikBeach/frontend/commit/fd4b34dab7b1d87595e5050e1fefb1183dfbe6f9))
+* 책 상세 다이얼로그 페이지로 보기 버튼 디자인 개선 ([26a0f96](https://github.com/SamikBeach/frontend/commit/26a0f96b2e046d08d01b691195627870017c5335))
+* 책 상세 페이지 리뷰 버튼 디자인 간소화 ([fa2e995](https://github.com/SamikBeach/frontend/commit/fa2e99506733cad90aefa079ed2d611b1f9b5f3f))
+* 책과 작가 페이지의 보기 모드를 localStorage로 관리하도록 수정 ([2e376d2](https://github.com/SamikBeach/frontend/commit/2e376d22e09d345a8e3ba4eaa8b3540343ae82ee))
+
 ## [1.44.2](https://github.com/SamikBeach/frontend/compare/1.44.1...1.44.2) (2025-01-20)
 
 ## [1.44.1](https://github.com/SamikBeach/frontend/compare/1.44.0...1.44.1) (2025-01-20)
