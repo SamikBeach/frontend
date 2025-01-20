@@ -1,20 +1,15 @@
 'use client';
 
 import { Book } from '@/apis/book/types';
-import { PaginatedResponse } from '@/apis/common/types';
 import { reviewApi } from '@/apis/review/review';
 import { Review } from '@/apis/review/types';
 import { UserBase } from '@/apis/user/types';
 import BookImage from '@/components/BookImage/BookImage';
+import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { formatDate } from '@/utils/date';
-import {
-  InfiniteData,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { CommentButton } from '../CommentButton';
 import { LikeButton } from '../LikeButton';
@@ -38,117 +33,26 @@ function Feed({ review, user, book }: FeedProps) {
 
   const currentUser = useCurrentUser();
   const queryClient = useQueryClient();
+  const { updateReviewLike } = useReviewQueryData();
   const isMyFeed = currentUser?.id === user.id;
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
     onMutate: () => {
-      // 리뷰 목록 쿼리 데이터 업데이트
-      // 무한 스크롤로 불러온 모든 페이지의 리뷰 데이터를 순회하면서
-      // 좋아요를 누른 리뷰의 isLiked 상태와 좋아요 수를 즉시 변경
-      queryClient.setQueriesData<
-        InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
-      >(
-        {
-          queryKey: ['reviews'],
-          exact: false,
-        },
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            pages: oldData.pages.map(page => ({
-              ...page,
-              data: {
-                ...page.data,
-                data: page.data.data.map(r =>
-                  r.id === review.id
-                    ? {
-                        ...r,
-                        isLiked: !r.isLiked,
-                        likeCount: r.isLiked
-                          ? r.likeCount - 1
-                          : r.likeCount + 1,
-                      }
-                    : r
-                ),
-              },
-            })),
-          };
-        }
-      );
-
-      // 단일 리뷰 쿼리 데이터 업데이트
-      // 리뷰 상세 페이지에서 보여지는 단일 리뷰의
-      // isLiked 상태와 좋아요 수를 즉시 변경하여 UI를 업데이트
-      queryClient.setQueryData<AxiosResponse<Review>>(
-        ['review', review.id],
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            data: {
-              ...oldData.data,
-              isLiked: !oldData.data.isLiked,
-              likeCount: oldData.data.isLiked
-                ? oldData.data.likeCount - 1
-                : oldData.data.likeCount + 1,
-            },
-          };
-        }
-      );
+      updateReviewLike({
+        reviewId: review.id,
+        isOptimistic: true,
+      });
     },
     onError: () => {
-      // 리뷰 목록 쿼리 데이터 원상 복구
-      // API 호출이 실패한 경우, 낙관적으로 업데이트했던 리뷰 목록의
-      // 좋아요 상태를 이전 상태로 되돌림
-      queryClient.setQueriesData<
-        InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
-      >(
-        {
-          queryKey: ['reviews'],
-          exact: false,
+      updateReviewLike({
+        reviewId: review.id,
+        isOptimistic: false,
+        currentStatus: {
+          isLiked: review.isLiked ?? false,
+          likeCount: review.likeCount,
         },
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            pages: oldData.pages.map(page => ({
-              ...page,
-              data: {
-                ...page.data,
-                data: page.data.data.map(r =>
-                  r.id === review.id
-                    ? {
-                        ...r,
-                        isLiked: review.isLiked,
-                        likeCount: review.likeCount,
-                      }
-                    : r
-                ),
-              },
-            })),
-          };
-        }
-      );
-
-      // 단일 리뷰 쿼리 데이터 원상 복구
-      // API 호출이 실패한 경우, 낙관적으로 업데이트했던 단일 리뷰의
-      // 좋아요 상태를 이전 상태로 되돌림
-      queryClient.setQueryData<AxiosResponse<Review>>(
-        ['review', review.id],
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            data: {
-              ...oldData.data,
-              isLiked: review.isLiked,
-              likeCount: review.likeCount,
-            },
-          };
-        }
-      );
+      });
     },
   });
 
