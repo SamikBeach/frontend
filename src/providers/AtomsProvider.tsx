@@ -52,7 +52,6 @@ export function AtomsProvider({ children }: Props) {
       (searchParams.get('sort') as 'popular' | 'recent' | 'alphabet') ??
         'popular'
     );
-    setBookViewMode((searchParams.get('view') as 'grid' | 'list') ?? 'grid');
     setAuthorId(searchParams.get('authorId') ?? undefined);
     setBookGenre(
       (searchParams.get('genre') as
@@ -68,7 +67,6 @@ export function AtomsProvider({ children }: Props) {
       (searchParams.get('sort') as 'popular' | 'recent' | 'alphabet') ??
         'popular'
     );
-    setAuthorViewMode((searchParams.get('view') as 'grid' | 'list') ?? 'grid');
     setAuthorGenre(
       (searchParams.get('genre') as
         | 'all'
@@ -80,12 +78,10 @@ export function AtomsProvider({ children }: Props) {
     searchParams,
     setBookSearchKeyword,
     setBookSortMode,
-    setBookViewMode,
     setAuthorId,
     setBookGenre,
     setAuthorSearchKeyword,
     setAuthorSortMode,
-    setAuthorViewMode,
     setAuthorGenre,
   ]);
 
@@ -98,7 +94,6 @@ export function AtomsProvider({ children }: Props) {
       (searchParams.get('sort') as 'popular' | 'recent' | 'alphabet') ??
         'popular',
     ],
-    [bookViewModeAtom, (searchParams.get('view') as 'grid' | 'list') ?? 'grid'],
     [authorIdAtom, searchParams.get('authorId') ?? undefined],
     [
       bookGenreAtom,
@@ -115,10 +110,6 @@ export function AtomsProvider({ children }: Props) {
       authorSortModeAtom,
       (searchParams.get('sort') as 'popular' | 'recent' | 'alphabet') ??
         'popular',
-    ],
-    [
-      authorViewModeAtom,
-      (searchParams.get('view') as 'grid' | 'list') ?? 'grid',
     ],
     [
       authorGenreAtom,
