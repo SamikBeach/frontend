@@ -5,6 +5,7 @@ import { bookSearchKeywordAtom } from '@/atoms/book';
 import BookImage from '@/components/BookImage/BookImage';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { cn } from '@/utils/common';
+import { format } from 'date-fns';
 import { useAtomValue } from 'jotai';
 import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import Highlighter from 'react-highlight-words';
@@ -22,6 +23,10 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
   const handleClick = () => {
     open(book.id);
   };
+
+  const formattedPublicationDate = book.publicationDate
+    ? format(new Date(book.publicationDate), 'yyyy년 M월 d일')
+    : '';
 
   return (
     <div
@@ -87,6 +92,24 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
               }
               highlightClassName="text-blue-500 bg-transparent font-bold"
             />
+          </p>
+          <p
+            className={cn('line-clamp-1 text-gray-500', {
+              'text-sm': size === 'medium',
+              'text-xs': size === 'small',
+              'text-[10px]': size === 'xsmall',
+            })}
+          >
+            {book.publisher}
+          </p>
+          <p
+            className={cn('line-clamp-1 text-gray-500', {
+              'text-sm': size === 'medium',
+              'text-xs': size === 'small',
+              'text-[10px]': size === 'xsmall',
+            })}
+          >
+            {formattedPublicationDate}
           </p>
           <div className="flex items-center gap-1.5 text-gray-500">
             <div className="flex items-center gap-0.5">

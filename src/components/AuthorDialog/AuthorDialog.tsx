@@ -41,7 +41,7 @@ export default function AuthorDialog(props: Props) {
           <Button
             variant="ghost"
             size="sm"
-            className="h-7 p-3 text-gray-500 hover:text-gray-900"
+            className="h-7 gap-1 p-2 text-gray-500 hover:text-gray-900"
             onClick={handleBack}
           >
             <ArrowLeftIcon className="h-3.5 w-3.5" />
@@ -51,7 +51,7 @@ export default function AuthorDialog(props: Props) {
             <Button
               variant="ghost"
               size="sm"
-              className="h-7 p-3 text-gray-500 hover:text-gray-900"
+              className="h-7 gap-1 p-2 text-gray-500 hover:text-gray-900"
             >
               <ExternalLinkIcon className="h-3.5 w-3.5" />
               페이지로 열기

@@ -46,6 +46,13 @@ export default function BookGridItemSkeleton({ size = 'medium' }: Props) {
               'mt-0.5 h-[12px] w-[50%]': size === 'xsmall',
             })}
           />
+          <Skeleton
+            className={cn('', {
+              'mt-0.5 h-[20px] w-[50%]': size === 'medium',
+              'mt-0.5 h-[14px] w-[45%]': size === 'small',
+              'mt-0.5 h-[12px] w-[40%]': size === 'xsmall',
+            })}
+          />
           <div className="mt-1 flex items-center gap-1.5">
             <div className="flex items-center gap-0.5">
               <Skeleton

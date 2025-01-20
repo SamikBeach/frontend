@@ -2,7 +2,8 @@
 
 import { authorApi } from '@/apis/author/author';
 import { Book } from '@/apis/book/types';
-import BookImage from '@/components/BookImage/BookImage';
+import BookGridItem from '@/components/BookItem/BookGridItem';
+import BookGridItemSkeleton from '@/components/BookItem/BookGridItemSkeleton';
 import {
   Carousel,
   CarouselContent,
@@ -10,7 +11,7 @@ import {
   CarouselNext,
 } from '@/components/ui/carousel';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useDialogQuery } from '@/hooks/useDialogQuery';
+
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Suspense } from 'react';
 
@@ -55,7 +56,7 @@ function RelativeBooksContent({ authorId }: Props) {
           <CarouselContent className="w-[400px] gap-2">
             {books.map((book: Book) => (
               <CarouselItem key={book.id} className="mr-2 basis-[110px]">
-                <BookItem book={book} />
+                <BookGridItem book={book} size="xsmall" />
               </CarouselItem>
             ))}
           </CarouselContent>
@@ -73,7 +74,7 @@ function RelativeBooksSkeleton() {
       <div className="relative">
         <div className="flex gap-2">
           {Array.from({ length: 5 }).map((_, index) => (
-            <Skeleton key={index} className="h-[160px] w-[110px]" />
+            <BookGridItemSkeleton key={index} size="xsmall" />
           ))}
         </div>
       </div>
@@ -86,24 +87,5 @@ export default function RelativeBooks(props: Props) {
     <Suspense fallback={<RelativeBooksSkeleton />}>
       <RelativeBooksContent {...props} />
     </Suspense>
-  );
-}
-
-interface BookItemProps {
-  book: Book;
-}
-
-function BookItem({ book }: BookItemProps) {
-  const { open } = useDialogQuery({ type: 'book' });
-
-  return (
-    <BookImage
-      imageUrl={book.imageUrl}
-      title={book.title}
-      width={110}
-      height={160}
-      className="flex-shrink-0 cursor-pointer rounded-lg"
-      onClick={() => open(book.id)}
-    />
   );
 }
