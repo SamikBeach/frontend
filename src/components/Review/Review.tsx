@@ -77,14 +77,17 @@ export default function Review({
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
     onMutate: () => {
+      if (!currentUser) return;
       updateReviewLikeQueryData({
         reviewId: review.id,
+        bookId: review.book.id,
         isOptimistic: true,
       });
     },
     onError: () => {
       updateReviewLikeQueryData({
         reviewId: review.id,
+        bookId: review.book.id,
         isOptimistic: false,
         currentStatus: {
           isLiked: review.isLiked ?? false,
