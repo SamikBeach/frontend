@@ -12,7 +12,7 @@ export default function AuthorPage() {
   const authorId = Number(id);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-10">
       <AuthorInfo authorId={authorId} reviewListRef={reviewListRef} />
       <RelativeBooks authorId={authorId} />
       <ReviewList
