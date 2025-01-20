@@ -10,11 +10,7 @@ import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogTitle } from '@radix-ui/react-dialog';
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from '@tanstack/react-query';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { RefObject, Suspense, useState } from 'react';
@@ -31,9 +27,8 @@ interface Props {
 
 function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   const currentUser = useCurrentUser();
-  const queryClient = useQueryClient();
   const { close } = useDialogQuery({ type: 'review' });
-  const { updateReviewLike } = useReviewQueryData();
+  const { updateReviewLike, deleteReviewData } = useReviewQueryData();
 
   const { data: review } = useSuspenseQuery({
     queryKey: ['review', reviewId],
@@ -67,10 +62,11 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   const { mutate: deleteReview } = useMutation({
     mutationFn: () => reviewApi.deleteReview(review.id),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['reviews'],
+      deleteReviewData({
+        reviewId: review.id,
+        bookId: review.book.id,
+        authorId: review.book.authorBooks?.[0]?.author.id,
       });
-
       close();
       toast.success('리뷰가 삭제되었습니다.');
     },

@@ -1,10 +1,6 @@
 'use client';
 
-import { Author } from '@/apis/author/types';
-import { Book } from '@/apis/book/types';
-import { PaginatedResponse } from '@/apis/common/types';
 import { reviewApi } from '@/apis/review/review';
-import { Review } from '@/apis/review/types';
 import {
   Dialog,
   DialogContent,
@@ -16,12 +12,7 @@ import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { isLexicalContentEmpty } from '@/utils/lexical';
 import { DialogProps } from '@radix-ui/react-dialog';
-import {
-  InfiniteData,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { useMutation } from '@tanstack/react-query';
 import { Suspense, useEffect, useState } from 'react';
 import ReviewEditor from '../ReviewEditor/ReviewEditor';
 import { Button } from '../ui/button';
@@ -57,9 +48,8 @@ export default function WriteReviewDialog({
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
 
-  const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
-  const { updateReviewLike } = useReviewQueryData();
+  const { updateReviewData, createReviewData } = useReviewQueryData();
 
   useEffect(() => {
     setTitle(initialTitle);
@@ -80,111 +70,14 @@ export default function WriteReviewDialog({
       return reviewApi.updateReview(reviewId, { title, content });
     },
     onSuccess: updatedReview => {
-      queryClient.setQueryData<AxiosResponse<Review>>(
-        ['review', reviewId],
-        updatedReview
-      );
-
-      if (bookId) {
-        queryClient.setQueriesData<
-          InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
-        >({ queryKey: ['book-reviews', bookId] }, old => {
-          if (!old) return old;
-          return {
-            ...old,
-            pages: old.pages.map(page => ({
-              ...page,
-              data: {
-                ...page.data,
-                data: page.data.data.map(review =>
-                  review.id === reviewId
-                    ? {
-                        ...review,
-                        ...updatedReview.data,
-                      }
-                    : review
-                ),
-              },
-            })),
-          };
-        });
-
-        queryClient.setQueryData<AxiosResponse<Book>>(['book', bookId], old => {
-          if (!old) return old;
-          return {
-            ...old,
-            data: {
-              ...old.data,
-              reviewCount: old.data.reviewCount + 1,
-            },
-          };
+      if (reviewId) {
+        updateReviewData({
+          reviewId,
+          bookId,
+          authorId,
+          updatedReview,
         });
       }
-
-      if (authorId) {
-        queryClient.setQueriesData<
-          InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
-        >({ queryKey: ['author-reviews', authorId] }, old => {
-          if (!old) return old;
-          return {
-            ...old,
-            pages: old.pages.map(page => ({
-              ...page,
-              data: {
-                ...page.data,
-                data: page.data.data.map(review =>
-                  review.id === reviewId
-                    ? {
-                        ...review,
-                        ...updatedReview.data,
-                      }
-                    : review
-                ),
-              },
-            })),
-          };
-        });
-
-        queryClient.setQueryData<AxiosResponse<Author>>(
-          ['author', authorId],
-          old => {
-            if (!old) return old;
-            return old;
-          }
-        );
-      }
-
-      queryClient.setQueriesData<
-        InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
-      >({ queryKey: ['reviews'] }, oldData => {
-        if (!oldData) return oldData;
-        return {
-          ...oldData,
-          pages: oldData.pages.map((page, index) =>
-            index === 0
-              ? {
-                  ...page,
-                  data: {
-                    ...page.data,
-                    data: [
-                      {
-                        ...oldData.pages[0].data.data[0],
-                        ...updatedReview.data,
-                      },
-                      ...page.data.data.filter(
-                        review => review.id !== updatedReview.data.id
-                      ),
-                    ],
-                    meta: {
-                      ...page.data.meta,
-                      totalItems: page.data.meta.totalItems + 1,
-                    },
-                  },
-                }
-              : page
-          ),
-        };
-      });
 
       toast.success('리뷰가 수정되었습니다.');
       resetForm();
@@ -205,91 +98,12 @@ export default function WriteReviewDialog({
 
       return reviewApi.createReview(bookId, { title, content });
     },
-    onSuccess: newReview => {
-      if (bookId) {
-        const bookData = queryClient.getQueryData<AxiosResponse<Book>>([
-          'book',
+    onSuccess: response => {
+      if (bookId && currentUser) {
+        createReviewData({
           bookId,
-        ])?.data;
-        if (!bookData) return;
-
-        queryClient.setQueriesData<
-          InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
-        >({ queryKey: ['book-reviews', bookId] }, old => {
-          if (!old) return old;
-
-          if (!currentUser) return old;
-
-          return {
-            ...old,
-            pages: old.pages.map((page, index) =>
-              index === 0
-                ? {
-                    ...page,
-                    data: {
-                      ...page.data,
-                      data: [
-                        {
-                          ...newReview.data,
-                          book: bookData,
-                          user: currentUser,
-                        },
-                        ...page.data.data,
-                      ],
-                      meta: {
-                        ...page.data.meta,
-                        totalItems: page.data.meta.totalItems + 1,
-                      },
-                    },
-                  }
-                : page
-            ),
-          };
-        });
-
-        queryClient.setQueryData<AxiosResponse<Book>>(['book', bookId], old => {
-          if (!old) return old;
-          return {
-            ...old,
-            data: {
-              ...old.data,
-              reviewCount: old.data.reviewCount + 1,
-            },
-          };
-        });
-
-        queryClient.setQueriesData<
-          InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
-        >({ queryKey: ['reviews'] }, oldData => {
-          if (!oldData) return oldData;
-
-          if (!currentUser) return oldData;
-
-          return {
-            ...oldData,
-            pages: oldData.pages.map((page, index) =>
-              index === 0
-                ? {
-                    ...page,
-                    data: {
-                      ...page.data,
-                      data: [
-                        {
-                          ...newReview.data,
-                          book: bookData,
-                          user: currentUser,
-                        },
-                        ...page.data.data,
-                      ],
-                      meta: {
-                        ...page.data.meta,
-                        totalItems: page.data.meta.totalItems + 1,
-                      },
-                    },
-                  }
-                : page
-            ),
-          };
+          newReview: response.data,
+          currentUser,
         });
       }
 
