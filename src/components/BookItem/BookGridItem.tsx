@@ -13,9 +13,18 @@ import Highlighter from 'react-highlight-words';
 interface Props {
   book: Book;
   size?: 'medium' | 'small' | 'xsmall';
+  showAuthor?: boolean;
+  showPublisher?: boolean;
+  showPublicationDate?: boolean;
 }
 
-export default function BookGridItem({ book, size = 'medium' }: Props) {
+export default function BookGridItem({
+  book,
+  size = 'medium',
+  showAuthor = false,
+  showPublisher = false,
+  showPublicationDate = false,
+}: Props) {
   const { open } = useDialogQuery({ type: 'book' });
   const searchValue = useAtomValue(bookSearchKeywordAtom);
   const searchWords = searchValue ? [searchValue] : [];
@@ -76,41 +85,47 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
               highlightClassName="text-blue-500 bg-transparent font-bold"
             />
           </h3>
-          <p
-            className={cn('line-clamp-1 text-gray-500', {
-              'text-sm': size === 'medium',
-              'text-xs': size === 'small',
-              'text-[10px]': size === 'xsmall',
-            })}
-          >
-            <Highlighter
-              searchWords={searchWords}
-              textToHighlight={
-                book.authorBooks
-                  ?.map(authorBook => authorBook.author.nameInKor)
-                  .join(', ') ?? '작가 미상'
-              }
-              highlightClassName="text-blue-500 bg-transparent font-bold"
-            />
-          </p>
-          <p
-            className={cn('line-clamp-1 text-gray-500', {
-              'text-sm': size === 'medium',
-              'text-xs': size === 'small',
-              'text-[10px]': size === 'xsmall',
-            })}
-          >
-            {book.publisher}
-          </p>
-          <p
-            className={cn('line-clamp-1 text-gray-500', {
-              'text-sm': size === 'medium',
-              'text-xs': size === 'small',
-              'text-[10px]': size === 'xsmall',
-            })}
-          >
-            {formattedPublicationDate}
-          </p>
+          {showAuthor && (
+            <p
+              className={cn('line-clamp-1 text-gray-500', {
+                'text-sm': size === 'medium',
+                'text-xs': size === 'small',
+                'text-[10px]': size === 'xsmall',
+              })}
+            >
+              <Highlighter
+                searchWords={searchWords}
+                textToHighlight={
+                  book.authorBooks
+                    ?.map(authorBook => authorBook.author.nameInKor)
+                    .join(', ') ?? '작가 미상'
+                }
+                highlightClassName="text-blue-500 bg-transparent font-bold"
+              />
+            </p>
+          )}
+          {showPublisher && book.publisher && (
+            <p
+              className={cn('line-clamp-1 text-gray-500', {
+                'text-sm': size === 'medium',
+                'text-xs': size === 'small',
+                'text-[10px]': size === 'xsmall',
+              })}
+            >
+              {book.publisher}
+            </p>
+          )}
+          {showPublicationDate && formattedPublicationDate && (
+            <p
+              className={cn('line-clamp-1 text-gray-500', {
+                'text-sm': size === 'medium',
+                'text-xs': size === 'small',
+                'text-[10px]': size === 'xsmall',
+              })}
+            >
+              {formattedPublicationDate}
+            </p>
+          )}
           <div className="flex items-center gap-1.5 text-gray-500">
             <div className="flex items-center gap-0.5">
               <ThumbsUpIcon

@@ -56,7 +56,12 @@ function RelativeBooksContent({ authorId }: Props) {
           <CarouselContent className="w-[400px] gap-2">
             {books.map((book: Book) => (
               <CarouselItem key={book.id} className="mr-2 basis-[110px]">
-                <BookGridItem book={book} size="xsmall" />
+                <BookGridItem
+                  book={book}
+                  size="xsmall"
+                  showPublisher
+                  showPublicationDate
+                />
               </CarouselItem>
             ))}
           </CarouselContent>
