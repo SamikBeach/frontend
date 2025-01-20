@@ -1,6 +1,7 @@
 'use client';
 
 import { authorApi } from '@/apis/author/author';
+import AuthorImage from '@/components/AuthorImage/AuthorImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -54,12 +55,12 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
     <div className="flex flex-col gap-4">
       <div className="flex gap-6">
         <div className="group relative h-[200px] w-[200px] flex-shrink-0 cursor-pointer overflow-hidden rounded-full bg-gray-200">
-          <img
-            src={author.imageUrl ?? 'https://picsum.photos/200/200'}
-            alt={author.nameInKor}
-            className="absolute inset-0 h-full w-full object-cover"
+          <AuthorImage
+            imageUrl={author.imageUrl}
+            name={author.nameInKor}
             width={200}
             height={200}
+            className="rounded-full"
           />
         </div>
         <div className="flex w-full flex-col justify-between gap-4">
