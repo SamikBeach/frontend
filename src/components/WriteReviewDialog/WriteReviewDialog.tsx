@@ -12,6 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { isLexicalContentEmpty } from '@/utils/lexical';
 import { DialogProps } from '@radix-ui/react-dialog';
@@ -58,6 +59,7 @@ export default function WriteReviewDialog({
 
   const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
+  const { updateReviewLike } = useReviewQueryData();
 
   useEffect(() => {
     setTitle(initialTitle);

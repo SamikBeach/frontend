@@ -1,23 +1,20 @@
 'use client';
 
-import { PaginatedResponse } from '@/apis/common/types';
 import { reviewApi } from '@/apis/review/review';
-import { Review } from '@/apis/review/types';
 import BookImage from '@/components/BookImage/BookImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { Skeleton } from '@/components/ui/skeleton';
 import { UserAvatar } from '@/components/UserAvatar';
+import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import {
-  InfiniteData,
   useMutation,
   useQueryClient,
   useSuspenseQuery,
 } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { RefObject, Suspense, useState } from 'react';
@@ -36,6 +33,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   const currentUser = useCurrentUser();
   const queryClient = useQueryClient();
   const { close } = useDialogQuery({ type: 'review' });
+  const { updateReviewLike } = useReviewQueryData();
 
   const { data: review } = useSuspenseQuery({
     queryKey: ['review', reviewId],
@@ -49,104 +47,20 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
     onMutate: () => {
-      // 리뷰 목록 쿼리 데이터 업데이트
-      queryClient.setQueriesData<
-        InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
-      >(
-        {
-          queryKey: ['reviews'],
-          exact: false,
-        },
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            pages: oldData.pages.map(page => ({
-              ...page,
-              data: {
-                ...page.data,
-                data: page.data.data.map((review: Review) =>
-                  review.id === review.id
-                    ? {
-                        ...review,
-                        isLiked: !review.isLiked,
-                        likeCount: review.isLiked
-                          ? review.likeCount - 1
-                          : review.likeCount + 1,
-                      }
-                    : review
-                ),
-              },
-            })),
-          };
-        }
-      );
-
-      // 단일 리뷰 쿼리 데이터 업데이트
-      queryClient.setQueryData<AxiosResponse<Review>>(
-        ['review', review.id],
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            data: {
-              ...oldData.data,
-              isLiked: !oldData.data.isLiked,
-              likeCount: oldData.data.isLiked
-                ? oldData.data.likeCount - 1
-                : oldData.data.likeCount + 1,
-            },
-          };
-        }
-      );
+      updateReviewLike({
+        reviewId: review.id,
+        isOptimistic: true,
+      });
     },
     onError: () => {
-      // 리뷰 목록 쿼리 데이터 원상 복구
-      queryClient.setQueriesData<
-        InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
-      >(
-        {
-          queryKey: ['reviews'],
-          exact: false,
+      updateReviewLike({
+        reviewId: review.id,
+        isOptimistic: false,
+        currentStatus: {
+          isLiked: review.isLiked ?? false,
+          likeCount: review.likeCount,
         },
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            pages: oldData.pages.map(page => ({
-              ...page,
-              data: {
-                ...page.data,
-                data: page.data.data.map((review: Review) =>
-                  review.id === review.id
-                    ? {
-                        ...review,
-                        isLiked: review.isLiked,
-                        likeCount: review.likeCount,
-                      }
-                    : review
-                ),
-              },
-            })),
-          };
-        }
-      );
-
-      // 단일 리뷰 쿼리 데이터 원상 복구
-      queryClient.setQueryData<AxiosResponse<Review>>(
-        ['review', review.id],
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            data: {
-              ...oldData.data,
-              isLiked: review.isLiked,
-              likeCount: review.likeCount,
-            },
-          };
-        }
-      );
+      });
     },
   });
 

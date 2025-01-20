@@ -3,6 +3,7 @@ import { BookDetail } from '@/apis/book/types';
 import { PaginatedResponse } from '@/apis/common/types';
 import { reviewApi } from '@/apis/review/review';
 import { Review as ReviewType } from '@/apis/review/types';
+import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { formatDate } from '@/utils/date';
@@ -51,6 +52,7 @@ export default function Review({
   const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
   const isMyReview = review.user.id === currentUser?.id;
+  const { updateReviewLike } = useReviewQueryData();
 
   useEffect(() => {
     if (!contentRef.current) return;
@@ -83,116 +85,20 @@ export default function Review({
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
     onMutate: () => {
-      // 리뷰 목록에서의 낙관적 업데이트 (책)
-      queryClient.setQueryData<
-        InfiniteData<AxiosResponse<PaginatedResponse<ReviewType>>>
-      >(['book-reviews', review.book.id], old => {
-        if (!old) return old;
-        return {
-          ...old,
-          pages: old.pages.map(page => ({
-            ...page,
-            data: {
-              ...page.data,
-              data: page.data.data.map((r: ReviewType) =>
-                r.id === review.id
-                  ? {
-                      ...r,
-                      isLiked: !r.isLiked,
-                      likeCount: r.likeCount + (r.isLiked ? -1 : 1),
-                    }
-                  : r
-              ),
-            },
-          })),
-        };
+      updateReviewLike({
+        reviewId: review.id,
+        isOptimistic: true,
       });
-
-      // 작가의 리뷰 목록에서의 낙관적 업데이트
-      if (review.book.authorBooks?.[0]?.author.id) {
-        queryClient.setQueryData<
-          InfiniteData<AxiosResponse<PaginatedResponse<ReviewType>>>
-        >(['author-reviews', review.book.authorBooks[0].author.id], old => {
-          if (!old) return old;
-          return {
-            ...old,
-            pages: old.pages.map(page => ({
-              ...page,
-              data: {
-                ...page.data,
-                data: page.data.data.map((r: ReviewType) =>
-                  r.id === review.id
-                    ? {
-                        ...r,
-                        isLiked: !r.isLiked,
-                        likeCount: r.likeCount + (r.isLiked ? -1 : 1),
-                      }
-                    : r
-                ),
-              },
-            })),
-          };
-        });
-      }
-
-      // 리뷰 상세에서의 낙관적 업데이트
-      queryClient.setQueryData<AxiosResponse<ReviewType>>(
-        ['review', review.id],
-        old => {
-          if (!old) return old;
-          return {
-            ...old,
-            data: {
-              ...old.data,
-              isLiked: !review.isLiked,
-              likeCount: review.likeCount + (review.isLiked ? -1 : 1),
-            },
-          };
-        }
-      );
     },
     onError: () => {
-      // 리뷰 목록에서의 롤백
-      queryClient.setQueryData<
-        InfiniteData<AxiosResponse<PaginatedResponse<ReviewType>>>
-      >(['reviews', review.book.id], old => {
-        if (!old) return old;
-        return {
-          ...old,
-          pages: old.pages.map(page => ({
-            ...page,
-            data: {
-              ...page.data,
-              data: page.data.data.map((r: ReviewType) =>
-                r.id === review.id
-                  ? {
-                      ...r,
-                      isLiked: review.isLiked,
-                      likeCount: review.likeCount,
-                    }
-                  : r
-              ),
-            },
-          })),
-        };
+      updateReviewLike({
+        reviewId: review.id,
+        isOptimistic: false,
+        currentStatus: {
+          isLiked: review.isLiked ?? false,
+          likeCount: review.likeCount,
+        },
       });
-
-      // 리뷰 상세에서의 롤백
-      queryClient.setQueryData<AxiosResponse<ReviewType>>(
-        ['review', review.id],
-        old => {
-          if (!old) return old;
-          return {
-            ...old,
-            data: {
-              ...old.data,
-              isLiked: review.isLiked,
-              likeCount: review.likeCount,
-            },
-          };
-        }
-      );
-
       toast.error('좋아요 처리에 실패했습니다.');
     },
   });
