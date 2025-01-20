@@ -124,7 +124,7 @@ function Feed({ review, user, book }: FeedProps) {
 
             <div className="flex flex-1 flex-col justify-between">
               <div>
-                <h3 className="mb-2 text-lg font-medium leading-snug text-gray-900">
+                <h3 className="mb-2 text-base font-medium leading-snug text-gray-900">
                   {review.title}
                 </h3>
                 <div className="text-sm text-gray-600 [-webkit-box-orient:vertical] [-webkit-line-clamp:8] [display:-webkit-box] [overflow:hidden]">
@@ -132,7 +132,7 @@ function Feed({ review, user, book }: FeedProps) {
                 </div>
               </div>
 
-              <div className="mt-4 flex justify-end gap-3">
+              <div className="mt-4 flex justify-end gap-2">
                 <LikeButton
                   isLiked={review.isLiked ?? false}
                   likeCount={review.likeCount}

@@ -126,7 +126,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
                 <UserAvatar user={review.user} size="sm" />
               </div>
               <span className="text-gray-300">·</span>
-              <span className="text-sm text-gray-500">
+              <span className="text-xs text-gray-500">
                 {format(new Date(review.createdAt), 'yyyy년 M월 d일 HH시 mm분')}
               </span>
             </div>
