@@ -2,6 +2,7 @@
 
 import { Author } from '@/apis/author/types';
 import { authorSearchKeywordAtom } from '@/atoms/author';
+import AuthorImage from '@/components/AuthorImage/AuthorImage';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { cn } from '@/lib/utils';
 import { useAtomValue } from 'jotai';
@@ -29,22 +30,15 @@ export default function AuthorGridItem({ author, size = 'medium' }: Props) {
         'w-[160px]': size === 'small',
       })}
     >
-      <div
-        className={cn(
-          'group relative cursor-pointer overflow-hidden rounded-full bg-gray-100',
-          {
-            'h-[280px]': size === 'medium',
-            'h-[160px]': size === 'small',
-          }
-        )}
+      <AuthorImage
+        imageUrl={author.imageUrl}
+        name={author.nameInKor}
+        width={size === 'medium' ? 280 : 160}
+        height={size === 'medium' ? 280 : 160}
+        className={cn('cursor-pointer rounded-full bg-gray-100')}
         onClick={handleClick}
-      >
-        <img
-          src={author.imageUrl ?? undefined}
-          alt={author.nameInKor}
-          className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
-        />
-      </div>
+        priority={size === 'medium'}
+      />
       <div className="flex flex-col gap-1.5">
         <div className="flex flex-col gap-0.5">
           <h3

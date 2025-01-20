@@ -2,6 +2,7 @@
 
 import { Author } from '@/apis/author/types';
 import { authorSearchKeywordAtom } from '@/atoms/author';
+import AuthorImage from '@/components/AuthorImage/AuthorImage';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { useAtomValue } from 'jotai';
 import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
@@ -23,17 +24,14 @@ export default function AuthorListItem({ author }: Props) {
   return (
     <div className="group relative rounded-xl bg-white p-4 transition-all hover:bg-gray-50/50">
       <div className="flex gap-6">
-        <div
-          className="relative h-[120px] w-[120px] cursor-pointer overflow-hidden rounded-full shadow-sm ring-1 ring-gray-200/50"
+        <AuthorImage
+          imageUrl={author.imageUrl}
+          name={author.nameInKor}
+          width={120}
+          height={120}
+          className="cursor-pointer rounded-full bg-gray-100 shadow-sm ring-1 ring-gray-200/50"
           onClick={handleClick}
-        >
-          <div className="absolute inset-0 bg-gray-50" />
-          <img
-            src={author.imageUrl ?? undefined}
-            alt={author.nameInKor}
-            className="absolute h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        </div>
+        />
         <div className="flex flex-1 flex-col justify-between py-2">
           <div className="flex flex-col gap-1">
             <h3
