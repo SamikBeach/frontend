@@ -2,7 +2,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function AuthorListItemSkeleton() {
   return (
-    <div className="flex gap-6">
+    <div className="flex gap-6 p-2">
       <Skeleton className="h-[120px] w-[120px] rounded-full" />
       <div className="flex flex-1 flex-col justify-between">
         <div className="flex flex-col gap-1">
