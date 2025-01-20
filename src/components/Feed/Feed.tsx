@@ -233,8 +233,9 @@ function Feed({ review, user, book }: FeedProps) {
                   isLiked={review.isLiked ?? false}
                   likeCount={review.likeCount}
                   onClick={handleLikeClick}
+                  size="sm"
                 />
-                <CommentButton commentCount={review.commentCount} />
+                <CommentButton commentCount={review.commentCount} size="sm" />
               </div>
             </div>
           </div>
