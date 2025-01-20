@@ -28,7 +28,7 @@ export default function BookListItem({ book }: Props) {
 
   return (
     <div className="relative rounded-xl bg-white p-3 transition-all hover:bg-gray-50/50">
-      <div className="flex gap-6">
+      <div className="flex gap-5">
         <BookImage
           imageUrl={book.imageUrl}
           title={book.title}
@@ -37,7 +37,7 @@ export default function BookListItem({ book }: Props) {
           className="cursor-pointer rounded-lg"
           onClick={handleClick}
         />
-        <div className="flex flex-1 flex-col justify-between py-1">
+        <div className="flex flex-1 flex-col justify-between py-0.5">
           <div className="flex flex-col gap-0.5">
             <Highlighter
               searchWords={searchWords}
