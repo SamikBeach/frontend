@@ -73,8 +73,7 @@ export default function BookGridItem({
               'line-clamp-2 cursor-pointer font-semibold text-gray-900 hover:underline',
               {
                 'text-lg': size === 'medium',
-                'text-sm': size === 'small',
-                'text-xs': size === 'xsmall',
+                'text-sm': size === 'small' || size === 'xsmall',
               }
             )}
             onClick={handleClick}
@@ -89,8 +88,7 @@ export default function BookGridItem({
             <p
               className={cn('line-clamp-1 text-gray-500', {
                 'text-sm': size === 'medium',
-                'text-xs': size === 'small',
-                'text-[10px]': size === 'xsmall',
+                'text-xs': size === 'small' || size === 'xsmall',
               })}
             >
               <Highlighter
@@ -108,8 +106,7 @@ export default function BookGridItem({
             <p
               className={cn('line-clamp-1 text-gray-500', {
                 'text-sm': size === 'medium',
-                'text-xs': size === 'small',
-                'text-[10px]': size === 'xsmall',
+                'text-xs': size === 'small' || size === 'xsmall',
               })}
             >
               {book.publisher}
@@ -119,8 +116,7 @@ export default function BookGridItem({
             <p
               className={cn('line-clamp-1 text-gray-500', {
                 'text-sm': size === 'medium',
-                'text-xs': size === 'small',
-                'text-[10px]': size === 'xsmall',
+                'text-xs': size === 'small' || size === 'xsmall',
               })}
             >
               {formattedPublicationDate}
@@ -131,13 +127,11 @@ export default function BookGridItem({
               <ThumbsUpIcon
                 className={cn('h-3 w-3', {
                   'h-3.5 w-3.5': size === 'medium',
-                  'h-2.5 w-2.5': size === 'xsmall',
                 })}
               />
               <span
                 className={cn('text-xs', {
                   'text-sm': size === 'medium',
-                  'text-[10px]': size === 'xsmall',
                 })}
               >
                 {book.likeCount}
@@ -145,15 +139,14 @@ export default function BookGridItem({
             </div>
             <div className="flex items-center gap-0.5">
               <MessageSquareIcon
-                className={cn('h-3 w-3', {
+                className={cn('mt-0.5 h-3 w-3', {
                   'h-3.5 w-3.5': size === 'medium',
                 })}
               />
               <span
                 className={cn('text-xs', {
                   'text-sm': size === 'medium',
-                  'text-xs': size === 'small',
-                  'text-[10px]': size === 'xsmall',
+                  'text-xs': size === 'small' || size === 'xsmall',
                 })}
               >
                 {book.reviewCount}
@@ -168,8 +161,7 @@ export default function BookGridItem({
               <span
                 className={cn('text-xs', {
                   'text-sm': size === 'medium',
-                  'text-xs': size === 'small',
-                  'text-[10px]': size === 'xsmall',
+                  'text-xs': size === 'small' || size === 'xsmall',
                 })}
               >
                 {book.totalTranslationCount}
