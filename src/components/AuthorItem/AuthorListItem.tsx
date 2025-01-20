@@ -22,7 +22,7 @@ export default function AuthorListItem({ author }: Props) {
   };
 
   return (
-    <div className="group relative rounded-xl bg-white p-4 transition-all hover:bg-gray-50/50">
+    <div className="group relative rounded-xl bg-white p-2 transition-all hover:bg-gray-50/50">
       <div className="flex gap-6">
         <AuthorImage
           imageUrl={author.imageUrl}
@@ -32,38 +32,37 @@ export default function AuthorListItem({ author }: Props) {
           className="cursor-pointer rounded-full bg-gray-100 shadow-sm ring-1 ring-gray-200/50"
           onClick={handleClick}
         />
-        <div className="flex flex-1 flex-col justify-between py-2">
-          <div className="flex flex-col gap-1">
-            <h3
-              className="cursor-pointer text-lg font-medium text-gray-900 decoration-gray-400 decoration-2 hover:underline"
+        <div className="flex flex-1 flex-col justify-between py-1">
+          <div className="flex flex-col">
+            <Highlighter
+              searchWords={searchWords}
+              textToHighlight={author.nameInKor}
+              highlightClassName="text-blue-500 bg-transparent font-bold"
               onClick={handleClick}
-            >
-              <Highlighter
-                searchWords={searchWords}
-                textToHighlight={author.nameInKor}
-                highlightClassName="text-blue-500 bg-transparent font-bold"
-              />
-            </h3>
-            <p className="text-sm text-gray-500">
-              <Highlighter
-                searchWords={searchWords}
-                textToHighlight={author.name}
-                highlightClassName="text-blue-500 bg-transparent font-bold"
-              />
-            </p>
+              className="cursor-pointer text-lg font-semibold text-gray-900 hover:underline"
+            />
+
+            <Highlighter
+              searchWords={searchWords}
+              textToHighlight={author.name}
+              highlightClassName="text-blue-500 bg-transparent font-bold"
+              className="text-sm text-gray-500"
+            />
+
+            <p className="text-sm text-gray-500">{author.bornDate}</p>
           </div>
-          <div className="mt-3 flex items-center gap-4 text-sm text-gray-500">
-            <div className="flex items-center gap-1.5 transition-colors group-hover:text-blue-500">
-              <ThumbsUpIcon className="h-4 w-4" />
-              <span>{author.likeCount}</span>
+          <div className="mt-auto flex items-center gap-1.5 text-gray-500">
+            <div className="flex items-center gap-0.5">
+              <ThumbsUpIcon className="h-3.5 w-3.5" />
+              <span className="text-sm">{author.likeCount}</span>
             </div>
-            <div className="flex items-center gap-1.5 transition-colors group-hover:text-blue-500">
-              <MessageSquareIcon className="h-4 w-4" />
-              <span>{author.reviewCount}</span>
+            <div className="flex items-center gap-0.5">
+              <MessageSquareIcon className="h-3.5 w-3.5" />
+              <span className="text-sm">{author.reviewCount}</span>
             </div>
-            <div className="flex items-center gap-1.5 transition-colors group-hover:text-blue-500">
-              <LibraryIcon className="h-4 w-4" />
-              <span>{author.bookCount}</span>
+            <div className="flex items-center gap-0.5">
+              <LibraryIcon className="h-3.5 w-3.5" />
+              <span className="text-sm">{author.bookCount}</span>
             </div>
           </div>
         </div>
