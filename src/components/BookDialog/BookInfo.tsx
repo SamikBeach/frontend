@@ -5,7 +5,6 @@ import BookImage from '@/components/BookImage/BookImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
 import { WriteReviewDialog } from '@/components/WriteReviewDialog';
 import { useBookQueryData } from '@/hooks/queries/useBookQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
@@ -13,6 +12,7 @@ import { DialogTitle } from '@radix-ui/react-dialog';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { Edit3Icon } from 'lucide-react';
 import { RefObject, Suspense } from 'react';
+import BookInfoSkeleton from './BookInfoSkeleton';
 
 interface Props {
   bookId: number;
@@ -101,29 +101,6 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                 </Button>
               </WriteReviewDialog.Trigger>
             </WriteReviewDialog>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function BookInfoSkeleton() {
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="flex gap-4">
-        <Skeleton className="h-[196px] w-[140px] shrink-0 rounded-lg" />
-        <div className="flex w-full flex-col justify-between">
-          <div className="flex flex-col gap-2">
-            <Skeleton className="h-8 w-1/2" />
-            <Skeleton className="h-6 w-3/4" />
-          </div>
-          <div className="flex w-full justify-between">
-            <div className="flex gap-2">
-              <Skeleton className="h-9 w-20" />
-              <Skeleton className="h-9 w-20" />
-            </div>
-            <Skeleton className="h-9 w-24" />
           </div>
         </div>
       </div>
