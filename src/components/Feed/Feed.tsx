@@ -4,7 +4,7 @@ import { Book } from '@/apis/book/types';
 import { PaginatedResponse } from '@/apis/common/types';
 import { reviewApi } from '@/apis/review/review';
 import { Review } from '@/apis/review/types';
-import { User } from '@/apis/user/types';
+import { UserBase } from '@/apis/user/types';
 import BookImage from '@/components/BookImage/BookImage';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
@@ -27,7 +27,7 @@ import FeedContent from './FeedContent';
 
 interface FeedProps {
   review: Review;
-  user: User;
+  user: UserBase;
   book: Book;
 }
 
