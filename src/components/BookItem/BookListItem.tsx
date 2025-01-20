@@ -1,9 +1,12 @@
 'use client';
 
 import { Book } from '@/apis/book/types';
+import { bookSearchKeywordAtom } from '@/atoms/book';
 import BookImage from '@/components/BookImage/BookImage';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
+import { useAtomValue } from 'jotai';
 import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import Highlighter from 'react-highlight-words';
 
 interface Props {
   book: Book;
@@ -11,6 +14,8 @@ interface Props {
 
 export default function BookListItem({ book }: Props) {
   const { open } = useDialogQuery({ type: 'book' });
+  const searchValue = useAtomValue(bookSearchKeywordAtom);
+  const searchWords = searchValue ? [searchValue] : [];
 
   const handleClick = () => {
     open(book.id);
@@ -41,7 +46,10 @@ export default function BookListItem({ book }: Props) {
                 className="cursor-pointer text-lg font-medium text-gray-900 decoration-gray-400 decoration-2 hover:underline"
                 onClick={handleClick}
               >
-                {book.title}
+                <Highlighter
+                  searchWords={searchWords}
+                  textToHighlight={book.title}
+                />
               </h3>
               <p className="text-sm font-medium text-gray-600">
                 {book.authorBooks

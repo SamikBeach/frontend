@@ -1,9 +1,12 @@
 'use client';
 
 import { Author } from '@/apis/author/types';
+import { authorSearchKeywordAtom } from '@/atoms/author';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { cn } from '@/lib/utils';
+import { useAtomValue } from 'jotai';
 import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import Highlighter from 'react-highlight-words';
 
 interface Props {
   author: Author;
@@ -12,6 +15,8 @@ interface Props {
 
 export default function AuthorGridItem({ author, size = 'medium' }: Props) {
   const { open } = useDialogQuery({ type: 'author' });
+  const searchValue = useAtomValue(authorSearchKeywordAtom);
+  const searchWords = searchValue ? [searchValue] : [];
 
   const handleClick = () => {
     open(author.id);
@@ -52,7 +57,11 @@ export default function AuthorGridItem({ author, size = 'medium' }: Props) {
             )}
             onClick={handleClick}
           >
-            {author.nameInKor}
+            <Highlighter
+              searchWords={searchWords}
+              textToHighlight={author.nameInKor}
+              highlightClassName="text-blue-500 bg-transparent font-bold"
+            />
           </h3>
           <p
             className={cn('line-clamp-1 text-gray-500', {
@@ -60,7 +69,11 @@ export default function AuthorGridItem({ author, size = 'medium' }: Props) {
               'text-xs': size === 'small',
             })}
           >
-            {author.name}
+            <Highlighter
+              searchWords={searchWords}
+              textToHighlight={author.name}
+              highlightClassName="text-blue-500 bg-transparent font-bold"
+            />
           </p>
           <div className="flex items-center gap-1.5 text-gray-500">
             <div className="flex items-center gap-0.5">

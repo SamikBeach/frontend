@@ -1,10 +1,13 @@
 'use client';
 
 import { Book } from '@/apis/book/types';
+import { bookSearchKeywordAtom } from '@/atoms/book';
 import BookImage from '@/components/BookImage/BookImage';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { cn } from '@/lib/utils';
+import { useAtomValue } from 'jotai';
 import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import Highlighter from 'react-highlight-words';
 
 interface Props {
   book: Book;
@@ -13,6 +16,8 @@ interface Props {
 
 export default function BookGridItem({ book, size = 'medium' }: Props) {
   const { open } = useDialogQuery({ type: 'book' });
+  const searchValue = useAtomValue(bookSearchKeywordAtom);
+  const searchWords = searchValue ? [searchValue] : [];
 
   const handleClick = () => {
     open(book.id);
@@ -57,7 +62,11 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
             )}
             onClick={handleClick}
           >
-            {book.title}
+            <Highlighter
+              searchWords={searchWords}
+              textToHighlight={book.title}
+              highlightClassName="text-blue-500 bg-transparent font-bold"
+            />
           </h3>
           <p
             className={cn('line-clamp-1 text-gray-500', {
@@ -65,9 +74,15 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
               'text-xs': size === 'small',
             })}
           >
-            {book.authorBooks
-              ?.map(authorBook => authorBook.author.nameInKor)
-              .join(', ') ?? '작가 미상'}
+            <Highlighter
+              searchWords={searchWords}
+              textToHighlight={
+                book.authorBooks
+                  ?.map(authorBook => authorBook.author.nameInKor)
+                  .join(', ') ?? '작가 미상'
+              }
+              highlightClassName="text-blue-500 bg-transparent font-bold"
+            />
           </p>
           <div className="flex items-center gap-1.5 text-gray-500">
             <div className="flex items-center gap-0.5">

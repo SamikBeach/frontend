@@ -1,8 +1,11 @@
 'use client';
 
 import { Author } from '@/apis/author/types';
+import { authorSearchKeywordAtom } from '@/atoms/author';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
+import { useAtomValue } from 'jotai';
 import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import Highlighter from 'react-highlight-words';
 
 interface Props {
   author: Author;
@@ -10,6 +13,8 @@ interface Props {
 
 export default function AuthorListItem({ author }: Props) {
   const { open } = useDialogQuery({ type: 'author' });
+  const searchValue = useAtomValue(authorSearchKeywordAtom);
+  const searchWords = searchValue ? [searchValue] : [];
 
   const handleClick = () => {
     open(author.id);
@@ -35,9 +40,19 @@ export default function AuthorListItem({ author }: Props) {
               className="cursor-pointer text-lg font-medium text-gray-900 decoration-gray-400 decoration-2 hover:underline"
               onClick={handleClick}
             >
-              {author.nameInKor}
+              <Highlighter
+                searchWords={searchWords}
+                textToHighlight={author.nameInKor}
+                highlightClassName="text-blue-500 bg-transparent font-bold"
+              />
             </h3>
-            <p className="text-sm text-gray-500">{author.name}</p>
+            <p className="text-sm text-gray-500">
+              <Highlighter
+                searchWords={searchWords}
+                textToHighlight={author.name}
+                highlightClassName="text-blue-500 bg-transparent font-bold"
+              />
+            </p>
           </div>
           <div className="mt-3 flex items-center gap-4 text-sm text-gray-500">
             <div className="flex items-center gap-1.5 transition-colors group-hover:text-blue-500">
