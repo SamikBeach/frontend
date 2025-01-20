@@ -68,22 +68,14 @@ function BookItem({ book }: BookItemProps) {
   const { open } = useDialogQuery({ type: 'book' });
 
   return (
-    <>
-      <div
-        onClick={() => open(book.id)}
-        className="group relative h-[160px] w-[110px] flex-shrink-0 cursor-pointer overflow-hidden rounded-lg"
-      >
-        <div className="absolute h-full w-full transition-transform duration-300 group-hover:scale-110">
-          <BookImage
-            imageUrl={book.imageUrl}
-            title={book.title}
-            width={110}
-            height={160}
-            className="rounded-lg"
-          />
-        </div>
-      </div>
-    </>
+    <BookImage
+      imageUrl={book.imageUrl}
+      title={book.title}
+      width={110}
+      height={160}
+      className="flex-shrink-0 cursor-pointer rounded-lg"
+      onClick={() => open(book.id)}
+    />
   );
 }
 

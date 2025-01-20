@@ -8,6 +8,8 @@ interface Props {
   height?: number;
   className?: string;
   priority?: boolean;
+  hover?: boolean;
+  onClick?: () => void;
 }
 
 export default function BookImage({
@@ -17,17 +19,36 @@ export default function BookImage({
   height = 180,
   className,
   priority = false,
+  hover = true,
+  onClick,
 }: Props) {
+  const containerClasses = cn(
+    'relative overflow-hidden',
+    hover && 'group',
+    className
+  );
+
+  const imageClasses = cn(
+    'object-cover',
+    hover && 'transition-transform duration-300 group-hover:scale-105'
+  );
+
   if (imageUrl) {
     return (
-      <img
-        src={imageUrl}
-        alt={title}
-        width={width}
-        height={height}
-        className={cn('object-cover', className)}
-        loading={priority ? 'eager' : 'lazy'}
-      />
+      <div
+        className={containerClasses}
+        style={{ width, height }}
+        onClick={onClick}
+      >
+        <img
+          src={imageUrl}
+          alt={title}
+          width={width}
+          height={height}
+          className={imageClasses}
+          loading={priority ? 'eager' : 'lazy'}
+        />
+      </div>
     );
   }
 
@@ -38,6 +59,7 @@ export default function BookImage({
         className
       )}
       style={{ width, height }}
+      onClick={onClick}
     >
       <div className="flex flex-col items-center gap-3">
         <div className="rounded-lg bg-white/50 p-3 shadow-sm">

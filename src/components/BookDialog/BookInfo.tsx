@@ -152,17 +152,13 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
-        <div className="group relative h-[210px] w-[140px] flex-shrink-0 cursor-pointer overflow-hidden rounded-lg">
-          <div className="absolute h-full w-full transition-transform duration-300 group-hover:scale-110">
-            <BookImage
-              imageUrl={book.imageUrl}
-              title={book.title}
-              width={140}
-              height={210}
-              className="rounded-lg"
-            />
-          </div>
-        </div>
+        <BookImage
+          imageUrl={book.imageUrl}
+          title={book.title}
+          width={140}
+          height={210}
+          className="flex-shrink-0 cursor-pointer rounded-lg"
+        />
         <div className="flex w-full flex-col justify-between">
           <div className="flex flex-col gap-0.5">
             <DialogTitle className="text-2xl font-bold">
