@@ -119,7 +119,7 @@ export default function BookList() {
       <Suspense
         fallback={
           viewMode === 'list' ? (
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col">
               {[...Array(10)].map((_, i) => (
                 <BookListItemSkeleton key={i} />
               ))}
