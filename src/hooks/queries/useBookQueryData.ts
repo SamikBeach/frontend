@@ -36,9 +36,7 @@ export function useBookQueryData() {
             ...bookPage,
             data: {
               ...bookPage.data,
-              data: bookPage.data.data.map(function updateBookItem(
-                book: BookDetail
-              ) {
+              data: bookPage.data.data.map(book => {
                 if (book.id !== bookId) return book;
                 return {
                   ...book,

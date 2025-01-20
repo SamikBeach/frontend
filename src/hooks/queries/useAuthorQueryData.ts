@@ -36,9 +36,7 @@ export function useAuthorQueryData() {
             ...authorPage,
             data: {
               ...authorPage.data,
-              data: authorPage.data.data.map(function updateAuthorItem(
-                author: AuthorDetail
-              ) {
+              data: authorPage.data.data.map(author => {
                 if (author.id !== authorId) return author;
                 return {
                   ...author,

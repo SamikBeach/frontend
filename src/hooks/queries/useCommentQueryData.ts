@@ -34,9 +34,7 @@ export function useCommentQueryData() {
             ...commentPage,
             data: {
               ...commentPage.data,
-              data: commentPage.data.data.map(function updateCommentItem(
-                comment: Comment
-              ) {
+              data: commentPage.data.data.map(comment => {
                 if (comment.id !== commentId) return comment;
                 return {
                   ...comment,
