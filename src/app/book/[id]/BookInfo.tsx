@@ -1,20 +1,15 @@
 'use client';
 
 import { bookApi } from '@/apis/book/book';
-import { BookDetail } from '@/apis/book/types';
 import BookImage from '@/components/BookImage/BookImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { WriteReviewDialog } from '@/components/WriteReviewDialog';
+import { useBookQueryData } from '@/hooks/queries/useBookQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { Edit3Icon } from 'lucide-react';
 import { RefObject, Suspense } from 'react';
 
@@ -25,7 +20,9 @@ interface Props {
 
 function BookInfoContent({ bookId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
-  const queryClient = useQueryClient();
+
+  const { updateBookLike } = useBookQueryData();
+
   const { data: book } = useSuspenseQuery({
     queryKey: ['book', bookId],
     queryFn: () => bookApi.getBookDetail(bookId),
@@ -35,38 +32,17 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => bookApi.toggleBookLike(book.id),
     onMutate: () => {
-      queryClient.setQueryData<AxiosResponse<BookDetail>>(
-        ['book', book.id],
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            data: {
-              ...oldData.data,
-              isLiked: !oldData.data.isLiked,
-              likeCount: oldData.data.isLiked
-                ? oldData.data.likeCount - 1
-                : oldData.data.likeCount + 1,
-            },
-          };
-        }
-      );
+      updateBookLike({ bookId: book.id, isOptimistic: true });
     },
     onError: () => {
-      queryClient.setQueryData<AxiosResponse<BookDetail>>(
-        ['book', book.id],
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            data: {
-              ...oldData.data,
-              isLiked: book.isLiked,
-              likeCount: book.likeCount,
-            },
-          };
-        }
-      );
+      updateBookLike({
+        bookId: book.id,
+        isOptimistic: false,
+        currentStatus: {
+          isLiked: book.isLiked,
+          likeCount: book.likeCount,
+        },
+      });
     },
   });
 

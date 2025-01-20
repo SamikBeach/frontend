@@ -1,20 +1,13 @@
 'use client';
 
 import { authorApi } from '@/apis/author/author';
-import { AuthorDetail } from '@/apis/author/types';
-import { PaginatedResponse } from '@/apis/common/types';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { DialogTitle } from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useAuthorQueryData } from '@/hooks/queries/useAuthorQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import {
-  InfiniteData,
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { RefObject, Suspense } from 'react';
 
 interface Props {
@@ -24,7 +17,7 @@ interface Props {
 
 function AuthorInfoContent({ authorId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
-  const queryClient = useQueryClient();
+  const { updateAuthorLike } = useAuthorQueryData();
   const { data: author } = useSuspenseQuery({
     queryKey: ['author', authorId],
     queryFn: () => authorApi.getAuthorDetail(authorId),
@@ -34,104 +27,17 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => authorApi.toggleAuthorLike(author.id),
     onMutate: () => {
-      // 작가 목록 쿼리 데이터 업데이트
-      queryClient.setQueriesData<
-        InfiniteData<AxiosResponse<PaginatedResponse<AuthorDetail>>>
-      >(
-        {
-          queryKey: ['authors'],
-          exact: false,
-        },
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            pages: oldData.pages.map(page => ({
-              ...page,
-              data: {
-                ...page.data,
-                data: page.data.data.map((item: AuthorDetail) =>
-                  item.id === author.id
-                    ? {
-                        ...item,
-                        isLiked: !item.isLiked,
-                        likeCount: item.isLiked
-                          ? item.likeCount - 1
-                          : item.likeCount + 1,
-                      }
-                    : item
-                ),
-              },
-            })),
-          };
-        }
-      );
-
-      // 단일 작가 쿼리 데이터 업데이트
-      queryClient.setQueryData<AxiosResponse<AuthorDetail>>(
-        ['author', author.id],
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            data: {
-              ...oldData.data,
-              isLiked: !oldData.data.isLiked,
-              likeCount: oldData.data.isLiked
-                ? oldData.data.likeCount - 1
-                : oldData.data.likeCount + 1,
-            },
-          };
-        }
-      );
+      updateAuthorLike({ authorId: author.id, isOptimistic: true });
     },
     onError: () => {
-      // 작가 목록 쿼리 데이터 원상 복구
-      queryClient.setQueriesData<
-        InfiniteData<AxiosResponse<PaginatedResponse<AuthorDetail>>>
-      >(
-        {
-          queryKey: ['authors'],
-          exact: false,
+      updateAuthorLike({
+        authorId: author.id,
+        isOptimistic: false,
+        currentStatus: {
+          isLiked: author.isLiked,
+          likeCount: author.likeCount,
         },
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            pages: oldData.pages.map(page => ({
-              ...page,
-              data: {
-                ...page.data,
-                data: page.data.data.map((item: AuthorDetail) =>
-                  item.id === author.id
-                    ? {
-                        ...item,
-                        isLiked: author.isLiked,
-                        likeCount: author.likeCount,
-                      }
-                    : item
-                ),
-              },
-            })),
-          };
-        }
-      );
-
-      // 단일 작가 쿼리 데이터 원상 복구
-      queryClient.setQueryData<AxiosResponse<AuthorDetail>>(
-        ['author', author.id],
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            data: {
-              ...oldData.data,
-              isLiked: author.isLiked,
-              likeCount: author.likeCount,
-            },
-          };
-        }
-      );
+      });
     },
   });
 

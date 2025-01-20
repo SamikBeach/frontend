@@ -4,10 +4,10 @@ import { authorApi } from '@/apis/author/author';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useAuthorQueryData } from '@/hooks/queries/useAuthorQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { RefObject, Suspense } from 'react';
-import { useAuthorQueryData } from './hooks/useAuthorQueryData';
 
 interface Props {
   authorId: number;

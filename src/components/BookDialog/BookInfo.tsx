@@ -1,23 +1,16 @@
 'use client';
 
 import { bookApi } from '@/apis/book/book';
-import { BookDetail } from '@/apis/book/types';
-import { PaginatedResponse } from '@/apis/common/types';
 import BookImage from '@/components/BookImage/BookImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { WriteReviewDialog } from '@/components/WriteReviewDialog';
+import { useBookQueryData } from '@/hooks/queries/useBookQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { DialogTitle } from '@radix-ui/react-dialog';
-import {
-  InfiniteData,
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { Edit3Icon } from 'lucide-react';
 import { RefObject, Suspense } from 'react';
 
@@ -28,7 +21,9 @@ interface Props {
 
 function BookInfoContent({ bookId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
-  const queryClient = useQueryClient();
+
+  const { updateBookLike } = useBookQueryData();
+
   const { data: book } = useSuspenseQuery({
     queryKey: ['book', bookId],
     queryFn: () => bookApi.getBookDetail(bookId),
@@ -38,104 +33,17 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => bookApi.toggleBookLike(book.id),
     onMutate: () => {
-      // 책 목록 쿼리 데이터 업데이트
-      queryClient.setQueriesData<
-        InfiniteData<AxiosResponse<PaginatedResponse<BookDetail>>>
-      >(
-        {
-          queryKey: ['books'],
-          exact: false,
-        },
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            pages: oldData.pages.map(page => ({
-              ...page,
-              data: {
-                ...page.data,
-                data: page.data.data.map((item: BookDetail) =>
-                  item.id === book.id
-                    ? {
-                        ...item,
-                        isLiked: !item.isLiked,
-                        likeCount: item.isLiked
-                          ? item.likeCount - 1
-                          : item.likeCount + 1,
-                      }
-                    : item
-                ),
-              },
-            })),
-          };
-        }
-      );
-
-      // 단일 책 쿼리 데이터 업데이트
-      queryClient.setQueryData<AxiosResponse<BookDetail>>(
-        ['book', book.id],
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            data: {
-              ...oldData.data,
-              isLiked: !oldData.data.isLiked,
-              likeCount: oldData.data.isLiked
-                ? oldData.data.likeCount - 1
-                : oldData.data.likeCount + 1,
-            },
-          };
-        }
-      );
+      updateBookLike({ bookId: book.id, isOptimistic: true });
     },
     onError: () => {
-      // 책 목록 쿼리 데이터 원상 복구
-      queryClient.setQueriesData<
-        InfiniteData<AxiosResponse<PaginatedResponse<BookDetail>>>
-      >(
-        {
-          queryKey: ['books'],
-          exact: false,
+      updateBookLike({
+        bookId: book.id,
+        isOptimistic: false,
+        currentStatus: {
+          isLiked: book.isLiked,
+          likeCount: book.likeCount,
         },
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            pages: oldData.pages.map(page => ({
-              ...page,
-              data: {
-                ...page.data,
-                data: page.data.data.map((item: BookDetail) =>
-                  item.id === book.id
-                    ? {
-                        ...item,
-                        isLiked: book.isLiked,
-                        likeCount: book.likeCount,
-                      }
-                    : item
-                ),
-              },
-            })),
-          };
-        }
-      );
-
-      // 단일 책 쿼리 데이터 원상 복구
-      queryClient.setQueryData<AxiosResponse<BookDetail>>(
-        ['book', book.id],
-        oldData => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            data: {
-              ...oldData.data,
-              isLiked: book.isLiked,
-              likeCount: book.likeCount,
-            },
-          };
-        }
-      );
+      });
     },
   });
 

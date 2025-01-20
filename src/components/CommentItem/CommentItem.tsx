@@ -1,5 +1,6 @@
 import { reviewApi } from '@/apis/review/review';
 import { Comment } from '@/apis/review/types';
+import { useCommentQueryData } from '@/hooks/queries/useCommentQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { formatDate } from '@/utils/date';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -21,6 +22,7 @@ interface Props {
 
 const CommentItem = forwardRef<HTMLDivElement, Props>(
   ({ comment, reviewId, onReply }, ref) => {
+    const { updateCommentLike } = useCommentQueryData();
     const queryClient = useQueryClient();
     const [isEditing, setIsEditing] = useState(false);
     const [showDeleteAlert, setShowDeleteAlert] = useState(false);
@@ -31,34 +33,22 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
     const { mutate: toggleLike } = useMutation({
       mutationFn: () => reviewApi.toggleCommentLike(reviewId, comment.id),
       onMutate: () => {
-        queryClient.setQueryData(['comments', reviewId], (old: any) => ({
-          ...old,
-          pages: old.pages.map((page: any) => ({
-            ...page,
-            data: {
-              ...page.data,
-              data: page.data.data.map((c: Comment) =>
-                c.id === comment.id
-                  ? {
-                      ...c,
-                      isLiked: !c.isLiked,
-                      likeCount: c.likeCount + (c.isLiked ? -1 : 1),
-                    }
-                  : c
-              ),
-            },
-          })),
-        }));
+        updateCommentLike({
+          reviewId,
+          commentId: comment.id,
+          isOptimistic: true,
+        });
       },
       onError: () => {
-        queryClient.setQueryData(['comments', reviewId], (old: any) => ({
-          ...old,
-          data: {
-            ...old.data,
-            isLiked: comment.isLiked,
+        updateCommentLike({
+          reviewId,
+          commentId: comment.id,
+          isOptimistic: false,
+          currentStatus: {
+            isLiked: comment.isLiked ?? false,
             likeCount: comment.likeCount,
           },
-        }));
+        });
       },
     });
 
