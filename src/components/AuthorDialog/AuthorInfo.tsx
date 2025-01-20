@@ -17,7 +17,7 @@ interface Props {
 
 function AuthorInfoContent({ authorId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
-  const { updateAuthorLike } = useAuthorQueryData();
+  const { updateAuthorLikeQueryData } = useAuthorQueryData();
   const { data: author } = useSuspenseQuery({
     queryKey: ['author', authorId],
     queryFn: () => authorApi.getAuthorDetail(authorId),
@@ -27,10 +27,10 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => authorApi.toggleAuthorLike(author.id),
     onMutate: () => {
-      updateAuthorLike({ authorId: author.id, isOptimistic: true });
+      updateAuthorLikeQueryData({ authorId: author.id, isOptimistic: true });
     },
     onError: () => {
-      updateAuthorLike({
+      updateAuthorLikeQueryData({
         authorId: author.id,
         isOptimistic: false,
         currentStatus: {

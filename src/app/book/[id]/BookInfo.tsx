@@ -21,7 +21,7 @@ interface Props {
 function BookInfoContent({ bookId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
 
-  const { updateBookLike } = useBookQueryData();
+  const { updateBookLikeQueryData } = useBookQueryData();
 
   const { data: book } = useSuspenseQuery({
     queryKey: ['book', bookId],
@@ -32,10 +32,10 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => bookApi.toggleBookLike(book.id),
     onMutate: () => {
-      updateBookLike({ bookId: book.id, isOptimistic: true });
+      updateBookLikeQueryData({ bookId: book.id, isOptimistic: true });
     },
     onError: () => {
-      updateBookLike({
+      updateBookLikeQueryData({
         bookId: book.id,
         isOptimistic: false,
         currentStatus: {

@@ -15,7 +15,7 @@ interface UpdateLikeParams {
 export function useAuthorQueryData() {
   const queryClient = useQueryClient();
 
-  function updateAuthorLike({
+  function updateAuthorLikeQueryData({
     authorId,
     isOptimistic,
     currentStatus,
@@ -28,26 +28,28 @@ export function useAuthorQueryData() {
         queryKey: ['authors'],
         exact: false,
       },
-      function updateListData(oldData) {
-        if (!oldData) return oldData;
+      function updateAuthorListQueryData(authorListData) {
+        if (!authorListData) return authorListData;
         return {
-          ...oldData,
-          pages: oldData.pages.map(page => ({
-            ...page,
+          ...authorListData,
+          pages: authorListData.pages.map(authorPage => ({
+            ...authorPage,
             data: {
-              ...page.data,
-              data: page.data.data.map(function updateItem(item: AuthorDetail) {
-                if (item.id !== authorId) return item;
+              ...authorPage.data,
+              data: authorPage.data.data.map(function updateAuthorItem(
+                author: AuthorDetail
+              ) {
+                if (author.id !== authorId) return author;
                 return {
-                  ...item,
+                  ...author,
                   isLiked: isOptimistic
-                    ? !item.isLiked
-                    : (currentStatus?.isLiked ?? item.isLiked),
+                    ? !author.isLiked
+                    : (currentStatus?.isLiked ?? author.isLiked),
                   likeCount: isOptimistic
-                    ? item.isLiked
-                      ? item.likeCount - 1
-                      : item.likeCount + 1
-                    : (currentStatus?.likeCount ?? item.likeCount),
+                    ? author.isLiked
+                      ? author.likeCount - 1
+                      : author.likeCount + 1
+                    : (currentStatus?.likeCount ?? author.likeCount),
                 };
               }),
             },
@@ -59,34 +61,35 @@ export function useAuthorQueryData() {
     // 단일 작가 쿼리 데이터 업데이트
     queryClient.setQueryData<AxiosResponse<AuthorDetail>>(
       ['author', authorId],
-      function updateDetailData(oldData) {
-        if (!oldData) return oldData;
+      function updateAuthorDetailQueryData(authorDetailData) {
+        if (!authorDetailData) return authorDetailData;
 
         if (isOptimistic) {
           return {
-            ...oldData,
+            ...authorDetailData,
             data: {
-              ...oldData.data,
-              isLiked: !oldData.data.isLiked,
-              likeCount: oldData.data.isLiked
-                ? oldData.data.likeCount - 1
-                : oldData.data.likeCount + 1,
+              ...authorDetailData.data,
+              isLiked: !authorDetailData.data.isLiked,
+              likeCount: authorDetailData.data.isLiked
+                ? authorDetailData.data.likeCount - 1
+                : authorDetailData.data.likeCount + 1,
             },
           };
         }
 
         // Rollback case
         return {
-          ...oldData,
+          ...authorDetailData,
           data: {
-            ...oldData.data,
-            isLiked: currentStatus?.isLiked ?? oldData.data.isLiked,
-            likeCount: currentStatus?.likeCount ?? oldData.data.likeCount,
+            ...authorDetailData.data,
+            isLiked: currentStatus?.isLiked ?? authorDetailData.data.isLiked,
+            likeCount:
+              currentStatus?.likeCount ?? authorDetailData.data.likeCount,
           },
         };
       }
     );
   }
 
-  return { updateAuthorLike };
+  return { updateAuthorLikeQueryData };
 }

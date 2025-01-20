@@ -15,7 +15,7 @@ interface UpdateLikeParams {
 export function useBookQueryData() {
   const queryClient = useQueryClient();
 
-  function updateBookLike({
+  function updateBookLikeQueryData({
     bookId,
     isOptimistic,
     currentStatus,
@@ -28,26 +28,28 @@ export function useBookQueryData() {
         queryKey: ['books'],
         exact: false,
       },
-      function updateListData(oldData) {
-        if (!oldData) return oldData;
+      function updateBookListQueryData(bookListData) {
+        if (!bookListData) return bookListData;
         return {
-          ...oldData,
-          pages: oldData.pages.map(page => ({
-            ...page,
+          ...bookListData,
+          pages: bookListData.pages.map(bookPage => ({
+            ...bookPage,
             data: {
-              ...page.data,
-              data: page.data.data.map(function updateItem(item: BookDetail) {
-                if (item.id !== bookId) return item;
+              ...bookPage.data,
+              data: bookPage.data.data.map(function updateBookItem(
+                book: BookDetail
+              ) {
+                if (book.id !== bookId) return book;
                 return {
-                  ...item,
+                  ...book,
                   isLiked: isOptimistic
-                    ? !item.isLiked
-                    : (currentStatus?.isLiked ?? item.isLiked),
+                    ? !book.isLiked
+                    : (currentStatus?.isLiked ?? book.isLiked),
                   likeCount: isOptimistic
-                    ? item.isLiked
-                      ? item.likeCount - 1
-                      : item.likeCount + 1
-                    : (currentStatus?.likeCount ?? item.likeCount),
+                    ? book.isLiked
+                      ? book.likeCount - 1
+                      : book.likeCount + 1
+                    : (currentStatus?.likeCount ?? book.likeCount),
                 };
               }),
             },
@@ -59,34 +61,35 @@ export function useBookQueryData() {
     // 단일 책 쿼리 데이터 업데이트
     queryClient.setQueryData<AxiosResponse<BookDetail>>(
       ['book', bookId],
-      function updateDetailData(oldData) {
-        if (!oldData) return oldData;
+      function updateBookDetailQueryData(bookDetailData) {
+        if (!bookDetailData) return bookDetailData;
 
         if (isOptimistic) {
           return {
-            ...oldData,
+            ...bookDetailData,
             data: {
-              ...oldData.data,
-              isLiked: !oldData.data.isLiked,
-              likeCount: oldData.data.isLiked
-                ? oldData.data.likeCount - 1
-                : oldData.data.likeCount + 1,
+              ...bookDetailData.data,
+              isLiked: !bookDetailData.data.isLiked,
+              likeCount: bookDetailData.data.isLiked
+                ? bookDetailData.data.likeCount - 1
+                : bookDetailData.data.likeCount + 1,
             },
           };
         }
 
         // Rollback case
         return {
-          ...oldData,
+          ...bookDetailData,
           data: {
-            ...oldData.data,
-            isLiked: currentStatus?.isLiked ?? oldData.data.isLiked,
-            likeCount: currentStatus?.likeCount ?? oldData.data.likeCount,
+            ...bookDetailData.data,
+            isLiked: currentStatus?.isLiked ?? bookDetailData.data.isLiked,
+            likeCount:
+              currentStatus?.likeCount ?? bookDetailData.data.likeCount,
           },
         };
       }
     );
   }
 
-  return { updateBookLike };
+  return { updateBookLikeQueryData };
 }

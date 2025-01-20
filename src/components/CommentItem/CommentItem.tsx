@@ -22,7 +22,7 @@ interface Props {
 
 const CommentItem = forwardRef<HTMLDivElement, Props>(
   ({ comment, reviewId, onReply }, ref) => {
-    const { updateCommentLike } = useCommentQueryData();
+    const { updateCommentLikeQueryData } = useCommentQueryData();
     const queryClient = useQueryClient();
     const [isEditing, setIsEditing] = useState(false);
     const [showDeleteAlert, setShowDeleteAlert] = useState(false);
@@ -33,14 +33,14 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
     const { mutate: toggleLike } = useMutation({
       mutationFn: () => reviewApi.toggleCommentLike(reviewId, comment.id),
       onMutate: () => {
-        updateCommentLike({
+        updateCommentLikeQueryData({
           reviewId,
           commentId: comment.id,
           isOptimistic: true,
         });
       },
       onError: () => {
-        updateCommentLike({
+        updateCommentLikeQueryData({
           reviewId,
           commentId: comment.id,
           isOptimistic: false,
