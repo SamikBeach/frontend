@@ -2,6 +2,7 @@
 
 import { bookApi } from '@/apis/book/book';
 import { BookDetail } from '@/apis/book/types';
+import BookImage from '@/components/BookImage/BookImage';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { Skeleton } from '../ui/skeleton';
@@ -19,11 +20,15 @@ export function BookInfo({ bookId }: { bookId: number }) {
 
   return (
     <div className="flex items-center gap-2">
-      <img
-        src={book.imageUrl ?? 'https://picsum.photos/200/300'}
-        className="h-[40px] rounded-sm"
-        alt={book.title}
-      />
+      <div className="h-[40px] w-[28px]">
+        <BookImage
+          imageUrl={book.imageUrl}
+          title={book.title}
+          width={28}
+          height={40}
+          className="rounded-sm"
+        />
+      </div>
       <div className="flex flex-col">
         <p className="text-sm font-semibold">{book.title}</p>
         <p className="text-xs text-gray-500">

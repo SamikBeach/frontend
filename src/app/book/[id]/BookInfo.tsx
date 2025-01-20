@@ -2,6 +2,7 @@
 
 import { bookApi } from '@/apis/book/book';
 import { BookDetail } from '@/apis/book/types';
+import BookImage from '@/components/BookImage/BookImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { Button } from '@/components/ui/button';
@@ -87,13 +88,15 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
             'group relative h-[300px] w-[200px] flex-shrink-0 cursor-pointer overflow-hidden rounded-lg bg-gray-200'
           }
         >
-          <img
-            src={book.imageUrl || 'https://picsum.photos/200/300'}
-            alt={book.title}
-            className="absolute inset-0 h-full w-full object-cover"
-            width={200}
-            height={300}
-          />
+          <div className="absolute h-full w-full transition-transform duration-300 group-hover:scale-110">
+            <BookImage
+              imageUrl={book.imageUrl}
+              title={book.title}
+              width={200}
+              height={300}
+              className="rounded-lg"
+            />
+          </div>
         </div>
         <div className="flex w-full flex-col justify-between gap-4">
           <div className="flex flex-col gap-0.5">

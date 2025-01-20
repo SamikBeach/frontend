@@ -3,6 +3,7 @@
 import { PaginatedResponse } from '@/apis/common/types';
 import { reviewApi } from '@/apis/review/review';
 import { Review } from '@/apis/review/types';
+import BookImage from '@/components/BookImage/BookImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -190,11 +191,15 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
                 target="_blank"
                 className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 p-2.5 transition-colors hover:bg-gray-100"
               >
-                <img
-                  src={review.book.imageUrl ?? 'https://picsum.photos/200/300'}
-                  className="h-7 w-5 rounded-sm object-cover shadow-sm"
-                  alt={review.book.title}
-                />
+                <div className="h-7 w-5">
+                  <BookImage
+                    imageUrl={review.book.imageUrl}
+                    title={review.book.title}
+                    width={20}
+                    height={28}
+                    className="rounded-sm shadow-sm"
+                  />
+                </div>
                 <div className="flex flex-col gap-0.5">
                   <span className="text-xs font-medium text-gray-900">
                     {review.book.title}

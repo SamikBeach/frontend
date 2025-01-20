@@ -1,6 +1,7 @@
 'use client';
 
 import { Book } from '@/apis/book/types';
+import BookImage from '@/components/BookImage/BookImage';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { cn } from '@/lib/utils';
 import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
@@ -26,7 +27,7 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
     >
       <div
         className={cn(
-          'group relative cursor-pointer overflow-hidden rounded-lg bg-gray-100',
+          'group relative cursor-pointer overflow-hidden rounded-lg bg-gray-50 ring-1 ring-gray-200/50',
           {
             'h-[400px]': size === 'medium',
             'h-[230px]': size === 'small',
@@ -34,11 +35,15 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
         )}
         onClick={handleClick}
       >
-        <img
-          src={book.imageUrl ?? undefined}
-          alt={book.title}
-          className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
-        />
+        <div className="absolute h-full w-full transition-transform duration-300 ease-in-out group-hover:scale-105">
+          <BookImage
+            imageUrl={book.imageUrl}
+            title={book.title}
+            width={size === 'medium' ? 280 : 160}
+            height={size === 'medium' ? 400 : 230}
+            priority={size === 'medium'}
+          />
+        </div>
       </div>
       <div className="flex flex-col gap-1.5">
         <div className="flex flex-col gap-0.5">

@@ -1,6 +1,7 @@
 'use client';
 
 import { Book } from '@/apis/book/types';
+import BookImage from '@/components/BookImage/BookImage';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 
@@ -16,23 +17,28 @@ export default function BookListItem({ book }: Props) {
   };
 
   return (
-    <div className="group relative rounded-xl bg-white p-4 transition-all">
+    <div className="group relative rounded-xl bg-white p-4 transition-all hover:bg-gray-50/50">
       <div className="flex gap-6">
         <div
-          className="relative h-[160px] w-[114px] cursor-pointer overflow-hidden rounded-lg shadow-sm"
+          className="relative h-[160px] w-[114px] cursor-pointer overflow-hidden rounded-lg shadow-sm ring-1 ring-gray-200/50"
           onClick={handleClick}
         >
-          <img
-            src={book.imageUrl ?? undefined}
-            alt={book.title}
-            className="absolute h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-          />
+          <div className="absolute inset-0 bg-gray-50" />
+          <div className="absolute h-full w-full transition-transform duration-300 group-hover:scale-105">
+            <BookImage
+              imageUrl={book.imageUrl}
+              title={book.title}
+              width={114}
+              height={160}
+              className="rounded-lg"
+            />
+          </div>
         </div>
         <div className="flex flex-1 flex-col justify-between py-1">
           <div className="flex flex-col gap-2">
             <div className="space-y-1">
               <h3
-                className="cursor-pointer text-lg font-medium text-gray-900 decoration-2 hover:underline"
+                className="cursor-pointer text-lg font-medium text-gray-900 decoration-gray-400 decoration-2 hover:underline"
                 onClick={handleClick}
               >
                 {book.title}
@@ -45,17 +51,17 @@ export default function BookListItem({ book }: Props) {
               <p className="text-sm text-gray-500">{book.publisher}</p>
             </div>
           </div>
-          <div className="mt-3 flex items-center gap-2 text-sm text-gray-500">
-            <div className="flex items-center gap-1">
-              <ThumbsUpIcon className="h-3.5 w-3.5" />
+          <div className="mt-3 flex items-center gap-4 text-sm text-gray-500">
+            <div className="flex items-center gap-1.5 transition-colors group-hover:text-blue-500">
+              <ThumbsUpIcon className="h-4 w-4" />
               <span>{book.likeCount}</span>
             </div>
-            <div className="flex items-center gap-1">
-              <MessageSquareIcon className="h-3.5 w-3.5" />
+            <div className="flex items-center gap-1.5 transition-colors group-hover:text-blue-500">
+              <MessageSquareIcon className="h-4 w-4" />
               <span>{book.reviewCount}</span>
             </div>
-            <div className="flex items-center gap-1">
-              <LibraryIcon className="h-3.5 w-3.5" />
+            <div className="flex items-center gap-1.5 transition-colors group-hover:text-blue-500">
+              <LibraryIcon className="h-4 w-4" />
               <span>{book.totalTranslationCount}</span>
             </div>
           </div>

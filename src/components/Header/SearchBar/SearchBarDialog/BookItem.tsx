@@ -1,4 +1,5 @@
 import { Book } from '@/apis/book/types';
+import BookImage from '@/components/BookImage/BookImage';
 import { CommandItem } from '@/components/ui/command';
 import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -36,10 +37,12 @@ export default function BookItem({
       onSelect={handleClick}
       className="group relative cursor-pointer data-[highlighted]:bg-gray-50"
     >
-      <img
-        src={book.imageUrl ?? 'https://picsum.photos/200/300'}
-        alt={book.title}
-        className="h-24 w-16 rounded-sm object-cover"
+      <BookImage
+        imageUrl={book.imageUrl}
+        title={book.title}
+        width={64}
+        height={96}
+        className="rounded-sm"
       />
       <div className="flex h-24 flex-1 flex-col justify-between py-1.5 pl-2">
         <div className="flex flex-col gap-1">

@@ -3,6 +3,7 @@
 import { bookApi } from '@/apis/book/book';
 import { BookDetail } from '@/apis/book/types';
 import { PaginatedResponse } from '@/apis/common/types';
+import BookImage from '@/components/BookImage/BookImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { Button } from '@/components/ui/button';
@@ -151,14 +152,16 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
-        <div className="group relative h-[210px] w-[140px] flex-shrink-0 cursor-pointer overflow-hidden rounded-lg bg-gray-200">
-          <img
-            src={book.imageUrl ?? 'https://picsum.photos/140/210'}
-            alt={book.title}
-            className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-            width={140}
-            height={210}
-          />
+        <div className="group relative h-[210px] w-[140px] flex-shrink-0 cursor-pointer overflow-hidden rounded-lg">
+          <div className="absolute h-full w-full transition-transform duration-300 group-hover:scale-110">
+            <BookImage
+              imageUrl={book.imageUrl}
+              title={book.title}
+              width={140}
+              height={210}
+              className="rounded-lg"
+            />
+          </div>
         </div>
         <div className="flex w-full flex-col justify-between">
           <div className="flex flex-col gap-0.5">

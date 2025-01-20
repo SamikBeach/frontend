@@ -5,6 +5,7 @@ import { PaginatedResponse } from '@/apis/common/types';
 import { reviewApi } from '@/apis/review/review';
 import { Review } from '@/apis/review/types';
 import { User } from '@/apis/user/types';
+import BookImage from '@/components/BookImage/BookImage';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { formatDate } from '@/utils/date';
@@ -197,15 +198,13 @@ function Feed({ review, user, book }: FeedProps) {
 
           <div className="flex gap-5">
             <div className="flex-shrink-0">
-              <div className="relative h-[180px] w-[120px] overflow-hidden rounded-md bg-gray-100">
-                <img
-                  src={book.imageUrl ?? 'https://picsum.photos/200/300'}
-                  alt={book.title}
-                  className="absolute inset-0 h-full w-full object-cover"
-                  width={120}
-                  height={180}
-                />
-              </div>
+              <BookImage
+                imageUrl={book.imageUrl}
+                title={book.title}
+                width={120}
+                height={180}
+                className="rounded-md"
+              />
               <div className="mt-2 max-w-[120px]">
                 <p className="overflow-hidden text-ellipsis text-sm font-medium [-webkit-box-orient:vertical] [-webkit-line-clamp:2] [display:-webkit-box]">
                   {book.title}
