@@ -81,6 +81,7 @@ export default function Review({
       updateReviewLikeQueryData({
         reviewId: review.id,
         bookId: review.book.id,
+        authorId: review.book.authorBooks?.[0]?.author.id,
         isOptimistic: true,
       });
     },
@@ -88,6 +89,7 @@ export default function Review({
       updateReviewLikeQueryData({
         reviewId: review.id,
         bookId: review.book.id,
+        authorId: review.book.authorBooks?.[0]?.author.id,
         isOptimistic: false,
         currentStatus: {
           isLiked: review.isLiked ?? false,

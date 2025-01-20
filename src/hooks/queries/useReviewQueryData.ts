@@ -9,6 +9,7 @@ import { AxiosResponse } from 'axios';
 interface UpdateLikeParams {
   reviewId: number;
   bookId?: number;
+  authorId?: number;
   isOptimistic: boolean;
   currentStatus?: {
     isLiked: boolean;
@@ -41,6 +42,7 @@ export function useReviewQueryData() {
   function updateReviewLikeQueryData({
     reviewId,
     bookId,
+    authorId,
     isOptimistic,
     currentStatus,
   }: UpdateLikeParams) {
@@ -52,7 +54,7 @@ export function useReviewQueryData() {
         queryKey: ['reviews'],
         exact: false,
       },
-      function updateReviewListQueryData(reviewListData) {
+      reviewListData => {
         if (!reviewListData) return reviewListData;
         return {
           ...reviewListData,
@@ -60,9 +62,7 @@ export function useReviewQueryData() {
             ...reviewPage,
             data: {
               ...reviewPage.data,
-              data: reviewPage.data.data.map(function updateReviewItem(
-                review: Review
-              ) {
+              data: reviewPage.data.data.map(review => {
                 if (review.id !== reviewId) return review;
                 return {
                   ...review,
@@ -91,7 +91,7 @@ export function useReviewQueryData() {
           queryKey: ['book-reviews', bookId],
           exact: false,
         },
-        function updateBookReviewListQueryData(reviewListData) {
+        reviewListData => {
           if (!reviewListData) return reviewListData;
           return {
             ...reviewListData,
@@ -99,9 +99,45 @@ export function useReviewQueryData() {
               ...reviewPage,
               data: {
                 ...reviewPage.data,
-                data: reviewPage.data.data.map(function updateReviewItem(
-                  review: Review
-                ) {
+                data: reviewPage.data.data.map(review => {
+                  if (review.id !== reviewId) return review;
+                  return {
+                    ...review,
+                    isLiked: isOptimistic
+                      ? !review.isLiked
+                      : (currentStatus?.isLiked ?? review.isLiked),
+                    likeCount: isOptimistic
+                      ? review.isLiked
+                        ? review.likeCount - 1
+                        : review.likeCount + 1
+                      : (currentStatus?.likeCount ?? review.likeCount),
+                  };
+                }),
+              },
+            })),
+          };
+        }
+      );
+    }
+
+    // author-reviews 쿼리 데이터 업데이트
+    if (authorId) {
+      queryClient.setQueriesData<
+        InfiniteData<AxiosResponse<PaginatedResponse<Review>>>
+      >(
+        {
+          queryKey: ['author-reviews', authorId],
+          exact: false,
+        },
+        reviewListData => {
+          if (!reviewListData) return reviewListData;
+          return {
+            ...reviewListData,
+            pages: reviewListData.pages.map(reviewPage => ({
+              ...reviewPage,
+              data: {
+                ...reviewPage.data,
+                data: reviewPage.data.data.map(review => {
                   if (review.id !== reviewId) return review;
                   return {
                     ...review,
@@ -125,7 +161,7 @@ export function useReviewQueryData() {
     // 단일 리뷰 쿼리 데이터 업데이트
     queryClient.setQueryData<AxiosResponse<Review>>(
       ['review', reviewId],
-      function updateReviewDetailQueryData(reviewDetailData) {
+      reviewDetailData => {
         if (!reviewDetailData) return reviewDetailData;
 
         if (isOptimistic) {
@@ -269,9 +305,7 @@ export function useReviewQueryData() {
           ...reviewPage,
           data: {
             ...reviewPage.data,
-            data: reviewPage.data.data.filter(
-              (review: Review) => review.id !== reviewId
-            ),
+            data: reviewPage.data.data.filter(review => review.id !== reviewId),
           },
         })),
       };
@@ -290,7 +324,7 @@ export function useReviewQueryData() {
             data: {
               ...reviewPage.data,
               data: reviewPage.data.data.filter(
-                (review: Review) => review.id !== reviewId
+                review => review.id !== reviewId
               ),
             },
           })),
