@@ -74,7 +74,6 @@ export default function AuthorCombobox() {
     const newAuthorId = isDeselecting ? undefined : currentValue;
     setSelectedAuthorId(newAuthorId);
     updateQueryParams({ authorId: newAuthorId });
-    setOpen(false);
   };
 
   const handleClear = (e: React.MouseEvent) => {
@@ -84,7 +83,15 @@ export default function AuthorCombobox() {
   };
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover
+      open={open}
+      onOpenChange={isOpen => {
+        if (!isOpen) {
+          setSearch('');
+        }
+        setOpen(isOpen);
+      }}
+    >
       <TooltipProvider delayDuration={100}>
         <Tooltip>
           <TooltipTrigger asChild>
