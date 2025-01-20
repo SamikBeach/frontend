@@ -31,18 +31,16 @@ export default function BookDialog(props: Props) {
         id="dialog-content"
       >
         <DialogTitle className="sr-only">책 정보</DialogTitle>
-        <div className="absolute right-10 top-3 z-10">
-          <Link href={`/book/${bookId}`}>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-7 p-3 text-gray-500 hover:text-gray-900"
-            >
-              <ExternalLinkIcon className="h-3.5 w-3.5" />
-              페이지로 보기
-            </Button>
-          </Link>
-        </div>
+        <Link href={`/book/${bookId}`} className="absolute right-10 top-3 z-10">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 p-3 text-gray-500 hover:text-gray-900"
+          >
+            <ExternalLinkIcon className="h-3.5 w-3.5" />
+            페이지로 보기
+          </Button>
+        </Link>
         <div className="flex flex-col gap-7">
           <BookInfo bookId={bookId} reviewListRef={reviewListRef} />
           <RelativeBooks bookId={bookId} />
