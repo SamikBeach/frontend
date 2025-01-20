@@ -37,7 +37,7 @@ export default function BookItem({
       className="group relative cursor-pointer data-[highlighted]:bg-gray-50"
     >
       <img
-        src={book.imageUrl ?? undefined}
+        src={book.imageUrl ?? 'https://picsum.photos/200/300'}
         alt={book.title}
         className="h-24 w-16 rounded-sm object-cover"
       />
