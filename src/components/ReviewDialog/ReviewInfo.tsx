@@ -181,8 +181,8 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
     <>
       <div className="flex flex-col gap-4">
         <div className="flex items-start justify-between gap-8">
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col gap-4">
+            <div className="flex items-start gap-4">
               <DialogTitle className="text-3xl font-bold tracking-tight text-gray-900">
                 {review.title}
               </DialogTitle>
