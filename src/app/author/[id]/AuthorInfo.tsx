@@ -54,15 +54,13 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-6">
-        <div className="group relative h-[200px] w-[200px] flex-shrink-0 cursor-pointer overflow-hidden rounded-full bg-gray-200">
-          <AuthorImage
-            imageUrl={author.imageUrl}
-            name={author.nameInKor}
-            width={200}
-            height={200}
-            className="rounded-full"
-          />
-        </div>
+        <AuthorImage
+          imageUrl={author.imageUrl}
+          name={author.nameInKor}
+          width={200}
+          height={200}
+          className="rounded-full"
+        />
         <div className="flex w-full flex-col justify-between gap-4">
           <div className="flex flex-col gap-0.5">
             <h1 className="text-2xl font-bold">{author.nameInKor}</h1>
@@ -90,7 +88,7 @@ function AuthorInfoSkeleton() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-6">
-        <Skeleton className="h-[200px] w-[200px] rounded-full" />
+        <Skeleton className="h-[200px] min-h-[200px] w-[200px] min-w-[200px] shrink-0 rounded-full" />
         <div className="flex w-full flex-col justify-between gap-4">
           <div className="flex flex-col gap-2">
             <Skeleton className="h-8 w-1/2" />

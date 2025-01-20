@@ -22,24 +22,23 @@ export default function AuthorImage({
   hover = true,
   onClick,
 }: Props) {
+  const sizeClass = `h-[${height}px] w-[${width}px] min-h-[${height}px] min-w-[${width}px]`;
+
   const containerClasses = cn(
     'relative overflow-hidden',
     hover && 'group',
+    sizeClass,
     className
   );
 
   const imageClasses = cn(
-    'object-cover',
+    'h-full w-full object-cover',
     hover && 'transition-transform duration-300 group-hover:scale-105'
   );
 
   if (imageUrl) {
     return (
-      <div
-        className={containerClasses}
-        style={{ width, height }}
-        onClick={onClick}
-      >
+      <div className={containerClasses} onClick={onClick}>
         <img
           src={imageUrl}
           alt={name}
@@ -56,9 +55,9 @@ export default function AuthorImage({
     <div
       className={cn(
         'flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50 p-4',
+        sizeClass,
         className
       )}
-      style={{ width, height }}
       onClick={onClick}
     >
       <div className="flex flex-col items-center gap-3">
