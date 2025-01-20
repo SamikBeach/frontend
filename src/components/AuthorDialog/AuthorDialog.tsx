@@ -58,7 +58,7 @@ export default function AuthorDialog(props: Props) {
             </Button>
           </Link>
         </div>
-        <div className="flex flex-col gap-7">
+        <div className="flex flex-col gap-10">
           <AuthorInfo authorId={authorId} reviewListRef={reviewListRef} />
           <RelativeAuthors authorId={authorId} />
           <ReviewList

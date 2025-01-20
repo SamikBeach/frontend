@@ -58,7 +58,7 @@ export default function BookDialog(props: Props) {
             </Button>
           </Link>
         </div>
-        <div className="flex flex-col gap-7">
+        <div className="flex flex-col gap-10">
           <BookInfo bookId={bookId} reviewListRef={reviewListRef} />
           <RelativeBooks bookId={bookId} />
           <ReviewList

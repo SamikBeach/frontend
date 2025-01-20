@@ -11,7 +11,7 @@ import Highlighter from 'react-highlight-words';
 
 interface Props {
   book: Book;
-  size?: 'medium' | 'small';
+  size?: 'medium' | 'small' | 'xsmall';
 }
 
 export default function BookGridItem({ book, size = 'medium' }: Props) {
@@ -28,6 +28,7 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
       className={cn('flex flex-col gap-3', {
         'w-[280px]': size === 'medium',
         'w-[160px]': size === 'small',
+        'w-[110px]': size === 'xsmall',
       })}
     >
       <div
@@ -36,6 +37,7 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
           {
             'h-[400px]': size === 'medium',
             'h-[230px]': size === 'small',
+            'h-[160px]': size === 'xsmall',
           }
         )}
         onClick={handleClick}
@@ -44,8 +46,8 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
           <BookImage
             imageUrl={book.imageUrl}
             title={book.title}
-            width={size === 'medium' ? 280 : 160}
-            height={size === 'medium' ? 400 : 230}
+            width={size === 'medium' ? 280 : size === 'small' ? 160 : 110}
+            height={size === 'medium' ? 400 : size === 'small' ? 230 : 160}
             priority={size === 'medium'}
           />
         </div>
@@ -58,6 +60,7 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
               {
                 'text-lg': size === 'medium',
                 'text-sm': size === 'small',
+                'text-xs': size === 'xsmall',
               }
             )}
             onClick={handleClick}
@@ -72,6 +75,7 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
             className={cn('line-clamp-1 text-gray-500', {
               'text-sm': size === 'medium',
               'text-xs': size === 'small',
+              'text-[10px]': size === 'xsmall',
             })}
           >
             <Highlighter
@@ -89,11 +93,13 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
               <ThumbsUpIcon
                 className={cn('h-3 w-3', {
                   'h-3.5 w-3.5': size === 'medium',
+                  'h-2.5 w-2.5': size === 'xsmall',
                 })}
               />
               <span
                 className={cn('text-xs', {
                   'text-sm': size === 'medium',
+                  'text-[10px]': size === 'xsmall',
                 })}
               >
                 {book.likeCount}
@@ -108,6 +114,8 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
               <span
                 className={cn('text-xs', {
                   'text-sm': size === 'medium',
+                  'text-xs': size === 'small',
+                  'text-[10px]': size === 'xsmall',
                 })}
               >
                 {book.reviewCount}
@@ -122,6 +130,8 @@ export default function BookGridItem({ book, size = 'medium' }: Props) {
               <span
                 className={cn('text-xs', {
                   'text-sm': size === 'medium',
+                  'text-xs': size === 'small',
+                  'text-[10px]': size === 'xsmall',
                 })}
               >
                 {book.totalTranslationCount}
