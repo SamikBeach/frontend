@@ -91,7 +91,7 @@ function ReviewListContent({ authorId, scrollableTarget }: Props) {
                   layout="position"
                   {...reviewItemAnimation}
                 >
-                  <Review review={review} />
+                  <Review review={review} showBookInfo />
                 </motion.div>
               ))}
             </div>
