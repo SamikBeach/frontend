@@ -22,7 +22,7 @@ export default function UserAvatar({
   }[size];
 
   const textSize = {
-    sm: 'text-xs',
+    sm: 'text-sm',
     md: 'text-sm',
     lg: 'text-base',
   }[size];
@@ -34,7 +34,7 @@ export default function UserAvatar({
   return (
     <Link
       href={`/user/${user.id}`}
-      className="group flex items-center gap-2"
+      className="flex items-center gap-2"
       onClick={handleClick}
     >
       <Avatar className={`${avatarSize} ${className ?? ''}`}>
@@ -44,7 +44,7 @@ export default function UserAvatar({
         </AvatarFallback>
       </Avatar>
       {showNickname && (
-        <p className={`font-medium ${textSize} group-hover:underline`}>
+        <p className={`font-medium ${textSize}`}>
           {user.nickname ?? '알 수 없음'}
         </p>
       )}

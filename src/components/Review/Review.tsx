@@ -2,12 +2,13 @@ import { reviewApi } from '@/apis/review/review';
 import { Review as ReviewType } from '@/apis/review/types';
 import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { formatDate } from '@/utils/date';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import BookImage from '../BookImage/BookImage';
 import CommentEditor from '../CommentEditor/CommentEditor';
 import { Button } from '../ui/button';
 import { toast } from '../ui/sonner';
@@ -39,8 +40,6 @@ export default function Review({
   const [replyToUser, setReplyToUser] = useState<{ nickname: string } | null>(
     null
   );
-  const bookDialog = useDialogQuery({ type: 'book' });
-  const reviewDialog = useDialogQuery({ type: 'review' });
   const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
   const isMyReview = review.user.id === currentUser?.id;
@@ -154,8 +153,8 @@ export default function Review({
     <>
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
-          <UserAvatar user={review.user} />
-          <p className="text-sm text-gray-500">
+          <UserAvatar user={review.user} size="sm" />
+          <p className="text-xs text-gray-500">
             {formatDate(review.createdAt)}
           </p>
           {isMyReview && (
@@ -169,19 +168,31 @@ export default function Review({
         </div>
 
         <div className="flex items-center gap-2">
-          <h3
-            onClick={() => reviewDialog.open(review.id)}
-            className="cursor-pointer text-lg font-medium hover:underline"
-          >
-            {review.title}
-          </h3>
+          <h3 className="text-lg font-medium">{review.title}</h3>
           {showBookInfo && (
-            <span
-              onClick={() => bookDialog.open(review.book.id)}
-              className="cursor-pointer text-sm font-medium hover:underline"
+            <Link
+              href={`/book/${review.book.id}`}
+              target="_blank"
+              className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100"
             >
-              {review.book.title}
-            </span>
+              <BookImage
+                imageUrl={review.book.imageUrl}
+                title={review.book.title}
+                width={20}
+                height={28}
+                className="rounded-sm shadow-sm"
+              />
+              <div className="flex flex-col">
+                <span className="text-xs font-medium text-gray-900">
+                  {review.book.title}
+                </span>
+                <span className="text-[11px] text-gray-500">
+                  {review.book.authorBooks
+                    .map(authorBook => authorBook.author.nameInKor)
+                    .join(', ')}
+                </span>
+              </div>
+            </Link>
           )}
         </div>
 
