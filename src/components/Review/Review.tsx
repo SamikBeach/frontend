@@ -18,12 +18,14 @@ import CommentList from './CommentList';
 import DeleteReviewDialog from './DeleteReviewDialog';
 import ReviewActions from './ReviewActions';
 import ReviewContent from './ReviewContent';
+import { cn } from '@/utils/common';
 
 interface Props {
   review: ReviewType;
   hideActions?: boolean;
   hideUserInfo?: boolean;
   showBookInfo?: boolean;
+  disableClickActions?: boolean;
 }
 
 export default function Review({
@@ -31,6 +33,7 @@ export default function Review({
   hideActions = false,
   hideUserInfo = false,
   showBookInfo = false,
+  disableClickActions = false,
 }: Props) {
   const editorRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -237,8 +240,17 @@ export default function Review({
             <div className="flex items-center gap-0.5 text-gray-500">
               <Button
                 variant="ghost"
-                className="group flex h-5 w-5 cursor-pointer items-center gap-0.5 text-xs text-gray-500 transition-colors hover:bg-transparent hover:text-gray-900"
-                onClick={() => toggleLike()}
+                className={cn(
+                  'group flex h-5 w-5 items-center gap-0.5 text-xs text-gray-500 transition-colors hover:bg-transparent hover:text-gray-900',
+                  {
+                    'cursor-pointer': !disableClickActions,
+                    'cursor-default': disableClickActions,
+                  }
+                )}
+                onClick={() => {
+                  if (disableClickActions) return;
+                  toggleLike();
+                }}
               >
                 <ThumbsUpIcon
                   className={`!h-3.5 !w-3.5 ${
@@ -251,8 +263,18 @@ export default function Review({
               </Button>
               <Button
                 variant="ghost"
-                onClick={handleReplyButtonClick}
-                className="group flex h-5 w-5 cursor-pointer items-center gap-0.5 text-xs text-gray-500 transition-colors hover:bg-transparent hover:text-gray-900"
+                onClick={() => {
+                  if (disableClickActions) return;
+
+                  handleReplyButtonClick();
+                }}
+                className={cn(
+                  'group flex h-5 w-5 items-center gap-0.5 text-xs text-gray-500 transition-colors hover:bg-transparent hover:text-gray-900',
+                  {
+                    'cursor-pointer': !disableClickActions,
+                    'cursor-default': disableClickActions,
+                  }
+                )}
               >
                 <MessageSquareIcon className="mt-0.5 !h-3.5 !w-3.5 transition-colors group-hover:stroke-gray-900" />
                 <span>{review.commentCount}</span>

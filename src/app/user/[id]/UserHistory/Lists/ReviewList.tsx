@@ -54,9 +54,15 @@ export function ReviewList({ userId }: Props) {
       hasMore={hasNextPage ?? false}
       loader={<ReviewListSkeleton />}
     >
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-8">
         {reviews.map(review => (
-          <Review key={review.id} review={review} hideActions />
+          <Review
+            key={review.id}
+            review={review}
+            hideUserInfo
+            showBookInfo
+            disableClickActions
+          />
         ))}
       </div>
     </InfiniteScroll>

@@ -14,7 +14,7 @@ interface Props {
   userId: number;
 }
 
-export function AuthorList({ userId }: Props) {
+export default function AuthorList({ userId }: Props) {
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<{ author: Author }>>,
     Error
