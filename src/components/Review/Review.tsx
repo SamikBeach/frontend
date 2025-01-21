@@ -2,6 +2,7 @@ import { reviewApi } from '@/apis/review/review';
 import { Review as ReviewType } from '@/apis/review/types';
 import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { cn } from '@/utils/common';
 import { formatDate } from '@/utils/date';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -10,6 +11,7 @@ import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import BookImage from '../BookImage/BookImage';
 import CommentEditor from '../CommentEditor/CommentEditor';
+import { LoginDialog } from '../LoginDialog';
 import { Button } from '../ui/button';
 import { toast } from '../ui/sonner';
 import { UserAvatar } from '../UserAvatar';
@@ -22,13 +24,19 @@ import ReviewContent from './ReviewContent';
 interface Props {
   review: ReviewType;
   hideActions?: boolean;
+  hideUserInfo?: boolean;
   showBookInfo?: boolean;
+  disableClickActions?: boolean;
+  onClickTitle?: () => void;
 }
 
 export default function Review({
   review,
   hideActions = false,
+  hideUserInfo = false,
   showBookInfo = false,
+  disableClickActions = false,
+  onClickTitle,
 }: Props) {
   const editorRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -40,9 +48,13 @@ export default function Review({
   const [replyToUser, setReplyToUser] = useState<{ nickname: string } | null>(
     null
   );
+  const [openLoginDialog, setOpenLoginDialog] = useState(false);
+
   const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
-  const isMyReview = review.user.id === currentUser?.id;
+
+  const isMyReview = currentUser?.id === review.user.id;
+
   const { updateReviewLikeQueryData, deleteReviewDataQueryData } =
     useReviewQueryData();
 
@@ -159,7 +171,12 @@ export default function Review({
       <div className="flex flex-col gap-0.5">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2">
-            <h3 className="text-xl font-medium">{review.title}</h3>
+            <h3
+              className={`text-xl font-medium ${onClickTitle ? 'cursor-pointer hover:underline' : ''}`}
+              onClick={onClickTitle}
+            >
+              {review.title}
+            </h3>
             {showBookInfo && (
               <Link
                 href={`/book/${review.book.id}`}
@@ -196,7 +213,7 @@ export default function Review({
           )}
         </div>
         <div className="flex items-center gap-2">
-          <UserAvatar user={review.user} size="sm" />
+          {!hideUserInfo && <UserAvatar user={review.user} size="sm" />}
           <p className="text-xs text-gray-500">
             {formatDate(review.createdAt)}
           </p>
@@ -233,8 +250,26 @@ export default function Review({
             <div className="flex items-center gap-0.5 text-gray-500">
               <Button
                 variant="ghost"
-                className="group flex h-5 w-5 cursor-pointer items-center gap-0.5 text-xs text-gray-500 transition-colors hover:bg-transparent hover:text-gray-900"
-                onClick={() => toggleLike()}
+                className={cn(
+                  'group flex h-5 w-5 items-center gap-0.5 text-xs text-gray-500 transition-colors hover:bg-transparent hover:text-gray-900',
+                  {
+                    'cursor-pointer': !disableClickActions,
+                    'cursor-default': disableClickActions,
+                  }
+                )}
+                onClick={() => {
+                  if (disableClickActions) {
+                    return;
+                  }
+
+                  if (!currentUser) {
+                    setOpenLoginDialog(true);
+
+                    return;
+                  }
+
+                  toggleLike();
+                }}
               >
                 <ThumbsUpIcon
                   className={`!h-3.5 !w-3.5 ${
@@ -247,8 +282,18 @@ export default function Review({
               </Button>
               <Button
                 variant="ghost"
-                onClick={handleReplyButtonClick}
-                className="group flex h-5 w-5 cursor-pointer items-center gap-0.5 text-xs text-gray-500 transition-colors hover:bg-transparent hover:text-gray-900"
+                onClick={() => {
+                  if (disableClickActions) return;
+
+                  handleReplyButtonClick();
+                }}
+                className={cn(
+                  'group flex h-5 w-5 items-center gap-0.5 text-xs text-gray-500 transition-colors hover:bg-transparent hover:text-gray-900',
+                  {
+                    'cursor-pointer': !disableClickActions,
+                    'cursor-default': disableClickActions,
+                  }
+                )}
               >
                 <MessageSquareIcon className="mt-0.5 !h-3.5 !w-3.5 transition-colors group-hover:stroke-gray-900" />
                 <span>{review.commentCount}</span>
@@ -296,6 +341,7 @@ export default function Review({
         initialContent={review.content}
         isEditMode
       />
+      <LoginDialog open={openLoginDialog} onOpenChange={setOpenLoginDialog} />
     </>
   );
 }

@@ -14,6 +14,7 @@ import { format } from 'date-fns';
 import { useState } from 'react';
 import { CommentButton } from '../CommentButton';
 import { LikeButton } from '../LikeButton';
+import { LoginDialog } from '../LoginDialog';
 import { toast } from '../ui/sonner';
 import { UserAvatar } from '../UserAvatar';
 import { WriteReviewDialog } from '../WriteReviewDialog';
@@ -31,6 +32,7 @@ function Feed({ review, user, book }: FeedProps) {
   const { open } = useDialogQuery({ type: 'review' });
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
+  const [openLoginDialog, setOpenLoginDialog] = useState(false);
 
   const currentUser = useCurrentUser();
   const queryClient = useQueryClient();
@@ -73,7 +75,13 @@ function Feed({ review, user, book }: FeedProps) {
 
   const handleLikeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!currentUser) return;
+
+    if (!currentUser) {
+      setOpenLoginDialog(true);
+
+      return;
+    }
+
     toggleLike();
   };
 
@@ -166,6 +174,7 @@ function Feed({ review, user, book }: FeedProps) {
         initialContent={review.content}
         isEditMode
       />
+      <LoginDialog open={openLoginDialog} onOpenChange={setOpenLoginDialog} />
     </>
   );
 }

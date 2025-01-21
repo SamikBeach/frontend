@@ -14,7 +14,7 @@ interface Props {
   userId: number;
 }
 
-export function BookList({ userId }: Props) {
+export default function BookList({ userId }: Props) {
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<{ book: Book }>>,
     Error
@@ -62,7 +62,12 @@ export function BookList({ userId }: Props) {
     >
       <div className="flex flex-wrap gap-3">
         {books.map(book => (
-          <BookGridItem key={book.book.id} book={book.book} size="small" />
+          <BookGridItem
+            key={book.book.id}
+            book={book.book}
+            size="small"
+            showAuthor
+          />
         ))}
       </div>
     </InfiniteScroll>

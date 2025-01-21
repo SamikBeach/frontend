@@ -35,7 +35,7 @@ export default function BookItem({
     <CommandItem
       value={book.title}
       onSelect={handleClick}
-      className="group relative cursor-pointer data-[highlighted]:bg-gray-50"
+      className="relative cursor-pointer data-[highlighted]:bg-gray-50"
     >
       <BookImage
         imageUrl={book.imageUrl}

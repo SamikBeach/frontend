@@ -14,6 +14,7 @@ import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { RefObject, Suspense, useState } from 'react';
+import { LoginDialog } from '../LoginDialog';
 import ReviewContent from '../Review/ReviewContent';
 import { toast } from '../ui/sonner';
 import { WriteReviewDialog } from '../WriteReviewDialog';
@@ -39,7 +40,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
 
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
-
+  const [openLoginDialog, setOpenLoginDialog] = useState(false);
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
     onMutate: () => {
@@ -78,7 +79,12 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
 
   const handleLikeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!currentUser) return;
+
+    if (!currentUser) {
+      setOpenLoginDialog(true);
+      return;
+    }
+
     toggleLike();
   };
 
@@ -174,6 +180,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
         initialContent={review.content}
         isEditMode
       />
+      <LoginDialog open={openLoginDialog} onOpenChange={setOpenLoginDialog} />
     </>
   );
 }
