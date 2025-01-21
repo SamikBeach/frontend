@@ -24,6 +24,10 @@ interface Props {
   hideActions?: boolean;
   showBookInfo?: boolean;
   hideUserInfo?: boolean;
+  showActions?: boolean;
+  showComments?: boolean;
+  showUserInfo?: boolean;
+  isMyProfile?: boolean;
 }
 
 export default function Review({
@@ -31,6 +35,10 @@ export default function Review({
   hideActions = false,
   showBookInfo = false,
   hideUserInfo = false,
+  showActions = false,
+  showComments = false,
+  showUserInfo = true,
+  isMyProfile = false,
 }: Props) {
   const editorRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -39,15 +47,19 @@ export default function Review({
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [isTruncated, setIsTruncated] = useState(false);
+  const [isMyReview, setIsMyReview] = useState(false);
   const [replyToUser, setReplyToUser] = useState<{ nickname: string } | null>(
     null
   );
   const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
-  const isMyReview = review.user.id === currentUser?.id;
 
   const { updateReviewLikeQueryData, deleteReviewDataQueryData } =
     useReviewQueryData();
+
+  useEffect(() => {
+    setIsMyReview(isMyProfile || currentUser?.id === review.user.id);
+  }, [currentUser, review.user.id, isMyProfile]);
 
   useEffect(() => {
     if (!contentRef.current) return;
@@ -199,7 +211,7 @@ export default function Review({
           )}
         </div>
         <div className="flex items-center gap-2">
-          {!hideUserInfo && <UserAvatar user={review.user} size="sm" />}
+          {showUserInfo && <UserAvatar user={review.user} size="sm" />}
           <p className="text-xs text-gray-500">
             {formatDate(review.createdAt)}
           </p>
