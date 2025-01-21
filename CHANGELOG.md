@@ -1,5 +1,23 @@
 # 🚦 CHANGELOG
 
+# [1.46.0](https://github.com/SamikBeach/frontend/compare/1.45.0...1.46.0) (2025-01-21)
+
+
+### Bug Fixes
+
+* Review 스타일 수정 ([0db1ff5](https://github.com/SamikBeach/frontend/commit/0db1ff5683188f980216b6aee3d01c2bccf8b32f))
+* Review 컴포넌트 수정 ([99103bd](https://github.com/SamikBeach/frontend/commit/99103bd0f0133685f9aef32299347e1ad7d0006d))
+* Review 컴포넌트 수정 ([4aea16d](https://github.com/SamikBeach/frontend/commit/4aea16d0bf591c9dd631628fb550db8f7e70bf4d))
+* Review 컴포넌트 스타일 수정 ([1df219d](https://github.com/SamikBeach/frontend/commit/1df219d2f590d32710147cb764169f57c77ee2b0))
+* 불필요한 스켈레톤 제거 ([737034e](https://github.com/SamikBeach/frontend/commit/737034e6d125b60f7a9ddb0ebbc3274df38d8cf1))
+
+
+### Features
+
+* AuthorImage 컴포넌트의 크기 지정 방식 개선 ([f4d9358](https://github.com/SamikBeach/frontend/commit/f4d9358486b973865f260ecc041b68581a6c3498))
+* 로그인 안된 상태에서 좋아요 클릭시 로그인모달 띄우기 ([c40d23e](https://github.com/SamikBeach/frontend/commit/c40d23ef6222844b3289f6b6babbd80f6665effc))
+* 로그인 안된 상태에서 커멘트 제출시 로그인모달 띄우기 ([64781cb](https://github.com/SamikBeach/frontend/commit/64781cb1a654b8ca850c49a8bedec53daa01e043))
+
 # [1.45.0](https://github.com/SamikBeach/frontend/compare/1.44.2...1.45.0) (2025-01-20)
 
 
