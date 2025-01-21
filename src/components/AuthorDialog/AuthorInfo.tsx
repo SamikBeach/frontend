@@ -71,7 +71,13 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
             name={author.nameInKor}
             width={140}
             height={140}
-            className="rounded-full"
+            className="cursor-pointer rounded-full"
+            onClick={() =>
+              window.open(
+                `https://en.wikipedia.org/wiki/${author.name}`,
+                '_blank'
+              )
+            }
           />
           <div className="flex w-full flex-col justify-between">
             <div className="flex flex-col gap-0.5">
@@ -79,6 +85,9 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                 {author.nameInKor}
               </DialogTitle>
               <p className="text-gray-500">{author.name}</p>
+              <p className="mt-1 text-xs text-gray-400">
+                작가 정보 제공: 위키피디아
+              </p>
             </div>
 
             <div className="flex gap-2">
