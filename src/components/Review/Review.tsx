@@ -22,15 +22,15 @@ import ReviewContent from './ReviewContent';
 interface Props {
   review: ReviewType;
   hideActions?: boolean;
+  hideUserInfo?: boolean;
   showBookInfo?: boolean;
-  showUserInfo?: boolean;
 }
 
 export default function Review({
   review,
   hideActions = false,
+  hideUserInfo = false,
   showBookInfo = false,
-  showUserInfo = true,
 }: Props) {
   const editorRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -200,7 +200,7 @@ export default function Review({
           )}
         </div>
         <div className="flex items-center gap-2">
-          {showUserInfo && <UserAvatar user={review.user} size="sm" />}
+          {!hideUserInfo && <UserAvatar user={review.user} size="sm" />}
           <p className="text-xs text-gray-500">
             {formatDate(review.createdAt)}
           </p>
