@@ -4,6 +4,7 @@ import { bookApi } from '@/apis/book/book';
 import BookImage from '@/components/BookImage/BookImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
+import { LoginDialog } from '@/components/LoginDialog';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { WriteReviewDialog } from '@/components/WriteReviewDialog';
@@ -11,7 +12,7 @@ import { useBookQueryData } from '@/hooks/queries/useBookQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { Edit3Icon } from 'lucide-react';
-import { RefObject, Suspense } from 'react';
+import { RefObject, Suspense, useState } from 'react';
 
 interface Props {
   bookId: number;
@@ -20,6 +21,9 @@ interface Props {
 
 function BookInfoContent({ bookId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
+
+  const [openLoginDialog, setOpenLoginDialog] = useState(false);
+  const [openWriteReviewDialog, setOpenWriteReviewDialog] = useState(false);
 
   const { updateBookLikeQueryData } = useBookQueryData();
 
@@ -48,7 +52,12 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
 
   const handleLikeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!currentUser) return;
+
+    if (!currentUser) {
+      setOpenLoginDialog(true);
+      return;
+    }
+
     toggleLike();
   };
 
@@ -56,51 +65,64 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
     reviewListRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="flex gap-6">
-        <BookImage
-          imageUrl={book.imageUrl}
-          title={book.title}
-          width={200}
-          height={300}
-          className="flex-shrink-0 cursor-pointer rounded-lg"
-        />
-        <div className="flex w-full flex-col justify-between gap-4">
-          <div className="flex flex-col gap-0.5">
-            <h1 className="text-2xl font-bold">{book.title}</h1>
-            <p className="text-gray-500">
-              {book.authorBooks
-                .map(authorBook => authorBook.author.nameInKor)
-                .join(', ')}
-            </p>
-          </div>
+  const handleWriteReviewClick = () => {
+    if (!currentUser) {
+      setOpenLoginDialog(true);
+      return;
+    }
 
-          <div className="flex w-full justify-between pr-6">
-            <div className="flex gap-2">
-              <LikeButton
-                isLiked={book.isLiked ?? false}
-                likeCount={book.likeCount}
-                onClick={handleLikeClick}
-              />
-              <CommentButton
-                commentCount={book.reviewCount}
-                onClick={handleReviewClick}
-              />
+    setOpenWriteReviewDialog(true);
+  };
+
+  return (
+    <>
+      <div className="flex flex-col gap-4">
+        <div className="flex gap-6">
+          <BookImage
+            imageUrl={book.imageUrl}
+            title={book.title}
+            width={200}
+            height={300}
+            className="flex-shrink-0 cursor-pointer rounded-lg"
+          />
+          <div className="flex w-full flex-col justify-between gap-4">
+            <div className="flex flex-col gap-0.5">
+              <h1 className="text-2xl font-bold">{book.title}</h1>
+              <p className="text-gray-500">
+                {book.authorBooks
+                  .map(authorBook => authorBook.author.nameInKor)
+                  .join(', ')}
+              </p>
             </div>
 
-            <WriteReviewDialog bookId={book.id}>
-              <WriteReviewDialog.Trigger asChild>
-                <Button variant="outline">
-                  <Edit3Icon className="mr-1 h-4 w-4" />
-                  리뷰 쓰기
-                </Button>
-              </WriteReviewDialog.Trigger>
-            </WriteReviewDialog>
+            <div className="flex w-full justify-between pr-6">
+              <div className="flex gap-2">
+                <LikeButton
+                  isLiked={book.isLiked ?? false}
+                  likeCount={book.likeCount}
+                  onClick={handleLikeClick}
+                />
+                <CommentButton
+                  commentCount={book.reviewCount}
+                  onClick={handleReviewClick}
+                />
+              </div>
+
+              <Button variant="outline" onClick={handleWriteReviewClick}>
+                <Edit3Icon className="mr-1 h-4 w-4" />
+                리뷰 쓰기
+              </Button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <WriteReviewDialog
+        bookId={book.id}
+        open={openWriteReviewDialog}
+        onOpenChange={setOpenWriteReviewDialog}
+      />
+      <LoginDialog open={openLoginDialog} onOpenChange={setOpenLoginDialog} />
+    </>
   );
 }
 

@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import BookImage from '../BookImage/BookImage';
 import CommentEditor from '../CommentEditor/CommentEditor';
+import { LoginDialog } from '../LoginDialog';
 import { Button } from '../ui/button';
 import { toast } from '../ui/sonner';
 import { UserAvatar } from '../UserAvatar';
@@ -47,6 +48,8 @@ export default function Review({
   const [replyToUser, setReplyToUser] = useState<{ nickname: string } | null>(
     null
   );
+  const [openLoginDialog, setOpenLoginDialog] = useState(false);
+
   const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
 
@@ -255,7 +258,16 @@ export default function Review({
                   }
                 )}
                 onClick={() => {
-                  if (disableClickActions) return;
+                  if (disableClickActions) {
+                    return;
+                  }
+
+                  if (!currentUser) {
+                    setOpenLoginDialog(true);
+
+                    return;
+                  }
+
                   toggleLike();
                 }}
               >
@@ -329,6 +341,7 @@ export default function Review({
         initialContent={review.content}
         isEditMode
       />
+      <LoginDialog open={openLoginDialog} onOpenChange={setOpenLoginDialog} />
     </>
   );
 }

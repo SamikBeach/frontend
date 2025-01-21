@@ -25,10 +25,10 @@ export default async function RootLayout({
         <ReactQueryProvider>
           <Provider>
             <AtomsProvider>
-              <DialogProvider>
-                <GoogleOAuthProvider
-                  clientId={process.env.GOOGLE_OAUTH_CLIENT_ID ?? ''}
-                >
+              <GoogleOAuthProvider
+                clientId={process.env.GOOGLE_OAUTH_CLIENT_ID ?? ''}
+              >
+                <DialogProvider>
                   <NextIntlClientProvider messages={messages}>
                     <Initializer />
                     <div className="flex h-screen flex-col">
@@ -41,8 +41,8 @@ export default async function RootLayout({
                     <Toaster />
                   </NextIntlClientProvider>
                   <ReactQueryDevtools initialIsOpen={false} />
-                </GoogleOAuthProvider>
-              </DialogProvider>
+                </DialogProvider>
+              </GoogleOAuthProvider>
             </AtomsProvider>
           </Provider>
         </ReactQueryProvider>

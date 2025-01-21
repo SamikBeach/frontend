@@ -1,4 +1,3 @@
-import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { cn } from '@/utils/common';
 import { ThumbsUpIcon } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -16,8 +15,6 @@ export function LikeButton({
   onClick,
   size = 'md',
 }: Props) {
-  const currentUser = useCurrentUser();
-
   return (
     <Button
       className={cn(
@@ -28,7 +25,6 @@ export function LikeButton({
       )}
       variant="outline"
       onClick={onClick}
-      disabled={!currentUser}
     >
       <ThumbsUpIcon
         className={cn(

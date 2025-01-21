@@ -9,7 +9,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthorQueryData } from '@/hooks/queries/useAuthorQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
-import { RefObject, Suspense } from 'react';
+import { RefObject, Suspense, useState } from 'react';
+import { LoginDialog } from '../LoginDialog';
 
 interface Props {
   authorId: number;
@@ -18,7 +19,11 @@ interface Props {
 
 function AuthorInfoContent({ authorId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
+
   const { updateAuthorLikeQueryData } = useAuthorQueryData();
+
+  const [openLoginDialog, setOpenLoginDialog] = useState(false);
+
   const { data: author } = useSuspenseQuery({
     queryKey: ['author', authorId],
     queryFn: () => authorApi.getAuthorDetail(authorId),
@@ -44,7 +49,12 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
 
   const handleLikeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!currentUser) return;
+
+    if (!currentUser) {
+      setOpenLoginDialog(true);
+      return;
+    }
+
     toggleLike();
   };
 
@@ -53,37 +63,40 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex gap-4">
-        <AuthorImage
-          imageUrl={author.imageUrl}
-          name={author.nameInKor}
-          width={140}
-          height={140}
-          className="rounded-full"
-        />
-        <div className="flex w-full flex-col justify-between">
-          <div className="flex flex-col gap-0.5">
-            <DialogTitle className="text-2xl font-bold">
-              {author.nameInKor}
-            </DialogTitle>
-            <p className="text-gray-500">{author.name}</p>
-          </div>
+    <>
+      <div className="flex flex-col gap-4">
+        <div className="flex gap-4">
+          <AuthorImage
+            imageUrl={author.imageUrl}
+            name={author.nameInKor}
+            width={140}
+            height={140}
+            className="rounded-full"
+          />
+          <div className="flex w-full flex-col justify-between">
+            <div className="flex flex-col gap-0.5">
+              <DialogTitle className="text-2xl font-bold">
+                {author.nameInKor}
+              </DialogTitle>
+              <p className="text-gray-500">{author.name}</p>
+            </div>
 
-          <div className="flex gap-2">
-            <LikeButton
-              isLiked={author.isLiked ?? false}
-              likeCount={author.likeCount}
-              onClick={handleLikeClick}
-            />
-            <CommentButton
-              commentCount={author.reviewCount}
-              onClick={handleReviewClick}
-            />
+            <div className="flex gap-2">
+              <LikeButton
+                isLiked={author.isLiked ?? false}
+                likeCount={author.likeCount}
+                onClick={handleLikeClick}
+              />
+              <CommentButton
+                commentCount={author.reviewCount}
+                onClick={handleReviewClick}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <LoginDialog open={openLoginDialog} onOpenChange={setOpenLoginDialog} />
+    </>
   );
 }
 

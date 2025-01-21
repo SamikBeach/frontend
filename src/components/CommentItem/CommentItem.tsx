@@ -8,6 +8,7 @@ import { ThumbsUpIcon } from 'lucide-react';
 import { forwardRef, useState } from 'react';
 import { CommentContent } from '.';
 import CommentEditor from '../CommentEditor/CommentEditor';
+import { LoginDialog } from '../LoginDialog';
 import { Button } from '../ui/button';
 import { toast } from '../ui/sonner';
 import { UserAvatar } from '../UserAvatar';
@@ -26,6 +27,7 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
     const queryClient = useQueryClient();
     const [isEditing, setIsEditing] = useState(false);
     const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+    const [openLoginDialog, setOpenLoginDialog] = useState(false);
 
     const currentUser = useCurrentUser();
     const isMyComment = comment.user.id === currentUser?.id;
@@ -85,76 +87,86 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
     };
 
     return (
-      <div ref={ref} className="flex flex-col items-start gap-2 py-1.5">
-        <div className="flex w-full items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <UserAvatar user={comment.user} size="sm" />
-            <span className="text-xs text-gray-500">
-              {formatDate(comment.createdAt)}
-            </span>
-          </div>
-          {isMyComment && (
-            <CommentActions
-              onEdit={handleEditStart}
-              onDelete={() => setShowDeleteAlert(true)}
-            />
-          )}
-        </div>
-
-        <div className="flex w-full flex-col gap-1.5">
-          <div className="flex flex-col gap-0.5">
-            <div
-              className={`w-full rounded-lg ${isEditing ? '' : 'bg-gray-50'} p-3`}
-            >
-              {isEditing ? (
-                <CommentEditor
-                  initialContent={comment.content}
-                  onSubmit={updateComment}
-                  onCancel={handleEditCancel}
-                  showAvatar={false}
-                />
-              ) : (
-                <CommentContent
-                  content={comment.content}
-                  className="text-sm leading-relaxed text-gray-700"
-                />
-              )}
+      <>
+        <div ref={ref} className="flex flex-col items-start gap-2 py-1.5">
+          <div className="flex w-full items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <UserAvatar user={comment.user} size="sm" />
+              <span className="text-xs text-gray-500">
+                {formatDate(comment.createdAt)}
+              </span>
             </div>
+            {isMyComment && (
+              <CommentActions
+                onEdit={handleEditStart}
+                onDelete={() => setShowDeleteAlert(true)}
+              />
+            )}
+          </div>
 
-            <div className="flex justify-between px-1">
-              <div className="flex items-center gap-2 text-xs text-gray-600">
-                <Button
-                  variant="ghost"
-                  className="group flex h-5 w-5 cursor-pointer items-center gap-0.5 text-xs text-gray-500 transition-colors hover:bg-transparent hover:text-gray-900"
-                  onClick={() => toggleLike()}
-                >
-                  <ThumbsUpIcon
-                    className={`!h-3.5 !w-3.5 ${
-                      comment.isLiked
-                        ? 'fill-blue-500 stroke-blue-500'
-                        : 'stroke-gray-500'
-                    } transition-colors group-hover:stroke-gray-900`}
+          <div className="flex w-full flex-col gap-1.5">
+            <div className="flex flex-col gap-0.5">
+              <div
+                className={`w-full rounded-lg ${isEditing ? '' : 'bg-gray-50'} p-3`}
+              >
+                {isEditing ? (
+                  <CommentEditor
+                    initialContent={comment.content}
+                    onSubmit={updateComment}
+                    onCancel={handleEditCancel}
+                    showAvatar={false}
                   />
-                  <span>{comment.likeCount}</span>
-                </Button>
-                <Button
-                  variant="ghost"
-                  onClick={() => onReply({ nickname: comment.user.nickname })}
-                  className="h-5 px-0 text-xs hover:bg-transparent hover:text-gray-900"
-                >
-                  답글 달기
-                </Button>
+                ) : (
+                  <CommentContent
+                    content={comment.content}
+                    className="text-sm leading-relaxed text-gray-700"
+                  />
+                )}
+              </div>
+
+              <div className="flex justify-between px-1">
+                <div className="flex items-center gap-2 text-xs text-gray-600">
+                  <Button
+                    variant="ghost"
+                    className="group flex h-5 w-5 cursor-pointer items-center gap-0.5 text-xs text-gray-500 transition-colors hover:bg-transparent hover:text-gray-900"
+                    onClick={() => {
+                      if (!currentUser) {
+                        setOpenLoginDialog(true);
+
+                        return;
+                      }
+
+                      toggleLike();
+                    }}
+                  >
+                    <ThumbsUpIcon
+                      className={`!h-3.5 !w-3.5 ${
+                        comment.isLiked
+                          ? 'fill-blue-500 stroke-blue-500'
+                          : 'stroke-gray-500'
+                      } transition-colors group-hover:stroke-gray-900`}
+                    />
+                    <span>{comment.likeCount}</span>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => onReply({ nickname: comment.user.nickname })}
+                    className="h-5 px-0 text-xs hover:bg-transparent hover:text-gray-900"
+                  >
+                    답글 달기
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
         <DeleteAlertDialog
           open={showDeleteAlert}
           onOpenChange={setShowDeleteAlert}
           onConfirm={() => deleteComment()}
         />
-      </div>
+        <LoginDialog open={openLoginDialog} onOpenChange={setOpenLoginDialog} />
+      </>
     );
   }
 );
