@@ -6,7 +6,11 @@ export const formatDate = (date: string) => {
   const threeDaysAgo = subDays(new Date(), 3);
 
   if (isAfter(targetDate, threeDaysAgo)) {
-    return formatDistanceToNow(targetDate, { addSuffix: true, locale: ko });
+    return formatDistanceToNow(targetDate, {
+      addSuffix: true,
+      includeSeconds: true,
+      locale: ko,
+    });
   }
   return format(targetDate, 'yyyy년 M월 d일');
 };

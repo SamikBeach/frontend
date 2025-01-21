@@ -23,12 +23,14 @@ interface Props {
   review: ReviewType;
   hideActions?: boolean;
   showBookInfo?: boolean;
+  hideUserInfo?: boolean;
 }
 
 export default function Review({
   review,
   hideActions = false,
   showBookInfo = false,
+  hideUserInfo = false,
 }: Props) {
   const editorRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -43,6 +45,7 @@ export default function Review({
   const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
   const isMyReview = review.user.id === currentUser?.id;
+
   const { updateReviewLikeQueryData, deleteReviewDataQueryData } =
     useReviewQueryData();
 
@@ -196,7 +199,7 @@ export default function Review({
           )}
         </div>
         <div className="flex items-center gap-2">
-          <UserAvatar user={review.user} size="sm" />
+          {!hideUserInfo && <UserAvatar user={review.user} size="sm" />}
           <p className="text-xs text-gray-500">
             {formatDate(review.createdAt)}
           </p>

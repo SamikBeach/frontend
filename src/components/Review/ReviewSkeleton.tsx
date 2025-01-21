@@ -38,7 +38,7 @@ export function ReviewSkeleton() {
 
 export function ReviewListSkeleton() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8">
       <div className="flex items-center gap-2">
         <Skeleton className="h-6 w-12" />
         <Skeleton className="h-6 w-8 rounded-full" />
