@@ -2,6 +2,7 @@ import { reviewApi } from '@/apis/review/review';
 import { Review as ReviewType } from '@/apis/review/types';
 import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { cn } from '@/utils/common';
 import { formatDate } from '@/utils/date';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -18,7 +19,6 @@ import CommentList from './CommentList';
 import DeleteReviewDialog from './DeleteReviewDialog';
 import ReviewActions from './ReviewActions';
 import ReviewContent from './ReviewContent';
-import { cn } from '@/utils/common';
 
 interface Props {
   review: ReviewType;
@@ -26,6 +26,7 @@ interface Props {
   hideUserInfo?: boolean;
   showBookInfo?: boolean;
   disableClickActions?: boolean;
+  onClickTitle?: () => void;
 }
 
 export default function Review({
@@ -34,6 +35,7 @@ export default function Review({
   hideUserInfo = false,
   showBookInfo = false,
   disableClickActions = false,
+  onClickTitle,
 }: Props) {
   const editorRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -166,7 +168,12 @@ export default function Review({
       <div className="flex flex-col gap-0.5">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2">
-            <h3 className="text-xl font-medium">{review.title}</h3>
+            <h3
+              className={`text-xl font-medium ${onClickTitle ? 'cursor-pointer hover:underline' : ''}`}
+              onClick={onClickTitle}
+            >
+              {review.title}
+            </h3>
             {showBookInfo && (
               <Link
                 href={`/book/${review.book.id}`}

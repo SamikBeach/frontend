@@ -5,6 +5,7 @@ import { Review as ReviewType } from '@/apis/review/types';
 import { userApi } from '@/apis/user/user';
 import { Review } from '@/components/Review';
 import { ReviewListSkeleton } from '@/components/Review/ReviewSkeleton';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { useMemo } from 'react';
@@ -14,7 +15,9 @@ interface Props {
   userId: number;
 }
 
-export function ReviewList({ userId }: Props) {
+export default function ReviewList({ userId }: Props) {
+  const { open } = useDialogQuery({ type: 'review' });
+
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<ReviewType>>,
     Error
@@ -61,6 +64,9 @@ export function ReviewList({ userId }: Props) {
             review={review}
             hideUserInfo
             showBookInfo
+            onClickTitle={() => {
+              open(review.id);
+            }}
             disableClickActions
           />
         ))}

@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { Suspense } from 'react';
 import BookList from './Lists/BookList';
-import { ReviewList } from './Lists/ReviewList';
+import ReviewList from './Lists/ReviewList';
 
 interface Props {
   userId: number;
