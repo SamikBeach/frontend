@@ -8,6 +8,7 @@ import { DialogTitle } from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthorQueryData } from '@/hooks/queries/useAuthorQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { formatAuthorLifespan } from '@/utils/date';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { RefObject, Suspense, useState } from 'react';
 import { LoginDialog } from '../LoginDialog';
@@ -80,12 +81,20 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
             }
           />
           <div className="flex w-full flex-col justify-between">
-            <div className="flex flex-col gap-0.5">
+            <div className="flex flex-col">
               <DialogTitle className="text-2xl font-bold">
                 {author.nameInKor}
               </DialogTitle>
               <p className="text-gray-500">{author.name}</p>
-              <p className="mt-1 text-xs text-gray-400">
+              <p className="text-gray-500">
+                {formatAuthorLifespan(
+                  author.bornDate,
+                  author.bornDateIsBc,
+                  author.diedDate,
+                  author.diedDateIsBc
+                )}
+              </p>
+              <p className="text-xs text-gray-400">
                 작가 정보 제공: 위키피디아
               </p>
             </div>
