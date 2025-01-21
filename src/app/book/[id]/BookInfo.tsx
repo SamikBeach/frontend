@@ -84,6 +84,12 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
             width={200}
             height={300}
             className="flex-shrink-0 cursor-pointer rounded-lg"
+            onClick={() =>
+              window.open(
+                `https://www.aladin.co.kr/shop/wproduct.aspx?isbn=${book.isbn}`,
+                '_blank'
+              )
+            }
           />
           <div className="flex w-full flex-col justify-between gap-4">
             <div className="flex flex-col gap-0.5">
@@ -92,6 +98,9 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                 {book.authorBooks
                   .map(authorBook => authorBook.author.nameInKor)
                   .join(', ')}
+              </p>
+              <p className="mt-1 text-xs text-gray-400">
+                도서 정보 제공: 알라딘
               </p>
             </div>
 

@@ -90,6 +90,12 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
             width={140}
             height={200}
             className="flex-shrink-0 cursor-pointer rounded-lg"
+            onClick={() =>
+              window.open(
+                `https://www.aladin.co.kr/shop/wproduct.aspx?isbn=${book.isbn}`,
+                '_blank'
+              )
+            }
           />
           <div className="flex w-full flex-col justify-between">
             <div className="flex flex-col gap-0.5">
@@ -103,6 +109,9 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
               </p>
               <p className="text-gray-500">
                 {book.publisher} · {formattedPublicationDate}
+              </p>
+              <p className="mt-1 text-xs text-gray-400">
+                도서 정보 제공: 알라딘
               </p>
             </div>
 
