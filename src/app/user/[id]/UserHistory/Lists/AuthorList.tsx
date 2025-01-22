@@ -48,6 +48,22 @@ export default function AuthorList({ userId }: Props) {
     return <div>아직 좋아요한 작가가 없습니다.</div>;
   }
 
+  const mobileLoader = (
+    <div className="flex flex-col gap-4">
+      {Array.from({ length: 10 }).map((_, i) => (
+        <AuthorListItemSkeleton key={i} />
+      ))}
+    </div>
+  );
+
+  const desktopLoader = (
+    <div className="flex flex-wrap gap-3">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <AuthorGridItemSkeleton key={i} size="small" />
+      ))}
+    </div>
+  );
+
   return (
     <>
       <div className="block md:hidden">
@@ -55,13 +71,7 @@ export default function AuthorList({ userId }: Props) {
           dataLength={authors.length}
           next={fetchNextPage}
           hasMore={hasNextPage ?? false}
-          loader={
-            <div className="flex flex-col gap-4">
-              {Array.from({ length: 10 }).map((_, i) => (
-                <AuthorListItemSkeleton key={i} />
-              ))}
-            </div>
-          }
+          loader={mobileLoader}
         >
           <div className="flex flex-col gap-4">
             {authors.map(author => (
@@ -75,13 +85,7 @@ export default function AuthorList({ userId }: Props) {
           dataLength={authors.length}
           next={fetchNextPage}
           hasMore={hasNextPage ?? false}
-          loader={
-            <div className="flex flex-wrap gap-3">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <AuthorGridItemSkeleton key={i} size="small" />
-              ))}
-            </div>
-          }
+          loader={desktopLoader}
         >
           <div className="flex flex-wrap gap-3">
             {authors.map(author => (

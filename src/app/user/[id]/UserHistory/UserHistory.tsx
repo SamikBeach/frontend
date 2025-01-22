@@ -1,8 +1,10 @@
 'use client';
 
 import AuthorGridItemSkeleton from '@/components/AuthorItem/AuthorGridItemSkeleton';
+import AuthorListItemSkeleton from '@/components/AuthorItem/AuthorListItemSkeleton';
 import BookGridItemSkeleton from '@/components/BookItem/BookGridItemSkeleton';
-import { ReviewSkeleton } from '@/components/Review/ReviewSkeleton';
+import BookListItemSkeleton from '@/components/BookItem/BookListItemSkeleton';
+import { ReviewListSkeleton } from '@/components/Review/ReviewSkeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { Suspense } from 'react';
@@ -32,11 +34,22 @@ export default function UserHistory({ userId }: Props) {
       <TabsContent value="review" className="mt-2 flex flex-col gap-6">
         <Suspense
           fallback={
-            <div className="flex flex-col gap-4">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <ReviewSkeleton key={i} />
-              ))}
-            </div>
+            <>
+              <div className="block md:hidden">
+                <div className="flex flex-col gap-4">
+                  {Array.from({ length: 10 }).map((_, i) => (
+                    <ReviewListSkeleton key={i} />
+                  ))}
+                </div>
+              </div>
+              <div className="hidden md:block">
+                <div className="flex flex-col gap-4">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <ReviewListSkeleton key={i} />
+                  ))}
+                </div>
+              </div>
+            </>
           }
         >
           <ReviewList userId={userId} />
@@ -46,13 +59,22 @@ export default function UserHistory({ userId }: Props) {
         <p className="text-lg font-semibold">책</p>
         <Suspense
           fallback={
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-wrap gap-3">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <BookGridItemSkeleton key={i} size="small" />
-                ))}
+            <>
+              <div className="block md:hidden">
+                <div className="flex flex-col gap-4">
+                  {Array.from({ length: 10 }).map((_, i) => (
+                    <BookListItemSkeleton key={i} />
+                  ))}
+                </div>
               </div>
-            </div>
+              <div className="hidden md:block">
+                <div className="flex flex-wrap gap-3">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <BookGridItemSkeleton key={i} size="small" />
+                  ))}
+                </div>
+              </div>
+            </>
           }
         >
           <BookList userId={userId} />
@@ -62,13 +84,22 @@ export default function UserHistory({ userId }: Props) {
         <p className="text-lg font-semibold">작가</p>
         <Suspense
           fallback={
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-wrap gap-3">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <AuthorGridItemSkeleton key={i} size="small" />
-                ))}
+            <>
+              <div className="block md:hidden">
+                <div className="flex flex-col gap-4">
+                  {Array.from({ length: 10 }).map((_, i) => (
+                    <AuthorListItemSkeleton key={i} />
+                  ))}
+                </div>
               </div>
-            </div>
+              <div className="hidden md:block">
+                <div className="flex flex-wrap gap-3">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <AuthorGridItemSkeleton key={i} size="small" />
+                  ))}
+                </div>
+              </div>
+            </>
           }
         >
           <AuthorList userId={userId} />
