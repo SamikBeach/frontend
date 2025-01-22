@@ -1,9 +1,11 @@
 import { searchKeywordAtom } from '@/atoms/search';
+import { Button } from '@/components/ui/button';
 import { Command, CommandInput } from '@/components/ui/command';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { DialogProps, DialogTitle } from '@radix-ui/react-dialog';
 import { useAtom } from 'jotai';
 import { debounce } from 'lodash-es';
+import { X } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import SearchBarDialogContent from './SearchBarDialogContent';
 
@@ -49,7 +51,7 @@ export default function SearchBarDialog({
   return (
     <Dialog {...props} open={open} onOpenChange={handleOpenChange}>
       <DialogContent
-        className="top-[6px] w-[600px] translate-y-0 gap-1 bg-white p-2 sm:max-w-[600px]"
+        className="top-[6px] w-[600px] max-w-[600px] translate-y-0 gap-1 bg-white p-2 max-md:h-full max-md:w-full"
         overlayClassName="bg-black/10"
         closeClassName="hidden"
         aria-describedby={undefined}
@@ -57,12 +59,21 @@ export default function SearchBarDialog({
         {open && (
           <Command shouldFilter={false}>
             <DialogTitle className="hidden" />
-            <CommandInput
-              className="h-10 w-full border-0 bg-transparent text-sm focus-visible:ring-0"
-              placeholder="책이나 작가를 검색하세요."
-              value={inputValue}
-              onValueChange={handleChange}
-            />
+            <div className="relative">
+              <CommandInput
+                className="h-10 w-full border-0 bg-transparent text-sm focus-visible:ring-0"
+                placeholder="책이나 작가를 검색하세요."
+                value={inputValue}
+                onValueChange={handleChange}
+              />
+              <Button
+                variant="ghost"
+                onClick={() => handleOpenChange(false)}
+                className="absolute right-3 top-1/2 hidden -translate-y-1/2 px-3 max-md:block"
+              >
+                <X className="h-4 w-4 text-gray-400" />
+              </Button>
+            </div>
             <SearchBarDialogContent
               keyword={searchKeyword}
               onOpenChange={handleOpenChange}
