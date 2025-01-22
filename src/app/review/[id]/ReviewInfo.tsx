@@ -1,6 +1,7 @@
 'use client';
 
 import { reviewApi } from '@/apis/review/review';
+import BookImage from '@/components/BookImage/BookImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { LoginDialog } from '@/components/LoginDialog';
@@ -73,11 +74,14 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
     },
   });
 
-  const handleLikeClick = () => {
+  const handleLikeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+
     if (!currentUser) {
       setOpenLoginDialog(true);
       return;
     }
+
     toggleLike();
   };
 
@@ -85,20 +89,41 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
     commentListRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const isMyReview = currentUser?.id === review.user.id;
+  const isMyReview = review.user.id === currentUser?.id;
 
   return (
     <>
       <div className="flex flex-col gap-4">
-        <div className="flex items-start justify-between">
-          <div className="flex flex-col gap-2">
-            <Link
-              href={`/book/${review.book.id}`}
-              className="text-sm font-medium text-gray-500 hover:text-gray-900"
-            >
-              {review.book.title}
-            </Link>
-            <h1 className="text-2xl font-bold">{review.title}</h1>
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex flex-col gap-4">
+            <div className="flex items-start gap-4">
+              <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+                {review.title}
+              </h1>
+              <Link
+                href={`/book/${review.book.id}`}
+                target="_blank"
+                className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100"
+              >
+                <BookImage
+                  imageUrl={review.book.imageUrl}
+                  title={review.book.title}
+                  width={20}
+                  height={28}
+                  className="rounded-sm shadow-sm"
+                />
+                <div className="flex flex-col">
+                  <span className="text-xs font-medium text-gray-900">
+                    {review.book.title}
+                  </span>
+                  <span className="text-[11px] text-gray-500">
+                    {review.book.authorBooks
+                      .map(authorBook => authorBook.author.nameInKor)
+                      .join(', ')}
+                  </span>
+                </div>
+              </Link>
+            </div>
             <div className="flex items-center gap-1">
               <div className="flex items-center gap-2">
                 <UserAvatar user={review.user} size="sm" />
@@ -160,18 +185,37 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
 function ReviewInfoSkeleton() {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        <Skeleton className="h-4 w-32" />
-        <Skeleton className="h-8 w-64" />
-        <div className="flex items-center gap-2">
-          <Skeleton className="h-8 w-8 rounded-full" />
-          <Skeleton className="h-4 w-32" />
+      <div className="flex items-start justify-between gap-8">
+        <div className="flex flex-col gap-2">
+          <Skeleton className="h-9 w-96" />
+          <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-7 w-7 rounded-full" />
+              <Skeleton className="h-5 w-20" />
+            </div>
+            <Skeleton className="h-5 w-2" />
+            <Skeleton className="h-5 w-36" />
+          </div>
+        </div>
+
+        <div className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 p-2.5">
+          <Skeleton className="h-14 w-10 rounded-sm" />
+          <div className="flex flex-col gap-0.5">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-3 w-20" />
+          </div>
         </div>
       </div>
-      <Skeleton className="h-40 w-full" />
+
+      <div className="mb-8 flex flex-col gap-1">
+        <Skeleton className="h-6 w-full" />
+        <Skeleton className="h-6 w-full" />
+        <Skeleton className="h-6 w-2/3" />
+      </div>
+
       <div className="flex justify-center gap-2">
-        <Skeleton className="h-9 w-16" />
-        <Skeleton className="h-9 w-16" />
+        <Skeleton className="h-9 w-20" />
+        <Skeleton className="h-9 w-20" />
       </div>
     </div>
   );

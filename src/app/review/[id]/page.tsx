@@ -46,7 +46,7 @@ export default function ReviewPage() {
   }
 
   return (
-    <div className="mx-auto flex max-w-[900px] flex-col gap-10 p-10">
+    <div className="flex flex-col gap-10">
       <ReviewInfo reviewId={reviewId} commentListRef={commentListRef} />
       <CommentList
         ref={commentListRef}
