@@ -10,6 +10,7 @@ import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { formatDate } from '@/utils/date';
+import { isMobileDevice } from '@/utils/responsive';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
@@ -96,6 +97,14 @@ function Feed({ review, user, book }: FeedProps) {
     }
   };
 
+  const handleEdit = () => {
+    if (isMobileDevice()) {
+      router.push(`/write-review?bookId=${book.id}&reviewId=${review.id}`);
+      return;
+    }
+    setShowEditDialog(true);
+  };
+
   const formattedPublicationDate = book.publicationDate
     ? format(new Date(book.publicationDate), 'yyyy년 M월 d일')
     : '';
@@ -117,7 +126,7 @@ function Feed({ review, user, book }: FeedProps) {
             {isMyFeed && (
               <div onClick={e => e.stopPropagation()}>
                 <FeedActions
-                  onEdit={() => setShowEditDialog(true)}
+                  onEdit={handleEdit}
                   onDelete={() => setShowDeleteAlert(true)}
                 />
               </div>

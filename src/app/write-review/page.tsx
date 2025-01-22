@@ -1,6 +1,7 @@
 'use client';
 
 import { reviewApi } from '@/apis/review/review';
+import { Review } from '@/apis/review/types';
 import ReviewEditor from '@/components/ReviewEditor/ReviewEditor';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,23 +9,52 @@ import { toast } from '@/components/ui/sonner';
 import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { isLexicalContentEmpty } from '@/utils/lexical';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import BookInfo from './BookInfo';
 import LeaveConfirmDialog from './LeaveConfirmDialog';
+
+function EditReviewContent({
+  reviewId,
+  onDataLoad,
+}: {
+  reviewId: number;
+  onDataLoad: (data: Review) => void;
+}) {
+  const { data } = useSuspenseQuery<AxiosResponse<Review>, Error>({
+    queryKey: ['review', reviewId],
+    queryFn: () => reviewApi.getReviewDetail(reviewId),
+  });
+
+  useEffect(() => {
+    if (data) {
+      onDataLoad(data.data);
+    }
+  }, [data, onDataLoad]);
+
+  return null;
+}
 
 export default function WriteReviewPage() {
   const searchParams = useSearchParams();
   const bookId = searchParams.get('bookId');
+  const reviewId = searchParams.get('reviewId');
   const router = useRouter();
   const currentUser = useCurrentUser();
-  const { createReviewDataQueryData } = useReviewQueryData();
+  const { createReviewDataQueryData, updateReviewDataQueryData } =
+    useReviewQueryData();
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [isOpenLeaveConfirmDialog, setIsOpenLeaveConfirmDialog] =
     useState(false);
+
+  const handleDataLoad = useCallback((data: Review) => {
+    setTitle(data.title);
+    setContent(data.content);
+  }, []);
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -38,7 +68,29 @@ export default function WriteReviewPage() {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [title, content]);
 
-  const { mutate: createReview, isPending } = useMutation({
+  const { mutate: updateReview, isPending: isUpdatePending } = useMutation({
+    mutationFn: () => {
+      if (!reviewId) throw new Error('Review ID is required');
+      return reviewApi.updateReview(Number(reviewId), { title, content });
+    },
+    onSuccess: response => {
+      if (reviewId && bookId) {
+        updateReviewDataQueryData({
+          reviewId: Number(reviewId),
+          bookId: Number(bookId),
+          updatedReview: response,
+        });
+      }
+
+      toast.success('리뷰가 수정되었습니다.');
+      router.back();
+    },
+    onError: () => {
+      toast.error('리뷰 수정에 실패했습니다.');
+    },
+  });
+
+  const { mutate: createReview, isPending: isCreatePending } = useMutation({
     mutationFn: () => {
       if (!bookId) throw new Error('Book ID is required');
       return reviewApi.createReview(Number(bookId), { title, content });
@@ -71,7 +123,11 @@ export default function WriteReviewPage() {
       return;
     }
 
-    createReview();
+    if (reviewId) {
+      updateReview();
+    } else {
+      createReview();
+    }
   };
 
   const handleBack = () => {
@@ -92,6 +148,12 @@ export default function WriteReviewPage() {
       <div className="flex h-full flex-col gap-4 p-4">
         <Suspense>
           <BookInfo bookId={Number(bookId)} />
+          {reviewId && (
+            <EditReviewContent
+              reviewId={Number(reviewId)}
+              onDataLoad={handleDataLoad}
+            />
+          )}
         </Suspense>
         <Input
           placeholder="제목"
@@ -107,8 +169,15 @@ export default function WriteReviewPage() {
           <Button variant="ghost" onClick={handleBack}>
             취소
           </Button>
-          <Button onClick={handleSubmit} disabled={isPending}>
-            {isPending ? '제출 중...' : '제출하기'}
+          <Button
+            onClick={handleSubmit}
+            disabled={isCreatePending || isUpdatePending}
+          >
+            {isCreatePending || isUpdatePending
+              ? '제출 중...'
+              : reviewId
+                ? '수정하기'
+                : '제출하기'}
           </Button>
         </div>
       </div>

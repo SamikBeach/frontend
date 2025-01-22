@@ -1,21 +1,23 @@
 'use client';
 
 import { reviewApi } from '@/apis/review/review';
-import BookLink from '@/components/BookLink/BookLink';
+import BookImage from '@/components/BookImage/BookImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { LoginDialog } from '@/components/LoginDialog';
+import ReviewActions from '@/components/Review/ReviewActions';
 import ReviewContent from '@/components/Review/ReviewContent';
 import DeleteReviewDialog from '@/components/ReviewDialog/DeleteReviewDialog';
-import ReviewActions from '@/components/ReviewDialog/ReviewActions';
+import { toast } from '@/components/ui/sonner';
 import { UserAvatar } from '@/components/UserAvatar';
 import { WriteReviewDialog } from '@/components/WriteReviewDialog';
-import { Skeleton } from '@/components/ui/skeleton';
-import { toast } from '@/components/ui/sonner';
 import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { isMobileDevice } from '@/utils/responsive';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { RefObject, Suspense, useState } from 'react';
 
 interface Props {
@@ -25,6 +27,7 @@ interface Props {
 
 function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   const currentUser = useCurrentUser();
+  const router = useRouter();
   const { updateReviewLikeQueryData, deleteReviewDataQueryData } =
     useReviewQueryData();
 
@@ -67,6 +70,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
         authorId: review.book.authorBooks?.[0]?.author.id,
       });
       toast.success('리뷰가 삭제되었습니다.');
+      router.back();
     },
     onError: () => {
       toast.error('리뷰 삭제에 실패했습니다.');
@@ -88,45 +92,67 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
     commentListRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleEdit = () => {
+    if (isMobileDevice()) {
+      router.push(
+        `/write-review?bookId=${review.book.id}&reviewId=${review.id}`
+      );
+      return;
+    }
+    setShowEditDialog(true);
+  };
+
   const isMyReview = review.user.id === currentUser?.id;
 
   return (
     <>
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-4">
-          <div className="flex items-start justify-between">
-            <div className="flex flex-col gap-4">
-              <div className="flex justify-start">
-                <BookLink book={review.book} className="md:hidden" />
-              </div>
-              <div className="flex flex-col gap-4 md:flex-row md:items-start">
-                <h1 className="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
-                  {review.title}
-                </h1>
-                <BookLink
-                  book={review.book}
-                  className="hidden md:flex"
-                  openInNewTab
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex flex-col gap-4">
+            <div className="flex items-start gap-4">
+              <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+                {review.title}
+              </h1>
+              <Link
+                href={`/book/${review.book.id}`}
+                target="_blank"
+                className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100"
+              >
+                <BookImage
+                  imageUrl={review.book.imageUrl}
+                  title={review.book.title}
+                  width={20}
+                  height={28}
+                  className="rounded-sm shadow-sm"
                 />
-              </div>
-              <div className="flex items-center gap-1">
-                <UserAvatar user={review.user} size="sm" />
-                <span className="text-gray-300">·</span>
-                <span className="text-xs text-gray-500">
-                  {format(
-                    new Date(review.createdAt),
-                    'yyyy년 M월 d일 HH시 mm분'
-                  )}
-                </span>
-              </div>
+                <div className="flex flex-col">
+                  <span className="text-xs font-medium text-gray-900">
+                    {review.book.title}
+                  </span>
+                  <span className="text-[11px] text-gray-500">
+                    {review.book.authorBooks
+                      .map(authorBook => authorBook.author.nameInKor)
+                      .join(', ')}
+                  </span>
+                </div>
+              </Link>
             </div>
-            {isMyReview && (
-              <ReviewActions
-                onEdit={() => setShowEditDialog(true)}
-                onDelete={() => setShowDeleteAlert(true)}
-              />
-            )}
+            <div className="flex items-center gap-1">
+              <div className="flex items-center gap-2">
+                <UserAvatar user={review.user} size="sm" />
+              </div>
+              <span className="text-gray-300">·</span>
+              <span className="text-xs text-gray-500">
+                {format(new Date(review.createdAt), 'yyyy년 M월 d일 HH시 mm분')}
+              </span>
+            </div>
           </div>
+          {isMyReview && (
+            <ReviewActions
+              onEdit={handleEdit}
+              onDelete={() => setShowDeleteAlert(true)}
+            />
+          )}
         </div>
 
         <div className="mb-8 whitespace-pre-wrap text-base leading-relaxed text-gray-800">
@@ -172,38 +198,37 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
 function ReviewInfoSkeleton() {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex flex-col gap-4">
-          <div className="flex items-start gap-4">
-            <Skeleton className="h-9 w-96" />
-            <div className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 px-2 py-1">
-              <Skeleton className="h-7 w-5 rounded-sm" />
-              <div className="flex flex-col gap-0.5">
-                <Skeleton className="h-3 w-24" />
-                <Skeleton className="h-2.5 w-20" />
-              </div>
-            </div>
-          </div>
+      <div className="flex items-start justify-between gap-8">
+        <div className="flex flex-col gap-2">
+          <div className="h-9 w-96 animate-pulse rounded-md bg-gray-200" />
           <div className="flex items-center gap-1">
             <div className="flex items-center gap-2">
-              <Skeleton className="h-6 w-6 rounded-full" />
-              <Skeleton className="h-4 w-20" />
+              <div className="h-7 w-7 animate-pulse rounded-full bg-gray-200" />
+              <div className="h-5 w-20 animate-pulse rounded-md bg-gray-200" />
             </div>
-            <Skeleton className="h-4 w-2" />
-            <Skeleton className="h-4 w-36" />
+            <div className="h-5 w-2 animate-pulse rounded-md bg-gray-200" />
+            <div className="h-5 w-36 animate-pulse rounded-md bg-gray-200" />
+          </div>
+        </div>
+
+        <div className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 p-2.5">
+          <div className="h-14 w-10 animate-pulse rounded-sm bg-gray-200" />
+          <div className="flex flex-col gap-0.5">
+            <div className="h-4 w-24 animate-pulse rounded-md bg-gray-200" />
+            <div className="h-3 w-20 animate-pulse rounded-md bg-gray-200" />
           </div>
         </div>
       </div>
 
       <div className="mb-8 flex flex-col gap-1">
-        <Skeleton className="h-6 w-full" />
-        <Skeleton className="h-6 w-full" />
-        <Skeleton className="h-6 w-2/3" />
+        <div className="h-6 w-full animate-pulse rounded-md bg-gray-200" />
+        <div className="h-6 w-full animate-pulse rounded-md bg-gray-200" />
+        <div className="h-6 w-2/3 animate-pulse rounded-md bg-gray-200" />
       </div>
 
       <div className="flex justify-center gap-2">
-        <Skeleton className="h-9 w-20 rounded-full" />
-        <Skeleton className="h-9 w-20 rounded-full" />
+        <div className="h-9 w-20 animate-pulse rounded-md bg-gray-200" />
+        <div className="h-9 w-20 animate-pulse rounded-md bg-gray-200" />
       </div>
     </div>
   );

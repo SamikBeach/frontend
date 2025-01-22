@@ -9,10 +9,12 @@ import { UserAvatar } from '@/components/UserAvatar';
 import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
+import { isMobileDevice } from '@/utils/responsive';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { RefObject, Suspense, useState } from 'react';
 import { LoginDialog } from '../LoginDialog';
 import ReviewContent from '../Review/ReviewContent';
@@ -29,6 +31,7 @@ interface Props {
 function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   const currentUser = useCurrentUser();
   const { close } = useDialogQuery({ type: 'review' });
+  const router = useRouter();
   const { updateReviewLikeQueryData, deleteReviewDataQueryData } =
     useReviewQueryData();
 
@@ -92,6 +95,16 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
     commentListRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleEdit = () => {
+    if (isMobileDevice()) {
+      router.push(
+        `/write-review?bookId=${review.book.id}&reviewId=${review.id}`
+      );
+      return;
+    }
+    setShowEditDialog(true);
+  };
+
   const isMyReview = review.user.id === currentUser?.id;
 
   return (
@@ -139,7 +152,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
           </div>
           {isMyReview && (
             <ReviewActions
-              onEdit={() => setShowEditDialog(true)}
+              onEdit={handleEdit}
               onDelete={() => setShowDeleteAlert(true)}
             />
           )}

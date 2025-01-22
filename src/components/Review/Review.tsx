@@ -4,10 +4,12 @@ import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { cn } from '@/utils/common';
 import { formatDate } from '@/utils/date';
+import { isMobileDevice } from '@/utils/responsive';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import BookImage from '../BookImage/BookImage';
 import CommentEditor from '../CommentEditor/CommentEditor';
@@ -52,6 +54,7 @@ export default function Review({
 
   const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
+  const router = useRouter();
 
   const isMyReview = currentUser?.id === review.user.id;
 
@@ -166,6 +169,16 @@ export default function Review({
     },
   });
 
+  const handleEdit = () => {
+    if (isMobileDevice()) {
+      router.push(
+        `/write-review?bookId=${review.book.id}&reviewId=${review.id}`
+      );
+      return;
+    }
+    setShowEditDialog(true);
+  };
+
   return (
     <>
       <div className="flex flex-col gap-0.5">
@@ -206,7 +219,7 @@ export default function Review({
           {isMyReview && (
             <div className="ml-auto p-0.5">
               <ReviewActions
-                onEdit={() => setShowEditDialog(true)}
+                onEdit={handleEdit}
                 onDelete={() => setShowDeleteAlert(true)}
               />
             </div>
