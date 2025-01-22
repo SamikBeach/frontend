@@ -51,7 +51,7 @@ export default function SearchBarDialog({
   return (
     <Dialog {...props} open={open} onOpenChange={handleOpenChange}>
       <DialogContent
-        className="top-[6px] w-[600px] max-w-[600px] translate-y-0 gap-1 bg-white p-2 max-md:h-full max-md:w-full"
+        className="top-[6px] w-[600px] max-w-[600px] translate-y-0 gap-1 bg-white p-2 max-md:top-0 max-md:h-full max-md:w-full"
         overlayClassName="bg-black/10"
         closeClassName="hidden"
         aria-describedby={undefined}
