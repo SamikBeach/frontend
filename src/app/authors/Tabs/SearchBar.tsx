@@ -55,7 +55,7 @@ export function SearchBar() {
         placeholder="작가 검색"
         value={inputValue}
         onChange={handleChange}
-        className="w-full pl-9 max-md:text-sm md:w-[240px]"
+        className="w-full pl-9 md:w-[240px]"
       />
       {inputValue && (
         <div
