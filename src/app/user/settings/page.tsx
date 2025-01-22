@@ -14,8 +14,8 @@ import DeleteAccountDialog from './DeleteAccountDialog';
 
 export default function Settings() {
   return (
-    <div className="container mx-auto max-w-3xl py-8">
-      <h1 className="mb-8 text-3xl font-bold">계정 설정</h1>
+    <div className="flex flex-col gap-6">
+      <h1 className="text-3xl font-bold">계정 설정</h1>
       <div className="space-y-6">
         <Card>
           <CardHeader>

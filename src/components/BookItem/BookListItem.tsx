@@ -3,10 +3,12 @@
 import { Book } from '@/apis/book/types';
 import { bookSearchKeywordAtom } from '@/atoms/book';
 import BookImage from '@/components/BookImage/BookImage';
+import { MOBILE_BREAKPOINT } from '@/constants/responsive';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { format } from 'date-fns';
 import { useAtomValue } from 'jotai';
 import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import Highlighter from 'react-highlight-words';
 
 interface Props {
@@ -17,9 +19,14 @@ export default function BookListItem({ book }: Props) {
   const { open } = useDialogQuery({ type: 'book' });
   const searchValue = useAtomValue(bookSearchKeywordAtom);
   const searchWords = searchValue ? [searchValue] : [];
+  const router = useRouter();
 
   const handleClick = () => {
-    open(book.id);
+    if (window.innerWidth < MOBILE_BREAKPOINT) {
+      router.push(`/book/${book.id}`);
+    } else {
+      open(book.id);
+    }
   };
 
   const formattedPublicationDate = book.publicationDate

@@ -114,7 +114,7 @@ function CommentEditor({
         });
       }
     });
-  }, [editor, onSubmit]);
+  }, [editor, onSubmit, currentUser]);
 
   return (
     <>

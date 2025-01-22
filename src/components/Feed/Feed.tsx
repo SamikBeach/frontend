@@ -5,12 +5,15 @@ import { reviewApi } from '@/apis/review/review';
 import { Review } from '@/apis/review/types';
 import { UserBase } from '@/apis/user/types';
 import BookImage from '@/components/BookImage/BookImage';
+import { MOBILE_BREAKPOINT } from '@/constants/responsive';
 import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { formatDate } from '@/utils/date';
+import { isMobileDevice } from '@/utils/responsive';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { CommentButton } from '../CommentButton';
 import { LikeButton } from '../LikeButton';
@@ -30,6 +33,7 @@ interface FeedProps {
 
 function Feed({ review, user, book }: FeedProps) {
   const { open } = useDialogQuery({ type: 'review' });
+  const router = useRouter();
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
@@ -85,6 +89,22 @@ function Feed({ review, user, book }: FeedProps) {
     toggleLike();
   };
 
+  const handleFeedClick = () => {
+    if (window.innerWidth < MOBILE_BREAKPOINT) {
+      router.push(`/review/${review.id}`);
+    } else {
+      open(review.id);
+    }
+  };
+
+  const handleEdit = () => {
+    if (isMobileDevice()) {
+      router.push(`/write-review?bookId=${book.id}&reviewId=${review.id}`);
+      return;
+    }
+    setShowEditDialog(true);
+  };
+
   const formattedPublicationDate = book.publicationDate
     ? format(new Date(book.publicationDate), 'yyyy년 M월 d일')
     : '';
@@ -93,7 +113,7 @@ function Feed({ review, user, book }: FeedProps) {
     <>
       <div
         className="relative flex max-w-[700px] gap-4 rounded-lg bg-white p-5 transition-colors duration-200 hover:cursor-pointer hover:bg-gray-50"
-        onClick={() => open(review.id)}
+        onClick={handleFeedClick}
       >
         <div className="flex flex-1 flex-col gap-4">
           <div className="flex items-center justify-between">
@@ -106,7 +126,7 @@ function Feed({ review, user, book }: FeedProps) {
             {isMyFeed && (
               <div onClick={e => e.stopPropagation()}>
                 <FeedActions
-                  onEdit={() => setShowEditDialog(true)}
+                  onEdit={handleEdit}
                   onDelete={() => setShowDeleteAlert(true)}
                 />
               </div>

@@ -46,7 +46,7 @@ export default function BookItem({
       />
       <div className="flex h-24 flex-1 flex-col justify-between py-1.5 pl-2">
         <div className="flex flex-col gap-1">
-          <h4 className="line-clamp-1 text-sm font-medium">
+          <h4 className="line-clamp-1 text-sm font-medium max-sm:line-clamp-2">
             <Highlighter
               searchWords={searchWords}
               textToHighlight={book.title}

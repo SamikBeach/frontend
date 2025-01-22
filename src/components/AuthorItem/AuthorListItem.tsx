@@ -3,10 +3,12 @@
 import { Author } from '@/apis/author/types';
 import { authorSearchKeywordAtom } from '@/atoms/author';
 import AuthorImage from '@/components/AuthorImage/AuthorImage';
+import { MOBILE_BREAKPOINT } from '@/constants/responsive';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { formatAuthorLifespan } from '@/utils/date';
 import { useAtomValue } from 'jotai';
 import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import Highlighter from 'react-highlight-words';
 
 interface Props {
@@ -17,9 +19,14 @@ export default function AuthorListItem({ author }: Props) {
   const { open } = useDialogQuery({ type: 'author' });
   const searchValue = useAtomValue(authorSearchKeywordAtom);
   const searchWords = searchValue ? [searchValue] : [];
+  const router = useRouter();
 
   const handleClick = () => {
-    open(author.id);
+    if (window.innerWidth < MOBILE_BREAKPOINT) {
+      router.push(`/author/${author.id}`);
+    } else {
+      open(author.id);
+    }
   };
 
   const lifespan = formatAuthorLifespan(

@@ -4,24 +4,21 @@ import { reviewApi } from '@/apis/review/review';
 import BookImage from '@/components/BookImage/BookImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
-import { Skeleton } from '@/components/ui/skeleton';
+import { LoginDialog } from '@/components/LoginDialog';
+import ReviewActions from '@/components/Review/ReviewActions';
+import ReviewContent from '@/components/Review/ReviewContent';
+import DeleteReviewDialog from '@/components/ReviewDialog/DeleteReviewDialog';
+import { toast } from '@/components/ui/sonner';
 import { UserAvatar } from '@/components/UserAvatar';
+import { WriteReviewDialog } from '@/components/WriteReviewDialog';
 import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { isMobileDevice } from '@/utils/responsive';
-import { DialogTitle } from '@radix-ui/react-dialog';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { RefObject, Suspense, useState } from 'react';
-import { LoginDialog } from '../LoginDialog';
-import ReviewContent from '../Review/ReviewContent';
-import { toast } from '../ui/sonner';
-import { WriteReviewDialog } from '../WriteReviewDialog';
-import DeleteReviewDialog from './DeleteReviewDialog';
-import ReviewActions from './ReviewActions';
 
 interface Props {
   reviewId: number;
@@ -30,7 +27,6 @@ interface Props {
 
 function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   const currentUser = useCurrentUser();
-  const { close } = useDialogQuery({ type: 'review' });
   const router = useRouter();
   const { updateReviewLikeQueryData, deleteReviewDataQueryData } =
     useReviewQueryData();
@@ -44,6 +40,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
+
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
     onMutate: () => {
@@ -72,8 +69,8 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
         bookId: review.book.id,
         authorId: review.book.authorBooks?.[0]?.author.id,
       });
-      close();
       toast.success('리뷰가 삭제되었습니다.');
+      router.back();
     },
     onError: () => {
       toast.error('리뷰 삭제에 실패했습니다.');
@@ -113,9 +110,9 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
         <div className="flex items-start justify-between gap-2">
           <div className="flex flex-col gap-4">
             <div className="flex items-start gap-4">
-              <DialogTitle className="text-3xl font-bold tracking-tight text-gray-900">
+              <h1 className="text-3xl font-bold tracking-tight text-gray-900">
                 {review.title}
-              </DialogTitle>
+              </h1>
               <Link
                 href={`/book/${review.book.id}`}
                 target="_blank"
@@ -203,35 +200,35 @@ function ReviewInfoSkeleton() {
     <div className="flex flex-col gap-4">
       <div className="flex items-start justify-between gap-8">
         <div className="flex flex-col gap-2">
-          <Skeleton className="h-9 w-96" />
+          <div className="h-9 w-96 animate-pulse rounded-md bg-gray-200" />
           <div className="flex items-center gap-1">
             <div className="flex items-center gap-2">
-              <Skeleton className="h-7 w-7 rounded-full" />
-              <Skeleton className="h-5 w-20" />
+              <div className="h-7 w-7 animate-pulse rounded-full bg-gray-200" />
+              <div className="h-5 w-20 animate-pulse rounded-md bg-gray-200" />
             </div>
-            <Skeleton className="h-5 w-2" />
-            <Skeleton className="h-5 w-36" />
+            <div className="h-5 w-2 animate-pulse rounded-md bg-gray-200" />
+            <div className="h-5 w-36 animate-pulse rounded-md bg-gray-200" />
           </div>
         </div>
 
         <div className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 p-2.5">
-          <Skeleton className="h-14 w-10 rounded-sm" />
+          <div className="h-14 w-10 animate-pulse rounded-sm bg-gray-200" />
           <div className="flex flex-col gap-0.5">
-            <Skeleton className="h-4 w-24" />
-            <Skeleton className="h-3 w-20" />
+            <div className="h-4 w-24 animate-pulse rounded-md bg-gray-200" />
+            <div className="h-3 w-20 animate-pulse rounded-md bg-gray-200" />
           </div>
         </div>
       </div>
 
       <div className="mb-8 flex flex-col gap-1">
-        <Skeleton className="h-6 w-full" />
-        <Skeleton className="h-6 w-full" />
-        <Skeleton className="h-6 w-2/3" />
+        <div className="h-6 w-full animate-pulse rounded-md bg-gray-200" />
+        <div className="h-6 w-full animate-pulse rounded-md bg-gray-200" />
+        <div className="h-6 w-2/3 animate-pulse rounded-md bg-gray-200" />
       </div>
 
       <div className="flex justify-center gap-2">
-        <Skeleton className="h-9 w-20" />
-        <Skeleton className="h-9 w-20" />
+        <div className="h-9 w-20 animate-pulse rounded-md bg-gray-200" />
+        <div className="h-9 w-20 animate-pulse rounded-md bg-gray-200" />
       </div>
     </div>
   );

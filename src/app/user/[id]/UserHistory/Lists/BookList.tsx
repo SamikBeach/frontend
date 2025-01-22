@@ -3,8 +3,9 @@
 import { Book } from '@/apis/book/types';
 import { PaginatedResponse } from '@/apis/common/types';
 import { userApi } from '@/apis/user/user';
-import { BookGridItem } from '@/components/BookItem';
+import { BookGridItem, BookListItem } from '@/components/BookItem';
 import BookGridItemSkeleton from '@/components/BookItem/BookGridItemSkeleton';
+import BookListItemSkeleton from '@/components/BookItem/BookListItemSkeleton';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { useMemo } from 'react';
@@ -47,29 +48,57 @@ export default function BookList({ userId }: Props) {
     return <div>아직 좋아요한 책이 없습니다.</div>;
   }
 
+  const mobileLoader = (
+    <div className="flex flex-col">
+      {Array.from({ length: 10 }).map((_, i) => (
+        <BookListItemSkeleton key={i} />
+      ))}
+    </div>
+  );
+
+  const desktopLoader = (
+    <div className="flex flex-wrap gap-3">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <BookGridItemSkeleton key={i} size="small" />
+      ))}
+    </div>
+  );
+
   return (
-    <InfiniteScroll
-      dataLength={books.length}
-      next={fetchNextPage}
-      hasMore={hasNextPage ?? false}
-      loader={
-        <div className="flex flex-wrap gap-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <BookGridItemSkeleton key={i} size="small" />
-          ))}
-        </div>
-      }
-    >
-      <div className="flex flex-wrap gap-3">
-        {books.map(book => (
-          <BookGridItem
-            key={book.book.id}
-            book={book.book}
-            size="small"
-            showAuthor
-          />
-        ))}
+    <>
+      <div className="block md:hidden">
+        <InfiniteScroll
+          dataLength={books.length}
+          next={fetchNextPage}
+          hasMore={hasNextPage ?? false}
+          loader={mobileLoader}
+        >
+          <div className="flex flex-col">
+            {books.map(book => (
+              <BookListItem key={book.book.id} book={book.book} />
+            ))}
+          </div>
+        </InfiniteScroll>
       </div>
-    </InfiniteScroll>
+      <div className="hidden md:block">
+        <InfiniteScroll
+          dataLength={books.length}
+          next={fetchNextPage}
+          hasMore={hasNextPage ?? false}
+          loader={desktopLoader}
+        >
+          <div className="flex flex-wrap gap-3">
+            {books.map(book => (
+              <BookGridItem
+                key={book.book.id}
+                book={book.book}
+                size="small"
+                showAuthor
+              />
+            ))}
+          </div>
+        </InfiniteScroll>
+      </div>
+    </>
   );
 }

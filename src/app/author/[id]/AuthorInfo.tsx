@@ -69,9 +69,9 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
           <AuthorImage
             imageUrl={author.imageUrl}
             name={author.nameInKor}
-            width={200}
-            height={200}
-            className="cursor-pointer rounded-full"
+            width={140}
+            height={140}
+            className="flex-shrink-0 cursor-pointer rounded-full md:h-[200px] md:w-[200px]"
             onClick={() =>
               window.open(
                 `https://en.wikipedia.org/wiki/${author.name}`,
@@ -81,9 +81,13 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
           />
           <div className="flex w-full flex-col justify-between gap-4">
             <div className="flex flex-col gap-0.5">
-              <h1 className="text-2xl font-bold">{author.nameInKor}</h1>
-              <p className="text-gray-500">{author.name}</p>
-              <p className="text-gray-400">
+              <h1 className="text-lg font-bold md:text-2xl">
+                {author.nameInKor}
+              </h1>
+              <p className="text-sm text-gray-500 md:text-base">
+                {author.name}
+              </p>
+              <p className="text-sm text-gray-400 md:text-base">
                 {formatAuthorLifespan(
                   author.bornDate,
                   author.bornDateIsBc,
@@ -91,21 +95,23 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                   author.diedDateIsBc
                 )}
               </p>
-              <p className="mttext-xs text-gray-400">
+              <p className="mt-1 text-xs text-gray-400">
                 작가 정보 제공: 위키피디아
               </p>
             </div>
 
-            <div className="flex gap-2">
-              <LikeButton
-                isLiked={author.isLiked ?? false}
-                likeCount={author.likeCount}
-                onClick={handleLikeClick}
-              />
-              <CommentButton
-                commentCount={author.reviewCount}
-                onClick={handleReviewClick}
-              />
+            <div className="flex w-full flex-col gap-2 md:flex-row">
+              <div className="flex gap-2">
+                <LikeButton
+                  isLiked={author.isLiked ?? false}
+                  likeCount={author.likeCount}
+                  onClick={handleLikeClick}
+                />
+                <CommentButton
+                  commentCount={author.reviewCount}
+                  onClick={handleReviewClick}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -119,15 +125,20 @@ function AuthorInfoSkeleton() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-6">
-        <Skeleton className="h-[200px] min-h-[200px] w-[200px] min-w-[200px] shrink-0 rounded-full" />
+        <Skeleton className="h-[140px] w-[140px] shrink-0 rounded-full md:h-[200px] md:w-[200px]" />
         <div className="flex w-full flex-col justify-between gap-4">
-          <div className="flex flex-col gap-2">
-            <Skeleton className="h-8 w-1/2" />
-            <Skeleton className="h-6 w-1/4" />
+          <div className="flex flex-col gap-0.5">
+            <Skeleton className="h-6 w-3/5 md:h-8" />
+            <Skeleton className="mt-0.5 h-5 w-2/5 md:h-6" />
+            <Skeleton className="mt-0.5 h-5 w-3/5 md:h-6" />
+            <Skeleton className="mt-1 h-4 w-24" />
           </div>
-          <div className="flex gap-2">
-            <Skeleton className="h-9 w-20" />
-            <Skeleton className="h-9 w-20" />
+
+          <div className="flex w-full flex-col gap-2 md:flex-row">
+            <div className="flex gap-2">
+              <Skeleton className="h-9 w-20" />
+              <Skeleton className="h-9 w-20" />
+            </div>
           </div>
         </div>
       </div>

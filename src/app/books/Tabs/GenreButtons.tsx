@@ -22,14 +22,14 @@ export function GenreButtons() {
   };
 
   return (
-    <div className="mr-4 flex gap-2">
+    <div className="flex gap-2 md:mr-4">
       {(Object.entries(GENRE_LABELS) as [Genre, string][]).map(
         ([value, label]) => (
           <Button
             key={value}
             onClick={() => handleGenreChange(value)}
             variant="ghost"
-            className={`px-0 text-lg font-bold hover:bg-transparent ${
+            className={`whitespace-nowrap px-0 text-base font-bold hover:bg-transparent md:text-lg ${
               genre === value ? 'text-black' : 'text-gray-400'
             }`}
           >

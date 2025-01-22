@@ -48,14 +48,14 @@ export function SearchBar() {
   }, [searchParams, setSearchKeyword]);
 
   return (
-    <div className="relative">
+    <div className="relative w-full md:w-auto">
       <SearchIcon className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
       <Input
         type="text"
         placeholder="제목, 저자 검색..."
         value={inputValue}
         onChange={handleChange}
-        className="w-[300px] pl-8"
+        className="w-full pl-8 max-md:text-sm md:w-[300px]"
       />
       {inputValue && (
         <div

@@ -3,8 +3,9 @@
 import { Author } from '@/apis/author/types';
 import { PaginatedResponse } from '@/apis/common/types';
 import { userApi } from '@/apis/user/user';
-import { AuthorGridItem } from '@/components/AuthorItem';
+import { AuthorGridItem, AuthorListItem } from '@/components/AuthorItem';
 import AuthorGridItemSkeleton from '@/components/AuthorItem/AuthorGridItemSkeleton';
+import AuthorListItemSkeleton from '@/components/AuthorItem/AuthorListItemSkeleton';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { useMemo } from 'react';
@@ -47,28 +48,56 @@ export default function AuthorList({ userId }: Props) {
     return <div>아직 좋아요한 작가가 없습니다.</div>;
   }
 
+  const mobileLoader = (
+    <div className="flex flex-col">
+      {Array.from({ length: 10 }).map((_, i) => (
+        <AuthorListItemSkeleton key={i} />
+      ))}
+    </div>
+  );
+
+  const desktopLoader = (
+    <div className="flex flex-wrap gap-3">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <AuthorGridItemSkeleton key={i} size="small" />
+      ))}
+    </div>
+  );
+
   return (
-    <InfiniteScroll
-      dataLength={authors.length}
-      next={fetchNextPage}
-      hasMore={hasNextPage ?? false}
-      loader={
-        <div className="flex flex-wrap gap-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <AuthorGridItemSkeleton key={i} size="small" />
-          ))}
-        </div>
-      }
-    >
-      <div className="flex flex-wrap gap-3">
-        {authors.map(author => (
-          <AuthorGridItem
-            key={author.author.id}
-            author={author.author}
-            size="small"
-          />
-        ))}
+    <>
+      <div className="block md:hidden">
+        <InfiniteScroll
+          dataLength={authors.length}
+          next={fetchNextPage}
+          hasMore={hasNextPage ?? false}
+          loader={mobileLoader}
+        >
+          <div className="flex flex-col">
+            {authors.map(author => (
+              <AuthorListItem key={author.author.id} author={author.author} />
+            ))}
+          </div>
+        </InfiniteScroll>
       </div>
-    </InfiniteScroll>
+      <div className="hidden md:block">
+        <InfiniteScroll
+          dataLength={authors.length}
+          next={fetchNextPage}
+          hasMore={hasNextPage ?? false}
+          loader={desktopLoader}
+        >
+          <div className="flex flex-wrap gap-3">
+            {authors.map(author => (
+              <AuthorGridItem
+                key={author.author.id}
+                author={author.author}
+                size="small"
+              />
+            ))}
+          </div>
+        </InfiniteScroll>
+      </div>
+    </>
   );
 }
