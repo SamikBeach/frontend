@@ -1,11 +1,14 @@
 import { authApi } from '@/apis/auth/auth';
 import { currentUserAtom } from '@/atoms/auth';
+import PrivacyDialog from '@/components/PrivacyDialog/PrivacyDialog';
+import TermsDialog from '@/components/TermsDialog/TermsDialog';
 import { STORAGE_KEYS } from '@/constants/storage-keys';
 import Google from '@/svgs/google';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useSetAtom } from 'jotai';
+import { useState } from 'react';
 import { useController, useForm } from 'react-hook-form';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -26,6 +29,8 @@ export default function SignUpForm({
   onSuccess,
 }: Props) {
   const setCurrentUser = useSetAtom(currentUserAtom);
+  const [openTerms, setOpenTerms] = useState(false);
+  const [openPrivacy, setOpenPrivacy] = useState(false);
 
   const {
     control,
@@ -144,15 +149,28 @@ export default function SignUpForm({
         </div>
 
         <div className="flex items-center">
-          <Button variant="link" className="h-6 p-0 text-gray-500">
+          <Button
+            type="button"
+            variant="link"
+            className="h-6 p-0 text-gray-500"
+            onClick={() => setOpenTerms(true)}
+          >
             이용약관
           </Button>
           <span className="px-1 text-gray-500">·</span>
-          <Button variant="link" className="h-6 p-0 text-gray-500">
+          <Button
+            type="button"
+            variant="link"
+            className="h-6 p-0 text-gray-500"
+            onClick={() => setOpenPrivacy(true)}
+          >
             개인정보처리방침
           </Button>
         </div>
       </div>
+
+      <TermsDialog open={openTerms} onOpenChange={setOpenTerms} />
+      <PrivacyDialog open={openPrivacy} onOpenChange={setOpenPrivacy} />
     </form>
   );
 }

@@ -14,6 +14,9 @@ export default function Initializer() {
     queryFn: userApi.getMyProfile,
     select: data => data.data,
     retry: 0,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   });
 
   useEffect(() => {

@@ -90,19 +90,38 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
             width={140}
             height={200}
             className="flex-shrink-0 cursor-pointer rounded-lg"
+            onClick={() =>
+              window.open(
+                `https://www.aladin.co.kr/shop/wproduct.aspx?isbn=${book.isbn}`,
+                '_blank'
+              )
+            }
           />
           <div className="flex w-full flex-col justify-between">
             <div className="flex flex-col gap-0.5">
               <DialogTitle className="text-2xl font-bold">
                 {book.title}
               </DialogTitle>
-              <p className="text-gray-500">
+              <p>
                 {book.authorBooks
                   .map(authorBook => authorBook.author.nameInKor)
-                  .join(', ')}{' '}
+                  .join(', ')}
               </p>
               <p className="text-gray-500">
-                {book.publisher} · {formattedPublicationDate}
+                {book.publisher}
+                {book.publisher && formattedPublicationDate && (
+                  <span className="mx-1 font-medium">·</span>
+                )}
+                {formattedPublicationDate}
+              </p>
+              {book.bookOriginalWorks[0] && (
+                <p className="text-gray-500">
+                  원전 : {book.bookOriginalWorks[0].originalWork.title}(
+                  {book.bookOriginalWorks[0].originalWork.titleInEng})
+                </p>
+              )}
+              <p className="mt-1 text-xs text-gray-400">
+                도서 정보 제공: 알라딘
               </p>
             </div>
 

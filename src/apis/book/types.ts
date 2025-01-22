@@ -18,6 +18,30 @@ export interface Book extends BaseEntity {
     author: Author;
   }[];
   totalTranslationCount: number;
+  bookOriginalWorks: {
+    id: number;
+    bookId: number;
+    originalWorkId: number;
+    originalWork: {
+      id: number;
+      title: string;
+      titleInEng: string | null;
+      authorBooks: {
+        id: number;
+        authorId: number;
+        bookId: number;
+        author: {
+          id: number;
+          nameInKor: string;
+          nameInEng: string | null;
+        };
+      }[];
+    };
+  }[];
+  genre: {
+    id: number;
+    name: string;
+  } | null;
 }
 
 export interface BookDetail extends Book {
