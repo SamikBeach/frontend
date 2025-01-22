@@ -73,7 +73,7 @@ export default function AuthorItem({
           </span>
           <span className="flex items-center gap-0.5 text-xs">
             <LibraryIcon className="!h-3 !w-3" />
-            {author.reviewCount}
+            {author.bookCount}
           </span>
         </div>
       </div>
