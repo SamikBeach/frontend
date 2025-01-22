@@ -1,5 +1,51 @@
 # 🚦 CHANGELOG
 
+# [1.48.0](https://github.com/SamikBeach/frontend/compare/1.47.0...1.48.0) (2025-01-22)
+
+
+### Bug Fixes
+
+* AuthorItem 잘못들어간 변수 수정 ([1db2274](https://github.com/SamikBeach/frontend/commit/1db2274aaba2cfc57da0e4190cd4dbc0f36d03c4))
+* currentUser 업데이트 되지 않는 이슈 픽스 ([bca20fb](https://github.com/SamikBeach/frontend/commit/bca20fb0dbc291f7d0e9fc4bfef747cbf3e13b67))
+* EmptyComments 가운데 오도록 수정 ([48b538d](https://github.com/SamikBeach/frontend/commit/48b538dadbf6d198258b7c8be9afb2ad687e641f))
+* Review 페이지 반응형 처리 ([3fe153a](https://github.com/SamikBeach/frontend/commit/3fe153acfd7dcbf46684b640e7c2abfe689074be))
+* Review 페이지 스타일 수정 ([ca9e81d](https://github.com/SamikBeach/frontend/commit/ca9e81d4dfda0ef0d38cf052f46a1cc4ebf65a50))
+* ReviewDialog 반응형 처리 ([69b1c2a](https://github.com/SamikBeach/frontend/commit/69b1c2a14c4aec33ae47ca55903bc1cd687df5af))
+* ReviewDialog 스타일 수정 ([e0937df](https://github.com/SamikBeach/frontend/commit/e0937df7a15bc03c9b915625e521926eddf77a96))
+* ReviewDialog에 새탭으로 열기 버튼 추가 ([357015a](https://github.com/SamikBeach/frontend/commit/357015a52f18fa091405dd910acdcc72196c6a3d))
+* UserHistory 내 list gap 수정 ([313cf46](https://github.com/SamikBeach/frontend/commit/313cf46b8fdcd28d0c507a254d85505d7dee2533))
+* write-review 페이지 수정 ([18e6e4c](https://github.com/SamikBeach/frontend/commit/18e6e4c26c708790d2b3516bcd8b6fb49f4d001b))
+* 도서/작가 상세 페이지 스켈레톤 UI 개선 ([e34c6ea](https://github.com/SamikBeach/frontend/commit/e34c6eaa4e840c7fb981db855feb24724f05c82a))
+* 리뷰 페이지 스타일 수정 ([11fce56](https://github.com/SamikBeach/frontend/commit/11fce56beaa40947d32738af36a5789b52d00317))
+* 모바일에서 스켈레톤 UI가 보이지 않는 문제 수정 ([50a6fff](https://github.com/SamikBeach/frontend/commit/50a6fff0ca4d384870821cefb08326402ba9ce18))
+* 스켈레톤 스타일  수정 ([46312fc](https://github.com/SamikBeach/frontend/commit/46312fc6e8b3ee18a2c3321c3ea60ff2275b506e))
+* 유저 프로필 목록 스켈레톤 UI 통일 ([558040c](https://github.com/SamikBeach/frontend/commit/558040cc57c7c1ff049028fb62dbdaaa9127d627))
+* 유저 프로필 탭별 스켈레톤 UI 모바일 대응 ([f4a6b0f](https://github.com/SamikBeach/frontend/commit/f4a6b0f3c224d6aea0f22f6e5808fa59958067fc))
+* 유저 프로필 탭별 스켈레톤 UI 모바일 대응 ([a409ab0](https://github.com/SamikBeach/frontend/commit/a409ab0cca28470bc4cd979cf6777d91b0427c66))
+* 코멘트 에디터 하단 마진 추가 ([1b40212](https://github.com/SamikBeach/frontend/commit/1b4021282d7ec531ca99e9e4b1e5edf92591c276))
+
+
+### Features
+
+* DialogContent 반응형 처리 ([a11d95e](https://github.com/SamikBeach/frontend/commit/a11d95e98bf8ddbd2918c30dab519ab057ee073c))
+* LeftSideBar 반응형 처리 ([01a37bd](https://github.com/SamikBeach/frontend/commit/01a37bdab6d066a6484b378fe3a1d7dea13d9444))
+* review page 보강 ([7d0d50d](https://github.com/SamikBeach/frontend/commit/7d0d50df1703c468ac50b6ce8f177df87a3feccd))
+* ReviewInfo 반응형 처리 ([9fc8d18](https://github.com/SamikBeach/frontend/commit/9fc8d189168d3d4707623b260b0945012481b68d))
+* SearchBar 반응형 처리 ([d460379](https://github.com/SamikBeach/frontend/commit/d460379760d3e553c78f22f85a541023342f67b1))
+* SearchDialog Content 반응형 처리 ([ec80d8b](https://github.com/SamikBeach/frontend/commit/ec80d8bb807a4b41564f9ba9121ff4f489cfae1a))
+* 검색바 반응형 처리 ([61c8644](https://github.com/SamikBeach/frontend/commit/61c8644682844015de0a46eba47aedab2b39e23c))
+* 도서 목록 모바일 동작 개선 ([2279285](https://github.com/SamikBeach/frontend/commit/2279285da20607db61e7a6a6fbb676df85fd82d2))
+* 도서 목록 모바일 뷰 렌더링 오류 수정 ([4bbbf2d](https://github.com/SamikBeach/frontend/commit/4bbbf2d98a4248ec949a97c273cfdf3c99366e0d))
+* 도서 상세 페이지 모바일 레이아웃 개선 ([8c16658](https://github.com/SamikBeach/frontend/commit/8c166584beec5c440e810eeb3e49228c3436a651))
+* 도서 페이지 모바일 레이아웃 개선 - 장르 탭과 검색창 분리 ([192f49b](https://github.com/SamikBeach/frontend/commit/192f49b3f4a30b6dae747fea8869d1a0c65cdc1f))
+* 리뷰 수정 모바일 대응 ([f45317c](https://github.com/SamikBeach/frontend/commit/f45317c5adafdea0ba2bcf6dd669950e5ee59892))
+* 리뷰 작성 페이지 컴포넌트 분리 및 개선 ([47745b9](https://github.com/SamikBeach/frontend/commit/47745b9480f03e7881560e7bbdc5adaf2cafd263))
+* 리뷰 페이지 추가 ([c04b842](https://github.com/SamikBeach/frontend/commit/c04b842609927a937836fcf1b527e6c9c5621b83))
+* 작가 상세 페이지 모바일 레이아웃 개선 ([8726875](https://github.com/SamikBeach/frontend/commit/8726875585603e8d4cec2c89b7508b6ed5d8702d))
+* 작가 페이지 모바일 레이아웃 개선 ([354fb02](https://github.com/SamikBeach/frontend/commit/354fb02986776038723f8d519129f2fa40ed11aa))
+* 책, 작가 상세페이지 반응형 처리 ([e6ff567](https://github.com/SamikBeach/frontend/commit/e6ff567249eb20a32dac9e29b3da33de78ab00b7))
+* 피드 클릭 시 화면 크기에 따른 동작 분기 처리 추가' ([f18b4a3](https://github.com/SamikBeach/frontend/commit/f18b4a34b98fa062bfa3deb25c9dbccead70d05e))
+
 # [1.47.0](https://github.com/SamikBeach/frontend/compare/1.46.0...1.47.0) (2025-01-22)
 
 
