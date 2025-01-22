@@ -125,12 +125,15 @@ function AuthorInfoSkeleton() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-6">
-        <Skeleton className="h-[140px] min-h-[140px] w-[140px] min-w-[140px] shrink-0 rounded-full md:h-[200px] md:min-h-[200px] md:w-[200px] md:min-w-[200px]" />
+        <Skeleton className="h-[140px] w-[140px] shrink-0 rounded-full md:h-[200px] md:w-[200px]" />
         <div className="flex w-full flex-col justify-between gap-4">
-          <div className="flex flex-col gap-2">
-            <Skeleton className="h-6 w-1/2 md:h-8" />
-            <Skeleton className="h-5 w-1/4 md:h-6" />
+          <div className="flex flex-col gap-0.5">
+            <Skeleton className="h-6 w-3/5 md:h-8" />
+            <Skeleton className="mt-0.5 h-5 w-2/5 md:h-6" />
+            <Skeleton className="mt-0.5 h-5 w-3/5 md:h-6" />
+            <Skeleton className="mt-1 h-4 w-24" />
           </div>
+
           <div className="flex w-full flex-col gap-2 md:flex-row">
             <div className="flex gap-2">
               <Skeleton className="h-9 w-20" />

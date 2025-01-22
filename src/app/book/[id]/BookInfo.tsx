@@ -161,12 +161,16 @@ function BookInfoSkeleton() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-6">
-        <Skeleton className="h-[200px] w-[140px] md:h-[300px] md:w-[200px]" />
+        <Skeleton className="h-[200px] w-[140px] shrink-0 rounded-lg md:h-[300px] md:w-[200px]" />
         <div className="flex w-full flex-col justify-between gap-4">
-          <div className="flex flex-col gap-2">
-            <Skeleton className="h-6 w-1/2 md:h-8" />
-            <Skeleton className="h-5 w-1/4 md:h-6" />
+          <div className="flex flex-col gap-0.5">
+            <Skeleton className="h-6 w-3/5 md:h-8" />
+            <Skeleton className="mt-0.5 h-5 w-2/5 md:h-6" />
+            <Skeleton className="mt-0.5 h-5 w-2/5 md:h-6" />
+            <Skeleton className="mt-0.5 h-5 w-3/5 md:h-6" />
+            <Skeleton className="mt-1 h-4 w-24" />
           </div>
+
           <div className="flex w-full flex-col gap-2 md:flex-row md:justify-between md:pr-6">
             <div className="flex gap-2">
               <Skeleton className="h-9 w-20" />
