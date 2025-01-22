@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from '@/components/ui/sonner';
 import { UserAvatar } from '@/components/UserAvatar';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
@@ -219,10 +220,14 @@ function UserInfoSkeleton() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
-        <div className="h-[200px] w-[200px] flex-shrink-0 animate-pulse rounded-full bg-gray-200" />
+        <div className="relative">
+          <Skeleton className="h-[140px] w-[140px] shrink-0 rounded-full md:h-[200px] md:w-[200px]" />
+        </div>
         <div className="flex w-full flex-col justify-between gap-4">
           <div className="flex flex-col gap-0.5">
-            <div className="h-8 w-48 animate-pulse rounded-md bg-gray-200" />
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-7 w-48 md:h-9" />
+            </div>
           </div>
         </div>
       </div>
