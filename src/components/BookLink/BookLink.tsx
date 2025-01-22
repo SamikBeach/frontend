@@ -5,13 +5,18 @@ import Link from 'next/link';
 interface Props {
   book: Book;
   className?: string;
+  openInNewTab?: boolean;
 }
 
-export default function BookLink({ book, className = '' }: Props) {
+export default function BookLink({
+  book,
+  className = '',
+  openInNewTab,
+}: Props) {
   return (
     <Link
       href={`/book/${book.id}`}
-      target="_blank"
+      target={openInNewTab ? '_blank' : undefined}
       className={`flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100 ${className}`}
     >
       <BookImage

@@ -103,7 +103,11 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
                 <h1 className="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
                   {review.title}
                 </h1>
-                <BookLink book={review.book} className="hidden md:flex" />
+                <BookLink
+                  book={review.book}
+                  className="hidden md:flex"
+                  openInNewTab
+                />
               </div>
               <div className="flex items-center gap-1">
                 <UserAvatar user={review.user} size="sm" />
