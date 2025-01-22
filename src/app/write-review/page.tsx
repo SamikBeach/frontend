@@ -37,7 +37,6 @@ export default function WriteReviewPage() {
 
   useEffect(() => {
     if (reviewData) {
-      console.log(reviewData.data.content);
       setTitle(reviewData.data.title);
       setContent(reviewData.data.content);
     }
@@ -130,6 +129,10 @@ export default function WriteReviewPage() {
 
   if (!bookId) {
     router.back();
+    return null;
+  }
+
+  if (content === '') {
     return null;
   }
 
