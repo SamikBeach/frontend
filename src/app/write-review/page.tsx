@@ -9,33 +9,12 @@ import { toast } from '@/components/ui/sonner';
 import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { isLexicalContentEmpty } from '@/utils/lexical';
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BookInfo from './BookInfo';
 import LeaveConfirmDialog from './LeaveConfirmDialog';
-
-function EditReviewContent({
-  reviewId,
-  onDataLoad,
-}: {
-  reviewId: number;
-  onDataLoad: (data: Review) => void;
-}) {
-  const { data } = useSuspenseQuery<AxiosResponse<Review>, Error>({
-    queryKey: ['review', reviewId],
-    queryFn: () => reviewApi.getReviewDetail(reviewId),
-  });
-
-  useEffect(() => {
-    if (data) {
-      onDataLoad(data.data);
-    }
-  }, [data, onDataLoad]);
-
-  return null;
-}
 
 export default function WriteReviewPage() {
   const searchParams = useSearchParams();
@@ -51,10 +30,18 @@ export default function WriteReviewPage() {
   const [isOpenLeaveConfirmDialog, setIsOpenLeaveConfirmDialog] =
     useState(false);
 
-  const handleDataLoad = useCallback((data: Review) => {
-    setTitle(data.title);
-    setContent(data.content);
-  }, []);
+  const { data: reviewData } = useQuery<AxiosResponse<Review>, Error>({
+    queryKey: ['review', reviewId],
+    queryFn: () => reviewApi.getReviewDetail(Number(reviewId!)),
+  });
+
+  useEffect(() => {
+    if (reviewData) {
+      console.log(reviewData.data.content);
+      setTitle(reviewData.data.title);
+      setContent(reviewData.data.content);
+    }
+  }, [reviewData]);
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -68,7 +55,10 @@ export default function WriteReviewPage() {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [title, content]);
 
-  const { mutate: updateReview, isPending: isUpdatePending } = useMutation({
+  const { mutate: updateReview, isPending: isUpdatePending } = useMutation<
+    AxiosResponse<Review>,
+    Error
+  >({
     mutationFn: () => {
       if (!reviewId) throw new Error('Review ID is required');
       return reviewApi.updateReview(Number(reviewId), { title, content });
@@ -146,15 +136,7 @@ export default function WriteReviewPage() {
   return (
     <>
       <div className="flex h-full flex-col gap-4 p-4">
-        <Suspense>
-          <BookInfo bookId={Number(bookId)} />
-          {reviewId && (
-            <EditReviewContent
-              reviewId={Number(reviewId)}
-              onDataLoad={handleDataLoad}
-            />
-          )}
-        </Suspense>
+        <BookInfo bookId={Number(bookId)} />
         <Input
           placeholder="제목"
           value={title}
