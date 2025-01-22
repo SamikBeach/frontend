@@ -86,9 +86,9 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
           <BookImage
             imageUrl={book.imageUrl}
             title={book.title}
-            width={200}
-            height={300}
-            className="flex-shrink-0 cursor-pointer rounded-lg"
+            width={140}
+            height={200}
+            className="flex-shrink-0 cursor-pointer rounded-lg md:h-[300px] md:w-[200px]"
             onClick={() =>
               window.open(
                 `https://www.aladin.co.kr/shop/wproduct.aspx?isbn=${book.isbn}`,
@@ -98,13 +98,13 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
           />
           <div className="flex w-full flex-col justify-between gap-4">
             <div className="flex flex-col gap-0.5">
-              <h1 className="text-2xl font-bold">{book.title}</h1>
-              <p className="text-gray-500">
+              <h1 className="text-lg font-bold md:text-2xl">{book.title}</h1>
+              <p className="text-sm text-gray-500 md:text-base">
                 {book.authorBooks
                   .map(authorBook => authorBook.author.nameInKor)
                   .join(', ')}
               </p>
-              <p className="text-gray-500">
+              <p className="text-sm text-gray-500 md:text-base">
                 {book.publisher}
                 {book.publisher && formattedPublicationDate && (
                   <span className="mx-1 font-medium">·</span>
@@ -112,7 +112,7 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                 {formattedPublicationDate}
               </p>
               {book.bookOriginalWorks[0] && (
-                <p className="text-gray-500">
+                <p className="text-sm text-gray-500 md:text-base">
                   원전 : {book.bookOriginalWorks[0].originalWork.title}(
                   {book.bookOriginalWorks[0].originalWork.titleInEng})
                 </p>
@@ -122,7 +122,7 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
               </p>
             </div>
 
-            <div className="flex w-full justify-between pr-6">
+            <div className="flex w-full flex-col gap-2 md:flex-row md:justify-between md:pr-6">
               <div className="flex gap-2">
                 <LikeButton
                   isLiked={book.isLiked ?? false}
@@ -135,7 +135,11 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                 />
               </div>
 
-              <Button variant="outline" onClick={handleWriteReviewClick}>
+              <Button
+                variant="outline"
+                onClick={handleWriteReviewClick}
+                className="w-full md:w-auto"
+              >
                 <Edit3Icon className="mr-1 h-4 w-4" />
                 리뷰 쓰기
               </Button>
@@ -157,18 +161,18 @@ function BookInfoSkeleton() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-6">
-        <Skeleton className="h-[300px] w-[200px]" />
+        <Skeleton className="h-[200px] w-[140px] md:h-[300px] md:w-[200px]" />
         <div className="flex w-full flex-col justify-between gap-4">
           <div className="flex flex-col gap-2">
-            <Skeleton className="h-8 w-1/2" />
-            <Skeleton className="h-6 w-1/4" />
+            <Skeleton className="h-6 w-1/2 md:h-8" />
+            <Skeleton className="h-5 w-1/4 md:h-6" />
           </div>
-          <div className="flex w-full justify-between pr-6">
+          <div className="flex w-full flex-col gap-2 md:flex-row md:justify-between md:pr-6">
             <div className="flex gap-2">
               <Skeleton className="h-9 w-20" />
               <Skeleton className="h-9 w-20" />
             </div>
-            <Skeleton className="h-9 w-24" />
+            <Skeleton className="h-9 w-full md:w-24" />
           </div>
         </div>
       </div>
