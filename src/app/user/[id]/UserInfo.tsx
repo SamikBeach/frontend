@@ -113,11 +113,11 @@ function UserInfoContent({ userId }: Props) {
       <div className="flex flex-col gap-4">
         <div className="flex gap-4">
           <div className="relative">
-            <div className="group relative h-[200px] w-[200px] flex-shrink-0 overflow-hidden rounded-full bg-gray-200">
+            <div className="group relative h-[140px] w-[140px] flex-shrink-0 overflow-hidden rounded-full bg-gray-200 md:h-[200px] md:w-[200px]">
               <UserAvatar
                 user={user}
                 showNickname={false}
-                className="h-[200px] w-[200px] cursor-default"
+                className="h-[140px] w-[140px] cursor-default md:h-[200px] md:w-[200px]"
               />
               {isMyProfile && (
                 <label className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
@@ -134,15 +134,15 @@ function UserInfoContent({ userId }: Props) {
               )}
             </div>
             {isMyProfile && user.imageUrl && (
-              <div className="absolute bottom-3 right-3">
+              <div className="absolute bottom-2 right-2 md:bottom-3 md:right-3">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
                       size="icon"
                       variant="outline"
-                      className="h-8 w-8 rounded-full bg-background shadow-md hover:bg-accent"
+                      className="h-6 w-6 rounded-full bg-background shadow-md hover:bg-accent md:h-8 md:w-8"
                     >
-                      <MoreHorizontalIcon className="h-4 w-4" />
+                      <MoreHorizontalIcon className="h-3 w-3 md:h-4 md:w-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
@@ -170,7 +170,7 @@ function UserInfoContent({ userId }: Props) {
                     ref={inputRef}
                     value={newNickname}
                     onChange={e => setNewNickname(e.target.value)}
-                    className="h-9 w-[300px] text-2xl font-bold"
+                    className="h-9 w-full max-w-[300px] text-2xl font-bold"
                     placeholder="닉네임"
                   />
                   <div className="flex gap-1">
@@ -192,7 +192,9 @@ function UserInfoContent({ userId }: Props) {
                 </form>
               ) : (
                 <div className="flex items-center gap-2">
-                  <h1 className="text-2xl font-bold">{user.nickname}</h1>
+                  <h1 className="text-xl font-bold md:text-2xl">
+                    {user.nickname}
+                  </h1>
                   {isMyProfile && (
                     <Button
                       variant="ghost"
