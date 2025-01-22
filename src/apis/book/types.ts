@@ -3,6 +3,7 @@ import { BaseEntity, PaginationQuery } from '../common/types';
 
 export interface Book extends BaseEntity {
   title: string;
+  titleInEng: string | null;
   description: string | null;
   imageUrl: string | null;
   publisher: string | null;
@@ -18,6 +19,20 @@ export interface Book extends BaseEntity {
     author: Author;
   }[];
   totalTranslationCount: number;
+  originalWork: {
+    id: number;
+    title: string;
+    titleInEng: string | null;
+    author: {
+      id: number;
+      nameInKor: string;
+      nameInEng: string | null;
+    };
+  } | null;
+  genre: {
+    id: number;
+    name: string;
+  } | null;
 }
 
 export interface BookDetail extends Book {

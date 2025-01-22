@@ -99,6 +99,14 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                   .map(authorBook => authorBook.author.nameInKor)
                   .join(', ')}
               </p>
+              {book.bookOriginalWorks.length > 0 && (
+                <p className="text-gray-500">
+                  원작: {book.bookOriginalWorks[0].originalWork.title}
+                </p>
+              )}
+              {book.genre && (
+                <p className="text-gray-500">장르: {book.genre.name}</p>
+              )}
               <p className="mt-1 text-xs text-gray-400">
                 도서 정보 제공: 알라딘
               </p>
