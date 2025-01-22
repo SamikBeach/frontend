@@ -1,5 +1,23 @@
 # 🚦 CHANGELOG
 
+# [1.47.0](https://github.com/SamikBeach/frontend/compare/1.46.0...1.47.0) (2025-01-22)
+
+
+### Bug Fixes
+
+* AuthorInfo 스타일 수정 ([35dbd36](https://github.com/SamikBeach/frontend/commit/35dbd36c8df4936cf5aac54694208bf416e26c75))
+* 다이얼로그 컴포넌트의 패딩 및 내부 간격 조정 ([d121639](https://github.com/SamikBeach/frontend/commit/d12163954b6773707e1a931fcfc8674f0bc35302))
+* 로고 수정 ([2cc05b3](https://github.com/SamikBeach/frontend/commit/2cc05b3b0288b4fcb166ee57847a02c6358cacaf))
+
+
+### Features
+
+* Initializer 리페치 옵션 추가 ([7afabb0](https://github.com/SamikBeach/frontend/commit/7afabb0aaff8ed571d28f94e7ed2dfdf6ea3db00))
+* 도서 정보에 알라딘 출처 표시 및 알라딘 상품 페이지 연결 기능 추가 ([627cd3b](https://github.com/SamikBeach/frontend/commit/627cd3b7f30d8f643a9c2539b79ebd59278c96dc))
+* 도서 정보에 원작과 장르 정보 추가 ([791d2c3](https://github.com/SamikBeach/frontend/commit/791d2c3150c076cd7318eb1b267bee096cc14c22))
+* 이용약관 및 개인정보처리방침 다이얼로그 구조 개선 ([908635b](https://github.com/SamikBeach/frontend/commit/908635b69f36ab7881b4532547081b3ae9adfb59))
+* 작가 정보에 위키피디아 출처 표시 및 위키피디아 페이지 연결 기능 추가 ([35d16b7](https://github.com/SamikBeach/frontend/commit/35d16b756c54061c0b5a896cfe5767906cf3d9ec))
+
 # [1.46.0](https://github.com/SamikBeach/frontend/compare/1.45.0...1.46.0) (2025-01-21)
 
 
