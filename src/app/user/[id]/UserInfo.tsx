@@ -164,13 +164,13 @@ function UserInfoContent({ userId }: Props) {
               {isMyProfile && isEditing ? (
                 <form
                   onSubmit={handleNicknameSubmit}
-                  className="flex items-center gap-2"
+                  className="flex w-full flex-col gap-2 md:flex-row md:items-center"
                 >
                   <Input
                     ref={inputRef}
                     value={newNickname}
                     onChange={e => setNewNickname(e.target.value)}
-                    className="h-9 w-full max-w-[300px] text-2xl font-bold"
+                    className="h-9 w-full max-w-[300px] text-lg font-bold md:text-2xl"
                     placeholder="닉네임"
                   />
                   <div className="flex gap-1">
@@ -192,7 +192,7 @@ function UserInfoContent({ userId }: Props) {
                 </form>
               ) : (
                 <div className="flex items-center gap-2">
-                  <h1 className="text-xl font-bold md:text-2xl">
+                  <h1 className="break-all text-lg font-bold md:text-2xl">
                     {user.nickname}
                   </h1>
                   {isMyProfile && (
@@ -200,7 +200,7 @@ function UserInfoContent({ userId }: Props) {
                       variant="ghost"
                       size="icon"
                       onClick={() => setIsEditing(true)}
-                      className="hover:bg-accent"
+                      className="flex-shrink-0 hover:bg-accent"
                     >
                       <PencilIcon className="h-3.5 w-3.5 text-gray-500" />
                     </Button>
