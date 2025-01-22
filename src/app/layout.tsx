@@ -5,6 +5,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { AtomsProvider } from '@/providers/AtomsProvider';
 import { DialogProvider } from '@/providers/DialogProvider';
 import ReactQueryProvider from '@/providers/ReactQueryProvider';
+import '@/styles/global.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Provider } from 'jotai';
@@ -35,7 +36,9 @@ export default async function RootLayout({
                       <Header />
                       <div className="mt-[56px] flex flex-1">
                         <LeftSidebar />
-                        <main className="ml-[240px] w-full">{children}</main>
+                        <main className="ml-[240px] w-full max-md:ml-0">
+                          {children}
+                        </main>
                       </div>
                     </div>
                     <Toaster />

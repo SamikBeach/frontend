@@ -15,7 +15,7 @@ export default function SearchBar() {
       <Button
         variant="outline"
         className={`cursor-pointer justify-start rounded-full text-gray-400 transition-[width] duration-300 hover:text-gray-400 ${
-          isOpen ? 'w-[600px] max-sm:w-[70vw]' : 'w-60 max-sm:w-[70vw]'
+          isOpen ? 'w-[600px] max-md:w-[50vw]' : 'w-60 max-md:w-[50vw]'
         }`}
         onClick={() => setIsOpen(true)}
       >
