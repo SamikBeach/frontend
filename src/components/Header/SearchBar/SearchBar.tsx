@@ -14,12 +14,12 @@ export default function SearchBar() {
     <>
       <Button
         variant="outline"
-        className={`absolute left-1/2 top-[27px] -translate-x-1/2 -translate-y-1/2 cursor-pointer justify-start rounded-full text-gray-400 transition-[width] duration-300 hover:text-gray-400 ${
-          isOpen ? 'w-[600px]' : 'w-60'
+        className={`cursor-pointer justify-start rounded-full text-gray-400 transition-[width] duration-300 hover:text-gray-400 ${
+          isOpen ? 'w-[600px] max-sm:w-[70vw]' : 'w-60 max-sm:w-[70vw]'
         }`}
         onClick={() => setIsOpen(true)}
       >
-        /를 눌러 검색해보세요.
+        <span className="truncate">/를 눌러 검색해보세요.</span>
       </Button>
       <SearchBarDialog open={isOpen} onOpenChange={setIsOpen} />
     </>
