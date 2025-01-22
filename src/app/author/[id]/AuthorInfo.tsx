@@ -71,7 +71,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
             name={author.nameInKor}
             width={140}
             height={140}
-            className="cursor-pointer rounded-full md:h-[200px] md:w-[200px]"
+            className="flex-shrink-0 cursor-pointer rounded-full md:h-[200px] md:w-[200px]"
             onClick={() =>
               window.open(
                 `https://en.wikipedia.org/wiki/${author.name}`,

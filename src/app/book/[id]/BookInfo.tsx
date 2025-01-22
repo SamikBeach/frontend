@@ -88,7 +88,7 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
             title={book.title}
             width={140}
             height={200}
-            className="flex-shrink-0 cursor-pointer rounded-lg md:h-[300px] md:w-[200px]"
+            className="flex-shrink-0 cursor-pointer md:h-[300px] md:w-[200px]"
             onClick={() =>
               window.open(
                 `https://www.aladin.co.kr/shop/wproduct.aspx?isbn=${book.isbn}`,
@@ -161,7 +161,7 @@ function BookInfoSkeleton() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-6">
-        <Skeleton className="h-[200px] w-[140px] shrink-0 rounded-lg md:h-[300px] md:w-[200px]" />
+        <Skeleton className="h-[200px] w-[140px] flex-shrink-0 cursor-pointer rounded-lg md:h-[300px] md:w-[200px]" />
         <div className="flex w-full flex-col justify-between gap-4">
           <div className="flex flex-col gap-0.5">
             <Skeleton className="h-6 w-3/5 md:h-8" />
