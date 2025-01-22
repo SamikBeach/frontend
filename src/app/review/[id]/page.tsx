@@ -47,7 +47,7 @@ export default function ReviewPage() {
 
   return (
     <div className="flex flex-col gap-10">
-      <div className="flex h-[calc(100vh-234px)] flex-col">
+      <div className="flex min-h-[calc(100vh-234px)] flex-col">
         <ReviewInfo reviewId={reviewId} commentListRef={commentListRef} />
         <CommentList
           ref={commentListRef}
