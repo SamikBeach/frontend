@@ -9,13 +9,15 @@ import { ViewModeTabs } from './ViewModeTabs';
 export default function Tabs() {
   return (
     <div className="w-full bg-white">
-      <div className="flex w-[calc(100vw-270px)] items-center justify-between py-4">
+      <div className="flex w-full items-center justify-between py-4 md:w-[calc(100vw-270px)]">
         <GenreButtons />
         <div className="flex gap-2">
           <SearchBar />
           <AuthorCombobox />
           <SortModeTabs />
-          <ViewModeTabs />
+          <div className="hidden md:block">
+            <ViewModeTabs />
+          </div>
         </div>
       </div>
     </div>
