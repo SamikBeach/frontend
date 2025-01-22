@@ -49,7 +49,7 @@ export default function BookList({ userId }: Props) {
   }
 
   const mobileLoader = (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col">
       {Array.from({ length: 10 }).map((_, i) => (
         <BookListItemSkeleton key={i} />
       ))}
@@ -73,7 +73,7 @@ export default function BookList({ userId }: Props) {
           hasMore={hasNextPage ?? false}
           loader={mobileLoader}
         >
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col">
             {books.map(book => (
               <BookListItem key={book.book.id} book={book.book} />
             ))}

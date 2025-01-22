@@ -61,7 +61,7 @@ export default function UserHistory({ userId }: Props) {
           fallback={
             <>
               <div className="block md:hidden">
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col">
                   {Array.from({ length: 10 }).map((_, i) => (
                     <BookListItemSkeleton key={i} />
                   ))}
@@ -86,7 +86,7 @@ export default function UserHistory({ userId }: Props) {
           fallback={
             <>
               <div className="block md:hidden">
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col">
                   {Array.from({ length: 10 }).map((_, i) => (
                     <AuthorListItemSkeleton key={i} />
                   ))}

@@ -49,7 +49,7 @@ export default function AuthorList({ userId }: Props) {
   }
 
   const mobileLoader = (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col">
       {Array.from({ length: 10 }).map((_, i) => (
         <AuthorListItemSkeleton key={i} />
       ))}
@@ -73,7 +73,7 @@ export default function AuthorList({ userId }: Props) {
           hasMore={hasNextPage ?? false}
           loader={mobileLoader}
         >
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col">
             {authors.map(author => (
               <AuthorListItem key={author.author.id} author={author.author} />
             ))}
