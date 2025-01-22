@@ -54,7 +54,7 @@ export default function ReviewPage() {
         onReply={user => setReplyToUser(user)}
         scrollableTarget="dialog-content"
       />
-      <div className="sticky bottom-0 bg-white pt-4">
+      <div className="sticky bottom-10 bg-white pt-4">
         <div className="relative">
           <div className="absolute -bottom-10 -left-10 -right-10 -top-4 bg-white shadow-[0_-8px_12px_0px_white]" />
           <div className="relative">
