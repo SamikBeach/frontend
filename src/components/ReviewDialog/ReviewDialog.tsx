@@ -94,7 +94,7 @@ export default function ReviewDialog(props: Props) {
             </Button>
           </Link>
         </div>
-        <div className="flex flex-col gap-7">
+        <div className="flex h-[99999px] flex-col gap-7">
           <ReviewInfo reviewId={reviewId} commentListRef={commentListRef} />
           <CommentList
             ref={commentListRef}

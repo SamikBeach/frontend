@@ -47,13 +47,15 @@ export default function ReviewPage() {
 
   return (
     <div className="flex flex-col gap-10">
-      <ReviewInfo reviewId={reviewId} commentListRef={commentListRef} />
-      <CommentList
-        ref={commentListRef}
-        reviewId={reviewId}
-        onReply={user => setReplyToUser(user)}
-        scrollableTarget="dialog-content"
-      />
+      <div className="flex h-[calc(100vh-234px)] flex-col">
+        <ReviewInfo reviewId={reviewId} commentListRef={commentListRef} />
+        <CommentList
+          ref={commentListRef}
+          reviewId={reviewId}
+          onReply={user => setReplyToUser(user)}
+          scrollableTarget="dialog-content"
+        />
+      </div>
       <div className="sticky bottom-10 bg-white pt-4">
         <div className="relative">
           <div className="absolute -bottom-10 -left-10 -right-10 -top-4 bg-white shadow-[0_-8px_12px_0px_white]" />
