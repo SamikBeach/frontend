@@ -127,28 +127,37 @@ export default function BookList() {
     <main className="h-full">
       <Suspense
         fallback={
-          <div className="hidden md:block">
-            {viewMode === 'list' ? (
+          <>
+            <div className="block md:hidden">
               <div className="flex flex-col">
                 {[...Array(10)].map((_, i) => (
                   <BookListItemSkeleton key={i} />
                 ))}
               </div>
-            ) : (
-              <div className="flex flex-col gap-7 py-6">
-                <div className="flex gap-6">
-                  {[...Array(4)].map((_, i) => (
-                    <BookGridItemSkeleton key={i} />
+            </div>
+            <div className="hidden md:block">
+              {viewMode === 'list' ? (
+                <div className="flex flex-col">
+                  {[...Array(10)].map((_, i) => (
+                    <BookListItemSkeleton key={i} />
                   ))}
                 </div>
-                <div className="flex flex-wrap gap-6">
-                  {[...Array(8)].map((_, i) => (
-                    <BookGridItemSkeleton key={i} size="small" />
-                  ))}
+              ) : (
+                <div className="flex flex-col gap-7 py-6">
+                  <div className="flex gap-6">
+                    {[...Array(4)].map((_, i) => (
+                      <BookGridItemSkeleton key={i} />
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap gap-6">
+                    {[...Array(8)].map((_, i) => (
+                      <BookGridItemSkeleton key={i} size="small" />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          </>
         }
       >
         <BookListContent />
