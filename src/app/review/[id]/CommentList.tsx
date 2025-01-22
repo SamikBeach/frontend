@@ -76,7 +76,7 @@ function CommentListContent({
         </span>
       </div>
       {comments.length === 0 ? (
-        <div className="flex-1">
+        <div className="flex flex-1 items-center">
           <EmptyComments />
         </div>
       ) : (
