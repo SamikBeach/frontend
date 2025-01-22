@@ -102,22 +102,24 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
               <DialogTitle className="text-2xl font-bold">
                 {book.title}
               </DialogTitle>
-              <p className="text-gray-500">
+              <p>
                 {book.authorBooks
                   .map(authorBook => authorBook.author.nameInKor)
-                  .join(', ')}{' '}
+                  .join(', ')}
               </p>
-              {book.bookOriginalWorks.length > 0 && (
+              <p className="text-gray-500">
+                {book.publisher}
+                {book.publisher && formattedPublicationDate && (
+                  <span className="mx-1 font-medium">·</span>
+                )}
+                {formattedPublicationDate}
+              </p>
+              {book.bookOriginalWorks[0] && (
                 <p className="text-gray-500">
-                  원작: {book.bookOriginalWorks[0].originalWork.title}
+                  원전 : {book.bookOriginalWorks[0].originalWork.title}(
+                  {book.bookOriginalWorks[0].originalWork.titleInEng})
                 </p>
               )}
-              {book.genre && (
-                <p className="text-gray-500">장르: {book.genre.name}</p>
-              )}
-              <p className="text-gray-500">
-                {book.publisher} · {formattedPublicationDate}
-              </p>
               <p className="mt-1 text-xs text-gray-400">
                 도서 정보 제공: 알라딘
               </p>

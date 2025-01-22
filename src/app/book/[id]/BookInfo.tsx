@@ -11,6 +11,7 @@ import { WriteReviewDialog } from '@/components/WriteReviewDialog';
 import { useBookQueryData } from '@/hooks/queries/useBookQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { format } from 'date-fns';
 import { Edit3Icon } from 'lucide-react';
 import { RefObject, Suspense, useState } from 'react';
 
@@ -74,6 +75,10 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
     setOpenWriteReviewDialog(true);
   };
 
+  const formattedPublicationDate = book.publicationDate
+    ? format(new Date(book.publicationDate), 'yyyy년 M월 d일')
+    : '';
+
   return (
     <>
       <div className="flex flex-col gap-4">
@@ -99,13 +104,18 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                   .map(authorBook => authorBook.author.nameInKor)
                   .join(', ')}
               </p>
-              {book.bookOriginalWorks.length > 0 && (
+              <p className="text-gray-500">
+                {book.publisher}
+                {book.publisher && formattedPublicationDate && (
+                  <span className="mx-1 font-medium">·</span>
+                )}
+                {formattedPublicationDate}
+              </p>
+              {book.bookOriginalWorks[0] && (
                 <p className="text-gray-500">
-                  원작: {book.bookOriginalWorks[0].originalWork.title}
+                  원전 : {book.bookOriginalWorks[0].originalWork.title}(
+                  {book.bookOriginalWorks[0].originalWork.titleInEng})
                 </p>
-              )}
-              {book.genre && (
-                <p className="text-gray-500">장르: {book.genre.name}</p>
               )}
               <p className="mt-1 text-xs text-gray-400">
                 도서 정보 제공: 알라딘
