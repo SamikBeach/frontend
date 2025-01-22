@@ -8,10 +8,9 @@ import { isMobileDevice } from '@/utils/responsive';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import BookImage from '../BookImage/BookImage';
+import BookLink from '../BookLink/BookLink';
 import CommentEditor from '../CommentEditor/CommentEditor';
 import { LoginDialog } from '../LoginDialog';
 import { Button } from '../ui/button';
@@ -181,9 +180,9 @@ export default function Review({
 
   return (
     <>
-      <div className="flex flex-col gap-0.5">
+      <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-2">
             <h3
               className={`text-xl font-medium ${onClickTitle ? 'cursor-pointer hover:underline' : ''}`}
               onClick={onClickTitle}
@@ -191,29 +190,9 @@ export default function Review({
               {review.title}
             </h3>
             {showBookInfo && (
-              <Link
-                href={`/book/${review.book.id}`}
-                target="_blank"
-                className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100"
-              >
-                <BookImage
-                  imageUrl={review.book.imageUrl}
-                  title={review.book.title}
-                  width={20}
-                  height={28}
-                  className="rounded-sm shadow-sm"
-                />
-                <div className="flex flex-col">
-                  <span className="text-xs font-medium text-gray-900">
-                    {review.book.title}
-                  </span>
-                  <span className="text-[11px] text-gray-500">
-                    {review.book.authorBooks
-                      .map(authorBook => authorBook.author.nameInKor)
-                      .join(', ')}
-                  </span>
-                </div>
-              </Link>
+              <div className="block w-fit md:hidden">
+                <BookLink book={review.book} />
+              </div>
             )}
           </div>
           {isMyReview && (
@@ -230,6 +209,11 @@ export default function Review({
           <p className="text-xs text-gray-500">
             {formatDate(review.createdAt)}
           </p>
+          {showBookInfo && (
+            <div className="hidden w-fit md:block">
+              <BookLink book={review.book} />
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col gap-1">
