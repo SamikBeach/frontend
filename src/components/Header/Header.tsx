@@ -24,8 +24,15 @@ export default function Header() {
         </Button>
         <LeftSlot />
       </div>
-      <SearchBar />
-      <RightSlot />
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-sm:hidden sm:block">
+        <SearchBar />
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="hidden max-sm:block">
+          <SearchBar />
+        </div>
+        <RightSlot />
+      </div>
     </header>
   );
 }
