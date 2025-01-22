@@ -106,12 +106,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
                 <BookLink book={review.book} className="hidden md:flex" />
               </div>
               <div className="flex items-center gap-1">
-                <div className="flex items-center gap-2">
-                  <UserAvatar user={review.user} size="sm" />
-                  <span className="text-sm font-medium text-gray-900">
-                    {review.user.nickname}
-                  </span>
-                </div>
+                <UserAvatar user={review.user} size="sm" />
                 <span className="text-gray-300">·</span>
                 <span className="text-xs text-gray-500">
                   {format(
