@@ -5,9 +5,7 @@ interface LogoProps {
 export default function Logo({ className }: LogoProps) {
   return (
     <div className={`inline-block ${className || ''}`}>
-      <h1 className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-base font-extrabold text-transparent">
-        삼익비치
-      </h1>
+      <h1 className="font-bold">고전산책</h1>
     </div>
   );
 }
