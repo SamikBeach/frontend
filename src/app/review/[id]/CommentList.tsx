@@ -3,6 +3,7 @@
 import { PaginatedResponse } from '@/apis/common/types';
 import { reviewApi } from '@/apis/review/review';
 import { Comment as CommentType } from '@/apis/review/types';
+import CommentItem from '@/components/CommentItem/CommentItem';
 import {
   CommentItemSkeleton,
   default as CommentListSkeleton,
@@ -17,7 +18,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { RefObject, Suspense, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import EmptyComments from './EmptyComments';
-import CommentItem from '@/components/CommentItem/CommentItem';
 
 interface Props {
   ref: RefObject<HTMLDivElement | null>;

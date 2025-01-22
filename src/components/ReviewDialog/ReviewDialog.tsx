@@ -4,8 +4,12 @@ import { reviewApi } from '@/apis/review/review';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogProps, DialogTitle } from '@radix-ui/react-dialog';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { ArrowLeftIcon, ExternalLinkIcon } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCallback, useRef, useState } from 'react';
 import CommentEditor from '../CommentEditor/CommentEditor';
+import { Button } from '../ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import { toast } from '../ui/sonner';
 import CommentList from './CommentList';
@@ -15,7 +19,7 @@ interface Props extends DialogProps {}
 
 export default function ReviewDialog(props: Props) {
   const { isOpen, id: reviewId, close } = useDialogQuery({ type: 'review' });
-
+  const router = useRouter();
   const queryClient = useQueryClient();
 
   const commentListRef = useRef<HTMLDivElement>(null);
@@ -50,6 +54,10 @@ export default function ReviewDialog(props: Props) {
     setReplyToUser(user);
   }, []);
 
+  const handleBack = () => {
+    router.back();
+  };
+
   if (!reviewId) {
     return null;
   }
@@ -65,7 +73,28 @@ export default function ReviewDialog(props: Props) {
         id="dialog-content"
       >
         <DialogTitle className="sr-only">리뷰 정보</DialogTitle>
-        <div className="flex h-[99999px] flex-col gap-7">
+        <div className="absolute right-10 top-3 z-10 flex">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 gap-1 p-2 text-gray-500 hover:text-gray-900"
+            onClick={handleBack}
+          >
+            <ArrowLeftIcon className="h-3.5 w-3.5" />
+            뒤로가기
+          </Button>
+          <Link href={`/review/${reviewId}`} target="_blank">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-7 gap-1 p-2 text-gray-500 hover:text-gray-900"
+            >
+              <ExternalLinkIcon className="h-3.5 w-3.5" />
+              페이지로 열기
+            </Button>
+          </Link>
+        </div>
+        <div className="flex flex-col gap-7">
           <ReviewInfo reviewId={reviewId} commentListRef={commentListRef} />
           <CommentList
             ref={commentListRef}
