@@ -1,7 +1,7 @@
 'use client';
 
 import { reviewApi } from '@/apis/review/review';
-import BookImage from '@/components/BookImage/BookImage';
+import BookLink from '@/components/BookLink/BookLink';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { LoginDialog } from '@/components/LoginDialog';
@@ -16,7 +16,6 @@ import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
-import Link from 'next/link';
 import { RefObject, Suspense, useState } from 'react';
 
 interface Props {
@@ -94,52 +93,41 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   return (
     <>
       <div className="flex flex-col gap-4">
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex flex-col gap-4">
-            <div className="flex items-start gap-4">
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-                {review.title}
-              </h1>
-              <Link
-                href={`/book/${review.book.id}`}
-                target="_blank"
-                className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100"
-              >
-                <BookImage
-                  imageUrl={review.book.imageUrl}
-                  title={review.book.title}
-                  width={20}
-                  height={28}
-                  className="rounded-sm shadow-sm"
-                />
-                <div className="flex flex-col">
-                  <span className="text-xs font-medium text-gray-900">
-                    {review.book.title}
-                  </span>
-                  <span className="text-[11px] text-gray-500">
-                    {review.book.authorBooks
-                      .map(authorBook => authorBook.author.nameInKor)
-                      .join(', ')}
+        <div className="flex flex-col gap-4">
+          <div className="flex items-start justify-between">
+            <div className="flex flex-col gap-4">
+              <div className="flex justify-start">
+                <BookLink book={review.book} className="md:hidden" />
+              </div>
+              <div className="flex flex-col gap-4 md:flex-row md:items-start">
+                <h1 className="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
+                  {review.title}
+                </h1>
+                <BookLink book={review.book} className="hidden md:flex" />
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="flex items-center gap-2">
+                  <UserAvatar user={review.user} size="sm" />
+                  <span className="text-sm font-medium text-gray-900">
+                    {review.user.nickname}
                   </span>
                 </div>
-              </Link>
-            </div>
-            <div className="flex items-center gap-1">
-              <div className="flex items-center gap-2">
-                <UserAvatar user={review.user} size="sm" />
+                <span className="text-gray-300">·</span>
+                <span className="text-xs text-gray-500">
+                  {format(
+                    new Date(review.createdAt),
+                    'yyyy년 M월 d일 HH시 mm분'
+                  )}
+                </span>
               </div>
-              <span className="text-gray-300">·</span>
-              <span className="text-xs text-gray-500">
-                {format(new Date(review.createdAt), 'yyyy년 M월 d일 HH시 mm분')}
-              </span>
             </div>
+            {isMyReview && (
+              <ReviewActions
+                onEdit={() => setShowEditDialog(true)}
+                onDelete={() => setShowDeleteAlert(true)}
+              />
+            )}
           </div>
-          {isMyReview && (
-            <ReviewActions
-              onEdit={() => setShowEditDialog(true)}
-              onDelete={() => setShowDeleteAlert(true)}
-            />
-          )}
         </div>
 
         <div className="mb-8 whitespace-pre-wrap text-base leading-relaxed text-gray-800">
