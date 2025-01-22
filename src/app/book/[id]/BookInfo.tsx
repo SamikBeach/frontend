@@ -8,11 +8,13 @@ import { LoginDialog } from '@/components/LoginDialog';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { WriteReviewDialog } from '@/components/WriteReviewDialog';
+import { MOBILE_BREAKPOINT } from '@/constants/responsive';
 import { useBookQueryData } from '@/hooks/queries/useBookQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { Edit3Icon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { RefObject, Suspense, useState } from 'react';
 
 interface Props {
@@ -22,6 +24,7 @@ interface Props {
 
 function BookInfoContent({ bookId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
+  const router = useRouter();
 
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
   const [openWriteReviewDialog, setOpenWriteReviewDialog] = useState(false);
@@ -72,7 +75,11 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
       return;
     }
 
-    setOpenWriteReviewDialog(true);
+    if (window.innerWidth < MOBILE_BREAKPOINT) {
+      router.push(`/write-review?bookId=${book.id}`);
+    } else {
+      setOpenWriteReviewDialog(true);
+    }
   };
 
   const formattedPublicationDate = book.publicationDate
