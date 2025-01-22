@@ -66,9 +66,8 @@ export default function ReviewDialog(props: Props) {
     <Dialog {...props} open={isOpen} onOpenChange={open => !open && close()}>
       <DialogContent
         overlayClassName="bg-black/10"
-        className="fixed left-1/2 top-1/2 flex h-[90vh] w-[900px] min-w-[900px] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 overflow-y-auto p-10 max-md:h-full max-md:min-h-full max-md:w-full max-md:min-w-full max-md:p-4"
+        className="fixed left-1/2 top-1/2 flex h-[90vh] w-[900px] min-w-[900px] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 overflow-y-auto p-10"
         aria-describedby={undefined}
-        closeClassName="max-md:hidden"
         onOpenAutoFocus={e => e.preventDefault()}
         id="dialog-content"
       >

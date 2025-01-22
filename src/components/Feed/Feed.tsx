@@ -5,6 +5,7 @@ import { reviewApi } from '@/apis/review/review';
 import { Review } from '@/apis/review/types';
 import { UserBase } from '@/apis/user/types';
 import BookImage from '@/components/BookImage/BookImage';
+import { MOBILE_BREAKPOINT } from '@/constants/responsive';
 import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
@@ -88,7 +89,7 @@ function Feed({ review, user, book }: FeedProps) {
   };
 
   const handleFeedClick = () => {
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < MOBILE_BREAKPOINT) {
       router.push(`/review/${review.id}`);
     } else {
       open(review.id);
