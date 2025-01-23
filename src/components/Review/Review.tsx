@@ -1,11 +1,12 @@
 import { reviewApi } from '@/apis/review/review';
 import { Review as ReviewType } from '@/apis/review/types';
+import { useCommentQueryData } from '@/hooks/queries/useCommentQueryData';
 import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { cn } from '@/utils/common';
 import { formatDate } from '@/utils/date';
 import { isMobileDevice } from '@/utils/responsive';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -51,7 +52,6 @@ export default function Review({
   );
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
 
-  const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
   const router = useRouter();
 
@@ -59,6 +59,20 @@ export default function Review({
 
   const { updateReviewLikeQueryData, deleteReviewDataQueryData } =
     useReviewQueryData();
+  const { createCommentQueryData } = useCommentQueryData();
+
+  const { mutate: createComment } = useMutation({
+    mutationFn: (content: string) =>
+      reviewApi.createComment(review.id, { content }),
+    onSuccess: response => {
+      createCommentQueryData({ reviewId: review.id, comment: response.data });
+      toast.success('댓글이 작성되었습니다.');
+      setReplyToUser(null);
+    },
+    onError: () => {
+      toast.error('댓글 작성에 실패했습니다.');
+    },
+  });
 
   useEffect(() => {
     if (!contentRef.current) return;
@@ -111,19 +125,6 @@ export default function Review({
         },
       });
       toast.error('좋아요 처리에 실패했습니다.');
-    },
-  });
-
-  const { mutate: createComment } = useMutation({
-    mutationFn: (content: string) =>
-      reviewApi.createComment(review.id, { content }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['comments', review.id] });
-      toast.success('댓글이 작성되었습니다.');
-      setReplyToUser(null);
-    },
-    onError: () => {
-      toast.error('댓글 작성에 실패했습니다.');
     },
   });
 

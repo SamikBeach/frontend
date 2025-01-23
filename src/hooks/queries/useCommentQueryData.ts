@@ -24,6 +24,11 @@ interface UpdateCommentParams {
   content: string;
 }
 
+interface CreateCommentParams {
+  reviewId: number;
+  comment: Comment;
+}
+
 export function useCommentQueryData() {
   const queryClient = useQueryClient();
 
@@ -131,9 +136,50 @@ export function useCommentQueryData() {
     });
   }
 
+  function createCommentQueryData({ reviewId, comment }: CreateCommentParams) {
+    // Update comment list
+    queryClient.setQueryData<
+      InfiniteData<AxiosResponse<PaginatedResponse<Comment>>>
+    >(['comments', reviewId], commentListData => {
+      if (!commentListData) return commentListData;
+      return {
+        ...commentListData,
+        pages: commentListData.pages.map((commentPage, index) => {
+          // Add new comment to the first page
+          if (index === 0) {
+            return {
+              ...commentPage,
+              data: {
+                ...commentPage.data,
+                data: [comment, ...commentPage.data.data],
+              },
+            };
+          }
+          return commentPage;
+        }),
+      };
+    });
+
+    // Update review comment count
+    queryClient.setQueryData<AxiosResponse<Review>>(
+      ['review', reviewId],
+      reviewData => {
+        if (!reviewData) return reviewData;
+        return {
+          ...reviewData,
+          data: {
+            ...reviewData.data,
+            commentCount: reviewData.data.commentCount + 1,
+          },
+        };
+      }
+    );
+  }
+
   return {
     updateCommentLikeQueryData,
     deleteCommentQueryData,
     updateCommentQueryData,
+    createCommentQueryData,
   };
 }
