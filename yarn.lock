@@ -994,6 +994,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/third-parties@npm:^15.1.6":
+  version: 15.1.6
+  resolution: "@next/third-parties@npm:15.1.6"
+  dependencies:
+    third-party-capital: "npm:1.0.20"
+  peerDependencies:
+    next: ^13.0.0 || ^14.0.0 || ^15.0.0
+    react: ^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0
+  checksum: 10c0/5c7aa021c70d7b82b6ca71b633abcd44920f9039c2c93c0ffec81fa049469aa18534d1f12ea2156baeb081ef9d26f16d5a58aa28b776cab5832df1b915aa2638
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -5890,6 +5902,7 @@ __metadata:
     "@eslint/js": "npm:^9.16.0"
     "@lexical/react": "npm:0.23.1"
     "@lexical/utils": "npm:^0.23.1"
+    "@next/third-parties": "npm:^15.1.6"
     "@radix-ui/react-alert-dialog": "npm:^1.1.4"
     "@radix-ui/react-avatar": "npm:^1.1.1"
     "@radix-ui/react-dialog": "npm:^1.1.4"
@@ -10624,6 +10637,13 @@ __metadata:
   dependencies:
     any-promise: "npm:^1.0.0"
   checksum: 10c0/f375aeb2b05c100a456a30bc3ed07ef03a39cbdefe02e0403fb714b8c7e57eeaad1a2f5c4ecfb9ce554ce3db9c2b024eba144843cd9e344566d9fcee73b04767
+  languageName: node
+  linkType: hard
+
+"third-party-capital@npm:1.0.20":
+  version: 1.0.20
+  resolution: "third-party-capital@npm:1.0.20"
+  checksum: 10c0/7f45ff156ec9d7e2957a5b39061be22b780ffbd2d93c127252d908e2bff6cdd09f827a95909d457c8096e036f155006a38e355a06ee11cb6d63c7f4b150bbfb0
   languageName: node
   linkType: hard
 
