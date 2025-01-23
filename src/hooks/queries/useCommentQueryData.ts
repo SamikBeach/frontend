@@ -1,5 +1,6 @@
 import { PaginatedResponse } from '@/apis/common/types';
 import { Comment, Review } from '@/apis/review/types';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { InfiniteData, useQueryClient } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 
@@ -31,6 +32,7 @@ interface CreateCommentParams {
 
 export function useCommentQueryData() {
   const queryClient = useQueryClient();
+  const currentUser = useCurrentUser();
 
   function updateCommentLikeQueryData({
     reviewId,
@@ -73,7 +75,7 @@ export function useCommentQueryData() {
     reviewId,
     commentId,
   }: DeleteCommentParams) {
-    // Update comment list
+    // 댓글 목록 업데이트
     queryClient.setQueryData<
       InfiniteData<AxiosResponse<PaginatedResponse<Comment>>>
     >(['comments', reviewId], commentListData => {
@@ -92,7 +94,7 @@ export function useCommentQueryData() {
       };
     });
 
-    // Update review comment count
+    // 리뷰의 댓글 수 업데이트
     queryClient.setQueryData<AxiosResponse<Review>>(
       ['review', reviewId],
       reviewData => {
@@ -137,21 +139,28 @@ export function useCommentQueryData() {
   }
 
   function createCommentQueryData({ reviewId, comment }: CreateCommentParams) {
-    // Update comment list
+    // 댓글 목록 업데이트
     queryClient.setQueryData<
       InfiniteData<AxiosResponse<PaginatedResponse<Comment>>>
     >(['comments', reviewId], commentListData => {
-      if (!commentListData) return commentListData;
+      if (!commentListData || !currentUser) return commentListData;
+
       return {
         ...commentListData,
         pages: commentListData.pages.map((commentPage, index) => {
-          // Add new comment to the first page
+          // 새 댓글을 첫 페이지에 추가
           if (index === 0) {
             return {
               ...commentPage,
               data: {
                 ...commentPage.data,
-                data: [comment, ...commentPage.data.data],
+                data: [
+                  {
+                    ...comment,
+                    user: currentUser,
+                  },
+                  ...commentPage.data.data,
+                ],
               },
             };
           }
@@ -160,7 +169,7 @@ export function useCommentQueryData() {
       };
     });
 
-    // Update review comment count
+    // 리뷰의 댓글 수 업데이트
     queryClient.setQueryData<AxiosResponse<Review>>(
       ['review', reviewId],
       reviewData => {
