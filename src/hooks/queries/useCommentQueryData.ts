@@ -18,6 +18,12 @@ interface DeleteCommentParams {
   commentId: number;
 }
 
+interface UpdateCommentParams {
+  reviewId: number;
+  commentId: number;
+  content: string;
+}
+
 export function useCommentQueryData() {
   const queryClient = useQueryClient();
 
@@ -97,5 +103,37 @@ export function useCommentQueryData() {
     );
   }
 
-  return { updateCommentLikeQueryData, deleteCommentQueryData };
+  function updateCommentQueryData({
+    reviewId,
+    commentId,
+    content,
+  }: UpdateCommentParams) {
+    queryClient.setQueryData<
+      InfiniteData<AxiosResponse<PaginatedResponse<Comment>>>
+    >(['comments', reviewId], commentListData => {
+      if (!commentListData) return commentListData;
+      return {
+        ...commentListData,
+        pages: commentListData.pages.map(commentPage => ({
+          ...commentPage,
+          data: {
+            ...commentPage.data,
+            data: commentPage.data.data.map(comment => {
+              if (comment.id !== commentId) return comment;
+              return {
+                ...comment,
+                content,
+              };
+            }),
+          },
+        })),
+      };
+    });
+  }
+
+  return {
+    updateCommentLikeQueryData,
+    deleteCommentQueryData,
+    updateCommentQueryData,
+  };
 }
