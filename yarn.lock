@@ -2662,6 +2662,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/core@npm:8.51.0":
+  version: 8.51.0
+  resolution: "@sentry/core@npm:8.51.0"
+  checksum: 10c0/efcdce1bee004afb6d722db38baf23f818e0eb670f2c61b7739fe42d48dd94210b58cba2e5c27b031d83fab2cec36bf27a6f61c6bc30a9397f6a0f6657dbb5fe
+  languageName: node
+  linkType: hard
+
 "@sentry/integrations@npm:7.120.3":
   version: 7.120.3
   resolution: "@sentry/integrations@npm:7.120.3"
@@ -2755,6 +2762,15 @@ __metadata:
   dependencies:
     "@sentry/types": "npm:7.120.3"
   checksum: 10c0/15a1e0a0d29aae668023f68f4b3e4b3bd5353b5f033874d2bf51264206f05036e68b8d6d88078cf807fbb051c20244b1ac73b19a875da76a97e635a38b9fd180
+  languageName: node
+  linkType: hard
+
+"@sentry/utils@npm:^8.51.0":
+  version: 8.51.0
+  resolution: "@sentry/utils@npm:8.51.0"
+  dependencies:
+    "@sentry/core": "npm:8.51.0"
+  checksum: 10c0/1a67302fce08b35221814c3e8d036f431cc4b1677f560e0b9936b811f9fc99b90648fb8499e4d91f9d2baf40d14559d318345e44249416ea36554d34bd4eea40
   languageName: node
   linkType: hard
 
@@ -5031,6 +5047,7 @@ __metadata:
     "@semantic-release/changelog": "npm:^6.0.3"
     "@semantic-release/git": "npm:^10.0.1"
     "@sentry/nextjs": "npm:^7"
+    "@sentry/utils": "npm:^8.51.0"
     "@tanstack/react-query": "npm:^5.62.16"
     "@tanstack/react-query-devtools": "npm:^5.62.16"
     "@tanstack/react-virtual": "npm:^3.11.2"
