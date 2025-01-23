@@ -6,7 +6,12 @@ export const pageview = (url: string) => {
   }
 };
 
-export const event = ({ action, category, label, value }: {
+export const event = ({
+  action,
+  category,
+  label,
+  value,
+}: {
   action: string;
   category: string;
   label: string;
@@ -19,4 +24,10 @@ export const event = ({ action, category, label, value }: {
       value: value,
     });
   }
-}; 
+};
+
+export const pushDataLayer = (data: { event?: string; [key: string]: any }) => {
+  if (typeof window !== 'undefined' && window.dataLayer) {
+    window.dataLayer.push(data);
+  }
+};
