@@ -1,5 +1,24 @@
 # 🚦 CHANGELOG
 
+# [1.49.0](https://github.com/SamikBeach/frontend/compare/1.48.0...1.49.0) (2025-01-23)
+
+
+### Bug Fixes
+
+* fix type errors ([1e37c09](https://github.com/SamikBeach/frontend/commit/1e37c093c29d181dd6adf661589b98773a30b708))
+* 댓글 생성 시 사용자 정보 누락 문제 해결 ([e9bd6a4](https://github.com/SamikBeach/frontend/commit/e9bd6a4b6b6bb9233cf4bebd9c38e1f797c17611))
+* 사파리 모바일 환경을 위한 텍스트 크기 조정 ([5b595bc](https://github.com/SamikBeach/frontend/commit/5b595bc9c19e38079fe22997f51b4c0580f30565))
+* 센트르 설정 수정 ([6fcc6c5](https://github.com/SamikBeach/frontend/commit/6fcc6c5aa8fbf8f5b7a3168146c18096c908775a))
+
+
+### Features
+
+* Google Analytics 통합 추가 ([fdcc86a](https://github.com/SamikBeach/frontend/commit/fdcc86a63f7b34f98cd2163d8652db041f3d5bcd))
+* Google Tag Manager 통합 추가 ([6e27d57](https://github.com/SamikBeach/frontend/commit/6e27d570b132bb47a399ac2a9056cf8255160a73))
+* sentry 설치 ([59e1fa6](https://github.com/SamikBeach/frontend/commit/59e1fa608f89d2ed20b744a75860e947ef29ef84))
+* 댓글 삭제 시 쿼리 업데이트 로직 추가 ([626201b](https://github.com/SamikBeach/frontend/commit/626201b0fa4e6c26630d09714951fc8ac7968c7f))
+* 센트리 버전 다운그레이드 ([e89d846](https://github.com/SamikBeach/frontend/commit/e89d846d38434045a1f266ee836cb4a8f2a9d452))
+
 # [1.48.0](https://github.com/SamikBeach/frontend/compare/1.47.0...1.48.0) (2025-01-22)
 
 
