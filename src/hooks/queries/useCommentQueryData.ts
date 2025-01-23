@@ -1,5 +1,5 @@
 import { PaginatedResponse } from '@/apis/common/types';
-import { Comment } from '@/apis/review/types';
+import { Comment, Review } from '@/apis/review/types';
 import { InfiniteData, useQueryClient } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 
@@ -11,6 +11,11 @@ interface UpdateLikeParams {
     isLiked: boolean;
     likeCount: number;
   };
+}
+
+interface DeleteCommentParams {
+  reviewId: number;
+  commentId: number;
 }
 
 export function useCommentQueryData() {
@@ -53,5 +58,44 @@ export function useCommentQueryData() {
     );
   }
 
-  return { updateCommentLikeQueryData };
+  function deleteCommentQueryData({
+    reviewId,
+    commentId,
+  }: DeleteCommentParams) {
+    // Update comment list
+    queryClient.setQueryData<
+      InfiniteData<AxiosResponse<PaginatedResponse<Comment>>>
+    >(['comments', reviewId], commentListData => {
+      if (!commentListData) return commentListData;
+      return {
+        ...commentListData,
+        pages: commentListData.pages.map(commentPage => ({
+          ...commentPage,
+          data: {
+            ...commentPage.data,
+            data: commentPage.data.data.filter(
+              comment => comment.id !== commentId
+            ),
+          },
+        })),
+      };
+    });
+
+    // Update review comment count
+    queryClient.setQueryData<AxiosResponse<Review>>(
+      ['review', reviewId],
+      reviewData => {
+        if (!reviewData) return reviewData;
+        return {
+          ...reviewData,
+          data: {
+            ...reviewData.data,
+            commentCount: reviewData.data.commentCount - 1,
+          },
+        };
+      }
+    );
+  }
+
+  return { updateCommentLikeQueryData, deleteCommentQueryData };
 }

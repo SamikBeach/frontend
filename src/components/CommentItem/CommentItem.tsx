@@ -23,7 +23,8 @@ interface Props {
 
 const CommentItem = forwardRef<HTMLDivElement, Props>(
   ({ comment, reviewId, onReply }, ref) => {
-    const { updateCommentLikeQueryData } = useCommentQueryData();
+    const { updateCommentLikeQueryData, deleteCommentQueryData } =
+      useCommentQueryData();
     const queryClient = useQueryClient();
     const [isEditing, setIsEditing] = useState(false);
     const [showDeleteAlert, setShowDeleteAlert] = useState(false);
@@ -57,7 +58,7 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
     const { mutate: deleteComment } = useMutation({
       mutationFn: () => reviewApi.deleteComment(reviewId, comment.id),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['comments', reviewId] });
+        deleteCommentQueryData({ reviewId, commentId: comment.id });
         toast.success('댓글이 삭제되었습니다.');
       },
       onError: () => {
