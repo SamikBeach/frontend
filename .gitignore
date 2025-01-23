@@ -134,3 +134,5 @@ dist
 *.pem
 
 .cursurrules
+# Sentry Config File
+.env.sentry-build-plugin

@@ -1,3 +1,5 @@
+import GoogleAnalytics from '@/components/GoogleAnalytics';
+import GoogleTagManager from '@/components/GoogleTagManager';
 import { Header } from '@/components/Header';
 import { Initializer } from '@/components/Initializer';
 import { LeftSidebar } from '@/components/LeftSidebar';
@@ -23,6 +25,7 @@ export default async function RootLayout({
   return (
     <html lang="ko">
       <body>
+        <GoogleTagManager />
         <ReactQueryProvider>
           <Provider>
             <AtomsProvider>
@@ -42,6 +45,7 @@ export default async function RootLayout({
                       </div>
                     </div>
                     <Toaster />
+                    <GoogleAnalytics />
                   </NextIntlClientProvider>
                   <ReactQueryDevtools initialIsOpen={false} />
                 </DialogProvider>

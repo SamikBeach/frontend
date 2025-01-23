@@ -1,9 +1,10 @@
 'use client';
 
 import { reviewApi } from '@/apis/review/review';
+import { useCommentQueryData } from '@/hooks/queries/useCommentQueryData';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogProps, DialogTitle } from '@radix-ui/react-dialog';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { ArrowLeftIcon, ExternalLinkIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -20,7 +21,8 @@ interface Props extends DialogProps {}
 export default function ReviewDialog(props: Props) {
   const { isOpen, id: reviewId, close } = useDialogQuery({ type: 'review' });
   const router = useRouter();
-  const queryClient = useQueryClient();
+
+  const { createCommentQueryData } = useCommentQueryData();
 
   const commentListRef = useRef<HTMLDivElement>(null);
   const [replyToUser, setReplyToUser] = useState<{ nickname: string } | null>(
@@ -32,10 +34,8 @@ export default function ReviewDialog(props: Props) {
       if (!reviewId) throw new Error('Review ID is required');
       return reviewApi.createComment(reviewId, { content: comment });
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['comments', reviewId],
-      });
+    onSuccess: response => {
+      createCommentQueryData({ reviewId: reviewId!, comment: response.data });
 
       // 새로운 댓글은 항상 목록 가장 앞에 추가되므로 첫 번째 댓글로 스크롤
       setTimeout(() => {

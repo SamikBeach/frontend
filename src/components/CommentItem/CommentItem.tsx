@@ -3,7 +3,7 @@ import { Comment } from '@/apis/review/types';
 import { useCommentQueryData } from '@/hooks/queries/useCommentQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { formatDate } from '@/utils/date';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { ThumbsUpIcon } from 'lucide-react';
 import { forwardRef, useState } from 'react';
 import { CommentContent } from '.';
@@ -23,8 +23,12 @@ interface Props {
 
 const CommentItem = forwardRef<HTMLDivElement, Props>(
   ({ comment, reviewId, onReply }, ref) => {
-    const { updateCommentLikeQueryData } = useCommentQueryData();
-    const queryClient = useQueryClient();
+    const {
+      updateCommentLikeQueryData,
+      deleteCommentQueryData,
+      updateCommentQueryData,
+    } = useCommentQueryData();
+
     const [isEditing, setIsEditing] = useState(false);
     const [showDeleteAlert, setShowDeleteAlert] = useState(false);
     const [openLoginDialog, setOpenLoginDialog] = useState(false);
@@ -57,7 +61,7 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
     const { mutate: deleteComment } = useMutation({
       mutationFn: () => reviewApi.deleteComment(reviewId, comment.id),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['comments', reviewId] });
+        deleteCommentQueryData({ reviewId, commentId: comment.id });
         toast.success('댓글이 삭제되었습니다.');
       },
       onError: () => {
@@ -68,8 +72,8 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
     const { mutate: updateComment } = useMutation({
       mutationFn: (content: string) =>
         reviewApi.updateComment(reviewId, comment.id, { content }),
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['comments', reviewId] });
+      onSuccess: (_, content) => {
+        updateCommentQueryData({ reviewId, commentId: comment.id, content });
         setIsEditing(false);
         toast.success('댓글이 수정되었습니다.');
       },

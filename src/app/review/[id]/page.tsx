@@ -3,7 +3,8 @@
 import { reviewApi } from '@/apis/review/review';
 import CommentEditor from '@/components/CommentEditor/CommentEditor';
 import { toast } from '@/components/ui/sonner';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useCommentQueryData } from '@/hooks/queries/useCommentQueryData';
+import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useRef, useState } from 'react';
 import CommentList from './CommentList';
@@ -12,7 +13,8 @@ import ReviewInfo from './ReviewInfo';
 export default function ReviewPage() {
   const { id } = useParams();
   const reviewId = Number(id);
-  const queryClient = useQueryClient();
+
+  const { createCommentQueryData } = useCommentQueryData();
 
   const commentListRef = useRef<HTMLDivElement>(null);
   const [replyToUser, setReplyToUser] = useState<{ nickname: string } | null>(
@@ -23,10 +25,8 @@ export default function ReviewPage() {
     mutationFn: (comment: string) => {
       return reviewApi.createComment(reviewId, { content: comment });
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['comments', reviewId],
-      });
+    onSuccess: response => {
+      createCommentQueryData({ reviewId, comment: response.data });
 
       // 새로운 댓글은 항상 목록 가장 앞에 추가되므로 첫 번째 댓글로 스크롤
       setTimeout(() => {
