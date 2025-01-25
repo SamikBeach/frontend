@@ -17,12 +17,17 @@ export default function Tabs() {
             <div className="flex-1 md:hidden">
               <SearchBar />
             </div>
-            <SortModeTabs />
+            <div className="md:hidden">
+              <SortModeTabs />
+            </div>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <div className="hidden md:block">
             <SearchBar />
+          </div>
+          <div className="hidden md:block">
+            <SortModeTabs />
           </div>
           <div className="hidden md:block">
             <ViewModeTabs />
