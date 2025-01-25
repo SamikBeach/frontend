@@ -121,7 +121,7 @@ function UserInfoContent({ userId }: Props) {
                 className="h-[140px] w-[140px] cursor-default md:h-[200px] md:w-[200px]"
               />
               {isMyProfile && (
-                <label className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
+                <label className="absolute inset-0 hidden cursor-pointer items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100 md:flex">
                   <span className="text-sm font-medium text-white">
                     이미지 변경
                   </span>
@@ -134,7 +134,7 @@ function UserInfoContent({ userId }: Props) {
                 </label>
               )}
             </div>
-            {isMyProfile && user.imageUrl && (
+            {isMyProfile && (
               <div className="absolute bottom-2 right-2 md:bottom-3 md:right-3">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -148,12 +148,33 @@ function UserInfoContent({ userId }: Props) {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem
-                      onClick={() => deleteImage()}
-                      className="gap-2 text-destructive"
+                      className="gap-2"
+                      onClick={() => {
+                        const input = document.createElement('input');
+                        input.type = 'file';
+                        input.accept = 'image/*';
+                        input.onchange = e => {
+                          const file = (e.target as HTMLInputElement)
+                            .files?.[0];
+                          if (file) {
+                            uploadImage(file);
+                          }
+                        };
+                        input.click();
+                      }}
                     >
-                      <Trash2Icon className="h-4 w-4" />
-                      이미지 삭제
+                      <PencilIcon className="h-4 w-4" />
+                      이미지 변경
                     </DropdownMenuItem>
+                    {user.imageUrl && (
+                      <DropdownMenuItem
+                        onClick={() => deleteImage()}
+                        className="gap-2 text-destructive"
+                      >
+                        <Trash2Icon className="h-4 w-4" />
+                        이미지 삭제
+                      </DropdownMenuItem>
+                    )}
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
