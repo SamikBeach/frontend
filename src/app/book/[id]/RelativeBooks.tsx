@@ -41,6 +41,7 @@ function RelativeBooksContent({ bookId }: Props) {
           opts={{
             loop: true,
             align: 'start',
+            dragFree: true,
           }}
         >
           <CarouselContent className="w-[1080px] gap-4">
