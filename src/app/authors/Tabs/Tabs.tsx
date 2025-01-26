@@ -14,13 +14,8 @@ export default function Tabs() {
           <div className="overflow-x-auto">
             <GenreButtons />
           </div>
-          <div className="flex items-center gap-2">
-            <div className="flex-1 md:hidden">
-              <SearchBar />
-            </div>
-            <div className="md:hidden">
-              <SortModeTabs />
-            </div>
+          <div className="md:hidden">
+            <SearchBar />
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -28,9 +23,7 @@ export default function Tabs() {
             <SearchBar />
           </div>
           <EraCombobox />
-          <div className="hidden md:block">
-            <SortModeTabs />
-          </div>
+          <SortModeTabs />
           <div className="hidden md:block">
             <ViewModeTabs />
           </div>
