@@ -47,15 +47,15 @@ export default function ReviewEditor({
   return (
     <TooltipProvider>
       <LexicalComposer initialConfig={initialConfig}>
-        <div className="relative flex min-h-[200px] w-full flex-col rounded-md border border-input bg-background text-sm ring-offset-background">
+        <div className="relative flex h-full min-h-[200px] w-full flex-col rounded-md border border-input bg-background text-sm ring-offset-background">
           <ToolbarPlugin />
           <RichTextPlugin
             contentEditable={
               <div className="relative flex-grow overflow-auto">
                 <ContentEditable
-                  className="min-h-[calc(100vh-20rem)] w-full resize-none px-3 py-2 outline-none"
+                  className="min-h-[calc(100vh-20rem)] w-full resize-none px-3 py-2 text-base outline-none"
                   placeholder={
-                    <div className="pointer-events-none absolute left-3 top-2 select-none text-muted-foreground">
+                    <div className="pointer-events-none absolute left-3 top-2 select-none text-base text-muted-foreground">
                       {placeholder}
                     </div>
                   }

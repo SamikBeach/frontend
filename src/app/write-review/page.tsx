@@ -139,19 +139,22 @@ export default function WriteReviewPage() {
 
   return (
     <>
-      <div className="flex h-full flex-col gap-4 p-4">
+      <div className="fixed inset-0 flex flex-col gap-4 overflow-hidden p-4 md:static md:h-full">
         <BookInfo bookId={Number(bookId)} />
         <Input
           placeholder="제목"
           value={title}
           onChange={e => setTitle(e.target.value)}
+          className="text-base"
         />
-        <ReviewEditor
-          content={content}
-          onChange={setContent}
-          placeholder="내용을 입력하세요..."
-        />
-        <div className="mt-auto flex items-center justify-between">
+        <div className="flex-1 overflow-hidden">
+          <ReviewEditor
+            content={content}
+            onChange={setContent}
+            placeholder="내용을 입력하세요..."
+          />
+        </div>
+        <div className="flex items-center justify-between">
           <Button variant="ghost" onClick={handleBack}>
             취소
           </Button>
