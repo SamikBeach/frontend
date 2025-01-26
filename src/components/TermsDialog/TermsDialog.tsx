@@ -13,7 +13,10 @@ interface Props {
 export default function TermsDialog({ open, onOpenChange }: Props) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[80vh] max-w-[680px] overflow-y-auto p-10">
+      <DialogContent
+        className="max-h-[80vh] max-w-[680px] overflow-y-auto p-10"
+        aria-describedby={undefined}
+      >
         <DialogHeader className="mb-8">
           <DialogTitle className="text-2xl font-bold">이용약관</DialogTitle>
         </DialogHeader>
