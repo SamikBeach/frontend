@@ -7,7 +7,7 @@ interface LogoProps {
 
 export default function Logo({ className, size = 'md' }: LogoProps) {
   return (
-    <div className={`inline-block ${className || ''}`}>
+    <div className={className}>
       <h1 className="flex items-center font-bold">
         <LogoImage size={size} />
         <span className="text-black">고전산책</span>

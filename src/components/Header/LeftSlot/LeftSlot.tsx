@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function LeftSlot() {
   return (
     <Link href="/">
-      <Logo />
+      <Logo className="h-full" />
     </Link>
   );
 }
