@@ -1,20 +1,22 @@
 import { reviewApi } from '@/apis/review/review';
 import { Metadata } from 'next';
+import { use } from 'react';
 import ReviewPageClient from './ReviewPageClient';
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  console.log({ params });
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const reviewId = Number(params.id);
   const review = await reviewApi
     .getReviewDetail(reviewId)
     .then(res => res.data);
 
-  const title = `${review.title} - ${review.user.nickname}의 리뷰`;
-  const description = `${review.user.nickname}님이 작성한 ${review.book.title}에 대한 리뷰입니다.`;
+  const title = `${review.title} - ${review.user.nickname}`;
+  const description =
+    review.content || `${review.title}. ${review.user.nickname} 작성`;
 
   const openGraph: Metadata['openGraph'] = {
     title,
@@ -37,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${title} | 고전산책`,
+    title,
     description,
     openGraph,
     twitter: {
@@ -49,6 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function ReviewPage({ params: { id } }: Props) {
-  return <ReviewPageClient reviewId={Number(id)} />;
+export default function ReviewPage(props: Props) {
+  const params = use(props.params);
+  return <ReviewPageClient reviewId={Number(params.id)} />;
 }
