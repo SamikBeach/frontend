@@ -36,7 +36,7 @@ export interface AuthorDetail extends Author {
 
 export interface AuthorSearchQuery extends PaginationQuery {
   filter?: {
-    era?: number;
+    eraId?: number;
     name?: string;
     nameInKor?: string;
     genre_id?: number;
