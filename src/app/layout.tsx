@@ -11,7 +11,7 @@ import '@/styles/global.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Provider } from 'jotai';
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { type ReactNode } from 'react';
@@ -84,6 +84,12 @@ export default async function RootLayout({
   );
 }
 
+export const viewport: Viewport = {
+  themeColor: '#ffffff',
+  width: 'device-width',
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   title: {
     template: '%s | 고전산책',
@@ -143,7 +149,6 @@ export const metadata: Metadata = {
     shortcut: [{ url: '/favicons/favicon.ico' }],
   },
   manifest: '/favicons/site.webmanifest',
-  themeColor: '#ffffff',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',

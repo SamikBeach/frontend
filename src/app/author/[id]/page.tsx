@@ -1,12 +1,14 @@
 import { authorApi } from '@/apis/author/author';
 import { Metadata } from 'next';
+import { use } from 'react';
 import AuthorPageClient from './AuthorPageClient';
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const authorId = Number(params.id);
   const author = await authorApi
     .getAuthorDetail(authorId)
@@ -37,6 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function AuthorPage({ params: { id } }: Props) {
-  return <AuthorPageClient authorId={Number(id)} />;
+export default function AuthorPage(props: Props) {
+  const params = use(props.params);
+  return <AuthorPageClient authorId={Number(params.id)} />;
 }

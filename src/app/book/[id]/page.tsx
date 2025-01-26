@@ -1,12 +1,14 @@
 import { bookApi } from '@/apis/book/book';
 import { Metadata } from 'next';
+import { use } from 'react';
 import BookPageClient from './BookPageClient';
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const bookId = Number(params.id);
   const book = await bookApi.getBookDetail(bookId).then(res => res.data);
 
@@ -39,6 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function BookPage({ params: { id } }: Props) {
-  return <BookPageClient bookId={Number(id)} />;
+export default function BookPage(props: Props) {
+  const params = use(props.params);
+  return <BookPageClient bookId={Number(params.id)} />;
 }
