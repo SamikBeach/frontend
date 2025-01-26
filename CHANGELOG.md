@@ -1,5 +1,25 @@
 # 🚦 CHANGELOG
 
+# [1.50.0](https://github.com/SamikBeach/frontend/compare/1.49.0...1.50.0) (2025-01-26)
+
+
+### Bug Fixes
+
+* fix errors ([f22b625](https://github.com/SamikBeach/frontend/commit/f22b625667835d11bcc9b99050669f38c40e40ed))
+* 메타데이터 수정 ([bfdac87](https://github.com/SamikBeach/frontend/commit/bfdac87858ec2c2bd56e3081f93c7d5d9f5b95f6))
+* 메타데이터 적용 방식 수정 ([efb58dc](https://github.com/SamikBeach/frontend/commit/efb58dc940ef5261dad972119a08aa47a073e74e))
+* 프로필 이미지 변경 기능 수정 ([39ff1e0](https://github.com/SamikBeach/frontend/commit/39ff1e0833abbc4bfe3391b797e7dc94939bae3e))
+
+
+### Features
+
+* authors 페이지의 정렬 탭 위치 수정 ([cab7755](https://github.com/SamikBeach/frontend/commit/cab77559c4310e3defd90b9a26c81cd35dd686ce))
+* RelativeBooks 캐러셀 스와이프 효과 개선 ([14eea0f](https://github.com/SamikBeach/frontend/commit/14eea0fd479c7d598d052f0f3d458481e10f8cc2))
+* RelativeBooks 컴포넌트 캐러셀 동작 방식 수정 ([3f36490](https://github.com/SamikBeach/frontend/commit/3f3649014bf14d77fdf45c71c66642e9f367508e))
+* SEO 적용 ([99422e6](https://github.com/SamikBeach/frontend/commit/99422e6babcc3b0be6aeefa2b2f40c5a5cae4dfc))
+* sitemap 생성 로직 개선 ([374404b](https://github.com/SamikBeach/frontend/commit/374404b4cec281da165f2578c255eb4c3b45efca))
+* 로고 이미지 추가 ([f34ff9c](https://github.com/SamikBeach/frontend/commit/f34ff9cbe8c9e5e46fc4bb642ce681bc3d7e2c2b))
+
 # [1.49.0](https://github.com/SamikBeach/frontend/compare/1.48.0...1.49.0) (2025-01-23)
 
 
