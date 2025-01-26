@@ -9,7 +9,12 @@ import { SearchBarDialog } from './SearchBarDialog';
 export default function SearchBar() {
   const [isOpen, setIsOpen] = useState(false);
 
-  useKeyPressEvent('/', () => setIsOpen(true));
+  useKeyPressEvent('/', e => {
+    if (e.target === document.body) {
+      e.preventDefault();
+      setIsOpen(true);
+    }
+  });
 
   return (
     <>
