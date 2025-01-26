@@ -1,5 +1,6 @@
 'use client';
 
+import { EraCombobox } from './EraCombobox';
 import { GenreButtons } from './GenreButtons';
 import { SearchBar } from './SearchBar';
 import { SortModeTabs } from './SortModeTabs';
@@ -26,6 +27,7 @@ export default function Tabs() {
           <div className="hidden md:block">
             <SearchBar />
           </div>
+          <EraCombobox />
           <div className="hidden md:block">
             <SortModeTabs />
           </div>
