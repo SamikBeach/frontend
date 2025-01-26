@@ -1,5 +1,13 @@
 # 🚦 CHANGELOG
 
+# [1.52.0](https://github.com/SamikBeach/frontend/compare/1.51.1...1.52.0) (2025-01-26)
+
+
+### Features
+
+* 작가 목록 시대 필터 모바일 레이아웃 수정 ([9a4a9c5](https://github.com/SamikBeach/frontend/commit/9a4a9c5b79c416561e78ba6c88a0149c96a15696))
+* 작가 목록 시대 필터링 기능 추가 및 AtomsProvider와 연동 ([49dedc3](https://github.com/SamikBeach/frontend/commit/49dedc36531a4442c6def7652d4df6b8b7b8e485))
+
 ## [1.51.1](https://github.com/SamikBeach/frontend/compare/1.51.0...1.51.1) (2025-01-26)
 
 
