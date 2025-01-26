@@ -1,5 +1,28 @@
 # 🚦 CHANGELOG
 
+# [1.51.0](https://github.com/SamikBeach/frontend/compare/1.50.0...1.51.0) (2025-01-26)
+
+
+### Bug Fixes
+
+* author.nameInKor 트림 처리 ([adaa990](https://github.com/SamikBeach/frontend/commit/adaa990e6dbff29a44a4778ba5c2f71be0aa9dc6))
+* CommandList max-h 제거 ([3ab17ad](https://github.com/SamikBeach/frontend/commit/3ab17ad80a753190302963c2130e8482f04ec080))
+* EraCombobox 검색어 초기화 개선 ([a9e1e7f](https://github.com/SamikBeach/frontend/commit/a9e1e7f8e9dff023eaa5d591c0ba53c68f6257e6))
+* SearchBar 스타일 수정 ([2a1e988](https://github.com/SamikBeach/frontend/commit/2a1e988c63f54f306019c265d478ade07d2dfc60))
+* SearchBar 열 때 '/' 키가 입력되는 문제 수정 ([5d8dca3](https://github.com/SamikBeach/frontend/commit/5d8dca34edaeed26c351eba695b4a761212849bc))
+* SearchBar 키 이벤트 중복 실행 방지 ([ff4a493](https://github.com/SamikBeach/frontend/commit/ff4a4934467d2758e3237fe38a75739030f4201d))
+* SearchBarDialog의 cmdk 초기화 문제 해결 ([aa0633e](https://github.com/SamikBeach/frontend/commit/aa0633e90d6f386d8bb9d2f840d53c878e6a29b8)), closes [#3051](https://github.com/SamikBeach/frontend/issues/3051)
+* TermsDialog, PrivacyDialog에 aria-describedby 추가 ([e9a7609](https://github.com/SamikBeach/frontend/commit/e9a760900d0e773b00ae9864347ec92929bc344c))
+* write-review page 에러 수정 ([9c2b7dd](https://github.com/SamikBeach/frontend/commit/9c2b7ddf6c755170da02265eb5d397d6c9b6ff0a))
+* 스타일 수정 ([a5ed2fd](https://github.com/SamikBeach/frontend/commit/a5ed2fda8440b2457569c118e8abc93a5fffb538))
+
+
+### Features
+
+* Era API 클라이언트 구현 ([89d8f86](https://github.com/SamikBeach/frontend/commit/89d8f8660d885d3a07728a70a406178caff7a6ed))
+* 검색 결과 아이템의 삭제 버튼을 모바일에서 항상 보이도록 수정 ([44bb182](https://github.com/SamikBeach/frontend/commit/44bb182e5946b920d20995c228539ecef43613c1))
+* 작가 목록 시대 필터 추가 ([e2512c5](https://github.com/SamikBeach/frontend/commit/e2512c5a4066bf1992f0d6965d1d88696c5943fc))
+
 # [1.50.0](https://github.com/SamikBeach/frontend/compare/1.49.0...1.50.0) (2025-01-26)
 
 
