@@ -57,9 +57,10 @@ function EraComboboxContent() {
 
   const filteredEras = useMemo(() => {
     if (!search) return eras;
-    return eras?.filter(era =>
+    const filtered = eras?.filter(era =>
       era.eraInKor.toLowerCase().includes(search.toLowerCase())
     );
+    return filtered;
   }, [eras, search]);
 
   const handleSelect = (currentValue: string) => {
@@ -67,6 +68,7 @@ function EraComboboxContent() {
     const newEraId = isDeselecting ? undefined : currentValue;
     setSelectedEraId(newEraId);
     updateQueryParams({ eraId: newEraId });
+    setSearch('');
     setOpen(false);
   };
 
@@ -109,7 +111,7 @@ function EraComboboxContent() {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0" align="end">
-        <Command>
+        <Command shouldFilter={false}>
           <CommandInput
             placeholder="시대 검색..."
             value={search}
