@@ -53,7 +53,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
     // 작가 페이지
-    const authors = await authorApi.searchAuthors({}).then(res => res.data.data);
+    const authors = await authorApi
+      .searchAuthors({})
+      .then(res => res.data.data);
     const authorUrls = authors.map((author: Author) => ({
       url: `${baseUrl}/author/${author.id}`,
       lastModified: author.updatedAt
@@ -64,7 +66,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
     // 리뷰 페이지
-    const reviews = await reviewApi.searchReviews({}).then(res => res.data.data);
+    const reviews = await reviewApi
+      .searchReviews({})
+      .then(res => res.data.data);
     const reviewUrls = reviews.map((review: Review) => ({
       url: `${baseUrl}/review/${review.id}`,
       lastModified: review.updatedAt

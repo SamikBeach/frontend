@@ -33,6 +33,7 @@ export default function WriteReviewPage() {
   const { data: reviewData } = useQuery<AxiosResponse<Review>, Error>({
     queryKey: ['review', reviewId],
     queryFn: () => reviewApi.getReviewDetail(Number(reviewId!)),
+    enabled: !!reviewId,
   });
 
   useEffect(() => {
@@ -132,7 +133,7 @@ export default function WriteReviewPage() {
     return null;
   }
 
-  if (content === '') {
+  if (reviewId && content === '') {
     return null;
   }
 

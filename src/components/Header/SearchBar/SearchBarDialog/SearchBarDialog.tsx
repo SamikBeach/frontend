@@ -1,6 +1,6 @@
 import { searchKeywordAtom } from '@/atoms/search';
 import { Button } from '@/components/ui/button';
-import { Command, CommandInput } from '@/components/ui/command';
+import { Command, CommandInput, CommandList } from '@/components/ui/command';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { DialogProps, DialogTitle } from '@radix-ui/react-dialog';
 import { useAtom } from 'jotai';
@@ -74,10 +74,12 @@ export default function SearchBarDialog({
                 <X className="h-4 w-4 text-gray-400" />
               </Button>
             </div>
-            <SearchBarDialogContent
-              keyword={searchKeyword}
-              onOpenChange={handleOpenChange}
-            />
+            <CommandList>
+              <SearchBarDialogContent
+                keyword={searchKeyword}
+                onOpenChange={handleOpenChange}
+              />
+            </CommandList>
           </Command>
         )}
       </DialogContent>

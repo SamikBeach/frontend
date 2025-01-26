@@ -1,7 +1,7 @@
 import { searchApi } from '@/apis/search/search';
 import { userApi } from '@/apis/user/user';
 import { isLoggedInAtom } from '@/atoms/auth';
-import { CommandEmpty, CommandList } from '@/components/ui/command';
+import { CommandEmpty } from '@/components/ui/command';
 import { Spinner } from '@/components/ui/spinner';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
@@ -121,13 +121,11 @@ export default function SearchBarDialogContent({
 
   return (
     <Suspense fallback={<LoadingSpinner />}>
-      <CommandList className="max-h-[1300px]">
-        {isEmpty ? (
-          <RecentSearches onOpenChange={onOpenChange} />
-        ) : (
-          <SearchResults keyword={trimmedKeyword} onOpenChange={onOpenChange} />
-        )}
-      </CommandList>
+      {isEmpty ? (
+        <RecentSearches onOpenChange={onOpenChange} />
+      ) : (
+        <SearchResults keyword={trimmedKeyword} onOpenChange={onOpenChange} />
+      )}
     </Suspense>
   );
 }

@@ -6,10 +6,22 @@ import { useState } from 'react';
 import { useKeyPressEvent } from 'react-use';
 import { SearchBarDialog } from './SearchBarDialog';
 
+let isHandlingKeyPress = false;
+
 export default function SearchBar() {
   const [isOpen, setIsOpen] = useState(false);
 
-  useKeyPressEvent('/', () => setIsOpen(true));
+  useKeyPressEvent('/', e => {
+    if (!isHandlingKeyPress) {
+      isHandlingKeyPress = true;
+      e.preventDefault();
+      setIsOpen(true);
+      // 다음 프레임에서 플래그 초기화
+      requestAnimationFrame(() => {
+        isHandlingKeyPress = false;
+      });
+    }
+  });
 
   return (
     <>
