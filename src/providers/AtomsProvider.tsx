@@ -4,14 +4,13 @@ import {
   authorGenreAtom,
   authorSearchKeywordAtom,
   authorSortModeAtom,
-  authorViewModeAtom,
+  eraIdAtom,
 } from '@/atoms/author';
 import {
   authorIdAtom,
   bookGenreAtom,
   bookSearchKeywordAtom,
   bookSortModeAtom,
-  bookViewModeAtom,
 } from '@/atoms/book';
 
 import { useQueryParams } from '@/hooks/useQueryParams';
@@ -34,15 +33,14 @@ export function AtomsProvider({ children }: Props) {
   // 책 관련 atom setter 함수들
   const setBookSearchKeyword = useSetAtom(bookSearchKeywordAtom);
   const setBookSortMode = useSetAtom(bookSortModeAtom);
-  const setBookViewMode = useSetAtom(bookViewModeAtom);
   const setAuthorId = useSetAtom(authorIdAtom);
   const setBookGenre = useSetAtom(bookGenreAtom);
 
   // 작가 관련 atom setter 함수들
   const setAuthorSearchKeyword = useSetAtom(authorSearchKeywordAtom);
   const setAuthorSortMode = useSetAtom(authorSortModeAtom);
-  const setAuthorViewMode = useSetAtom(authorViewModeAtom);
   const setAuthorGenre = useSetAtom(authorGenreAtom);
+  const setEraId = useSetAtom(eraIdAtom);
 
   // URL 파라미터가 변경될 때마다 관련 atom 값들을 업데이트
   useEffect(() => {
@@ -74,6 +72,7 @@ export function AtomsProvider({ children }: Props) {
         | 'science'
         | 'economics') ?? 'all'
     );
+    setEraId(searchParams.get('eraId') ?? undefined);
   }, [
     searchParams,
     setBookSearchKeyword,
@@ -83,6 +82,7 @@ export function AtomsProvider({ children }: Props) {
     setAuthorSearchKeyword,
     setAuthorSortMode,
     setAuthorGenre,
+    setEraId,
   ]);
 
   // 앱이 처음 로드될 때 atom들의 초기값을 URL 파라미터 기반으로 설정
@@ -119,6 +119,7 @@ export function AtomsProvider({ children }: Props) {
         | 'science'
         | 'economics') ?? 'all',
     ],
+    [eraIdAtom, searchParams.get('eraId') ?? undefined],
   ]);
 
   return children;

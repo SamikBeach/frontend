@@ -8,6 +8,7 @@ import {
   authorSearchKeywordAtom,
   authorSortModeAtom,
   authorViewModeAtom,
+  eraIdAtom,
 } from '@/atoms/author';
 import AuthorGridItemSkeleton from '@/components/AuthorItem/AuthorGridItemSkeleton';
 import AuthorListItemSkeleton from '@/components/AuthorItem/AuthorListItemSkeleton';
@@ -26,12 +27,13 @@ function AuthorListContent() {
   const viewMode = useAtomValue(authorViewModeAtom);
   const searchKeyword = useAtomValue(authorSearchKeywordAtom);
   const sortMode = useAtomValue(authorSortModeAtom);
+  const selectedEraId = useAtomValue(eraIdAtom);
 
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<Author>>,
     Error
   >({
-    queryKey: ['authors', searchKeyword, sortMode, genre],
+    queryKey: ['authors', searchKeyword, sortMode, genre, selectedEraId],
     queryFn: ({ pageParam = 1 }) => {
       const sortBy = (() => {
         switch (sortMode) {
@@ -56,6 +58,7 @@ function AuthorListContent() {
         sortBy,
         filter: {
           genre_id: GENRE_IDS[genre] ?? undefined,
+          eraId: selectedEraId ? Number(selectedEraId) : undefined,
         },
       });
     },
@@ -81,12 +84,16 @@ function AuthorListContent() {
     [data]
   );
 
-  if (authors.length === 0 && searchKeyword) {
+  if (authors.length === 0 && (searchKeyword || selectedEraId)) {
     return (
       <Empty
         icon={<SearchXIcon className="h-12 w-12" />}
         title="검색 결과가 없어요."
-        description={`'${searchKeyword}'로 검색한 결과가 없어요.`}
+        description={
+          searchKeyword
+            ? `'${searchKeyword}'로 검색한 결과가 없어요.`
+            : '선택한 시대의 작가를 찾을 수 없어요.'
+        }
       />
     );
   }
