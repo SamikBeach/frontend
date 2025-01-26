@@ -8,7 +8,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
 } from '@/components/ui/carousel';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -49,7 +48,7 @@ function RelativeBooksContent({ authorId }: Props) {
           opts={{
             loop: true,
             align: 'start',
-            slidesToScroll: 8,
+            dragFree: true,
           }}
         >
           <CarouselContent className="w-[1080px] gap-4">
@@ -64,7 +63,6 @@ function RelativeBooksContent({ authorId }: Props) {
               </CarouselItem>
             ))}
           </CarouselContent>
-          {books.length >= 9 && <CarouselNext className="right-[-10px] z-10" />}
         </Carousel>
       </div>
     </div>

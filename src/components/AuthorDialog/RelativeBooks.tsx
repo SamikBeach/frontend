@@ -50,6 +50,7 @@ function RelativeBooksContent({ authorId }: Props) {
           opts={{
             loop: true,
             align: 'start',
+            dragFree: true,
             slidesToScroll: 5,
           }}
         >
