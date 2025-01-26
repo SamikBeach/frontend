@@ -1,5 +1,13 @@
 # 🚦 CHANGELOG
 
+## [1.51.1](https://github.com/SamikBeach/frontend/compare/1.51.0...1.51.1) (2025-01-26)
+
+
+### Bug Fixes
+
+* ReviewEditor 모바일 줌인 방지 ([d13cccd](https://github.com/SamikBeach/frontend/commit/d13cccd930b7099e2839ae05cc0d7e1b4ac19803))
+* write-review 페이지 반응형 레이아웃 구현 ([a8ddee2](https://github.com/SamikBeach/frontend/commit/a8ddee29c284011cd68bbb23a221b4e369be447b))
+
 # [1.51.0](https://github.com/SamikBeach/frontend/compare/1.50.0...1.51.0) (2025-01-26)
 
 
