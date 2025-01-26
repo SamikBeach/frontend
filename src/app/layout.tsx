@@ -26,10 +26,10 @@ export default async function RootLayout({
   return (
     <html lang="ko">
       <head>
-        <title>고전산책 - 시대를 초월한 지혜를 탐험하다</title>
+        <title>고전산책</title>
         <meta
           name="description"
-          content="시대를 초월한 지혜를 탐험하세요. 고전산책에서 당신의 독서 여정을 시작하세요. ClassicsWalk: Exploring the Timeless Wisdom"
+          content="시대를 초월한 지혜, 고전과 함께하는 새로운 독서 경험"
         />
         <meta
           name="keywords"
@@ -87,10 +87,9 @@ export default async function RootLayout({
 export const metadata: Metadata = {
   title: {
     template: '%s | 고전산책',
-    default: '고전산책 - 시대를 초월한 지혜를 탐험하다',
+    default: '고전산책',
   },
-  description:
-    '시대를 초월한 지혜를 탐험하세요. 고전산책에서 당신의 독서 여정을 시작하세요. ClassicsWalk: Exploring the Timeless Wisdom',
+  description: '시대를 초월한 지혜, 고전과 함께하는 새로운 독서 경험',
   keywords: [
     '고전',
     '독서',

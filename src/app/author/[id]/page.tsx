@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = `작가 ${author.nameInKor}의 프로필과 작품 목록을 확인하세요.`;
 
   return {
-    title: `${title} | 고전산책`,
+    title,
     description,
     openGraph: {
       title,

@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     `${authorName}의 도서 ${book.title}. ${book.publisher} 출판`;
 
   return {
-    title: `${title} | 고전산책`,
+    title,
     description,
     openGraph: {
       title,
