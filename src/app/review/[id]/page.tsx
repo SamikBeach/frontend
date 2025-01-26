@@ -1,72 +1,54 @@
-'use client';
-
 import { reviewApi } from '@/apis/review/review';
-import CommentEditor from '@/components/CommentEditor/CommentEditor';
-import { toast } from '@/components/ui/sonner';
-import { useCommentQueryData } from '@/hooks/queries/useCommentQueryData';
-import { useMutation } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
-import { useRef, useState } from 'react';
-import CommentList from './CommentList';
-import ReviewInfo from './ReviewInfo';
+import { Metadata } from 'next';
+import ReviewPageClient from './ReviewPageClient';
 
-export default function ReviewPage() {
-  const { id } = useParams();
-  const reviewId = Number(id);
+type Props = {
+  params: { id: string };
+};
 
-  const { createCommentQueryData } = useCommentQueryData();
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  console.log({ params });
+  const reviewId = Number(params.id);
+  const review = await reviewApi
+    .getReviewDetail(reviewId)
+    .then(res => res.data);
 
-  const commentListRef = useRef<HTMLDivElement>(null);
-  const [replyToUser, setReplyToUser] = useState<{ nickname: string } | null>(
-    null
-  );
+  const title = `${review.title} - ${review.user.nickname}의 리뷰`;
+  const description = `${review.user.nickname}님이 작성한 ${review.book.title}에 대한 리뷰입니다.`;
 
-  const { mutate: createComment } = useMutation({
-    mutationFn: (comment: string) => {
-      return reviewApi.createComment(reviewId, { content: comment });
-    },
-    onSuccess: response => {
-      createCommentQueryData({ reviewId, comment: response.data });
+  const openGraph: Metadata['openGraph'] = {
+    title,
+    description,
+    type: 'article',
+    siteName: '고전산책',
+    locale: 'ko_KR',
+    alternateLocale: 'en_US',
+    url: `https://classicswalk.com/review/${reviewId}`,
+    images: review.book.imageUrl ? [review.book.imageUrl] : [],
+    authors: [review.user.nickname],
+  };
 
-      // 새로운 댓글은 항상 목록 가장 앞에 추가되므로 첫 번째 댓글로 스크롤
-      setTimeout(() => {
-        commentListRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
-
-      toast.success('댓글이 작성되었습니다.');
-      setReplyToUser(null);
-    },
-    onError: () => {
-      toast.error('댓글 작성에 실패했습니다.');
-    },
-  });
-
-  if (!reviewId) {
-    return null;
+  if (review.createdAt) {
+    openGraph.publishedTime = new Date(review.createdAt).toISOString();
   }
 
-  return (
-    <div className="flex flex-col gap-10">
-      <div className="flex min-h-[calc(100vh-234px)] flex-col">
-        <ReviewInfo reviewId={reviewId} commentListRef={commentListRef} />
-        <CommentList
-          ref={commentListRef}
-          reviewId={reviewId}
-          onReply={user => setReplyToUser(user)}
-          scrollableTarget="dialog-content"
-        />
-      </div>
-      <div className="sticky bottom-10 bg-white pt-4">
-        <div className="relative">
-          <div className="absolute -bottom-10 -left-0 -right-0 -top-4 bg-white shadow-[0_-8px_12px_0px_white]" />
-          <div className="relative">
-            <CommentEditor
-              onSubmit={createComment}
-              replyToUser={replyToUser ?? undefined}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  if (review.updatedAt) {
+    openGraph.modifiedTime = new Date(review.updatedAt).toISOString();
+  }
+
+  return {
+    title: `${title} | 고전산책`,
+    description,
+    openGraph,
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: review.book.imageUrl ? [review.book.imageUrl] : [],
+    },
+  };
+}
+
+export default async function ReviewPage({ params: { id } }: Props) {
+  return <ReviewPageClient reviewId={Number(id)} />;
 }

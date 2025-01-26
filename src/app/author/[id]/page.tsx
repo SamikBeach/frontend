@@ -1,25 +1,42 @@
-'use client';
+import { authorApi } from '@/apis/author/author';
+import { Metadata } from 'next';
+import AuthorPageClient from './AuthorPageClient';
 
-import { useParams } from 'next/navigation';
-import { useRef } from 'react';
-import AuthorInfo from './AuthorInfo';
-import RelativeBooks from './RelativeBooks';
-import ReviewList from './ReviewList';
+type Props = {
+  params: { id: string };
+};
 
-export default function AuthorPage() {
-  const { id } = useParams();
-  const reviewListRef = useRef<HTMLDivElement>(null);
-  const authorId = Number(id);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const authorId = Number(params.id);
+  const author = await authorApi
+    .getAuthorDetail(authorId)
+    .then(res => res.data);
 
-  return (
-    <div className="flex flex-col gap-10">
-      <AuthorInfo authorId={authorId} reviewListRef={reviewListRef} />
-      <RelativeBooks authorId={authorId} />
-      <ReviewList
-        ref={reviewListRef}
-        authorId={authorId}
-        scrollableTarget="dialog-content"
-      />
-    </div>
-  );
+  const title = `${author.nameInKor} - 작가 프로필`;
+  const description = `작가 ${author.nameInKor}의 프로필과 작품 목록을 확인하세요.`;
+
+  return {
+    title: `${title} | 고전산책`,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'profile',
+      siteName: '고전산책',
+      locale: 'ko_KR',
+      alternateLocale: 'en_US',
+      url: `https://classicswalk.com/author/${authorId}`,
+      images: author.imageUrl ? [author.imageUrl] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: author.imageUrl ? [author.imageUrl] : [],
+    },
+  };
+}
+
+export default async function AuthorPage({ params: { id } }: Props) {
+  return <AuthorPageClient authorId={Number(id)} />;
 }
