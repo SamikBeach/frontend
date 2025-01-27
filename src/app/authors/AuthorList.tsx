@@ -10,17 +10,18 @@ import {
   authorViewModeAtom,
   eraIdAtom,
 } from '@/atoms/author';
-import AuthorGridItemSkeleton from '@/components/AuthorItem/AuthorGridItemSkeleton';
-import AuthorListItemSkeleton from '@/components/AuthorItem/AuthorListItemSkeleton';
 import { Empty } from '@/components/Empty';
+import {
+  AuthorInfiniteLoaderSkeleton,
+  AuthorListSkeleton,
+} from '@/components/Skeleton/AuthorListSkeleton';
 import { GENRE_IDS } from '@/constants/genre';
-import { MOBILE_BREAKPOINT } from '@/constants/responsive';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { useAtomValue } from 'jotai';
 import { SearchXIcon } from 'lucide-react';
 import { Suspense, useMemo } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import AuthorGridView from './AuthorGridView';
 import AuthorListView from './AuthorListView';
 
@@ -30,7 +31,6 @@ function AuthorListContent() {
   const searchKeyword = useAtomValue(authorSearchKeywordAtom);
   const sortMode = useAtomValue(authorSortModeAtom);
   const selectedEraId = useAtomValue(eraIdAtom);
-  const isDesktop = useMediaQuery(`(min-width: ${MOBILE_BREAKPOINT}px)`);
 
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<Author>>,
@@ -108,17 +108,19 @@ function AuthorListContent() {
   };
 
   return (
-    <>
-      {isDesktop ? (
-        viewMode === 'list' ? (
-          <AuthorListView {...viewProps} />
-        ) : (
-          <AuthorGridView {...viewProps} />
-        )
+    <InfiniteScroll
+      dataLength={authors.length}
+      next={fetchNextPage}
+      hasMore={hasNextPage}
+      loader={<AuthorInfiniteLoaderSkeleton viewMode={viewMode} />}
+    >
+      {viewMode === 'list' ? (
+        <AuthorListView {...viewProps} className="hidden md:block" />
       ) : (
-        <AuthorListView {...viewProps} />
+        <AuthorGridView {...viewProps} className="hidden md:block" />
       )}
-    </>
+      <AuthorListView {...viewProps} className="block md:hidden" />
+    </InfiniteScroll>
   );
 }
 
@@ -130,34 +132,11 @@ export default function AuthorList() {
       <Suspense
         fallback={
           <>
-            <div className="block md:hidden">
-              <div className="flex flex-col">
-                {[...Array(10)].map((_, i) => (
-                  <AuthorListItemSkeleton key={i} />
-                ))}
-              </div>
+            <div className="md:hidden">
+              <AuthorListSkeleton viewMode="list" />
             </div>
             <div className="hidden md:block">
-              {viewMode === 'list' ? (
-                <div className="flex flex-col">
-                  {[...Array(10)].map((_, i) => (
-                    <AuthorListItemSkeleton key={i} />
-                  ))}
-                </div>
-              ) : (
-                <div className="flex flex-col gap-10 py-6">
-                  <div className="flex gap-6">
-                    {[...Array(4)].map((_, i) => (
-                      <AuthorGridItemSkeleton key={i} />
-                    ))}
-                  </div>
-                  <div className="flex flex-wrap gap-6">
-                    {[...Array(8)].map((_, i) => (
-                      <AuthorGridItemSkeleton key={i} size="small" />
-                    ))}
-                  </div>
-                </div>
-              )}
+              <AuthorListSkeleton viewMode={viewMode} />
             </div>
           </>
         }

@@ -96,7 +96,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                 )}
               </p>
               <p className="mt-1 text-xs text-gray-400">
-                작가 정보 제공: 위키피디아
+                정보 제공: 위키피디아
               </p>
             </div>
 

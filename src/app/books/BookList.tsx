@@ -10,17 +10,18 @@ import {
   bookSortModeAtom,
   bookViewModeAtom,
 } from '@/atoms/book';
-import BookGridItemSkeleton from '@/components/BookItem/BookGridItemSkeleton';
-import BookListItemSkeleton from '@/components/BookItem/BookListItemSkeleton';
 import { Empty } from '@/components/Empty';
+import {
+  BookInfiniteLoaderSkeleton,
+  BookListSkeleton,
+} from '@/components/Skeleton/BookListSkeleton';
 import { GENRE_IDS } from '@/constants/genre';
-import { MOBILE_BREAKPOINT } from '@/constants/responsive';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { useAtomValue } from 'jotai';
 import { SearchXIcon } from 'lucide-react';
 import { Suspense, useMemo } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import BookGridView from './BookGridView';
 import BookListView from './BookListView';
 
@@ -30,7 +31,6 @@ function BookListContent() {
   const searchKeyword = useAtomValue(bookSearchKeywordAtom);
   const sortMode = useAtomValue(bookSortModeAtom);
   const selectedAuthorId = useAtomValue(authorIdAtom);
-  const isDesktop = useMediaQuery(`(min-width: ${MOBILE_BREAKPOINT}px)`);
 
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<Book>>,
@@ -108,17 +108,19 @@ function BookListContent() {
   };
 
   return (
-    <div>
-      {isDesktop ? (
-        viewMode === 'list' ? (
-          <BookListView {...viewProps} />
-        ) : (
-          <BookGridView {...viewProps} />
-        )
+    <InfiniteScroll
+      dataLength={books.length}
+      next={fetchNextPage}
+      hasMore={hasNextPage}
+      loader={<BookInfiniteLoaderSkeleton viewMode={viewMode} />}
+    >
+      {viewMode === 'list' ? (
+        <BookListView {...viewProps} className="hidden md:block" />
       ) : (
-        <BookListView {...viewProps} />
+        <BookGridView {...viewProps} className="hidden md:block" />
       )}
-    </div>
+      <BookListView {...viewProps} className="block md:hidden" />
+    </InfiniteScroll>
   );
 }
 
@@ -130,34 +132,11 @@ export default function BookList() {
       <Suspense
         fallback={
           <>
-            <div className="block md:hidden">
-              <div className="flex flex-col">
-                {[...Array(10)].map((_, i) => (
-                  <BookListItemSkeleton key={i} />
-                ))}
-              </div>
+            <div className="md:hidden">
+              <BookListSkeleton viewMode="list" />
             </div>
             <div className="hidden md:block">
-              {viewMode === 'list' ? (
-                <div className="flex flex-col">
-                  {[...Array(10)].map((_, i) => (
-                    <BookListItemSkeleton key={i} />
-                  ))}
-                </div>
-              ) : (
-                <div className="flex flex-col gap-7 py-6">
-                  <div className="flex gap-6">
-                    {[...Array(4)].map((_, i) => (
-                      <BookGridItemSkeleton key={i} />
-                    ))}
-                  </div>
-                  <div className="flex flex-wrap gap-6">
-                    {[...Array(8)].map((_, i) => (
-                      <BookGridItemSkeleton key={i} size="small" />
-                    ))}
-                  </div>
-                </div>
-              )}
+              <BookListSkeleton viewMode={viewMode} />
             </div>
           </>
         }
