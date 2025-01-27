@@ -11,7 +11,7 @@ import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
-import { Edit3Icon } from 'lucide-react';
+import { BookIcon, Edit3Icon } from 'lucide-react';
 import { RefObject, Suspense, useState } from 'react';
 import { LoginDialog } from '../LoginDialog';
 import BookInfoSkeleton from './BookInfoSkeleton';
@@ -115,10 +115,13 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                 {formattedPublicationDate}
               </p>
               {book.bookOriginalWorks[0] && (
-                <p className="text-gray-500">
-                  원전 : {book.bookOriginalWorks[0].originalWork.title}(
-                  {book.bookOriginalWorks[0].originalWork.titleInEng})
-                </p>
+                <div className="flex items-center gap-1 text-gray-500">
+                  <BookIcon className="h-4 w-4" />
+                  <span className="text-sm">
+                    {book.bookOriginalWorks[0].originalWork.title}(
+                    {book.bookOriginalWorks[0].originalWork.titleInEng})
+                  </span>
+                </div>
               )}
               <p className="mt-1 text-xs text-gray-400">정보 제공: 알라딘</p>
             </div>
