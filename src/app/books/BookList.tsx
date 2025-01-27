@@ -10,9 +10,11 @@ import {
   bookSortModeAtom,
   bookViewModeAtom,
 } from '@/atoms/book';
-import BookGridItemSkeleton from '@/components/BookItem/BookGridItemSkeleton';
-import BookListItemSkeleton from '@/components/BookItem/BookListItemSkeleton';
 import { Empty } from '@/components/Empty';
+import {
+  BookInfiniteLoaderSkeleton,
+  BookListSkeleton,
+} from '@/components/Skeleton/BookListSkeleton';
 import { GENRE_IDS } from '@/constants/genre';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
@@ -110,39 +112,7 @@ function BookListContent() {
       dataLength={books.length}
       next={fetchNextPage}
       hasMore={hasNextPage}
-      loader={
-        <>
-          <div className="md:hidden">
-            <div className="flex flex-col gap-4 py-2">
-              {[...Array(3)].map((_, i) => (
-                <BookListItemSkeleton key={i} />
-              ))}
-            </div>
-          </div>
-          <div className="hidden md:block">
-            {viewMode === 'list' ? (
-              <div className="flex flex-col gap-4 py-2">
-                {[...Array(3)].map((_, i) => (
-                  <BookListItemSkeleton key={i} />
-                ))}
-              </div>
-            ) : (
-              <div className="flex flex-col gap-7 py-6">
-                <div className="flex gap-6">
-                  {[...Array(2)].map((_, i) => (
-                    <BookGridItemSkeleton key={i} />
-                  ))}
-                </div>
-                <div className="flex flex-wrap gap-6">
-                  {[...Array(2)].map((_, i) => (
-                    <BookGridItemSkeleton key={i} size="small" />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </>
-      }
+      loader={<BookInfiniteLoaderSkeleton viewMode={viewMode} />}
     >
       {viewMode === 'list' ? (
         <BookListView {...viewProps} className="hidden md:block" />
@@ -163,33 +133,10 @@ export default function BookList() {
         fallback={
           <>
             <div className="md:hidden">
-              <div className="flex flex-col">
-                {[...Array(10)].map((_, i) => (
-                  <BookListItemSkeleton key={i} />
-                ))}
-              </div>
+              <BookListSkeleton viewMode="list" />
             </div>
             <div className="hidden md:block">
-              {viewMode === 'list' ? (
-                <div className="flex flex-col">
-                  {[...Array(10)].map((_, i) => (
-                    <BookListItemSkeleton key={i} />
-                  ))}
-                </div>
-              ) : (
-                <div className="flex flex-col gap-7 py-6">
-                  <div className="flex gap-6">
-                    {[...Array(4)].map((_, i) => (
-                      <BookGridItemSkeleton key={i} />
-                    ))}
-                  </div>
-                  <div className="flex flex-wrap gap-6">
-                    {[...Array(8)].map((_, i) => (
-                      <BookGridItemSkeleton key={i} size="small" />
-                    ))}
-                  </div>
-                </div>
-              )}
+              <BookListSkeleton viewMode={viewMode} />
             </div>
           </>
         }

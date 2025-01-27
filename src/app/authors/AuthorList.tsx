@@ -10,9 +10,11 @@ import {
   authorViewModeAtom,
   eraIdAtom,
 } from '@/atoms/author';
-import AuthorGridItemSkeleton from '@/components/AuthorItem/AuthorGridItemSkeleton';
-import AuthorListItemSkeleton from '@/components/AuthorItem/AuthorListItemSkeleton';
 import { Empty } from '@/components/Empty';
+import {
+  AuthorInfiniteLoaderSkeleton,
+  AuthorListSkeleton,
+} from '@/components/Skeleton/AuthorListSkeleton';
 import { GENRE_IDS } from '@/constants/genre';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
@@ -110,39 +112,7 @@ function AuthorListContent() {
       dataLength={authors.length}
       next={fetchNextPage}
       hasMore={hasNextPage}
-      loader={
-        <>
-          <div className="md:hidden">
-            <div className="flex flex-col gap-4 py-2">
-              {[...Array(3)].map((_, i) => (
-                <AuthorListItemSkeleton key={i} />
-              ))}
-            </div>
-          </div>
-          <div className="hidden md:block">
-            {viewMode === 'list' ? (
-              <div className="flex flex-col gap-4 py-2">
-                {[...Array(3)].map((_, i) => (
-                  <AuthorListItemSkeleton key={i} />
-                ))}
-              </div>
-            ) : (
-              <div className="flex flex-col gap-10 py-6">
-                <div className="flex gap-6">
-                  {[...Array(2)].map((_, i) => (
-                    <AuthorGridItemSkeleton key={i} />
-                  ))}
-                </div>
-                <div className="flex flex-wrap gap-6">
-                  {[...Array(2)].map((_, i) => (
-                    <AuthorGridItemSkeleton key={i} size="small" />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </>
-      }
+      loader={<AuthorInfiniteLoaderSkeleton viewMode={viewMode} />}
     >
       {viewMode === 'list' ? (
         <AuthorListView {...viewProps} className="hidden md:block" />
@@ -162,34 +132,11 @@ export default function AuthorList() {
       <Suspense
         fallback={
           <>
-            <div className="block md:hidden">
-              <div className="flex flex-col">
-                {[...Array(10)].map((_, i) => (
-                  <AuthorListItemSkeleton key={i} />
-                ))}
-              </div>
+            <div className="md:hidden">
+              <AuthorListSkeleton viewMode="list" />
             </div>
             <div className="hidden md:block">
-              {viewMode === 'list' ? (
-                <div className="flex flex-col">
-                  {[...Array(10)].map((_, i) => (
-                    <AuthorListItemSkeleton key={i} />
-                  ))}
-                </div>
-              ) : (
-                <div className="flex flex-col gap-10 py-6">
-                  <div className="flex gap-6">
-                    {[...Array(4)].map((_, i) => (
-                      <AuthorGridItemSkeleton key={i} />
-                    ))}
-                  </div>
-                  <div className="flex flex-wrap gap-6">
-                    {[...Array(8)].map((_, i) => (
-                      <AuthorGridItemSkeleton key={i} size="small" />
-                    ))}
-                  </div>
-                </div>
-              )}
+              <AuthorListSkeleton viewMode={viewMode} />
             </div>
           </>
         }
