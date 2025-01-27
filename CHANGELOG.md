@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.53.0](https://github.com/SamikBeach/frontend/compare/1.52.0...1.53.0) (2025-01-27)
+
+
+### Features
+
+* useMediaQuery 훅을 사용하여 반응형 처리 개선 ([7169f04](https://github.com/SamikBeach/frontend/commit/7169f044c9ee7a57387a0197c645c8d510d649b5))
+
 # [1.52.0](https://github.com/SamikBeach/frontend/compare/1.51.1...1.52.0) (2025-01-26)
 
 
