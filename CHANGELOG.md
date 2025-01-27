@@ -1,5 +1,20 @@
 # 🚦 CHANGELOG
 
+# [1.54.0](https://github.com/SamikBeach/frontend/compare/1.53.0...1.54.0) (2025-01-27)
+
+
+### Bug Fixes
+
+* "AuthorList 컴포넌트에서 useMediaQuery 훅 대신 Tailwind CSS 반응형 클래스로 미디어 쿼리 구현 ([9ee84c6](https://github.com/SamikBeach/frontend/commit/9ee84c6532c8430556c7ff78b93d551dd630f3a5))
+* Book, AuthorList 구현 수정 ([56b78bd](https://github.com/SamikBeach/frontend/commit/56b78bd490321ac18edaae053b63564d05ad25b3))
+* 문구 수정 ([54c6f01](https://github.com/SamikBeach/frontend/commit/54c6f015b536561bd07b68b01c1f1e07e05906b2))
+* 스타일 수정 ([f853b8a](https://github.com/SamikBeach/frontend/commit/f853b8a01c485e54d0985e65c3463621490a0621))
+
+
+### Features
+
+* 켈레톤 컴포넌트 에러 수정 및 AuthorListSkeleton 구현 ([fdd4b7d](https://github.com/SamikBeach/frontend/commit/fdd4b7db305b7c17a167272f903ff3e86969be35))
+
 # [1.53.0](https://github.com/SamikBeach/frontend/compare/1.52.0...1.53.0) (2025-01-27)
 
 
