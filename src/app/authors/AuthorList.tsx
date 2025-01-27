@@ -19,6 +19,7 @@ import { AxiosResponse } from 'axios';
 import { useAtomValue } from 'jotai';
 import { SearchXIcon } from 'lucide-react';
 import { Suspense, useMemo } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import AuthorGridView from './AuthorGridView';
 import AuthorListView from './AuthorListView';
 
@@ -105,18 +106,51 @@ function AuthorListContent() {
   };
 
   return (
-    <div>
-      <div className="md:hidden">
-        <AuthorListView {...viewProps} />
-      </div>
-      <div className="hidden md:block">
-        {viewMode === 'list' ? (
-          <AuthorListView {...viewProps} />
-        ) : (
-          <AuthorGridView {...viewProps} />
-        )}
-      </div>
-    </div>
+    <InfiniteScroll
+      dataLength={authors.length}
+      next={fetchNextPage}
+      hasMore={hasNextPage}
+      loader={
+        <>
+          <div className="md:hidden">
+            <div className="flex flex-col gap-4 py-2">
+              {[...Array(3)].map((_, i) => (
+                <AuthorListItemSkeleton key={i} />
+              ))}
+            </div>
+          </div>
+          <div className="hidden md:block">
+            {viewMode === 'list' ? (
+              <div className="flex flex-col gap-4 py-2">
+                {[...Array(3)].map((_, i) => (
+                  <AuthorListItemSkeleton key={i} />
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col gap-10 py-6">
+                <div className="flex gap-6">
+                  {[...Array(2)].map((_, i) => (
+                    <AuthorGridItemSkeleton key={i} />
+                  ))}
+                </div>
+                <div className="flex flex-wrap gap-6">
+                  {[...Array(2)].map((_, i) => (
+                    <AuthorGridItemSkeleton key={i} size="small" />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </>
+      }
+    >
+      {viewMode === 'list' ? (
+        <AuthorListView {...viewProps} className="hidden md:block" />
+      ) : (
+        <AuthorGridView {...viewProps} className="hidden md:block" />
+      )}
+      <AuthorListView {...viewProps} className="block md:hidden" />
+    </InfiniteScroll>
   );
 }
 

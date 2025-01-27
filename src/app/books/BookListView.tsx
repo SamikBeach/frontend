@@ -1,37 +1,18 @@
 import { Book } from '@/apis/book/types';
 import { BookListItem } from '@/components/BookItem';
-import BookListItemSkeleton from '@/components/BookItem/BookListItemSkeleton';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import { cn } from '@/utils/common';
 
 interface Props {
   books: Book[];
-  hasNextPage: boolean;
-  fetchNextPage: () => void;
+  className?: string;
 }
 
-export default function BookListView({
-  books,
-  hasNextPage,
-  fetchNextPage,
-}: Props) {
+export default function BookListView({ books, className }: Props) {
   return (
-    <InfiniteScroll
-      dataLength={books.length}
-      next={fetchNextPage}
-      hasMore={hasNextPage}
-      loader={
-        <div className="flex flex-col gap-4 py-2">
-          {[...Array(3)].map((_, i) => (
-            <BookListItemSkeleton key={i} />
-          ))}
-        </div>
-      }
-    >
-      <div>
-        {books.map(book => (
-          <BookListItem key={book.id} book={book} />
-        ))}
-      </div>
-    </InfiniteScroll>
+    <div className={cn('flex flex-col gap-7 py-6', className)}>
+      {books.map(book => (
+        <BookListItem key={book.id} book={book} />
+      ))}
+    </div>
   );
 }

@@ -19,6 +19,7 @@ import { AxiosResponse } from 'axios';
 import { useAtomValue } from 'jotai';
 import { SearchXIcon } from 'lucide-react';
 import { Suspense, useMemo } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import BookGridView from './BookGridView';
 import BookListView from './BookListView';
 
@@ -105,18 +106,51 @@ function BookListContent() {
   };
 
   return (
-    <div>
-      <div className="md:hidden">
-        <BookListView {...viewProps} />
-      </div>
-      <div className="hidden md:block">
-        {viewMode === 'list' ? (
-          <BookListView {...viewProps} />
-        ) : (
-          <BookGridView {...viewProps} />
-        )}
-      </div>
-    </div>
+    <InfiniteScroll
+      dataLength={books.length}
+      next={fetchNextPage}
+      hasMore={hasNextPage}
+      loader={
+        <>
+          <div className="md:hidden">
+            <div className="flex flex-col gap-4 py-2">
+              {[...Array(3)].map((_, i) => (
+                <BookListItemSkeleton key={i} />
+              ))}
+            </div>
+          </div>
+          <div className="hidden md:block">
+            {viewMode === 'list' ? (
+              <div className="flex flex-col gap-4 py-2">
+                {[...Array(3)].map((_, i) => (
+                  <BookListItemSkeleton key={i} />
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col gap-7 py-6">
+                <div className="flex gap-6">
+                  {[...Array(2)].map((_, i) => (
+                    <BookGridItemSkeleton key={i} />
+                  ))}
+                </div>
+                <div className="flex flex-wrap gap-6">
+                  {[...Array(2)].map((_, i) => (
+                    <BookGridItemSkeleton key={i} size="small" />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </>
+      }
+    >
+      {viewMode === 'list' ? (
+        <BookListView {...viewProps} className="hidden md:block" />
+      ) : (
+        <BookGridView {...viewProps} className="hidden md:block" />
+      )}
+      <BookListView {...viewProps} className="block md:hidden" />
+    </InfiniteScroll>
   );
 }
 
