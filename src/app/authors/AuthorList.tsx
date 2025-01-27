@@ -14,6 +14,8 @@ import AuthorGridItemSkeleton from '@/components/AuthorItem/AuthorGridItemSkelet
 import AuthorListItemSkeleton from '@/components/AuthorItem/AuthorListItemSkeleton';
 import { Empty } from '@/components/Empty';
 import { GENRE_IDS } from '@/constants/genre';
+import { MOBILE_BREAKPOINT } from '@/constants/responsive';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { useAtomValue } from 'jotai';
@@ -28,6 +30,7 @@ function AuthorListContent() {
   const searchKeyword = useAtomValue(authorSearchKeywordAtom);
   const sortMode = useAtomValue(authorSortModeAtom);
   const selectedEraId = useAtomValue(eraIdAtom);
+  const isDesktop = useMediaQuery(`(min-width: ${MOBILE_BREAKPOINT}px)`);
 
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<Author>>,
@@ -106,16 +109,15 @@ function AuthorListContent() {
 
   return (
     <>
-      <div className="block md:hidden">
-        <AuthorListView {...viewProps} />
-      </div>
-      <div className="hidden md:block">
-        {viewMode === 'list' ? (
+      {isDesktop ? (
+        viewMode === 'list' ? (
           <AuthorListView {...viewProps} />
         ) : (
           <AuthorGridView {...viewProps} />
-        )}
-      </div>
+        )
+      ) : (
+        <AuthorListView {...viewProps} />
+      )}
     </>
   );
 }
