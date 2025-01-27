@@ -94,9 +94,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                   author.diedDateIsBc
                 )}
               </p>
-              <p className="text-xs text-gray-400">
-                작가 정보 제공: 위키피디아
-              </p>
+              <p className="text-xs text-gray-400">정보 제공: 위키피디아</p>
             </div>
 
             <div className="flex gap-2">

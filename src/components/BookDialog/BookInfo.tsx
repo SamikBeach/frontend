@@ -120,9 +120,7 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                   {book.bookOriginalWorks[0].originalWork.titleInEng})
                 </p>
               )}
-              <p className="mt-1 text-xs text-gray-400">
-                도서 정보 제공: 알라딘
-              </p>
+              <p className="mt-1 text-xs text-gray-400">정보 제공: 알라딘</p>
             </div>
 
             <div className="mt-auto flex w-full justify-between">
