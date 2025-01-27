@@ -14,6 +14,8 @@ import BookGridItemSkeleton from '@/components/BookItem/BookGridItemSkeleton';
 import BookListItemSkeleton from '@/components/BookItem/BookListItemSkeleton';
 import { Empty } from '@/components/Empty';
 import { GENRE_IDS } from '@/constants/genre';
+import { MOBILE_BREAKPOINT } from '@/constants/responsive';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { useAtomValue } from 'jotai';
@@ -28,6 +30,7 @@ function BookListContent() {
   const searchKeyword = useAtomValue(bookSearchKeywordAtom);
   const sortMode = useAtomValue(bookSortModeAtom);
   const selectedAuthorId = useAtomValue(authorIdAtom);
+  const isDesktop = useMediaQuery(`(min-width: ${MOBILE_BREAKPOINT}px)`);
 
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<Book>>,
@@ -105,18 +108,17 @@ function BookListContent() {
   };
 
   return (
-    <>
-      <div className="block md:hidden">
-        <BookListView {...viewProps} />
-      </div>
-      <div className="hidden md:block">
-        {viewMode === 'list' ? (
+    <div>
+      {isDesktop ? (
+        viewMode === 'list' ? (
           <BookListView {...viewProps} />
         ) : (
           <BookGridView {...viewProps} />
-        )}
-      </div>
-    </>
+        )
+      ) : (
+        <BookListView {...viewProps} />
+      )}
+    </div>
   );
 }
 
