@@ -14,8 +14,6 @@ import BookGridItemSkeleton from '@/components/BookItem/BookGridItemSkeleton';
 import BookListItemSkeleton from '@/components/BookItem/BookListItemSkeleton';
 import { Empty } from '@/components/Empty';
 import { GENRE_IDS } from '@/constants/genre';
-import { MOBILE_BREAKPOINT } from '@/constants/responsive';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { useAtomValue } from 'jotai';
@@ -30,7 +28,6 @@ function BookListContent() {
   const searchKeyword = useAtomValue(bookSearchKeywordAtom);
   const sortMode = useAtomValue(bookSortModeAtom);
   const selectedAuthorId = useAtomValue(authorIdAtom);
-  const isDesktop = useMediaQuery(`(min-width: ${MOBILE_BREAKPOINT}px)`);
 
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<Book>>,
@@ -109,15 +106,16 @@ function BookListContent() {
 
   return (
     <div>
-      {isDesktop ? (
-        viewMode === 'list' ? (
+      <div className="md:hidden">
+        <BookListView {...viewProps} />
+      </div>
+      <div className="hidden md:block">
+        {viewMode === 'list' ? (
           <BookListView {...viewProps} />
         ) : (
           <BookGridView {...viewProps} />
-        )
-      ) : (
-        <BookListView {...viewProps} />
-      )}
+        )}
+      </div>
     </div>
   );
 }
@@ -130,7 +128,7 @@ export default function BookList() {
       <Suspense
         fallback={
           <>
-            <div className="block md:hidden">
+            <div className="md:hidden">
               <div className="flex flex-col">
                 {[...Array(10)].map((_, i) => (
                   <BookListItemSkeleton key={i} />
