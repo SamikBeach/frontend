@@ -119,12 +119,10 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                 {formattedPublicationDate}
               </p>
               {book.bookOriginalWorks[0] && (
-                <div className="flex items-center gap-1 text-gray-500 md:text-base">
+                <div className="flex items-center gap-1 text-sm text-gray-500 md:text-base">
                   <BookIcon className="h-4 w-4" />
-                  <span className="text-sm">
-                    {book.bookOriginalWorks[0].originalWork.title}(
-                    {book.bookOriginalWorks[0].originalWork.titleInEng})
-                  </span>
+                  {book.bookOriginalWorks[0].originalWork.title}(
+                  {book.bookOriginalWorks[0].originalWork.titleInEng})
                 </div>
               )}
               <p className="mt-1 text-xs text-gray-400">정보 제공: 알라딘</p>
