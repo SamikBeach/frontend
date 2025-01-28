@@ -12,17 +12,16 @@ Sentry.init({
   attachStacktrace: true,
   normalizeDepth: 10,
 
+  // Performance monitoring 설정
+  // 트레이싱 비활성화
+  tracesSampleRate: 0,
+
   // Add integrations for additional features
   integrations: [
-    // Node 성능 추적
-    new Sentry.Integrations.Http({ tracing: true }),
+    // 트레이싱이 비활성화된 HTTP 통합
+    new Sentry.Integrations.Http({ tracing: false }),
     new Sentry.Integrations.Express(),
-    new Sentry.Integrations.Prisma(),
   ],
-
-  // Performance monitoring 설정
-  // 트랜잭션 샘플링 비율 (프로덕션에서는 낮춰서 사용)
-  tracesSampleRate: 1.0,
 
   // 환경 설정
   environment: process.env.NODE_ENV,
@@ -37,8 +36,8 @@ Sentry.init({
     return event;
   },
 
-  // 디버그 모드 (개발 환경에서만 활성화)
-  debug: process.env.NODE_ENV === 'development',
+  // 디버그 모드 비활성화
+  debug: false,
 
   // 성능 최적화
   maxBreadcrumbs: 50,
