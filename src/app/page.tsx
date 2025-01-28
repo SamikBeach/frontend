@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import HomePage from './@home/page';
 
 export const metadata: Metadata = {
-  title: '고전산책',
   description: '시대를 초월한 지혜, 고전과 함께하는 새로운 독서 경험',
   openGraph: {
     title: '고전산책',

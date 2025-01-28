@@ -1,7 +1,6 @@
 import { userApi } from '@/apis/user/user';
 import { Metadata } from 'next';
-import UserHistory from './UserHistory/UserHistory';
-import UserInfo from './UserInfo';
+import UserClient from './UserClient';
 
 type Props = {
   params: { id: string };
@@ -35,11 +34,5 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default function UserPage({ params }: Props) {
   const userId = Number(params.id);
-
-  return (
-    <>
-      <UserInfo userId={userId} />
-      <UserHistory userId={userId} />
-    </>
-  );
+  return <UserClient userId={userId} />;
 }
