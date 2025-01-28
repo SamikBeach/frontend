@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.54.1](https://github.com/SamikBeach/frontend/compare/1.54.0...1.54.1) (2025-01-28)
+
+
+### Bug Fixes
+
+* Sentry 설정 린터 에러 수정 ([32cbe51](https://github.com/SamikBeach/frontend/commit/32cbe5182d01be2a0034f2f13d0e50c303def4dc))
+
 # [1.54.0](https://github.com/SamikBeach/frontend/compare/1.53.0...1.54.0) (2025-01-27)
 
 
