@@ -1,5 +1,14 @@
 # 🚦 CHANGELOG
 
+# [1.56.0](https://github.com/SamikBeach/frontend/compare/1.55.0...1.56.0) (2025-01-28)
+
+
+### Features
+
+* 메타데이터 설정 개선 ([3d17bbb](https://github.com/SamikBeach/frontend/commit/3d17bbb4e89e36a8cc7605084d253c33a32fb77b))
+* 서버/클라이언트 컴포넌트 분리 ([b028b23](https://github.com/SamikBeach/frontend/commit/b028b2334aec90c58d3b362dffa3a2c13972fc27))
+* 유저 페이지 params 타입 수정 ([6fabccd](https://github.com/SamikBeach/frontend/commit/6fabccdf05270f0e5580b2360f5849898ddfe31c))
+
 # [1.55.0](https://github.com/SamikBeach/frontend/compare/1.54.1...1.55.0) (2025-01-28)
 
 
