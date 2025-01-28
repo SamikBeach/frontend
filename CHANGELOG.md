@@ -1,5 +1,13 @@
 # 🚦 CHANGELOG
 
+# [1.55.0](https://github.com/SamikBeach/frontend/compare/1.54.1...1.55.0) (2025-01-28)
+
+
+### Features
+
+* Google Analytics 4 고급 기능 추가 ([e6e0d73](https://github.com/SamikBeach/frontend/commit/e6e0d7374fefa210cb4a52921dd8090941455ed7))
+* Sentry 트레이싱 로그 비활성화 설정 ([ea3b2c8](https://github.com/SamikBeach/frontend/commit/ea3b2c80d043c0f4b105f3f31f2e77d6120deb28))
+
 ## [1.54.1](https://github.com/SamikBeach/frontend/compare/1.54.0...1.54.1) (2025-01-28)
 
 
