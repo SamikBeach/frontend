@@ -25,31 +25,6 @@ export default async function RootLayout({
 
   return (
     <html lang="ko">
-      <head>
-        <title>고전산책</title>
-        <meta
-          name="description"
-          content="시대를 초월한 지혜, 고전과 함께하는 새로운 독서 경험"
-        />
-        <meta
-          name="keywords"
-          content="고전, 독서, 책, 서평, 북리뷰, 고전도서, 독서기록, 인문학, 고전번역, classics, books, literature"
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:locale" content="ko_KR" />
-        <meta property="og:locale:alternate" content="en_US" />
-        <meta property="og:site_name" content="고전산책" />
-        <meta property="og:url" content="https://classicswalk.com" />
-        <meta name="robots" content="index, follow" />
-        <meta
-          name="google-site-verification"
-          content="google-site-verification-code"
-        />
-        <meta
-          name="naver-site-verification"
-          content="naver-site-verification-code"
-        />
-      </head>
       <body>
         <GoogleTagManager />
         <ReactQueryProvider>
