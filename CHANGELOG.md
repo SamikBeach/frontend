@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.56.1](https://github.com/SamikBeach/frontend/compare/1.56.0...1.56.1) (2025-01-28)
+
+
+### Bug Fixes
+
+* 루트 페이지 메타데이터 설정 방식 변경 ([dc02062](https://github.com/SamikBeach/frontend/commit/dc020625e3151f0613ab81d806c8ff15b20f1fbe))
+
 # [1.56.0](https://github.com/SamikBeach/frontend/compare/1.55.0...1.56.0) (2025-01-28)
 
 
