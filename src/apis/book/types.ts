@@ -49,5 +49,12 @@ export interface BookDetail extends Book {
 }
 
 export interface BookSearchQuery extends PaginationQuery {
-  searchBy?: ('title' | 'description' | 'publisher' | 'isbn' | 'isbn13')[];
+  searchBy?: (
+    | 'title'
+    | 'description'
+    | 'publisher'
+    | 'isbn'
+    | 'isbn13'
+    | 'authorBooks.author.nameInKor'
+  )[];
 }
