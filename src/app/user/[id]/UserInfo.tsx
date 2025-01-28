@@ -194,6 +194,12 @@ function UserInfoContent({ userId }: Props) {
                     onChange={e => setNewNickname(e.target.value)}
                     className="h-9 w-full max-w-[300px] text-lg font-bold md:text-2xl"
                     placeholder="닉네임"
+                    onKeyDown={e => {
+                      if (e.key === 'Escape') {
+                        setIsEditing(false);
+                        setNewNickname(user.nickname);
+                      }
+                    }}
                   />
                   <div className="flex gap-1">
                     <Button type="submit" size="sm">
