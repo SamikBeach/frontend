@@ -91,6 +91,13 @@ export const metadata: Metadata = {
     alternateLocale: 'en_US',
     siteName: '고전산책',
     url: 'https://classicswalk.com',
+    images: ['/images/og-image.png'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '고전산책',
+    description: '시대를 초월한 지혜, 고전과 함께하는 새로운 독서 경험',
+    images: ['/images/og-image.png'],
   },
   robots: {
     index: true,
