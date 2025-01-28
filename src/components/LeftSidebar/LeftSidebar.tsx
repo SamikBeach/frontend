@@ -39,8 +39,8 @@ export default function LeftSidebar() {
           <MenuItem
             icon={<Home size={24} />}
             label="홈"
-            href="/"
-            active={pathname === '/'}
+            href="/home"
+            active={pathname === '/home'}
           />
           <MenuItem
             icon={<Library size={24} />}
