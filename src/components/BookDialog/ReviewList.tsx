@@ -65,7 +65,7 @@ function ReviewListContent({ ref, bookId, scrollableTarget }: Props) {
 
   return (
     <div ref={ref} className="flex flex-col gap-4">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h2 className="text-base font-semibold text-gray-900">리뷰</h2>
           <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
@@ -77,54 +77,61 @@ function ReviewListContent({ ref, bookId, scrollableTarget }: Props) {
             id="includeOtherTranslations"
             checked={includeOtherTranslations}
             onCheckedChange={(checked: boolean) => setIncludeOtherTranslations(checked)}
+            className="h-3.5 w-3.5"
           />
           <label
             htmlFor="includeOtherTranslations"
-            className="text-sm leading-none text-gray-600 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            className="text-xs font-medium text-gray-600 hover:text-gray-900"
           >
             다른 번역서의 리뷰도 함께 보기
           </label>
         </div>
       </div>
-      {reviews.length === 0 ? (
-        <div className="flex-1">
-          <EmptyReviews />
-        </div>
-      ) : (
-        <InfiniteScroll
-          dataLength={reviews.length}
-          next={fetchNextPage}
-          hasMore={hasNextPage ?? false}
-          loader={
-            <div className="py-2">
-              <ReviewSkeleton />
-            </div>
-          }
-          scrollableTarget={scrollableTarget}
-        >
-          <AnimatePresence mode="popLayout" initial={false}>
-            <div className="flex flex-col gap-2">
-              {reviews.map(review => (
-                <motion.div
-                  key={review.id}
-                  layout="position"
-                  {...reviewItemAnimation}
-                >
-                  <Review review={review} />
-                </motion.div>
-              ))}
-            </div>
-          </AnimatePresence>
-        </InfiniteScroll>
-      )}
+      <Suspense
+        fallback={
+          <div className="flex flex-col gap-2">
+            <ReviewSkeleton />
+            <ReviewSkeleton />
+            <ReviewSkeleton />
+          </div>
+        }
+      >
+        {reviews.length === 0 ? (
+          <div className="flex-1">
+            <EmptyReviews />
+          </div>
+        ) : (
+          <InfiniteScroll
+            dataLength={reviews.length}
+            next={fetchNextPage}
+            hasMore={hasNextPage ?? false}
+            loader={
+              <div className="py-2">
+                <ReviewSkeleton />
+              </div>
+            }
+            scrollableTarget={scrollableTarget}
+          >
+            <AnimatePresence mode="popLayout" initial={false}>
+              <div className="flex flex-col gap-2">
+                {reviews.map(review => (
+                  <motion.div
+                    key={review.id}
+                    layout="position"
+                    {...reviewItemAnimation}
+                  >
+                    <Review review={review} />
+                  </motion.div>
+                ))}
+              </div>
+            </AnimatePresence>
+          </InfiniteScroll>
+        )}
+      </Suspense>
     </div>
   );
 }
 
 export default function ReviewList(props: Props) {
-  return (
-    <Suspense fallback={<ReviewListSkeleton />}>
-      <ReviewListContent {...props} />
-    </Suspense>
-  );
+  return <ReviewListContent {...props} />;
 }
