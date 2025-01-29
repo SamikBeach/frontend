@@ -9,6 +9,7 @@ import {
   ReviewListSkeleton,
   ReviewSkeleton,
 } from '@/components/Review/ReviewSkeleton';
+import { Checkbox } from '@/components/ui/checkbox';
 import { reviewItemAnimation } from '@/constants/animations';
 import {
   useSuspenseInfiniteQuery,
@@ -16,7 +17,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ForwardedRef, Suspense, forwardRef, useMemo } from 'react';
+import { ForwardedRef, Suspense, forwardRef, useMemo, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 interface Props {
@@ -25,6 +26,8 @@ interface Props {
 }
 
 function ReviewListContent({ bookId, scrollableTarget }: Props) {
+  const [includeOtherTranslations, setIncludeOtherTranslations] = useState(false);
+
   const { data: book } = useSuspenseQuery({
     queryKey: ['book', bookId],
     queryFn: () => bookApi.getBookDetail(bookId),
@@ -35,12 +38,12 @@ function ReviewListContent({ bookId, scrollableTarget }: Props) {
     AxiosResponse<PaginatedResponse<ReviewType>>,
     Error
   >({
-    queryKey: ['book-reviews', bookId],
+    queryKey: ['book-reviews', bookId, includeOtherTranslations],
     queryFn: ({ pageParam = 1 }) =>
       bookApi.searchBookReviews(bookId, {
         page: pageParam as number,
         limit: 20,
-      }),
+      }, includeOtherTranslations),
     initialPageParam: 1,
     getNextPageParam: param => {
       const nextParam = param.data.links.next;
@@ -61,11 +64,26 @@ function ReviewListContent({ bookId, scrollableTarget }: Props) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-2">
-        <h2 className="text-base font-semibold text-gray-900">리뷰</h2>
-        <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
-          {book.reviewCount}
-        </span>
+      <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+          <h2 className="text-base font-semibold text-gray-900">리뷰</h2>
+          <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
+            {book.reviewCount}
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Checkbox
+            id="includeOtherTranslations"
+            checked={includeOtherTranslations}
+            onCheckedChange={(checked: boolean) => setIncludeOtherTranslations(checked)}
+          />
+          <label
+            htmlFor="includeOtherTranslations"
+            className="text-sm leading-none text-gray-600 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            다른 번역서의 리뷰도 함께 보기
+          </label>
+        </div>
       </div>
       {reviews.length === 0 ? (
         <div className="flex-1">

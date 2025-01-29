@@ -5,7 +5,6 @@ import BookImage from '@/components/BookImage/BookImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { WriteReviewDialog } from '@/components/WriteReviewDialog';
 import { useBookQueryData } from '@/hooks/queries/useBookQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
@@ -26,8 +25,6 @@ interface Props {
 function BookInfoContent({ bookId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
   const { open: openAuthorDialog } = useDialogQuery({ type: 'author' });
-  const [includeOtherTranslations, setIncludeOtherTranslations] =
-    useState(false);
 
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
   const [openWriteReviewDialog, setOpenWriteReviewDialog] = useState(false);
@@ -85,10 +82,6 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
     ? format(new Date(book.publicationDate), 'yyyy년 M월 d일')
     : '';
 
-  const handleIncludeOtherTranslationsChange = (checked: boolean) => {
-    setIncludeOtherTranslations(checked);
-  };
-
   return (
     <>
       <div className="flex flex-col gap-4">
@@ -142,22 +135,6 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
             </div>
 
             <div className="mt-auto flex w-full flex-col gap-2">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="includeOtherTranslations"
-                  checked={includeOtherTranslations}
-                  onCheckedChange={(checked: boolean) =>
-                    handleIncludeOtherTranslationsChange(checked)
-                  }
-                />
-                <label
-                  htmlFor="includeOtherTranslations"
-                  className="text-sm leading-none text-gray-600 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  다른 번역서의 리뷰도 함께 보기
-                </label>
-              </div>
-
               <div className="flex w-full justify-between">
                 <div className="flex gap-2">
                   <LikeButton
