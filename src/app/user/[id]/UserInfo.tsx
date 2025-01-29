@@ -127,7 +127,7 @@ function UserInfoContent({ userId }: Props) {
                   </span>
                   <Input
                     type="file"
-                    accept="image/*"
+                    accept="image/*,.heic"
                     className="hidden"
                     onChange={handleImageUpload}
                   />
@@ -152,7 +152,7 @@ function UserInfoContent({ userId }: Props) {
                       onClick={() => {
                         const input = document.createElement('input');
                         input.type = 'file';
-                        input.accept = 'image/*';
+                        input.accept = 'image/*,.heic';
                         input.onchange = e => {
                           const file = (e.target as HTMLInputElement)
                             .files?.[0];
@@ -194,6 +194,12 @@ function UserInfoContent({ userId }: Props) {
                     onChange={e => setNewNickname(e.target.value)}
                     className="h-9 w-full max-w-[300px] text-lg font-bold md:text-2xl"
                     placeholder="닉네임"
+                    onKeyDown={e => {
+                      if (e.key === 'Escape') {
+                        setIsEditing(false);
+                        setNewNickname(user.nickname);
+                      }
+                    }}
                   />
                   <div className="flex gap-1">
                     <Button type="submit" size="sm">

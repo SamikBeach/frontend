@@ -10,6 +10,7 @@ import { format } from 'date-fns';
 import { useAtomValue } from 'jotai';
 import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { Fragment } from 'react';
 import Highlighter from 'react-highlight-words';
 
 interface Props {
@@ -31,6 +32,7 @@ export default function BookGridItem({
   const searchValue = useAtomValue(bookSearchKeywordAtom);
   const searchWords = searchValue ? [searchValue] : [];
   const router = useRouter();
+  const { open: openAuthorDialog } = useDialogQuery({ type: 'author' });
 
   const handleClick = () => {
     if (window.innerWidth < MOBILE_BREAKPOINT) {
@@ -38,6 +40,11 @@ export default function BookGridItem({
     } else {
       open(book.id);
     }
+  };
+
+  const handleAuthorClick = (authorId: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    openAuthorDialog(authorId);
   };
 
   const formattedPublicationDate = book.publicationDate
@@ -98,15 +105,21 @@ export default function BookGridItem({
                 'text-xs': size === 'small' || size === 'xsmall',
               })}
             >
-              <Highlighter
-                searchWords={searchWords}
-                textToHighlight={
-                  book.authorBooks
-                    ?.map(authorBook => authorBook.author.nameInKor)
-                    .join(', ') ?? '작가 미상'
-                }
-                highlightClassName="text-blue-500 bg-transparent font-bold"
-              />
+              {book.authorBooks?.map((authorBook, index) => (
+                <Fragment key={authorBook.author.id}>
+                  {index > 0 && ', '}
+                  <span
+                    onClick={e => handleAuthorClick(authorBook.author.id, e)}
+                    className="cursor-pointer hover:underline"
+                  >
+                    <Highlighter
+                      searchWords={searchWords}
+                      textToHighlight={authorBook.author.nameInKor}
+                      highlightClassName="text-blue-500 bg-transparent font-bold"
+                    />
+                  </span>
+                </Fragment>
+              )) ?? '작가 미상'}
             </p>
           )}
           {showPublisher && book.publisher && (

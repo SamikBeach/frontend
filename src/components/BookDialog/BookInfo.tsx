@@ -8,11 +8,12 @@ import { Button } from '@/components/ui/button';
 import { WriteReviewDialog } from '@/components/WriteReviewDialog';
 import { useBookQueryData } from '@/hooks/queries/useBookQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { BookIcon, Edit3Icon } from 'lucide-react';
-import { RefObject, Suspense, useState } from 'react';
+import { Fragment, RefObject, Suspense, useState } from 'react';
 import { LoginDialog } from '../LoginDialog';
 import BookInfoSkeleton from './BookInfoSkeleton';
 
@@ -23,6 +24,7 @@ interface Props {
 
 function BookInfoContent({ bookId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
+  const { open: openAuthorDialog } = useDialogQuery({ type: 'author' });
 
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
   const [openWriteReviewDialog, setOpenWriteReviewDialog] = useState(false);
@@ -103,9 +105,17 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                 {book.title}
               </DialogTitle>
               <p>
-                {book.authorBooks
-                  .map(authorBook => authorBook.author.nameInKor)
-                  .join(', ')}
+                {book.authorBooks.map((authorBook, index) => (
+                  <Fragment key={authorBook.author.id}>
+                    {index > 0 && ', '}
+                    <span
+                      onClick={() => openAuthorDialog(authorBook.author.id)}
+                      className="cursor-pointer hover:underline"
+                    >
+                      {authorBook.author.nameInKor}
+                    </span>
+                  </Fragment>
+                ))}
               </p>
               <p className="text-gray-500">
                 {book.publisher}
@@ -124,27 +134,29 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
               <p className="mt-1 text-xs text-gray-400">정보 제공: 알라딘</p>
             </div>
 
-            <div className="mt-auto flex w-full justify-between">
-              <div className="flex gap-2">
-                <LikeButton
-                  isLiked={book.isLiked ?? false}
-                  likeCount={book.likeCount}
-                  onClick={handleLikeClick}
-                />
-                <CommentButton
-                  commentCount={book.reviewCount}
-                  onClick={handleReviewClick}
-                />
-              </div>
+            <div className="mt-auto flex w-full flex-col gap-2">
+              <div className="flex w-full justify-between">
+                <div className="flex gap-2">
+                  <LikeButton
+                    isLiked={book.isLiked ?? false}
+                    likeCount={book.likeCount}
+                    onClick={handleLikeClick}
+                  />
+                  <CommentButton
+                    commentCount={book.reviewCount}
+                    onClick={handleReviewClick}
+                  />
+                </div>
 
-              <Button
-                variant="outline"
-                className="gap-1.5 border-2 font-medium"
-                onClick={handleWriteReviewClick}
-              >
-                <Edit3Icon className="h-4 w-4" />
-                리뷰 쓰기
-              </Button>
+                <Button
+                  variant="outline"
+                  className="gap-1.5 border-2 font-medium"
+                  onClick={handleWriteReviewClick}
+                >
+                  <Edit3Icon className="h-4 w-4" />
+                  리뷰 쓰기
+                </Button>
+              </div>
             </div>
           </div>
         </div>

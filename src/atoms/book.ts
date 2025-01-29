@@ -9,7 +9,7 @@ export const bookViewModeAtom = atomWithStorage<BookViewMode>(
   'bookViewMode',
   'grid'
 );
-export const bookSearchKeywordAtom = atom<string>('');
+export const bookSearchKeywordAtom = atom('');
 export const bookSortModeAtom = atom<BookSortMode>('popular');
 export const authorIdAtom = atom<string | undefined>(undefined);
 export const bookGenreAtom = atom<Genre>('all');

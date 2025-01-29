@@ -56,7 +56,7 @@ function BookListContent() {
         limit: 20,
         ...(searchKeyword && {
           search: searchKeyword,
-          searchBy: ['title'],
+          searchBy: ['title', 'authorBooks.author.nameInKor'],
         }),
         sortBy,
         filter: {

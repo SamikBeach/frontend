@@ -11,11 +11,12 @@ import { WriteReviewDialog } from '@/components/WriteReviewDialog';
 import { MOBILE_BREAKPOINT } from '@/constants/responsive';
 import { useBookQueryData } from '@/hooks/queries/useBookQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { BookIcon, Edit3Icon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { RefObject, Suspense, useState } from 'react';
+import { Fragment, RefObject, Suspense, useState } from 'react';
 
 interface Props {
   bookId: number;
@@ -25,6 +26,7 @@ interface Props {
 function BookInfoContent({ bookId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
   const router = useRouter();
+  const { open: openAuthorDialog } = useDialogQuery({ type: 'author' });
 
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
   const [openWriteReviewDialog, setOpenWriteReviewDialog] = useState(false);
@@ -107,9 +109,17 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
             <div className="flex flex-col gap-0.5">
               <h1 className="text-lg font-bold md:text-2xl">{book.title}</h1>
               <p className="text-sm text-gray-500 md:text-base">
-                {book.authorBooks
-                  .map(authorBook => authorBook.author.nameInKor)
-                  .join(', ')}
+                {book.authorBooks.map((authorBook, index) => (
+                  <Fragment key={authorBook.author.id}>
+                    {index > 0 && ', '}
+                    <span
+                      onClick={() => openAuthorDialog(authorBook.author.id)}
+                      className="cursor-pointer hover:underline"
+                    >
+                      {authorBook.author.nameInKor}
+                    </span>
+                  </Fragment>
+                ))}
               </p>
               <p className="text-sm text-gray-500 md:text-base">
                 {book.publisher}
@@ -128,27 +138,29 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
               <p className="mt-1 text-xs text-gray-400">정보 제공: 알라딘</p>
             </div>
 
-            <div className="flex w-full flex-col gap-2 md:flex-row md:justify-between md:pr-6">
-              <div className="flex gap-2">
-                <LikeButton
-                  isLiked={book.isLiked ?? false}
-                  likeCount={book.likeCount}
-                  onClick={handleLikeClick}
-                />
-                <CommentButton
-                  commentCount={book.reviewCount}
-                  onClick={handleReviewClick}
-                />
-              </div>
+            <div className="flex w-full flex-col gap-2">
+              <div className="flex w-full flex-col gap-2 md:flex-row md:justify-between md:pr-6">
+                <div className="flex gap-2">
+                  <LikeButton
+                    isLiked={book.isLiked ?? false}
+                    likeCount={book.likeCount}
+                    onClick={handleLikeClick}
+                  />
+                  <CommentButton
+                    commentCount={book.reviewCount}
+                    onClick={handleReviewClick}
+                  />
+                </div>
 
-              <Button
-                variant="outline"
-                onClick={handleWriteReviewClick}
-                className="w-full md:w-auto"
-              >
-                <Edit3Icon className="mr-1 h-4 w-4" />
-                리뷰 쓰기
-              </Button>
+                <Button
+                  variant="outline"
+                  onClick={handleWriteReviewClick}
+                  className="w-full md:w-auto"
+                >
+                  <Edit3Icon className="mr-1 h-4 w-4" />
+                  리뷰 쓰기
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -177,11 +189,7 @@ function BookInfoSkeleton() {
             <Skeleton className="mt-1 h-4 w-24" />
           </div>
 
-          <div className="flex w-full flex-col gap-2 md:flex-row md:justify-between md:pr-6">
-            <div className="flex gap-2">
-              <Skeleton className="h-9 w-20" />
-              <Skeleton className="h-9 w-20" />
-            </div>
+          <div className="flex w-full flex-col gap-2">
             <Skeleton className="h-9 w-full md:w-24" />
           </div>
         </div>
