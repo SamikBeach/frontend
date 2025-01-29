@@ -122,7 +122,12 @@ function ReviewListContent({ bookId, scrollableTarget }: Props) {
                     layout="position"
                     {...reviewItemAnimation}
                   >
-                    <Review review={review} />
+                    <Review
+                      review={review}
+                      showBookInfo={
+                        includeOtherTranslations && review.book.id !== book.id
+                      }
+                    />
                   </motion.div>
                 ))}
               </div>
