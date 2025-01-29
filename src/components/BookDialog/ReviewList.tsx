@@ -5,10 +5,7 @@ import { PaginatedResponse } from '@/apis/common/types';
 import { Review as ReviewType } from '@/apis/review/types';
 import { Review } from '@/components/Review';
 import EmptyReviews from '@/components/Review/EmptyReviews';
-import {
-  ReviewListSkeleton,
-  ReviewSkeleton,
-} from '@/components/Review/ReviewSkeleton';
+import { ReviewSkeleton } from '@/components/Review/ReviewSkeleton';
 import { Checkbox } from '@/components/ui/checkbox';
 import { reviewItemAnimation } from '@/constants/animations';
 import {
@@ -27,7 +24,8 @@ interface Props {
 }
 
 function ReviewListContent({ ref, bookId, scrollableTarget }: Props) {
-  const [includeOtherTranslations, setIncludeOtherTranslations] = useState(false);
+  const [includeOtherTranslations, setIncludeOtherTranslations] =
+    useState(false);
 
   const { data: book } = useSuspenseQuery({
     queryKey: ['book', bookId],
@@ -41,10 +39,14 @@ function ReviewListContent({ ref, bookId, scrollableTarget }: Props) {
   >({
     queryKey: ['book-reviews', bookId, includeOtherTranslations],
     queryFn: ({ pageParam = 1 }) =>
-      bookApi.searchBookReviews(bookId, {
-        page: pageParam as number,
-        limit: 20,
-      }, includeOtherTranslations),
+      bookApi.searchBookReviews(
+        bookId,
+        {
+          page: pageParam as number,
+          limit: 20,
+        },
+        includeOtherTranslations
+      ),
     initialPageParam: 1,
     getNextPageParam: param => {
       const nextParam = param.data.links.next;
@@ -76,12 +78,13 @@ function ReviewListContent({ ref, bookId, scrollableTarget }: Props) {
           <Checkbox
             id="includeOtherTranslations"
             checked={includeOtherTranslations}
-            onCheckedChange={(checked: boolean) => setIncludeOtherTranslations(checked)}
-            className="h-3.5 w-3.5"
+            onCheckedChange={(checked: boolean) =>
+              setIncludeOtherTranslations(checked)
+            }
           />
           <label
             htmlFor="includeOtherTranslations"
-            className="text-xs font-medium text-gray-600 hover:text-gray-900"
+            className="text-sm font-medium text-gray-600 hover:text-gray-900"
           >
             다른 번역서의 리뷰도 함께 보기
           </label>
