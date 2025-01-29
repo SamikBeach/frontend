@@ -1,5 +1,24 @@
 # 🚦 CHANGELOG
 
+# [1.57.0](https://github.com/SamikBeach/frontend/compare/1.56.2...1.57.0) (2025-01-29)
+
+
+### Bug Fixes
+
+* BookSearchQuery 수정 ([3cf935e](https://github.com/SamikBeach/frontend/commit/3cf935e3a756e7809bda28aad95665e0808e3234))
+* 체크박스 스타일 수정 ([342c1e8](https://github.com/SamikBeach/frontend/commit/342c1e802e049e652a361d2c375f946d59f9d0b0))
+
+
+### Features
+
+* .heic 업로드 허용 ([cab0d2d](https://github.com/SamikBeach/frontend/commit/cab0d2d974a3eb1974b6315e220590d2f4c4b665))
+* 닉네임 input keydown handler 추가 ([644b8c7](https://github.com/SamikBeach/frontend/commit/644b8c76575ef40cc41fc72e49f04e6c4f57ddba))
+* 다른 번역서 함께 보기 UI 개선 ([92dffaa](https://github.com/SamikBeach/frontend/commit/92dffaa39f2b0df3baaf623fed06542cc777be5b))
+* 다른 번역서의 리뷰 함께보기 기능 추가 ([e2c6116](https://github.com/SamikBeach/frontend/commit/e2c6116c2f93c4fc8079319ac1691517b7a04822))
+* 도서 상세의 다른 번역서 리뷰 포함 옵션 위치 변경 ([a4c1bfc](https://github.com/SamikBeach/frontend/commit/a4c1bfc38d0428a4c00db45521a2a3f36571e364))
+* 도서 상세의 리뷰 목록 UI/UX 개선 ([cf55862](https://github.com/SamikBeach/frontend/commit/cf558624d76e16f7143158f04589820b1ce55ec1))
+* 작가 이름 클릭시 다이얼로그 띄우기 ([ec7c5f7](https://github.com/SamikBeach/frontend/commit/ec7c5f74a78b544ba9aa7af3c58dc0793429853c))
+
 ## [1.56.2](https://github.com/SamikBeach/frontend/compare/1.56.1...1.56.2) (2025-01-28)
 
 
