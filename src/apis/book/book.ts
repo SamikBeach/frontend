@@ -54,8 +54,15 @@ export const bookApi = {
    * 특정 책에 대한 리뷰 목록을 조회합니다.
    * @param bookId - 책 ID
    * @param params - 페이지네이션 옵션
+   * @param includeOtherTranslations - 다른 번역서의 리뷰도 함께 가져올지 여부
    * @returns 페이지네이션된 리뷰 목록
    */
-  searchBookReviews: (bookId: number, params: PaginationQuery) =>
-    axios.get<PaginatedResponse<Review>>(`/book/${bookId}/reviews`, { params }),
+  searchBookReviews: (
+    bookId: number,
+    params: PaginationQuery,
+    includeOtherTranslations = false
+  ) =>
+    axios.get<PaginatedResponse<Review>>(`/book/${bookId}/reviews`, {
+      params: { ...params, includeOtherTranslations },
+    }),
 };

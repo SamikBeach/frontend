@@ -6,6 +6,7 @@ import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { LoginDialog } from '@/components/LoginDialog';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Skeleton } from '@/components/ui/skeleton';
 import { WriteReviewDialog } from '@/components/WriteReviewDialog';
 import { MOBILE_BREAKPOINT } from '@/constants/responsive';
@@ -27,6 +28,8 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
   const router = useRouter();
   const { open: openAuthorDialog } = useDialogQuery({ type: 'author' });
+  const [includeOtherTranslations, setIncludeOtherTranslations] =
+    useState(false);
 
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
   const [openWriteReviewDialog, setOpenWriteReviewDialog] = useState(false);
@@ -84,6 +87,10 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
     }
   };
 
+  const handleIncludeOtherTranslationsChange = (checked: boolean) => {
+    setIncludeOtherTranslations(checked);
+  };
+
   const formattedPublicationDate = book.publicationDate
     ? format(new Date(book.publicationDate), 'yyyy년 M월 d일')
     : '';
@@ -138,27 +145,45 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
               <p className="mt-1 text-xs text-gray-400">정보 제공: 알라딘</p>
             </div>
 
-            <div className="flex w-full flex-col gap-2 md:flex-row md:justify-between md:pr-6">
-              <div className="flex gap-2">
-                <LikeButton
-                  isLiked={book.isLiked ?? false}
-                  likeCount={book.likeCount}
-                  onClick={handleLikeClick}
+            <div className="flex w-full flex-col gap-2">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="includeOtherTranslations"
+                  checked={includeOtherTranslations}
+                  onCheckedChange={(checked: boolean) =>
+                    handleIncludeOtherTranslationsChange(checked)
+                  }
                 />
-                <CommentButton
-                  commentCount={book.reviewCount}
-                  onClick={handleReviewClick}
-                />
+                <label
+                  htmlFor="includeOtherTranslations"
+                  className="text-sm leading-none text-gray-600 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  다른 번역서의 리뷰도 함께 보기
+                </label>
               </div>
 
-              <Button
-                variant="outline"
-                onClick={handleWriteReviewClick}
-                className="w-full md:w-auto"
-              >
-                <Edit3Icon className="mr-1 h-4 w-4" />
-                리뷰 쓰기
-              </Button>
+              <div className="flex w-full flex-col gap-2 md:flex-row md:justify-between md:pr-6">
+                <div className="flex gap-2">
+                  <LikeButton
+                    isLiked={book.isLiked ?? false}
+                    likeCount={book.likeCount}
+                    onClick={handleLikeClick}
+                  />
+                  <CommentButton
+                    commentCount={book.reviewCount}
+                    onClick={handleReviewClick}
+                  />
+                </div>
+
+                <Button
+                  variant="outline"
+                  onClick={handleWriteReviewClick}
+                  className="w-full md:w-auto"
+                >
+                  <Edit3Icon className="mr-1 h-4 w-4" />
+                  리뷰 쓰기
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -187,10 +212,10 @@ function BookInfoSkeleton() {
             <Skeleton className="mt-1 h-4 w-24" />
           </div>
 
-          <div className="flex w-full flex-col gap-2 md:flex-row md:justify-between md:pr-6">
-            <div className="flex gap-2">
-              <Skeleton className="h-9 w-20" />
-              <Skeleton className="h-9 w-20" />
+          <div className="flex w-full flex-col gap-2">
+            <div className="flex items-center space-x-2">
+              <Skeleton className="h-4 w-4" />
+              <Skeleton className="h-4 w-24" />
             </div>
             <Skeleton className="h-9 w-full md:w-24" />
           </div>
