@@ -13,6 +13,7 @@ import { UserAvatar } from '@/components/UserAvatar';
 import { WriteReviewDialog } from '@/components/WriteReviewDialog';
 import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { isMobileDevice } from '@/utils/responsive';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
@@ -30,6 +31,8 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   const router = useRouter();
   const { updateReviewLikeQueryData, deleteReviewDataQueryData } =
     useReviewQueryData();
+
+  const { open: openBookDialog } = useDialogQuery({ type: 'book' });
 
   const { data: review } = useSuspenseQuery({
     queryKey: ['review', reviewId],
@@ -109,14 +112,37 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
       <div className="flex flex-col gap-4">
         <div className="flex items-start justify-between gap-2">
           <div className="flex flex-col gap-4">
-            <div className="flex items-start gap-4">
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-                {review.title}
-              </h1>
-              <Link
-                href={`/book/${review.book.id}`}
-                target="_blank"
-                className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100"
+            <div className="flex flex-col items-start gap-4 md:flex-row">
+              <div className="flex items-center gap-4">
+                <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+                  {review.title}
+                </h1>
+                <Link
+                  href={`/book/${review.book.id}`}
+                  className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100 md:hidden"
+                >
+                  <BookImage
+                    imageUrl={review.book.imageUrl}
+                    title={review.book.title}
+                    width={20}
+                    height={28}
+                    className="rounded-sm shadow-sm"
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-xs font-medium text-gray-900">
+                      {review.book.title}
+                    </span>
+                    <span className="text-[11px] text-gray-500">
+                      {review.book.authorBooks
+                        .map(authorBook => authorBook.author.nameInKor)
+                        .join(', ')}
+                    </span>
+                  </div>
+                </Link>
+              </div>
+              <div
+                onClick={() => openBookDialog(review.book.id)}
+                className="hidden shrink-0 cursor-pointer items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100 md:flex"
               >
                 <BookImage
                   imageUrl={review.book.imageUrl}
@@ -135,7 +161,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
                       .join(', ')}
                   </span>
                 </div>
-              </Link>
+              </div>
             </div>
             <div className="flex items-center gap-1">
               <div className="flex items-center gap-2">

@@ -13,7 +13,6 @@ import { isMobileDevice } from '@/utils/responsive';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { RefObject, Suspense, useState } from 'react';
 import { LoginDialog } from '../LoginDialog';
@@ -44,6 +43,11 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
+
+  const { open: openBookDialog } = useDialogQuery({
+    type: 'book',
+  });
+
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => reviewApi.toggleReviewLike(review.id),
     onMutate: () => {
@@ -116,10 +120,9 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
               <DialogTitle className="text-3xl font-bold tracking-tight text-gray-900">
                 {review.title}
               </DialogTitle>
-              <Link
-                href={`/book/${review.book.id}`}
-                target="_blank"
-                className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100"
+              <div
+                className="flex shrink-0 cursor-pointer items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100"
+                onClick={() => openBookDialog(review.book.id)}
               >
                 <BookImage
                   imageUrl={review.book.imageUrl}
@@ -138,7 +141,7 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
                       .join(', ')}
                   </span>
                 </div>
-              </Link>
+              </div>
             </div>
             <div className="flex items-center gap-1">
               <div className="flex items-center gap-2">
