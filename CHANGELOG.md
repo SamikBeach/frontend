@@ -1,5 +1,16 @@
 # 🚦 CHANGELOG
 
+## [1.59.2](https://github.com/SamikBeach/frontend/compare/1.59.1...1.59.2) (2025-01-30)
+
+
+### Bug Fixes
+
+* BookIcon 위치 수정 ([49f2b5a](https://github.com/SamikBeach/frontend/commit/49f2b5a393b58abd6d98ad29aaffeb83f203e0d2))
+* BookInfo 스타일 수정 ([4ad8470](https://github.com/SamikBeach/frontend/commit/4ad847099a709d3e771e3d1f072540aad7b3e1ef))
+* Review 컴포넌트 스타일 수정 ([2afcf33](https://github.com/SamikBeach/frontend/commit/2afcf332ce034d61528cb34c00152de81a825668))
+* 스타일 수정 ([94a5b37](https://github.com/SamikBeach/frontend/commit/94a5b37160e9fccfe529b6bd45995580e4da94dc))
+* 유저 아바타 스타일 수정 ([c387748](https://github.com/SamikBeach/frontend/commit/c3877482bd29607bdeff531ae40143b0c167f756))
+
 ## [1.59.1](https://github.com/SamikBeach/frontend/compare/1.59.0...1.59.1) (2025-01-30)
 
 
