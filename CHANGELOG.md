@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.57.1](https://github.com/SamikBeach/frontend/compare/1.57.0...1.57.1) (2025-01-30)
+
+
+### Bug Fixes
+
+* 센트리 소스맵 설정 ([0ccfe93](https://github.com/SamikBeach/frontend/commit/0ccfe93bd26f5bda82114071f512cfdd3699441c))
+
 # [1.57.0](https://github.com/SamikBeach/frontend/compare/1.56.2...1.57.0) (2025-01-29)
 
 
