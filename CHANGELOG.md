@@ -1,5 +1,19 @@
 # 🚦 CHANGELOG
 
+# [1.58.0](https://github.com/SamikBeach/frontend/compare/1.57.1...1.58.0) (2025-01-30)
+
+
+### Bug Fixes
+
+* Review 페이지 스타일 수정 ([d02302f](https://github.com/SamikBeach/frontend/commit/d02302f77fed2f935dd4eadbe0b62e895331d5f4))
+* 책정보 클릭시 페이지 이동 대신 다이얼로그 띄우기 ([6c4dcaa](https://github.com/SamikBeach/frontend/commit/6c4dcaa642b79669bcd6cb835219fe9e1fd1f19b))
+* 페이지 스타일 수정 ([06861f1](https://github.com/SamikBeach/frontend/commit/06861f1ef93718abea0579efc6127fce35272629))
+
+
+### Features
+
+* 리뷰 페이지에 댓글 작성 기능 추가 ([deb4cdd](https://github.com/SamikBeach/frontend/commit/deb4cdd6a6a99fd5dc98d031116290bdd4fb400f))
+
 ## [1.57.1](https://github.com/SamikBeach/frontend/compare/1.57.0...1.57.1) (2025-01-30)
 
 
