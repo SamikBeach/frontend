@@ -69,7 +69,7 @@ export default function UserAvatar({
         </div>
       )}
       {showNickname && (
-        <p className={`font-medium hover:underline ${textSize}`}>
+        <p className={`font-medium ${textSize}`}>
           {user.nickname ?? '알 수 없음'}
         </p>
       )}
