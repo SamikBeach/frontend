@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.59.0](https://github.com/SamikBeach/frontend/compare/1.58.0...1.59.0) (2025-01-30)
+
+
+### Features
+
+* 리뷰 필터 설정 개선 ([edfe26f](https://github.com/SamikBeach/frontend/commit/edfe26f3c6d7683fb0ec0710d4eae5b276885941))
+
 # [1.58.0](https://github.com/SamikBeach/frontend/compare/1.57.1...1.58.0) (2025-01-30)
 
 
