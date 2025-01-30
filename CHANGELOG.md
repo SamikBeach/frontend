@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.59.1](https://github.com/SamikBeach/frontend/compare/1.59.0...1.59.1) (2025-01-30)
+
+
+### Bug Fixes
+
+* BookInfo open 방식 수정 ([1ed7932](https://github.com/SamikBeach/frontend/commit/1ed7932db79681fde6e6ff120891df572daa4bcb))
+
 # [1.59.0](https://github.com/SamikBeach/frontend/compare/1.58.0...1.59.0) (2025-01-30)
 
 
