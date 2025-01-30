@@ -1,17 +1,21 @@
+'use client';
+
 import { reviewApi } from '@/apis/review/review';
 import { Review as ReviewType } from '@/apis/review/types';
+import BookImage from '@/components/BookImage/BookImage';
 import { useCommentQueryData } from '@/hooks/queries/useCommentQueryData';
 import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { cn } from '@/utils/common';
 import { formatDate } from '@/utils/date';
 import { isMobileDevice } from '@/utils/responsive';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import BookLink from '../BookLink/BookLink';
 import CommentEditor from '../CommentEditor/CommentEditor';
 import { LoginDialog } from '../LoginDialog';
 import { Button } from '../ui/button';
@@ -54,6 +58,7 @@ export default function Review({
 
   const currentUser = useCurrentUser();
   const router = useRouter();
+  const { open: openBookDialog } = useDialogQuery({ type: 'book' });
 
   const isMyReview = currentUser?.id === review.user.id;
 
@@ -179,6 +184,26 @@ export default function Review({
     setShowEditDialog(true);
   };
 
+  const BookInfoContent = () => (
+    <div className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100">
+      <BookImage
+        imageUrl={review.book.imageUrl}
+        title={review.book.title}
+        width={20}
+        height={28}
+        className="rounded-sm shadow-sm"
+      />
+      <div className="flex flex-col">
+        <span className="text-xs font-medium text-gray-900">{review.book.title}</span>
+        <span className="text-[11px] text-gray-500">
+          {review.book.authorBooks
+            .map(authorBook => authorBook.author.nameInKor)
+            .join(', ')}
+        </span>
+      </div>
+    </div>
+  );
+
   return (
     <>
       <div className="flex flex-col gap-2">
@@ -192,7 +217,9 @@ export default function Review({
             </h3>
             {showBookInfo && (
               <div className="block w-fit md:hidden">
-                <BookLink book={review.book} />
+                <Link href={`/book/${review.book.id}`}>
+                  <BookInfoContent />
+                </Link>
               </div>
             )}
           </div>
@@ -212,7 +239,9 @@ export default function Review({
           </p>
           {showBookInfo && (
             <div className="hidden w-fit md:block">
-              <BookLink book={review.book} />
+              <div onClick={() => openBookDialog(review.book.id)} className="cursor-pointer">
+                <BookInfoContent />
+              </div>
             </div>
           )}
         </div>
