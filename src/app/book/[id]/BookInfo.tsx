@@ -15,6 +15,7 @@ import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { BookIcon, Edit3Icon } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Fragment, RefObject, Suspense, useState } from 'react';
 
@@ -108,19 +109,36 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
           <div className="flex w-full flex-col justify-between gap-4">
             <div className="flex flex-col gap-0.5">
               <h1 className="text-lg font-bold md:text-2xl">{book.title}</h1>
-              <p className="text-sm text-gray-500 md:text-base">
-                {book.authorBooks.map((authorBook, index) => (
-                  <Fragment key={authorBook.author.id}>
-                    {index > 0 && ', '}
-                    <span
-                      onClick={() => openAuthorDialog(authorBook.author.id)}
-                      className="cursor-pointer hover:underline"
-                    >
-                      {authorBook.author.nameInKor}
-                    </span>
-                  </Fragment>
-                ))}
-              </p>
+              <div className="md:hidden">
+                <p className="text-sm text-gray-500 md:text-base">
+                  {book.authorBooks.map((authorBook, index) => (
+                    <Fragment key={authorBook.author.id}>
+                      {index > 0 && ', '}
+                      <Link
+                        href={`/author/${authorBook.author.id}`}
+                        className="hover:underline"
+                      >
+                        {authorBook.author.nameInKor}
+                      </Link>
+                    </Fragment>
+                  ))}
+                </p>
+              </div>
+              <div className="hidden md:block">
+                <p className="text-sm text-gray-500 md:text-base">
+                  {book.authorBooks.map((authorBook, index) => (
+                    <Fragment key={authorBook.author.id}>
+                      {index > 0 && ', '}
+                      <span
+                        onClick={() => openAuthorDialog(authorBook.author.id)}
+                        className="cursor-pointer hover:underline"
+                      >
+                        {authorBook.author.nameInKor}
+                      </span>
+                    </Fragment>
+                  ))}
+                </p>
+              </div>
               <p className="text-sm text-gray-500 md:text-base">
                 {book.publisher}
                 {book.publisher && formattedPublicationDate && (
@@ -129,8 +147,8 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                 {formattedPublicationDate}
               </p>
               {book.bookOriginalWorks[0] && (
-                <div className="flex items-center gap-1 text-sm text-gray-500 md:text-base">
-                  <BookIcon className="h-4 w-4" />
+                <div className="flex items-start gap-1 text-sm text-gray-500 md:text-base">
+                  <BookIcon className="mt-0.5 h-4 w-4" />
                   {book.bookOriginalWorks[0].originalWork.title}(
                   {book.bookOriginalWorks[0].originalWork.titleInEng})
                 </div>
