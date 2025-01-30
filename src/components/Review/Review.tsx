@@ -206,10 +206,14 @@ export default function Review({
           )}
         </div>
         <div className="flex items-center gap-2">
-          {!hideUserInfo && <UserAvatar user={review.user} size="sm" />}
-          <p className="text-xs text-gray-500">
-            {formatDate(review.createdAt)}
-          </p>
+          {!hideUserInfo && (
+            <>
+              <UserAvatar user={review.user} size="sm" />{' '}
+              <p className="text-xs text-gray-500">
+                {formatDate(review.createdAt)}
+              </p>
+            </>
+          )}
         </div>
 
         <div className="flex flex-col gap-1">
