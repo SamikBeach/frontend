@@ -75,41 +75,51 @@ function CommentListContent({
           {review.commentCount}
         </span>
       </div>
-      {comments.length === 0 ? (
-        <div className="flex flex-1 items-center">
-          <EmptyComments />
-        </div>
-      ) : (
-        <InfiniteScroll
-          dataLength={comments.length}
-          next={fetchNextPage}
-          hasMore={hasNextPage ?? false}
-          loader={
-            <div className="py-2">
-              <CommentItemSkeleton />
-            </div>
-          }
-          scrollableTarget={scrollableTarget}
-        >
-          <AnimatePresence initial={false}>
-            <div className="flex flex-col">
-              {comments.map(comment => (
-                <motion.div
-                  key={comment.id}
-                  layout="position"
-                  {...commentItemAnimation}
-                >
-                  <CommentItem
-                    comment={comment}
-                    reviewId={reviewId}
-                    onReply={onReply}
-                  />
-                </motion.div>
-              ))}
-            </div>
-          </AnimatePresence>
-        </InfiniteScroll>
-      )}
+      <Suspense
+        fallback={
+          <div className="flex flex-col gap-2">
+            <CommentItemSkeleton />
+            <CommentItemSkeleton />
+            <CommentItemSkeleton />
+          </div>
+        }
+      >
+        {comments.length === 0 ? (
+          <div className="flex-1">
+            <EmptyComments />
+          </div>
+        ) : (
+          <InfiniteScroll
+            dataLength={comments.length}
+            next={fetchNextPage}
+            hasMore={hasNextPage ?? false}
+            loader={
+              <div className="py-2">
+                <CommentItemSkeleton />
+              </div>
+            }
+            scrollableTarget={scrollableTarget}
+          >
+            <AnimatePresence initial={false}>
+              <div className="flex flex-col">
+                {comments.map(comment => (
+                  <motion.div
+                    key={comment.id}
+                    layout="position"
+                    {...commentItemAnimation}
+                  >
+                    <CommentItem
+                      comment={comment}
+                      reviewId={reviewId}
+                      onReply={onReply}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </AnimatePresence>
+          </InfiniteScroll>
+        )}
+      </Suspense>
     </div>
   );
 }

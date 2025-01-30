@@ -5,7 +5,10 @@ import { PaginatedResponse } from '@/apis/common/types';
 import { Review as ReviewType } from '@/apis/review/types';
 import { Review } from '@/components/Review';
 import EmptyReviews from '@/components/Review/EmptyReviews';
-import { ReviewSkeleton } from '@/components/Review/ReviewSkeleton';
+import {
+  ReviewListSkeleton,
+  ReviewSkeleton,
+} from '@/components/Review/ReviewSkeleton';
 import { Checkbox } from '@/components/ui/checkbox';
 import { reviewItemAnimation } from '@/constants/animations';
 import {
@@ -145,7 +148,9 @@ const ReviewList = forwardRef(function ReviewList(
 ) {
   return (
     <div ref={ref}>
-      <ReviewListContent {...props} />
+      <Suspense fallback={<ReviewListSkeleton />}>
+        <ReviewListContent {...props} />
+      </Suspense>
     </div>
   );
 });
