@@ -1,5 +1,13 @@
 # 🚦 CHANGELOG
 
+## [1.59.4](https://github.com/SamikBeach/frontend/compare/1.59.3...1.59.4) (2025-01-30)
+
+
+### Bug Fixes
+
+* update READEME.md ([a4f1044](https://github.com/SamikBeach/frontend/commit/a4f1044eaeb8f0cce893ceca9ff25253a43a7513))
+* update READEME.md ([22b9f79](https://github.com/SamikBeach/frontend/commit/22b9f797010c19f49e1b326213a2f2c777142e2f))
+
 ## [1.59.3](https://github.com/SamikBeach/frontend/compare/1.59.2...1.59.3) (2025-01-30)
 
 
