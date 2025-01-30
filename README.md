@@ -1,5 +1,310 @@
 # 🚦 CHANGELOG
 
+## [1.59.2](https://github.com/SamikBeach/frontend/compare/1.59.1...1.59.2) (2025-01-30)
+
+### Bug Fixes
+
+- BookIcon 위치 수정 ([49f2b5a](https://github.com/SamikBeach/frontend/commit/49f2b5a393b58abd6d98ad29aaffeb83f203e0d2))
+- BookInfo 스타일 수정 ([4ad8470](https://github.com/SamikBeach/frontend/commit/4ad847099a709d3e771e3d1f072540aad7b3e1ef))
+- Review 컴포넌트 스타일 수정 ([2afcf33](https://github.com/SamikBeach/frontend/commit/2afcf332ce034d61528cb34c00152de81a825668))
+- 스타일 수정 ([94a5b37](https://github.com/SamikBeach/frontend/commit/94a5b37160e9fccfe529b6bd45995580e4da94dc))
+- 유저 아바타 스타일 수정 ([c387748](https://github.com/SamikBeach/frontend/commit/c3877482bd29607bdeff531ae40143b0c167f756))
+
+## [1.59.1](https://github.com/SamikBeach/frontend/compare/1.59.0...1.59.1) (2025-01-30)
+
+### Bug Fixes
+
+- BookInfo open 방식 수정 ([1ed7932](https://github.com/SamikBeach/frontend/commit/1ed7932db79681fde6e6ff120891df572daa4bcb))
+
+# [1.59.0](https://github.com/SamikBeach/frontend/compare/1.58.0...1.59.0) (2025-01-30)
+
+### Features
+
+- 리뷰 필터 설정 개선 ([edfe26f](https://github.com/SamikBeach/frontend/commit/edfe26f3c6d7683fb0ec0710d4eae5b276885941))
+
+# [1.58.0](https://github.com/SamikBeach/frontend/compare/1.57.1...1.58.0) (2025-01-30)
+
+### Bug Fixes
+
+- Review 페이지 스타일 수정 ([d02302f](https://github.com/SamikBeach/frontend/commit/d02302f77fed2f935dd4eadbe0b62e895331d5f4))
+- 책정보 클릭시 페이지 이동 대신 다이얼로그 띄우기 ([6c4dcaa](https://github.com/SamikBeach/frontend/commit/6c4dcaa642b79669bcd6cb835219fe9e1fd1f19b))
+- 페이지 스타일 수정 ([06861f1](https://github.com/SamikBeach/frontend/commit/06861f1ef93718abea0579efc6127fce35272629))
+
+### Features
+
+- 리뷰 페이지에 댓글 작성 기능 추가 ([deb4cdd](https://github.com/SamikBeach/frontend/commit/deb4cdd6a6a99fd5dc98d031116290bdd4fb400f))
+
+## [1.57.1](https://github.com/SamikBeach/frontend/compare/1.57.0...1.57.1) (2025-01-30)
+
+### Bug Fixes
+
+- 센트리 소스맵 설정 ([0ccfe93](https://github.com/SamikBeach/frontend/commit/0ccfe93bd26f5bda82114071f512cfdd3699441c))
+
+# [1.57.0](https://github.com/SamikBeach/frontend/compare/1.56.2...1.57.0) (2025-01-29)
+
+### Bug Fixes
+
+- BookSearchQuery 수정 ([3cf935e](https://github.com/SamikBeach/frontend/commit/3cf935e3a756e7809bda28aad95665e0808e3234))
+- 체크박스 스타일 수정 ([342c1e8](https://github.com/SamikBeach/frontend/commit/342c1e802e049e652a361d2c375f946d59f9d0b0))
+
+### Features
+
+- .heic 업로드 허용 ([cab0d2d](https://github.com/SamikBeach/frontend/commit/cab0d2d974a3eb1974b6315e220590d2f4c4b665))
+- 닉네임 input keydown handler 추가 ([644b8c7](https://github.com/SamikBeach/frontend/commit/644b8c76575ef40cc41fc72e49f04e6c4f57ddba))
+- 다른 번역서 함께 보기 UI 개선 ([92dffaa](https://github.com/SamikBeach/frontend/commit/92dffaa39f2b0df3baaf623fed06542cc777be5b))
+- 다른 번역서의 리뷰 함께보기 기능 추가 ([e2c6116](https://github.com/SamikBeach/frontend/commit/e2c6116c2f93c4fc8079319ac1691517b7a04822))
+- 도서 상세의 다른 번역서 리뷰 포함 옵션 위치 변경 ([a4c1bfc](https://github.com/SamikBeach/frontend/commit/a4c1bfc38d0428a4c00db45521a2a3f36571e364))
+- 도서 상세의 리뷰 목록 UI/UX 개선 ([cf55862](https://github.com/SamikBeach/frontend/commit/cf558624d76e16f7143158f04589820b1ce55ec1))
+- 작가 이름 클릭시 다이얼로그 띄우기 ([ec7c5f7](https://github.com/SamikBeach/frontend/commit/ec7c5f74a78b544ba9aa7af3c58dc0793429853c))
+
+## [1.56.2](https://github.com/SamikBeach/frontend/compare/1.56.1...1.56.2) (2025-01-28)
+
+### Bug Fixes
+
+- 스타일 수정 ([b1f7d56](https://github.com/SamikBeach/frontend/commit/b1f7d5678b07791b808cbb71b8645020986cc4f7))
+
+## [1.56.1](https://github.com/SamikBeach/frontend/compare/1.56.0...1.56.1) (2025-01-28)
+
+### Bug Fixes
+
+- 루트 페이지 메타데이터 설정 방식 변경 ([dc02062](https://github.com/SamikBeach/frontend/commit/dc020625e3151f0613ab81d806c8ff15b20f1fbe))
+
+# [1.56.0](https://github.com/SamikBeach/frontend/compare/1.55.0...1.56.0) (2025-01-28)
+
+### Features
+
+- 메타데이터 설정 개선 ([3d17bbb](https://github.com/SamikBeach/frontend/commit/3d17bbb4e89e36a8cc7605084d253c33a32fb77b))
+- 서버/클라이언트 컴포넌트 분리 ([b028b23](https://github.com/SamikBeach/frontend/commit/b028b2334aec90c58d3b362dffa3a2c13972fc27))
+- 유저 페이지 params 타입 수정 ([6fabccd](https://github.com/SamikBeach/frontend/commit/6fabccdf05270f0e5580b2360f5849898ddfe31c))
+
+# [1.55.0](https://github.com/SamikBeach/frontend/compare/1.54.1...1.55.0) (2025-01-28)
+
+### Features
+
+- Google Analytics 4 고급 기능 추가 ([e6e0d73](https://github.com/SamikBeach/frontend/commit/e6e0d7374fefa210cb4a52921dd8090941455ed7))
+- Sentry 트레이싱 로그 비활성화 설정 ([ea3b2c8](https://github.com/SamikBeach/frontend/commit/ea3b2c80d043c0f4b105f3f31f2e77d6120deb28))
+
+## [1.54.1](https://github.com/SamikBeach/frontend/compare/1.54.0...1.54.1) (2025-01-28)
+
+### Bug Fixes
+
+- Sentry 설정 린터 에러 수정 ([32cbe51](https://github.com/SamikBeach/frontend/commit/32cbe5182d01be2a0034f2f13d0e50c303def4dc))
+
+# [1.54.0](https://github.com/SamikBeach/frontend/compare/1.53.0...1.54.0) (2025-01-27)
+
+### Bug Fixes
+
+- "AuthorList 컴포넌트에서 useMediaQuery 훅 대신 Tailwind CSS 반응형 클래스로 미디어 쿼리 구현 ([9ee84c6](https://github.com/SamikBeach/frontend/commit/9ee84c6532c8430556c7ff78b93d551dd630f3a5))
+- Book, AuthorList 구현 수정 ([56b78bd](https://github.com/SamikBeach/frontend/commit/56b78bd490321ac18edaae053b63564d05ad25b3))
+- 문구 수정 ([54c6f01](https://github.com/SamikBeach/frontend/commit/54c6f015b536561bd07b68b01c1f1e07e05906b2))
+- 스타일 수정 ([f853b8a](https://github.com/SamikBeach/frontend/commit/f853b8a01c485e54d0985e65c3463621490a0621))
+
+### Features
+
+- 켈레톤 컴포넌트 에러 수정 및 AuthorListSkeleton 구현 ([fdd4b7d](https://github.com/SamikBeach/frontend/commit/fdd4b7db305b7c17a167272f903ff3e86969be35))
+
+# [1.53.0](https://github.com/SamikBeach/frontend/compare/1.52.0...1.53.0) (2025-01-27)
+
+### Features
+
+- useMediaQuery 훅을 사용하여 반응형 처리 개선 ([7169f04](https://github.com/SamikBeach/frontend/commit/7169f044c9ee7a57387a0197c645c8d510d649b5))
+
+# [1.52.0](https://github.com/SamikBeach/frontend/compare/1.51.1...1.52.0) (2025-01-26)
+
+### Features
+
+- 작가 목록 시대 필터 모바일 레이아웃 수정 ([9a4a9c5](https://github.com/SamikBeach/frontend/commit/9a4a9c5b79c416561e78ba6c88a0149c96a15696))
+- 작가 목록 시대 필터링 기능 추가 및 AtomsProvider와 연동 ([49dedc3](https://github.com/SamikBeach/frontend/commit/49dedc36531a4442c6def7652d4df6b8b7b8e485))
+
+## [1.51.1](https://github.com/SamikBeach/frontend/compare/1.51.0...1.51.1) (2025-01-26)
+
+### Bug Fixes
+
+- ReviewEditor 모바일 줌인 방지 ([d13cccd](https://github.com/SamikBeach/frontend/commit/d13cccd930b7099e2839ae05cc0d7e1b4ac19803))
+- write-review 페이지 반응형 레이아웃 구현 ([a8ddee2](https://github.com/SamikBeach/frontend/commit/a8ddee29c284011cd68bbb23a221b4e369be447b))
+
+# [1.51.0](https://github.com/SamikBeach/frontend/compare/1.50.0...1.51.0) (2025-01-26)
+
+### Bug Fixes
+
+- author.nameInKor 트림 처리 ([adaa990](https://github.com/SamikBeach/frontend/commit/adaa990e6dbff29a44a4778ba5c2f71be0aa9dc6))
+- CommandList max-h 제거 ([3ab17ad](https://github.com/SamikBeach/frontend/commit/3ab17ad80a753190302963c2130e8482f04ec080))
+- EraCombobox 검색어 초기화 개선 ([a9e1e7f](https://github.com/SamikBeach/frontend/commit/a9e1e7f8e9dff023eaa5d591c0ba53c68f6257e6))
+- SearchBar 스타일 수정 ([2a1e988](https://github.com/SamikBeach/frontend/commit/2a1e988c63f54f306019c265d478ade07d2dfc60))
+- SearchBar 열 때 '/' 키가 입력되는 문제 수정 ([5d8dca3](https://github.com/SamikBeach/frontend/commit/5d8dca34edaeed26c351eba695b4a761212849bc))
+- SearchBar 키 이벤트 중복 실행 방지 ([ff4a493](https://github.com/SamikBeach/frontend/commit/ff4a4934467d2758e3237fe38a75739030f4201d))
+- SearchBarDialog의 cmdk 초기화 문제 해결 ([aa0633e](https://github.com/SamikBeach/frontend/commit/aa0633e90d6f386d8bb9d2f840d53c878e6a29b8)), closes [#3051](https://github.com/SamikBeach/frontend/issues/3051)
+- TermsDialog, PrivacyDialog에 aria-describedby 추가 ([e9a7609](https://github.com/SamikBeach/frontend/commit/e9a760900d0e773b00ae9864347ec92929bc344c))
+- write-review page 에러 수정 ([9c2b7dd](https://github.com/SamikBeach/frontend/commit/9c2b7ddf6c755170da02265eb5d397d6c9b6ff0a))
+- 스타일 수정 ([a5ed2fd](https://github.com/SamikBeach/frontend/commit/a5ed2fda8440b2457569c118e8abc93a5fffb538))
+
+### Features
+
+- Era API 클라이언트 구현 ([89d8f86](https://github.com/SamikBeach/frontend/commit/89d8f8660d885d3a07728a70a406178caff7a6ed))
+- 검색 결과 아이템의 삭제 버튼을 모바일에서 항상 보이도록 수정 ([44bb182](https://github.com/SamikBeach/frontend/commit/44bb182e5946b920d20995c228539ecef43613c1))
+- 작가 목록 시대 필터 추가 ([e2512c5](https://github.com/SamikBeach/frontend/commit/e2512c5a4066bf1992f0d6965d1d88696c5943fc))
+
+# [1.50.0](https://github.com/SamikBeach/frontend/compare/1.49.0...1.50.0) (2025-01-26)
+
+### Bug Fixes
+
+- fix errors ([f22b625](https://github.com/SamikBeach/frontend/commit/f22b625667835d11bcc9b99050669f38c40e40ed))
+- 메타데이터 수정 ([bfdac87](https://github.com/SamikBeach/frontend/commit/bfdac87858ec2c2bd56e3081f93c7d5d9f5b95f6))
+- 메타데이터 적용 방식 수정 ([efb58dc](https://github.com/SamikBeach/frontend/commit/efb58dc940ef5261dad972119a08aa47a073e74e))
+- 프로필 이미지 변경 기능 수정 ([39ff1e0](https://github.com/SamikBeach/frontend/commit/39ff1e0833abbc4bfe3391b797e7dc94939bae3e))
+
+### Features
+
+- authors 페이지의 정렬 탭 위치 수정 ([cab7755](https://github.com/SamikBeach/frontend/commit/cab77559c4310e3defd90b9a26c81cd35dd686ce))
+- RelativeBooks 캐러셀 스와이프 효과 개선 ([14eea0f](https://github.com/SamikBeach/frontend/commit/14eea0fd479c7d598d052f0f3d458481e10f8cc2))
+- RelativeBooks 컴포넌트 캐러셀 동작 방식 수정 ([3f36490](https://github.com/SamikBeach/frontend/commit/3f3649014bf14d77fdf45c71c66642e9f367508e))
+- SEO 적용 ([99422e6](https://github.com/SamikBeach/frontend/commit/99422e6babcc3b0be6aeefa2b2f40c5a5cae4dfc))
+- sitemap 생성 로직 개선 ([374404b](https://github.com/SamikBeach/frontend/commit/374404b4cec281da165f2578c255eb4c3b45efca))
+- 로고 이미지 추가 ([f34ff9c](https://github.com/SamikBeach/frontend/commit/f34ff9cbe8c9e5e46fc4bb642ce681bc3d7e2c2b))
+
+# [1.49.0](https://github.com/SamikBeach/frontend/compare/1.48.0...1.49.0) (2025-01-23)
+
+### Bug Fixes
+
+- fix type errors ([1e37c09](https://github.com/SamikBeach/frontend/commit/1e37c093c29d181dd6adf661589b98773a30b708))
+- 댓글 생성 시 사용자 정보 누락 문제 해결 ([e9bd6a4](https://github.com/SamikBeach/frontend/commit/e9bd6a4b6b6bb9233cf4bebd9c38e1f797c17611))
+- 사파리 모바일 환경을 위한 텍스트 크기 조정 ([5b595bc](https://github.com/SamikBeach/frontend/commit/5b595bc9c19e38079fe22997f51b4c0580f30565))
+- 센트르 설정 수정 ([6fcc6c5](https://github.com/SamikBeach/frontend/commit/6fcc6c5aa8fbf8f5b7a3168146c18096c908775a))
+
+### Features
+
+- Google Analytics 통합 추가 ([fdcc86a](https://github.com/SamikBeach/frontend/commit/fdcc86a63f7b34f98cd2163d8652db041f3d5bcd))
+- Google Tag Manager 통합 추가 ([6e27d57](https://github.com/SamikBeach/frontend/commit/6e27d570b132bb47a399ac2a9056cf8255160a73))
+- sentry 설치 ([59e1fa6](https://github.com/SamikBeach/frontend/commit/59e1fa608f89d2ed20b744a75860e947ef29ef84))
+- 댓글 삭제 시 쿼리 업데이트 로직 추가 ([626201b](https://github.com/SamikBeach/frontend/commit/626201b0fa4e6c26630d09714951fc8ac7968c7f))
+- 센트리 버전 다운그레이드 ([e89d846](https://github.com/SamikBeach/frontend/commit/e89d846d38434045a1f266ee836cb4a8f2a9d452))
+
+# [1.48.0](https://github.com/SamikBeach/frontend/compare/1.47.0...1.48.0) (2025-01-22)
+
+### Bug Fixes
+
+- AuthorItem 잘못들어간 변수 수정 ([1db2274](https://github.com/SamikBeach/frontend/commit/1db2274aaba2cfc57da0e4190cd4dbc0f36d03c4))
+- currentUser 업데이트 되지 않는 이슈 픽스 ([bca20fb](https://github.com/SamikBeach/frontend/commit/bca20fb0dbc291f7d0e9fc4bfef747cbf3e13b67))
+- EmptyComments 가운데 오도록 수정 ([48b538d](https://github.com/SamikBeach/frontend/commit/48b538dadbf6d198258b7c8be9afb2ad687e641f))
+- Review 페이지 반응형 처리 ([3fe153a](https://github.com/SamikBeach/frontend/commit/3fe153acfd7dcbf46684b640e7c2abfe689074be))
+- Review 페이지 스타일 수정 ([ca9e81d](https://github.com/SamikBeach/frontend/commit/ca9e81d4dfda0ef0d38cf052f46a1cc4ebf65a50))
+- ReviewDialog 반응형 처리 ([69b1c2a](https://github.com/SamikBeach/frontend/commit/69b1c2a14c4aec33ae47ca55903bc1cd687df5af))
+- ReviewDialog 스타일 수정 ([e0937df](https://github.com/SamikBeach/frontend/commit/e0937df7a15bc03c9b915625e521926eddf77a96))
+- ReviewDialog에 새탭으로 열기 버튼 추가 ([357015a](https://github.com/SamikBeach/frontend/commit/357015a52f18fa091405dd910acdcc72196c6a3d))
+- UserHistory 내 list gap 수정 ([313cf46](https://github.com/SamikBeach/frontend/commit/313cf46b8fdcd28d0c507a254d85505d7dee2533))
+- write-review 페이지 수정 ([18e6e4c](https://github.com/SamikBeach/frontend/commit/18e6e4c26c708790d2b3516bcd8b6fb49f4d001b))
+- 도서/작가 상세 페이지 스켈레톤 UI 개선 ([e34c6ea](https://github.com/SamikBeach/frontend/commit/e34c6eaa4e840c7fb981db855feb24724f05c82a))
+- 리뷰 페이지 스타일 수정 ([11fce56](https://github.com/SamikBeach/frontend/commit/11fce56beaa40947d32738af36a5789b52d00317))
+- 모바일에서 스켈레톤 UI가 보이지 않는 문제 수정 ([50a6fff](https://github.com/SamikBeach/frontend/commit/50a6fff0ca4d384870821cefb08326402ba9ce18))
+- 스켈레톤 스타일 수정 ([46312fc](https://github.com/SamikBeach/frontend/commit/46312fc6e8b3ee18a2c3321c3ea60ff2275b506e))
+- 유저 프로필 목록 스켈레톤 UI 통일 ([558040c](https://github.com/SamikBeach/frontend/commit/558040cc57c7c1ff049028fb62dbdaaa9127d627))
+- 유저 프로필 탭별 스켈레톤 UI 모바일 대응 ([f4a6b0f](https://github.com/SamikBeach/frontend/commit/f4a6b0f3c224d6aea0f22f6e5808fa59958067fc))
+- 유저 프로필 탭별 스켈레톤 UI 모바일 대응 ([a409ab0](https://github.com/SamikBeach/frontend/commit/a409ab0cca28470bc4cd979cf6777d91b0427c66))
+- 코멘트 에디터 하단 마진 추가 ([1b40212](https://github.com/SamikBeach/frontend/commit/1b4021282d7ec531ca99e9e4b1e5edf92591c276))
+
+### Features
+
+- DialogContent 반응형 처리 ([a11d95e](https://github.com/SamikBeach/frontend/commit/a11d95e98bf8ddbd2918c30dab519ab057ee073c))
+- LeftSideBar 반응형 처리 ([01a37bd](https://github.com/SamikBeach/frontend/commit/01a37bdab6d066a6484b378fe3a1d7dea13d9444))
+- review page 보강 ([7d0d50d](https://github.com/SamikBeach/frontend/commit/7d0d50df1703c468ac50b6ce8f177df87a3feccd))
+- ReviewInfo 반응형 처리 ([9fc8d18](https://github.com/SamikBeach/frontend/commit/9fc8d189168d3d4707623b260b0945012481b68d))
+- SearchBar 반응형 처리 ([d460379](https://github.com/SamikBeach/frontend/commit/d460379760d3e553c78f22f85a541023342f67b1))
+- SearchDialog Content 반응형 처리 ([ec80d8b](https://github.com/SamikBeach/frontend/commit/ec80d8bb807a4b41564f9ba9121ff4f489cfae1a))
+- 검색바 반응형 처리 ([61c8644](https://github.com/SamikBeach/frontend/commit/61c8644682844015de0a46eba47aedab2b39e23c))
+- 도서 목록 모바일 동작 개선 ([2279285](https://github.com/SamikBeach/frontend/commit/2279285da20607db61e7a6a6fbb676df85fd82d2))
+- 도서 목록 모바일 뷰 렌더링 오류 수정 ([4bbbf2d](https://github.com/SamikBeach/frontend/commit/4bbbf2d98a4248ec949a97c273cfdf3c99366e0d))
+- 도서 상세 페이지 모바일 레이아웃 개선 ([8c16658](https://github.com/SamikBeach/frontend/commit/8c166584beec5c440e810eeb3e49228c3436a651))
+- 도서 페이지 모바일 레이아웃 개선 - 장르 탭과 검색창 분리 ([192f49b](https://github.com/SamikBeach/frontend/commit/192f49b3f4a30b6dae747fea8869d1a0c65cdc1f))
+- 리뷰 수정 모바일 대응 ([f45317c](https://github.com/SamikBeach/frontend/commit/f45317c5adafdea0ba2bcf6dd669950e5ee59892))
+- 리뷰 작성 페이지 컴포넌트 분리 및 개선 ([47745b9](https://github.com/SamikBeach/frontend/commit/47745b9480f03e7881560e7bbdc5adaf2cafd263))
+- 리뷰 페이지 추가 ([c04b842](https://github.com/SamikBeach/frontend/commit/c04b842609927a937836fcf1b527e6c9c5621b83))
+- 작가 상세 페이지 모바일 레이아웃 개선 ([8726875](https://github.com/SamikBeach/frontend/commit/8726875585603e8d4cec2c89b7508b6ed5d8702d))
+- 작가 페이지 모바일 레이아웃 개선 ([354fb02](https://github.com/SamikBeach/frontend/commit/354fb02986776038723f8d519129f2fa40ed11aa))
+- 책, 작가 상세페이지 반응형 처리 ([e6ff567](https://github.com/SamikBeach/frontend/commit/e6ff567249eb20a32dac9e29b3da33de78ab00b7))
+- 피드 클릭 시 화면 크기에 따른 동작 분기 처리 추가' ([f18b4a3](https://github.com/SamikBeach/frontend/commit/f18b4a34b98fa062bfa3deb25c9dbccead70d05e))
+
+# [1.47.0](https://github.com/SamikBeach/frontend/compare/1.46.0...1.47.0) (2025-01-22)
+
+### Bug Fixes
+
+- AuthorInfo 스타일 수정 ([35dbd36](https://github.com/SamikBeach/frontend/commit/35dbd36c8df4936cf5aac54694208bf416e26c75))
+- 다이얼로그 컴포넌트의 패딩 및 내부 간격 조정 ([d121639](https://github.com/SamikBeach/frontend/commit/d12163954b6773707e1a931fcfc8674f0bc35302))
+- 로고 수정 ([2cc05b3](https://github.com/SamikBeach/frontend/commit/2cc05b3b0288b4fcb166ee57847a02c6358cacaf))
+
+### Features
+
+- Initializer 리페치 옵션 추가 ([7afabb0](https://github.com/SamikBeach/frontend/commit/7afabb0aaff8ed571d28f94e7ed2dfdf6ea3db00))
+- 도서 정보에 알라딘 출처 표시 및 알라딘 상품 페이지 연결 기능 추가 ([627cd3b](https://github.com/SamikBeach/frontend/commit/627cd3b7f30d8f643a9c2539b79ebd59278c96dc))
+- 도서 정보에 원작과 장르 정보 추가 ([791d2c3](https://github.com/SamikBeach/frontend/commit/791d2c3150c076cd7318eb1b267bee096cc14c22))
+- 이용약관 및 개인정보처리방침 다이얼로그 구조 개선 ([908635b](https://github.com/SamikBeach/frontend/commit/908635b69f36ab7881b4532547081b3ae9adfb59))
+- 작가 정보에 위키피디아 출처 표시 및 위키피디아 페이지 연결 기능 추가 ([35d16b7](https://github.com/SamikBeach/frontend/commit/35d16b756c54061c0b5a896cfe5767906cf3d9ec))
+
+# [1.46.0](https://github.com/SamikBeach/frontend/compare/1.45.0...1.46.0) (2025-01-21)
+
+### Bug Fixes
+
+- Review 스타일 수정 ([0db1ff5](https://github.com/SamikBeach/frontend/commit/0db1ff5683188f980216b6aee3d01c2bccf8b32f))
+- Review 컴포넌트 수정 ([99103bd](https://github.com/SamikBeach/frontend/commit/99103bd0f0133685f9aef32299347e1ad7d0006d))
+- Review 컴포넌트 수정 ([4aea16d](https://github.com/SamikBeach/frontend/commit/4aea16d0bf591c9dd631628fb550db8f7e70bf4d))
+- Review 컴포넌트 스타일 수정 ([1df219d](https://github.com/SamikBeach/frontend/commit/1df219d2f590d32710147cb764169f57c77ee2b0))
+- 불필요한 스켈레톤 제거 ([737034e](https://github.com/SamikBeach/frontend/commit/737034e6d125b60f7a9ddb0ebbc3274df38d8cf1))
+
+### Features
+
+- AuthorImage 컴포넌트의 크기 지정 방식 개선 ([f4d9358](https://github.com/SamikBeach/frontend/commit/f4d9358486b973865f260ecc041b68581a6c3498))
+- 로그인 안된 상태에서 좋아요 클릭시 로그인모달 띄우기 ([c40d23e](https://github.com/SamikBeach/frontend/commit/c40d23ef6222844b3289f6b6babbd80f6665effc))
+- 로그인 안된 상태에서 커멘트 제출시 로그인모달 띄우기 ([64781cb](https://github.com/SamikBeach/frontend/commit/64781cb1a654b8ca850c49a8bedec53daa01e043))
+
+# [1.45.0](https://github.com/SamikBeach/frontend/compare/1.44.2...1.45.0) (2025-01-20)
+
+### Bug Fixes
+
+- AuthorInfo 스타일 수정 ([b633186](https://github.com/SamikBeach/frontend/commit/b633186f0e72fb7b0e4906c7bd9d9b39a9386c95))
+- AuthorListItem 스켈레톤 수정 ([09b50be](https://github.com/SamikBeach/frontend/commit/09b50be9dddc9607dd79752394430290ede43058))
+- BookGridItem 스타일 수정 ([57c4245](https://github.com/SamikBeach/frontend/commit/57c4245c96ddeda239c25554019cd7d65f711773))
+- BookInfo 스타일 수정 ([8ab6b25](https://github.com/SamikBeach/frontend/commit/8ab6b25ba0ab0b952c51492d1e205d4f554dc141))
+- BookInfo 책 크기 수정 ([a46b0ca](https://github.com/SamikBeach/frontend/commit/a46b0ca75043cad67e4722fdcd4866d12e58c0cb))
+- BookListItem 스타일 수정 ([a25c624](https://github.com/SamikBeach/frontend/commit/a25c62461076a00f76fd008751dc0fce7ec79e39))
+- BookListItem 스타일 수정 ([b080ba9](https://github.com/SamikBeach/frontend/commit/b080ba9566a65c20d480007ed891b5e2f58935e1))
+- fix lint ([d06fbfd](https://github.com/SamikBeach/frontend/commit/d06fbfd94b79159f4415867d40bcd43de1453fd1))
+- LikeButton 크기 조정 버그 수정 ([c17182a](https://github.com/SamikBeach/frontend/commit/c17182a39d8d8b199c31f72ed18e063218b12795))
+- Review 스타일 수정 ([49574d6](https://github.com/SamikBeach/frontend/commit/49574d64dc6ecad8bbfe89c17374761939d7b54f))
+- Review, ReviewSkeleton 스타일 수정 ([e130f6c](https://github.com/SamikBeach/frontend/commit/e130f6c7b14d5f8bbffc04271bea841be9ba8416))
+- ReviewList 스타일 수정 ([6f82526](https://github.com/SamikBeach/frontend/commit/6f82526691e71eb97306b8b0fe122c279597b272))
+- ReviewList 스타일 수정 ([a6f6228](https://github.com/SamikBeach/frontend/commit/a6f622837c39a6ec7b79b9a093b3181039b578c9))
+- 데이트 포매팅 수정 ([79e0cb5](https://github.com/SamikBeach/frontend/commit/79e0cb5974219be0384734f23007292f96dff4d1))
+- 스켈레톤 스타일 수정 ([d9b9539](https://github.com/SamikBeach/frontend/commit/d9b95394684e326a03dd66755f77d3f89871fcaf))
+- 스타일 디테일 수정 ([821018a](https://github.com/SamikBeach/frontend/commit/821018a54e96bbf05cb30df7c5168fb370775131))
+- 스타일 디테일 수정 ([a71b703](https://github.com/SamikBeach/frontend/commit/a71b7031209718e073a7f74f68644a949b56cfb5))
+- 스타일 수정 ([0f6ba81](https://github.com/SamikBeach/frontend/commit/0f6ba815dfa2baf8eee332e66735eb3c8578cfe8))
+- 장르 중비중 alert 추가 ([2bd13a7](https://github.com/SamikBeach/frontend/commit/2bd13a737ccf1a70e7d4056fb0916f3eb0f23184))
+- 페이지로 보기 버튼 스타일 수정 ([4e15026](https://github.com/SamikBeach/frontend/commit/4e15026b699cca8e02358b3e49445ed554dfbc30))
+
+### Features
+
+- Author 타입 업데이트 ([468b90f](https://github.com/SamikBeach/frontend/commit/468b90fa7ce496a24c219aa6593597ff652d0fa7))
+- AuthorInfo 컴포넌트들의 이미지를 AuthorImage 컴포넌트로 교체 ([0b685f8](https://github.com/SamikBeach/frontend/commit/0b685f824549fe2c3c42e3605755200e93d05d8f))
+- AuthorListItem 스타일 수정 ([0a08b2b](https://github.com/SamikBeach/frontend/commit/0a08b2b110010bd0824ae61209f91ec3fca577d7))
+- book page와 author page의 RelativeBooks 컴포넌트에 BookGridItem 적용 ([54697e5](https://github.com/SamikBeach/frontend/commit/54697e516ad573c8d847220d1f7d20a9abca2fbb))
+- BookGridItem에 xsmall 사이즈 추가 및 RelativeBooks 컴포넌트 리팩토링 ([f4eb094](https://github.com/SamikBeach/frontend/commit/f4eb094f2f1f6fb05fd4c6855f1e73a142353931))
+- BookGridItem에 출판사와 출판년도 정보 추가 ([f64f579](https://github.com/SamikBeach/frontend/commit/f64f579587a85870b62a531b60546d5ae61f9144))
+- RelativeBooks에 BookGridItem 사용하도록 ([4c45539](https://github.com/SamikBeach/frontend/commit/4c4553908acb099fc64847a0178be499d21fd666))
+- ReviewInfo 컴포넌트 구조 개선 ([58610f7](https://github.com/SamikBeach/frontend/commit/58610f7c7ea4d7302c2c3a8a97f76e41f72a5f21))
+- **utils:** 날짜 포맷팅 유틸리티 함수 추가 및 구조 개선 ([6e44343](https://github.com/SamikBeach/frontend/commit/6e443432a5f90ebddad6982eea1c056833fcdf8b))
+- 검색 결과의 작가 아이템에 AuthorImage 컴포넌트 적용 ([7eb72c9](https://github.com/SamikBeach/frontend/commit/7eb72c9da600c696aae88e57802b0a2d2428f74a))
+- 검색어 하이라이팅 ([13a2ea8](https://github.com/SamikBeach/frontend/commit/13a2ea837e97fe424474f67a0d28f0d19c176e0a))
+- 다이얼로그에 뒤로가기 버튼 추가 ([7282a6d](https://github.com/SamikBeach/frontend/commit/7282a6d1b673f28d2802526c60a3d34b202db235))
+- 리뷰 작성/수정 시 캐시 업데이트 로직 개선 ([3e66fc9](https://github.com/SamikBeach/frontend/commit/3e66fc9111217570481aedaf1401583476373c50))
+- 리뷰 좋아요 토글 시 author-reviews 쿼리도 함께 업데이트되도록 수정 ([debe496](https://github.com/SamikBeach/frontend/commit/debe4965da4c79634f76bce3c43b22b579629d86))
+- 리뷰 좋아요 토글 시 book-reviews 쿼리 업데이트 로직 추가 ([67360d7](https://github.com/SamikBeach/frontend/commit/67360d71dac6f4568ec235385b138fd3dc98d73c))
+- 모든 책 이미지 컴포넌트를 BookImage로 교체 ([bcde67a](https://github.com/SamikBeach/frontend/commit/bcde67a8c63e5a45182a51b0eca98dbcc36d9fae))
+- 작가 선택 시에도 검색어가 초기화되도록 수정 ([fd4b34d](https://github.com/SamikBeach/frontend/commit/fd4b34dab7b1d87595e5050e1fefb1183dfbe6f9))
+- 책 상세 다이얼로그 페이지로 보기 버튼 디자인 개선 ([26a0f96](https://github.com/SamikBeach/frontend/commit/26a0f96b2e046d08d01b691195627870017c5335))
+- 책 상세 페이지 리뷰 버튼 디자인 간소화 ([fa2e995](https://github.com/SamikBeach/frontend/commit/fa2e99506733cad90aefa079ed2d611b1f9b5f3f))
+- 책과 작가 페이지의 보기 모드를 localStorage로 관리하도록 수정 ([2e376d2](https://github.com/SamikBeach/frontend/commit/2e376d22e09d345a8e3ba4eaa8b3540343ae82ee))
+
+## [1.44.2](https://github.com/SamikBeach/frontend/compare/1.44.1...1.44.2) (2025-01-20)
+
 ## [1.44.1](https://github.com/SamikBeach/frontend/compare/1.44.0...1.44.1) (2025-01-20)
 
 ### Bug Fixes
