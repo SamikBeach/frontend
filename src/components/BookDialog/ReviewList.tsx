@@ -3,6 +3,7 @@
 import { bookApi } from '@/apis/book/book';
 import { PaginatedResponse } from '@/apis/common/types';
 import { Review as ReviewType } from '@/apis/review/types';
+import { includeOtherTranslationsAtom } from '@/atoms/book';
 import { Review } from '@/components/Review';
 import EmptyReviews from '@/components/Review/EmptyReviews';
 import { ReviewSkeleton } from '@/components/Review/ReviewSkeleton';
@@ -14,7 +15,8 @@ import {
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
-import { RefObject, Suspense, useMemo, useState } from 'react';
+import { useAtom } from 'jotai';
+import { RefObject, Suspense, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 interface Props {
@@ -24,8 +26,9 @@ interface Props {
 }
 
 function ReviewListContent({ ref, bookId, scrollableTarget }: Props) {
-  const [includeOtherTranslations, setIncludeOtherTranslations] =
-    useState(false);
+  const [includeOtherTranslations, setIncludeOtherTranslations] = useAtom(
+    includeOtherTranslationsAtom
+  );
 
   const { data: book } = useSuspenseQuery({
     queryKey: ['book', bookId],
