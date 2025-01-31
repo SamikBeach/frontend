@@ -196,9 +196,6 @@ function Feed({ review, user, book }: FeedProps) {
                   {isTruncated && (
                     <Button
                       variant="link"
-                      onClick={e => {
-                        e.stopPropagation();
-                      }}
                       className="h-[14px] p-0 text-sm text-blue-500"
                     >
                       더보기
