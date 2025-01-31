@@ -14,10 +14,11 @@ import { isMobileDevice } from '@/utils/responsive';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CommentButton } from '../CommentButton';
 import { LikeButton } from '../LikeButton';
 import { LoginDialog } from '../LoginDialog';
+import { Button } from '../ui/button';
 import { toast } from '../ui/sonner';
 import { UserAvatar } from '../UserAvatar';
 import { WriteReviewDialog } from '../WriteReviewDialog';
@@ -37,6 +38,9 @@ function Feed({ review, user, book }: FeedProps) {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [isTruncated, setIsTruncated] = useState(false);
 
   const currentUser = useCurrentUser();
   const queryClient = useQueryClient();
@@ -76,6 +80,32 @@ function Feed({ review, user, book }: FeedProps) {
       toast.error('리뷰 삭제에 실패했습니다.');
     },
   });
+
+  useEffect(() => {
+    if (!contentRef.current) return;
+
+    const checkTruncation = () => {
+      const element = contentRef.current;
+      if (!element) return;
+
+      const contentHeight = Array.from(element.querySelectorAll('p')).reduce(
+        (total, p) => total + p.scrollHeight,
+        0
+      );
+      const containerHeight = element.clientHeight;
+
+      setIsTruncated(contentHeight > containerHeight);
+    };
+
+    const resizeObserver = new ResizeObserver(checkTruncation);
+    resizeObserver.observe(contentRef.current);
+
+    setTimeout(checkTruncation, 0);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [review.content]);
 
   const handleLikeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -160,8 +190,21 @@ function Feed({ review, user, book }: FeedProps) {
                 <h3 className="mb-2 text-base font-medium leading-snug text-gray-900">
                   {review.title}
                 </h3>
-                <div className="text-sm text-gray-600 [-webkit-box-orient:vertical] [-webkit-line-clamp:8] [display:-webkit-box] [overflow:hidden]">
-                  <FeedContent content={review.content} />
+                <div ref={contentRef} className="relative">
+                  <div className="text-sm text-gray-600 [-webkit-box-orient:vertical] [-webkit-line-clamp:8] [display:-webkit-box] [overflow:hidden]">
+                    <FeedContent content={review.content} />
+                  </div>
+                  {isTruncated && (
+                    <Button
+                      variant="link"
+                      onClick={e => {
+                        e.stopPropagation();
+                      }}
+                      className="h-[14px] p-0 text-sm text-blue-500"
+                    >
+                      더보기
+                    </Button>
+                  )}
                 </div>
               </div>
 

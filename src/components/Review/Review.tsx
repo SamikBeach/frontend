@@ -3,6 +3,7 @@ import { Review as ReviewType } from '@/apis/review/types';
 import { useCommentQueryData } from '@/hooks/queries/useCommentQueryData';
 import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { cn } from '@/utils/common';
 import { formatDate } from '@/utils/date';
 import { isMobileDevice } from '@/utils/responsive';
@@ -22,7 +23,6 @@ import CommentList from './CommentList';
 import DeleteReviewDialog from './DeleteReviewDialog';
 import ReviewActions from './ReviewActions';
 import ReviewContent from './ReviewContent';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 interface Props {
   review: ReviewType;
