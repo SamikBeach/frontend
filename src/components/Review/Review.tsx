@@ -22,6 +22,7 @@ import CommentList from './CommentList';
 import DeleteReviewDialog from './DeleteReviewDialog';
 import ReviewActions from './ReviewActions';
 import ReviewContent from './ReviewContent';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 interface Props {
   review: ReviewType;
@@ -54,6 +55,7 @@ export default function Review({
 
   const currentUser = useCurrentUser();
   const router = useRouter();
+  const isMd = useMediaQuery('(min-width: 768px)');
 
   const isMyReview = currentUser?.id === review.user.id;
 
@@ -224,10 +226,17 @@ export default function Review({
                 className="text-base leading-relaxed text-gray-800"
               />
             ) : (
-              <div ref={contentRef} className="relative">
+              <div
+                ref={contentRef}
+                className="relative"
+                onClick={() => !isMd && isTruncated && setIsExpanded(true)}
+              >
                 <ReviewContent
                   content={review.content}
-                  className="line-clamp-3 text-base leading-relaxed text-gray-800"
+                  className={cn(
+                    'line-clamp-3 text-base leading-relaxed text-gray-800',
+                    { 'cursor-pointer': !isMd && isTruncated }
+                  )}
                 />
                 {isTruncated && (
                   <Button
