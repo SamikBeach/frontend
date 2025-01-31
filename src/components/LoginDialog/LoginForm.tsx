@@ -9,6 +9,7 @@ import { useSetAtom } from 'jotai';
 import { useController, useForm } from 'react-hook-form';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import { toast } from '../ui/sonner';
 
 interface LoginFormData {
   email: string;
@@ -75,6 +76,7 @@ export default function LoginForm({
       const { accessToken, user } = response.data;
       localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, accessToken);
       setCurrentUser(user);
+      toast.success('로그인에 성공했습니다.');
       onSuccess?.();
     },
   });
@@ -101,6 +103,7 @@ export default function LoginForm({
       const { accessToken, user } = response.data;
       localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, accessToken);
       setCurrentUser(user);
+      toast.success('로그인에 성공했습니다.');
       onSuccess?.();
     },
   });
