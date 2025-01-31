@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.60.1](https://github.com/SamikBeach/frontend/compare/1.60.0...1.60.1) (2025-01-31)
+
+
+### Bug Fixes
+
+* 스타일 수정 ([e1a9c9d](https://github.com/SamikBeach/frontend/commit/e1a9c9dee8fc8f2b959917a1ddc7d63d10e8040c))
+
 # [1.60.0](https://github.com/SamikBeach/frontend/compare/1.59.4...1.60.0) (2025-01-31)
 
 
