@@ -1,5 +1,17 @@
 # 🚦 CHANGELOG
 
+# [1.61.0](https://github.com/SamikBeach/frontend/compare/1.60.1...1.61.0) (2025-01-31)
+
+
+### Bug Fixes
+
+* book-reviews 쿼리 데이터 업데이트 이슈 픽스 ([3c07cec](https://github.com/SamikBeach/frontend/commit/3c07cec7e88e704b46dd439643b35f0972ceab0f))
+
+
+### Features
+
+* 로그인 성공시 토스트 띄우기 ([17adfd4](https://github.com/SamikBeach/frontend/commit/17adfd4d0bc5499f8220d6698a154ecf663e1e21))
+
 ## [1.60.1](https://github.com/SamikBeach/frontend/compare/1.60.0...1.60.1) (2025-01-31)
 
 
