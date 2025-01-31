@@ -112,8 +112,8 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
       <div className="flex flex-col gap-4">
         <div className="flex items-start justify-between gap-2">
           <div className="flex flex-col gap-4">
-            <div className="flex flex-col items-start gap-4 md:flex-row">
-              <div className="flex items-center gap-4">
+            <div className="flex flex-col items-start gap-4">
+              <div className="flex w-full flex-col gap-x-4 gap-y-2 md:flex-row md:items-center">
                 <h1 className="text-3xl font-bold tracking-tight text-gray-900">
                   {review.title}
                 </h1>
@@ -139,27 +139,27 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
                     </span>
                   </div>
                 </Link>
-              </div>
-              <div
-                onClick={() => openBookDialog(review.book.id)}
-                className="hidden shrink-0 cursor-pointer items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100 md:flex"
-              >
-                <BookImage
-                  imageUrl={review.book.imageUrl}
-                  title={review.book.title}
-                  width={20}
-                  height={28}
-                  className="rounded-sm shadow-sm"
-                />
-                <div className="flex flex-col">
-                  <span className="text-xs font-medium text-gray-900">
-                    {review.book.title}
-                  </span>
-                  <span className="text-[11px] text-gray-500">
-                    {review.book.authorBooks
-                      .map(authorBook => authorBook.author.nameInKor)
-                      .join(', ')}
-                  </span>
+                <div
+                  onClick={() => openBookDialog(review.book.id)}
+                  className="hidden shrink-0 cursor-pointer items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100 md:flex"
+                >
+                  <BookImage
+                    imageUrl={review.book.imageUrl}
+                    title={review.book.title}
+                    width={20}
+                    height={28}
+                    className="rounded-sm shadow-sm"
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-xs font-medium text-gray-900">
+                      {review.book.title}
+                    </span>
+                    <span className="text-[11px] text-gray-500">
+                      {review.book.authorBooks
+                        .map(authorBook => authorBook.author.nameInKor)
+                        .join(', ')}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

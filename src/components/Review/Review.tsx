@@ -185,14 +185,21 @@ export default function Review({
     <>
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2">
-            <h3
-              className={`text-xl font-medium ${onClickTitle ? 'cursor-pointer hover:underline' : ''}`}
-              onClick={onClickTitle}
-            >
-              {review.title}
-            </h3>
-            {showBookInfo && (
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <h3
+                className={`text-xl font-medium ${onClickTitle ? 'cursor-pointer hover:underline' : ''}`}
+                onClick={onClickTitle}
+              >
+                {review.title}
+              </h3>
+              {showBookInfo && isMd && (
+                <div className="block w-fit">
+                  <BookLink book={review.book} />
+                </div>
+              )}
+            </div>
+            {showBookInfo && !isMd && (
               <div className="block w-fit">
                 <BookLink book={review.book} />
               </div>
