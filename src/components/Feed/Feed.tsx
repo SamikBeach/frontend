@@ -38,7 +38,6 @@ function Feed({ review, user, book }: FeedProps) {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isTruncated, setIsTruncated] = useState(false);
 
