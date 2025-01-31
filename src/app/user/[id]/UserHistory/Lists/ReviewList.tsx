@@ -6,8 +6,10 @@ import { userApi } from '@/apis/user/user';
 import { Review } from '@/components/Review';
 import { ReviewListSkeleton } from '@/components/Review/ReviewSkeleton';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
+import { isMobileDevice } from '@/utils/responsive';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
+import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -17,6 +19,7 @@ interface Props {
 
 export default function ReviewList({ userId }: Props) {
   const { open } = useDialogQuery({ type: 'review' });
+  const router = useRouter();
 
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<
     AxiosResponse<PaginatedResponse<ReviewType>>,
@@ -65,6 +68,10 @@ export default function ReviewList({ userId }: Props) {
             hideUserInfo
             showBookInfo
             onClickTitle={() => {
+              if (isMobileDevice()) {
+                router.push(`/review/${review.id}`);
+                return;
+              }
               open(review.id);
             }}
             disableClickActions
