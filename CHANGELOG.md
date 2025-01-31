@@ -1,5 +1,23 @@
 # 🚦 CHANGELOG
 
+# [1.60.0](https://github.com/SamikBeach/frontend/compare/1.59.4...1.60.0) (2025-01-31)
+
+
+### Bug Fixes
+
+* fix lint ([2ee7f55](https://github.com/SamikBeach/frontend/commit/2ee7f55d1b7ccb8c4466c8066aba24156dad786e))
+* review 페이지 스타일 수정 ([1ca6b2e](https://github.com/SamikBeach/frontend/commit/1ca6b2ec495f2a4be40de562987c5357fcff9551))
+* 더보기 버튼 동작 개선 ([bbcc559](https://github.com/SamikBeach/frontend/commit/bbcc559a5e2e1876e062bf0ebc6ecfcd1dd3ad82))
+* 리뷰 타이틀 클릭 핸들러 반응형 처리 ([fdec7fc](https://github.com/SamikBeach/frontend/commit/fdec7fc538e61560111ac38ba5134d11a9491598))
+* 불필요한 코드 제거 ([ba0af90](https://github.com/SamikBeach/frontend/commit/ba0af904fffb0237cbe5374a93a898634af14a9c))
+* 작가 이름 클릭 핸들러 반응형 처리 ([5c0971f](https://github.com/SamikBeach/frontend/commit/5c0971fdcac94c53f57aa9e0a47463bf26078f4e))
+
+
+### Features
+
+* 파비콘 접근성 개선: 루트 경로 추가 및 직접 링크 설정 ([d2cdf7e](https://github.com/SamikBeach/frontend/commit/d2cdf7eb2242e12998d06db042fe4aedf61558b7))
+* 피드 컴포넌트에 더보기 버튼 UI 추가 ([5745284](https://github.com/SamikBeach/frontend/commit/574528475eef2bdcb22ef124cb8cf67af5a40222))
+
 ## [1.59.4](https://github.com/SamikBeach/frontend/compare/1.59.3...1.59.4) (2025-01-30)
 
 
