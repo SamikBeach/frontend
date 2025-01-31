@@ -5,6 +5,7 @@ import { bookSearchKeywordAtom } from '@/atoms/book';
 import BookImage from '@/components/BookImage/BookImage';
 import { MOBILE_BREAKPOINT } from '@/constants/responsive';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
+import { isMobileDevice } from '@/utils/responsive';
 import { format } from 'date-fns';
 import { useAtomValue } from 'jotai';
 import { LibraryIcon, MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
@@ -33,6 +34,12 @@ export default function BookListItem({ book }: Props) {
 
   const handleAuthorClick = (authorId: number, e: React.MouseEvent) => {
     e.stopPropagation();
+
+    if (isMobileDevice()) {
+      router.push(`/author/${authorId}`);
+      return;
+    }
+
     openAuthorDialog(authorId);
   };
 
