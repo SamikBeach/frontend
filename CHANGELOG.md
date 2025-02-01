@@ -1,5 +1,18 @@
 # 🚦 CHANGELOG
 
+# [1.62.0](https://github.com/SamikBeach/frontend/compare/1.61.0...1.62.0) (2025-02-01)
+
+
+### Bug Fixes
+
+* 스타일 수정 ([2f62ad4](https://github.com/SamikBeach/frontend/commit/2f62ad4b9c0fa3372e62ac4b99f05203fbca98da))
+* 스타일 수정 ([c02631d](https://github.com/SamikBeach/frontend/commit/c02631db1351449b1a3d6b56ce0180b81d7dd281))
+
+
+### Features
+
+* RelativeBooks 캐러셀 동작 개선 ([8526458](https://github.com/SamikBeach/frontend/commit/852645874a2d2b9dda2e762001fb0a7b1c49cb50))
+
 # [1.61.0](https://github.com/SamikBeach/frontend/compare/1.60.1...1.61.0) (2025-01-31)
 
 
