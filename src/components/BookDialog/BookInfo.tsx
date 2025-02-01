@@ -126,7 +126,7 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
               </p>
               {book.bookOriginalWorks[0] && (
                 <div className="flex items-start gap-1 text-sm text-gray-500">
-                  <BookIcon className="mt-0.5 h-4 w-4" />
+                  <BookIcon className="mt-0.5 h-4 w-4 flex-shrink-0" />
                   {book.bookOriginalWorks[0].originalWork.title}(
                   {book.bookOriginalWorks[0].originalWork.titleInEng})
                 </div>
