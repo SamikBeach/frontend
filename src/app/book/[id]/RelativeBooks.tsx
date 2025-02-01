@@ -8,9 +8,10 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
 } from '@/components/ui/carousel';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 
 interface Props {
   bookId: number;
@@ -22,6 +23,31 @@ function RelativeBooksContent({ bookId }: Props) {
     queryFn: () => bookApi.getAllRelatedBooks(bookId),
     select: data => data.data,
   });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [showControls, setShowControls] = useState(false);
+  const [slidesToScroll, setSlidesToScroll] = useState(1);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const calculateVisibleItems = () => {
+      const containerWidth = containerRef.current?.offsetWidth ?? 0;
+      const itemWidth = 110; // basis-[110px]
+      const gap = 16; // gap-4
+      const visibleItems = Math.floor(
+        (containerWidth + gap) / (itemWidth + gap)
+      );
+      setShowControls(books.length > visibleItems);
+      setSlidesToScroll(visibleItems);
+    };
+
+    calculateVisibleItems();
+    window.addEventListener('resize', calculateVisibleItems);
+
+    return () => {
+      window.removeEventListener('resize', calculateVisibleItems);
+    };
+  }, [books.length]);
 
   if (books.length === 0) {
     return null;
@@ -35,16 +61,17 @@ function RelativeBooksContent({ bookId }: Props) {
           {books.length}
         </span>
       </div>
-      <div className="relative">
+      <div className="relative" ref={containerRef}>
         <Carousel
           className="w-full"
           opts={{
             loop: true,
             align: 'start',
             dragFree: true,
+            slidesToScroll,
           }}
         >
-          <CarouselContent className="w-[1080px] gap-4">
+          <CarouselContent className="gap-4">
             {books.map((book: Book) => (
               <CarouselItem key={book.id} className="basis-[110px]">
                 <BookGridItem
@@ -56,6 +83,7 @@ function RelativeBooksContent({ bookId }: Props) {
               </CarouselItem>
             ))}
           </CarouselContent>
+          {showControls && <CarouselNext className="-right-2" />}
         </Carousel>
       </div>
     </div>
