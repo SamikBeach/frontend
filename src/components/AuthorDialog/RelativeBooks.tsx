@@ -78,7 +78,7 @@ function RelativeBooksSkeleton() {
     <div className="flex flex-col gap-3">
       <Skeleton className="h-7 w-20" />
       <div className="relative">
-        <div className="flex gap-2">
+        <div className="flex gap-4">
           {Array.from({ length: 5 }).map((_, index) => (
             <BookGridItemSkeleton key={index} size="xsmall" />
           ))}
