@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.62.1](https://github.com/SamikBeach/frontend/compare/1.62.0...1.62.1) (2025-02-02)
+
+
+### Bug Fixes
+
+* 링크에 openInNewTab 추가 ([e9f711a](https://github.com/SamikBeach/frontend/commit/e9f711aaf9599210a1142a87e80a941f52a0f2c5))
+
 # [1.62.0](https://github.com/SamikBeach/frontend/compare/1.61.0...1.62.0) (2025-02-01)
 
 
