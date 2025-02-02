@@ -195,7 +195,7 @@ export default function Review({
               </h3>
               {showBookInfo && isMd && (
                 <div className="block w-fit">
-                  <BookLink book={review.book} />
+                  <BookLink book={review.book} openInNewTab />
                 </div>
               )}
             </div>
