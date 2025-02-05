@@ -77,32 +77,31 @@ export const authApi = {
   refresh: () => axios.post<TokenRefreshResponse>('/auth/refresh'),
 
   /**
-   * 비밀번호 재설정 이메일을 발송합니다.
+   * 비밀번호 재설정을 위한 인증 코드를 발송합니다.
    * @param email - 비밀번호를 재설정할 이메일 주소
    */
-  sendPasswordResetEmail: (email: string) =>
-    axios.post<{ message: string }>('/auth/password/reset-request', { email }),
+  sendPasswordResetCode: (email: string) =>
+    axios.post<{ message: string }>('/auth/password/send-code', { email }),
 
   /**
-   * 비밀번호 재설정 토큰의 유효성을 검증합니다.
+   * 비밀번호 재설정 인증 코드를 검증합니다.
    * @param email - 이메일 주소
-   * @param token - 재설정 토큰
+   * @param code - 인증 코드
    */
-  verifyPasswordResetToken: (email: string, token: string) =>
-    axios.get<{ valid: boolean }>('/auth/password/verify-token', {
-      params: { email, token },
+  verifyPasswordResetCode: (email: string, code: string) =>
+    axios.post<{ verified: boolean }>('/auth/password/verify-code', {
+      email,
+      code,
     }),
 
   /**
    * 새로운 비밀번호로 재설정합니다.
    * @param email - 이메일 주소
-   * @param token - 재설정 토큰
    * @param newPassword - 새로운 비밀번호
    */
-  resetPassword: (email: string, token: string, newPassword: string) =>
+  resetPassword: (email: string, newPassword: string) =>
     axios.post<{ message: string }>('/auth/password/reset', {
       email,
-      token,
       newPassword,
     }),
 };

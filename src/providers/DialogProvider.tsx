@@ -3,7 +3,6 @@
 import { dialogAtom } from '@/atoms/dialog';
 import { AuthorDialog } from '@/components/AuthorDialog';
 import { BookDialog } from '@/components/BookDialog';
-import ResetPasswordDialog from '@/components/ResetPasswordDialog/ResetPasswordDialog';
 import { ReviewDialog } from '@/components/ReviewDialog';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useAtom } from 'jotai';
@@ -42,7 +41,6 @@ export function DialogProvider({ children }: { children: React.ReactNode }) {
       <BookDialog />
       <ReviewDialog />
       <AuthorDialog />
-      <ResetPasswordDialog />
     </>
   );
 }

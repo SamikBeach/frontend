@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 import LoginForm from './LoginForm';
-import ResetPasswordRequestForm from './ResetPasswordRequestForm';
+import { ResetPasswordRequestForm } from './ResetPasswordRequestForm';
 import SignUpForm from './SignUpForm';
 import UserInfoForm from './UserInfoForm';
 import VerifyCodeForm from './VerifyCodeForm';
