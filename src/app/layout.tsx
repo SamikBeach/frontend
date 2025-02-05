@@ -93,6 +93,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'ko_KR',
+    title: '고전산책',
+    description: '시대를 초월한 지혜, 고전과 함께하는 새로운 독서 경험',
     alternateLocale: 'en_US',
     siteName: '고전산책',
     url: 'https://classicswalk.com',
