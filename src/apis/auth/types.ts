@@ -18,6 +18,7 @@ export interface RegisterCompleteDto {
 
 export interface AuthResponse {
   accessToken: string;
+  refreshToken?: string;
   user: UserBase;
 }
 
