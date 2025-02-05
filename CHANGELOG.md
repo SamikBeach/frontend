@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.62.2](https://github.com/SamikBeach/frontend/compare/1.62.1...1.62.2) (2025-02-05)
+
+
+### Bug Fixes
+
+* 자질구레 ([685c3d0](https://github.com/SamikBeach/frontend/commit/685c3d088d3aae266a2863f47b0e4fd1cfbe3dd7))
+
 ## [1.62.1](https://github.com/SamikBeach/frontend/compare/1.62.0...1.62.1) (2025-02-02)
 
 
