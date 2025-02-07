@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.62.4](https://github.com/SamikBeach/frontend/compare/1.62.3...1.62.4) (2025-02-07)
+
+
+### Bug Fixes
+
+* 모바일에서 작가 클릭시 페이지 이동 ([9e222c9](https://github.com/SamikBeach/frontend/commit/9e222c9e81debb0f76a80782659929f245c32353))
+
 ## [1.62.3](https://github.com/SamikBeach/frontend/compare/1.62.2...1.62.3) (2025-02-06)
 
 ## [1.62.2](https://github.com/SamikBeach/frontend/compare/1.62.1...1.62.2) (2025-02-05)
