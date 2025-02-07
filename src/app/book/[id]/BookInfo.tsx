@@ -84,6 +84,14 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
     }
   };
 
+  const handleAuthorClick = (authorId: number) => {
+    if (window.innerWidth < MOBILE_BREAKPOINT) {
+      router.push(`/author/${authorId}`);
+    } else {
+      openAuthorDialog(authorId);
+    }
+  };
+
   const formattedPublicationDate = book.publicationDate
     ? format(new Date(book.publicationDate), 'yyyy년 M월 d일')
     : '';
@@ -113,7 +121,7 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                   <Fragment key={authorBook.author.id}>
                     {index > 0 && ', '}
                     <span
-                      onClick={() => openAuthorDialog(authorBook.author.id)}
+                      onClick={() => handleAuthorClick(authorBook.author.id)}
                       className="cursor-pointer hover:underline"
                     >
                       {authorBook.author.nameInKor}
