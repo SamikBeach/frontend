@@ -1,5 +1,13 @@
 # 🚦 CHANGELOG
 
+# [1.63.0](https://github.com/SamikBeach/frontend/compare/1.62.4...1.63.0) (2025-02-08)
+
+
+### Features
+
+* privacy, support 페이지 추가 ([5300c21](https://github.com/SamikBeach/frontend/commit/5300c21c8f84340dcf7c6e2753244f0cd95938b4))
+* privacy, support 페이지 추가 ([05956a2](https://github.com/SamikBeach/frontend/commit/05956a2d49246fda5de2d0d6c0dda75147864cc6))
+
 ## [1.62.4](https://github.com/SamikBeach/frontend/compare/1.62.3...1.62.4) (2025-02-07)
 
 
