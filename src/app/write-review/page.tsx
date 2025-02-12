@@ -139,7 +139,7 @@ export default function WriteReviewPage() {
 
   return (
     <>
-      <div className="fixed inset-0 flex flex-col gap-4 overflow-hidden p-4 md:static md:h-full">
+      <div className="fixed inset-0 flex flex-col gap-4 overflow-hidden p-4 pt-16 md:static md:h-full">
         <BookInfo bookId={Number(bookId)} />
         <Input
           placeholder="제목"
