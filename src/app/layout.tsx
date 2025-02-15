@@ -29,6 +29,10 @@ export default async function RootLayout({
         {/* 파비콘 설정 - metadata에 이미 설정했는데 구글 검색 결과에 표시되지 않아서 추가해봄 */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/favicons/apple-touch-icon.png" />
+        <script
+          type="text/javascript"
+          src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"
+        ></script>
       </head>
       <body>
         <GoogleTagManager />

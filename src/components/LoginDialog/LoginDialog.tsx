@@ -53,7 +53,7 @@ export default function LoginDialog(props: Props) {
       }}
     >
       <DialogContent
-        className="flex h-[420px] w-96 flex-col"
+        className="flex h-[450px] w-96 flex-col"
         overlayClassName="bg-black/10"
         onPointerDownOutside={handlePointerDownOutside}
         aria-describedby={undefined}
