@@ -35,6 +35,7 @@ export default function ReportReviewActions({
   userId,
   userNickname,
 }: Props) {
+  const [open, setOpen] = useState(false);
   const [showBlockDialog, setShowBlockDialog] = useState(false);
   const [showReportDialog, setShowReportDialog] = useState(false);
 
@@ -47,7 +48,7 @@ export default function ReportReviewActions({
 
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0" aria-label="더보기">
             <MoreHorizontal className="h-4 w-4 text-gray-500" />
@@ -55,15 +56,21 @@ export default function ReportReviewActions({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem
-            onClick={() => setShowReportDialog(true)}
+            onSelect={() => {
+              setOpen(false);
+              setShowReportDialog(true);
+            }}
             className="cursor-pointer"
           >
             <Flag className="h-4 w-4" />
             리뷰 신고하기
           </DropdownMenuItem>
           <DropdownMenuItem
+            onSelect={() => {
+              setOpen(false);
+              setShowBlockDialog(true);
+            }}
             className="cursor-pointer text-red-600 focus:text-red-600"
-            onClick={() => setShowBlockDialog(true)}
           >
             <UserX className="h-4 w-4" />
             {userNickname} 차단하기
