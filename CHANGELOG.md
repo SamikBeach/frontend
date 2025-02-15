@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.64.1](https://github.com/SamikBeach/frontend/compare/1.64.0...1.64.1) (2025-02-15)
+
+
+### Bug Fixes
+
+* 애플 로고 SVG 여백 조정 ([678e65c](https://github.com/SamikBeach/frontend/commit/678e65c069ca3d9d3dc3e78fe839f098689e4e3c))
+
 # [1.64.0](https://github.com/SamikBeach/frontend/compare/1.63.2...1.64.0) (2025-02-15)
 
 
