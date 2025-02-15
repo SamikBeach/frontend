@@ -29,8 +29,18 @@ export const authApi = {
    * @param code - 구글 OAuth 인증 코드
    * @returns 액세스 토큰이 포함된 응답
    */
-  googleLogin: (code: string) =>
-    axios.post<AuthResponse>('/auth/login/google', { code }),
+  googleLogin: (data: {
+    code: string;
+    clientType?: 'ios' | 'android' | 'web';
+  }) => axios.post<AuthResponse>('/auth/login/google', data),
+
+  /**
+   * 애플 로그인을 수행합니다.
+   * @param idToken - 애플 ID 토큰
+   * @returns 액세스 토큰이 포함된 응답
+   */
+  appleLogin: (data: { idToken: string }) =>
+    axios.post<AuthResponse>('/auth/login/apple', data),
 
   /**
    * 이메일 주소의 사용 가능 여부를 확인합니다.

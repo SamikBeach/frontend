@@ -131,7 +131,7 @@ function CommentEditor({
             }
             size="sm"
             showNickname={false}
-            className="mt-0.5"
+            className="mt-1"
           />
         )}
 
@@ -141,7 +141,7 @@ function CommentEditor({
               contentEditable={
                 <ContentEditable
                   ref={ref}
-                  className="relative min-h-[40px] w-full resize-none rounded-lg px-4 py-2.5 pr-[76px] text-sm text-gray-900 outline-none"
+                  className="relative min-h-[40px] w-full resize-none rounded-lg px-4 py-2.5 pr-[76px] text-gray-900 outline-none"
                   onKeyDownCapture={e => {
                     if (e.metaKey && e.key === 'Enter') {
                       e.preventDefault();
@@ -156,7 +156,7 @@ function CommentEditor({
                 />
               }
               placeholder={
-                <div className="pointer-events-none absolute left-4 top-2.5 text-sm text-gray-400">
+                <div className="pointer-events-none absolute left-4 top-2.5 text-gray-400">
                   댓글을 입력하세요...
                 </div>
               }

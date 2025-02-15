@@ -51,9 +51,9 @@ export default function ReviewPageClient({ reviewId }: Props) {
           onReply={user => setReplyToUser(user)}
           scrollableTarget="dialog-content"
         />
-        <div className="sticky bottom-10 bg-white pt-4">
+        <div className="sticky bottom-4 bg-white pt-2">
           <div className="relative">
-            <div className="absolute -bottom-10 -left-10 -right-3 -top-4 bg-white pb-10 shadow-[0_-8px_12px_0px_white]" />
+            <div className="absolute -bottom-4 -left-10 -right-3 -top-2 bg-white shadow-[0_-8px_12px_0px_white]" />
             <div className="relative">
               <CommentEditor
                 onSubmit={createComment}

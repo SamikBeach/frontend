@@ -1,6 +1,7 @@
 import { authApi } from '@/apis/auth/auth';
 import { currentUserAtom } from '@/atoms/auth';
 import { STORAGE_KEYS } from '@/constants/storage-keys';
+import Apple from '@/svgs/apple';
 import Google from '@/svgs/google';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useMutation } from '@tanstack/react-query';
@@ -98,7 +99,8 @@ export default function LoginForm({
     reset: resetGoogleLoginError,
   } = useMutation({
     mutationKey: ['googleLogin'],
-    mutationFn: (code: string) => authApi.googleLogin(code),
+    mutationFn: (code: string) =>
+      authApi.googleLogin({ code, clientType: 'web' }),
     onSuccess: response => {
       const { accessToken, user } = response.data;
       localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, accessToken);
@@ -118,6 +120,60 @@ export default function LoginForm({
       console.error('Google login error:', error);
     },
   });
+
+  // 애플 로그인
+  const {
+    mutate: mutateAppleLogin,
+    isPending: isAppleLoginPending,
+    error: appleLoginError,
+  } = useMutation({
+    mutationKey: ['appleLogin'],
+    mutationFn: (idToken: string) => authApi.appleLogin({ idToken }),
+    onSuccess: response => {
+      console.log('appleLogin response:', response);
+      const { accessToken, user } = response.data;
+      localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, accessToken);
+      setCurrentUser(user);
+      toast.success('로그인에 성공했습니다.');
+      onSuccess?.();
+    },
+  });
+
+  const handleAppleLogin = async () => {
+    try {
+      // SDK가 로드되었는지 확인
+      if (!window.AppleID) {
+        toast.error(
+          '애플 로그인을 초기화하는 중입니다. 잠시 후 다시 시도해주세요.'
+        );
+        return;
+      }
+
+      await window.AppleID.auth.init({
+        clientId: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID!,
+        scope: 'name email',
+        redirectURI: process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI!,
+        state: crypto.randomUUID(),
+        nonce: crypto.randomUUID(),
+        usePopup: true,
+      });
+
+      const response = await window.AppleID.auth.signIn();
+
+      if (response.authorization?.id_token) {
+        mutateAppleLogin(response.authorization.id_token);
+      } else {
+        throw new Error('Failed to get id_token from Apple');
+      }
+    } catch (error) {
+      console.error('Apple login error:', error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error('애플 로그인에 실패했습니다.');
+      }
+    }
+  };
 
   return (
     <form
@@ -173,6 +229,24 @@ export default function LoginForm({
               {(googleLoginError as AxiosError<{ message: string }>).response
                 ?.data?.message ||
                 '구글 로그인에 실패했습니다. 다시 시도해주세요.'}
+            </span>
+          )}
+        </div>
+        <div className="flex flex-col gap-1">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleAppleLogin}
+            disabled={isAppleLoginPending}
+          >
+            <Apple />
+            {isAppleLoginPending ? '로그인 중...' : '애플 계정으로 로그인'}
+          </Button>
+          {appleLoginError && (
+            <span className="text-xs text-red-500">
+              {(appleLoginError as AxiosError<{ message: string }>).response
+                ?.data?.message ||
+                '애플 로그인에 실패했습니다. 다시 시도해주세요.'}
             </span>
           )}
         </div>
