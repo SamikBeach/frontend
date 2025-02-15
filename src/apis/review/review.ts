@@ -11,6 +11,13 @@ import type {
   UpdateReviewDto,
 } from './types';
 
+export type ReportReason =
+  | 'INAPPROPRIATE'
+  | 'SPAM'
+  | 'COPYRIGHT'
+  | 'HATE_SPEECH'
+  | 'OTHER';
+
 export const reviewApi = {
   /**
    * 리뷰 목록을 검색합니다.
@@ -111,4 +118,10 @@ export const reviewApi = {
     axios.post<{ liked: boolean }>(
       `/review/${reviewId}/comment/${commentId}/like`
     ),
+
+  /**
+   * 리뷰를 신고합니다.
+   */
+  reportReview: (reviewId: number, { reason }: { reason: ReportReason }) =>
+    axios.post<{ message: string }>(`/review/${reviewId}/report`, { reason }),
 };

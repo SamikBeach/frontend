@@ -142,4 +142,21 @@ export const userApi = {
 
   deleteSearch: (searchId: number) =>
     axios.delete<{ message: string }>(`/user/me/search/${searchId}`),
+
+  /**
+   * 사용자를 차단합니다.
+   */
+  blockUser: (userId: number) =>
+    axios.post<{ message: string }>(`/user/${userId}/block`),
+
+  /**
+   * 사용자 차단을 해제합니다.
+   */
+  unblockUser: (userId: number) =>
+    axios.delete<{ message: string }>(`/user/${userId}/block`),
+
+  /**
+   * 차단한 사용자 목록을 조회합니다.
+   */
+  getBlockedUsers: () => axios.get<UserBase[]>('/user/me/blocked'),
 };

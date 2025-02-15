@@ -5,6 +5,7 @@ import BookImage from '@/components/BookImage/BookImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { LoginDialog } from '@/components/LoginDialog';
+import ReportReviewActions from '@/components/Review/ReportReviewActions';
 import ReviewActions from '@/components/Review/ReviewActions';
 import ReviewContent from '@/components/Review/ReviewContent';
 import DeleteReviewDialog from '@/components/ReviewDialog/DeleteReviewDialog';
@@ -174,12 +175,18 @@ function ReviewInfoContent({ reviewId, commentListRef }: Props) {
               </span>
             </div>
           </div>
-          {isMyReview && (
+          {isMyReview ? (
             <ReviewActions
               onEdit={handleEdit}
               onDelete={() => setShowDeleteAlert(true)}
             />
-          )}
+          ) : currentUser ? (
+            <ReportReviewActions
+              reviewId={review.id}
+              userId={review.user.id}
+              userNickname={review.user.nickname}
+            />
+          ) : null}
         </div>
 
         <div className="mb-8 whitespace-pre-wrap text-base leading-relaxed text-gray-800">
