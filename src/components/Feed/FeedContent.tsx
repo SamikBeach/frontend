@@ -31,7 +31,7 @@ function Content({ content }: Props) {
     <RichTextPlugin
       contentEditable={
         <ContentEditable
-          className="text-[15px] outline-none [&_p]:m-0"
+          className="text-[15px] leading-6 outline-none [&_p]:m-0"
           readOnly
         />
       }
