@@ -8,6 +8,7 @@ import { LoginDialog } from '@/components/LoginDialog';
 import ReviewActions from '@/components/Review/ReviewActions';
 import ReviewContent from '@/components/Review/ReviewContent';
 import DeleteReviewDialog from '@/components/ReviewDialog/DeleteReviewDialog';
+import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from '@/components/ui/sonner';
 import { UserAvatar } from '@/components/UserAvatar';
 import { WriteReviewDialog } from '@/components/WriteReviewDialog';
@@ -225,36 +226,39 @@ function ReviewInfoSkeleton() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-start justify-between gap-8">
-        <div className="flex flex-col gap-2">
-          <div className="h-9 w-96 animate-pulse rounded-md bg-gray-200" />
+        <div className="flex w-full flex-col gap-4">
+          <div className="flex flex-col items-start gap-4">
+            <div className="flex w-full flex-col gap-x-4 gap-y-2 md:flex-row md:items-center">
+              <Skeleton className="h-9 w-full md:w-96" />
+              <div className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 p-2.5">
+                <Skeleton className="h-9 w-6" />
+                <div className="flex flex-col gap-0.5">
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-3 w-20" />
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="flex items-center gap-1">
             <div className="flex items-center gap-2">
-              <div className="h-7 w-7 animate-pulse rounded-full bg-gray-200" />
-              <div className="h-5 w-20 animate-pulse rounded-md bg-gray-200" />
+              <Skeleton className="h-7 w-7 rounded-full" />
+              <Skeleton className="h-5 w-20" />
             </div>
-            <div className="h-5 w-2 animate-pulse rounded-md bg-gray-200" />
-            <div className="h-5 w-36 animate-pulse rounded-md bg-gray-200" />
-          </div>
-        </div>
-
-        <div className="flex shrink-0 items-center gap-2 rounded-lg bg-gray-50 p-2.5">
-          <div className="h-14 w-10 animate-pulse rounded-sm bg-gray-200" />
-          <div className="flex flex-col gap-0.5">
-            <div className="h-4 w-24 animate-pulse rounded-md bg-gray-200" />
-            <div className="h-3 w-20 animate-pulse rounded-md bg-gray-200" />
+            <Skeleton className="h-5 w-2" />
+            <Skeleton className="h-5 w-36" />
           </div>
         </div>
       </div>
 
       <div className="mb-8 flex flex-col gap-1">
-        <div className="h-6 w-full animate-pulse rounded-md bg-gray-200" />
-        <div className="h-6 w-full animate-pulse rounded-md bg-gray-200" />
-        <div className="h-6 w-2/3 animate-pulse rounded-md bg-gray-200" />
+        <Skeleton className="h-6 w-full" />
+        <Skeleton className="h-6 w-full" />
+        <Skeleton className="h-6 w-2/3" />
       </div>
 
       <div className="flex justify-center gap-2">
-        <div className="h-9 w-20 animate-pulse rounded-md bg-gray-200" />
-        <div className="h-9 w-20 animate-pulse rounded-md bg-gray-200" />
+        <Skeleton className="h-9 w-20" />
+        <Skeleton className="h-9 w-20" />
       </div>
     </div>
   );
