@@ -46,6 +46,7 @@ export default function ReportReviewActions({
       toast.success('사용자를 차단했습니다.');
       queryClient.invalidateQueries({ queryKey: ['reviews'] });
       queryClient.invalidateQueries({ queryKey: ['review'] });
+      queryClient.invalidateQueries({ queryKey: ['blockedUsers'] });
     },
   });
 

@@ -1,25 +1,24 @@
 'use client';
 
+import { UserBase } from '@/apis/user/types';
 import { userApi } from '@/apis/user/user';
 import { Button } from '@/components/ui/button';
 import { UserAvatar } from '@/components/UserAvatar';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import BlockedUsersListSkeleton from './BlockedUsersListSkeleton';
 
 export default function BlockedUsersList() {
   const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
 
-  const { data: blockedUsers = [] } = useSuspenseQuery({
+  const { data: blockedUsers = [], isLoading } = useQuery<UserBase[]>({
     queryKey: ['blockedUsers'],
-    queryFn: () => {
-      return userApi.getBlockedUsers();
+    queryFn: async () => {
+      const response = await userApi.getBlockedUsers();
+      return response.data;
     },
-    select: response => response?.data,
+    enabled: !!currentUser,
   });
 
   const { mutate: unblockUser } = useMutation({
@@ -30,6 +29,10 @@ export default function BlockedUsersList() {
       queryClient.invalidateQueries({ queryKey: ['review'] });
     },
   });
+
+  if (isLoading || !currentUser) {
+    return <BlockedUsersListSkeleton />;
+  }
 
   return (
     <div className="flex flex-col gap-6">
