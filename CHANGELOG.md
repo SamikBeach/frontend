@@ -1,5 +1,20 @@
 # 🚦 CHANGELOG
 
+# [1.64.0](https://github.com/SamikBeach/frontend/compare/1.63.2...1.64.0) (2025-02-15)
+
+
+### Bug Fixes
+
+* 댓글 영역 여백 수정 ([6839787](https://github.com/SamikBeach/frontend/commit/68397871b4a81854daf3c4f6c63d083386b57636))
+* 애플 로고 SVG 크기 조정 ([d9edab3](https://github.com/SamikBeach/frontend/commit/d9edab367637b5cbbd31f7b478ff251efd184628))
+
+
+### Features
+
+* CommentEditor 텍스트 크기 수정 ([7ca9e9c](https://github.com/SamikBeach/frontend/commit/7ca9e9ce7b6d7792b1de63aa26cba788b091c270))
+* 스켈레톤 스타일 수정 ([1064dfd](https://github.com/SamikBeach/frontend/commit/1064dfd8bc6b8cbf999e1d6cf47689f9317b2da4))
+* 애플 로그인 구현 ([025d165](https://github.com/SamikBeach/frontend/commit/025d16583b0b62288a898a8d403116c3a86bb385))
+
 ## [1.63.2](https://github.com/SamikBeach/frontend/compare/1.63.1...1.63.2) (2025-02-13)
 
 ## [1.63.1](https://github.com/SamikBeach/frontend/compare/1.63.0...1.63.1) (2025-02-12)
