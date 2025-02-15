@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.66.0](https://github.com/SamikBeach/frontend/compare/1.65.0...1.66.0) (2025-02-15)
+
+
+### Features
+
+* 리뷰 중복 신고 시 알림 다이얼로그로 변경 ([d3c5632](https://github.com/SamikBeach/frontend/commit/d3c56329d780e10abb9a9baf0a6a4bedf99d9bac))
+
 # [1.65.0](https://github.com/SamikBeach/frontend/compare/1.64.1...1.65.0) (2025-02-15)
 
 
