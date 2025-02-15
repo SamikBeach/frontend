@@ -50,19 +50,22 @@ export default function ReportReviewActions({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0" aria-label="더보기">
-            <MoreHorizontal className="h-4 w-4" />
+            <MoreHorizontal className="h-4 w-4 text-gray-500" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => setShowReportDialog(true)}>
-            <Flag className="mr-2 h-4 w-4" />
+          <DropdownMenuItem
+            onClick={() => setShowReportDialog(true)}
+            className="cursor-pointer"
+          >
+            <Flag className="h-4 w-4" />
             리뷰 신고하기
           </DropdownMenuItem>
           <DropdownMenuItem
-            className="text-red-600 focus:text-red-600"
+            className="cursor-pointer text-red-600 focus:text-red-600"
             onClick={() => setShowBlockDialog(true)}
           >
-            <UserX className="mr-2 h-4 w-4" />
+            <UserX className="h-4 w-4" />
             {userNickname} 차단하기
           </DropdownMenuItem>
         </DropdownMenuContent>
