@@ -190,7 +190,7 @@ function Feed({ review, user, book }: FeedProps) {
                   {review.title}
                 </h3>
                 <div ref={contentRef} className="relative">
-                  <div className="text-sm text-gray-600 [-webkit-box-orient:vertical] [-webkit-line-clamp:8] [display:-webkit-box] [overflow:hidden]">
+                  <div className="text-sm text-gray-700 [-webkit-box-orient:vertical] [-webkit-line-clamp:8] [display:-webkit-box] [overflow:hidden]">
                     <FeedContent content={review.content} />
                   </div>
                   {isTruncated && (

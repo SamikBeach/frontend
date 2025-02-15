@@ -143,7 +143,7 @@ function UserInfoContent({ userId }: Props) {
                       variant="outline"
                       className="h-6 w-6 rounded-full bg-background shadow-md hover:bg-accent md:h-8 md:w-8"
                     >
-                      <MoreHorizontalIcon className="h-3 w-3 md:h-4 md:w-4" />
+                      <MoreHorizontalIcon className="h-3 w-3 text-gray-500 md:h-4 md:w-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">

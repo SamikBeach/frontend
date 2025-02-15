@@ -21,6 +21,7 @@ import { UserAvatar } from '../UserAvatar';
 import { WriteReviewDialog } from '../WriteReviewDialog';
 import CommentList from './CommentList';
 import DeleteReviewDialog from './DeleteReviewDialog';
+import ReportReviewActions from './ReportReviewActions';
 import ReviewActions from './ReviewActions';
 import ReviewContent from './ReviewContent';
 
@@ -205,14 +206,22 @@ export default function Review({
               </div>
             )}
           </div>
-          {isMyReview && (
+          {isMyReview ? (
             <div className="ml-auto p-0.5">
               <ReviewActions
                 onEdit={handleEdit}
                 onDelete={() => setShowDeleteAlert(true)}
               />
             </div>
-          )}
+          ) : currentUser ? (
+            <div className="ml-auto p-0.5">
+              <ReportReviewActions
+                reviewId={review.id}
+                userId={review.user.id}
+                userNickname={review.user.nickname}
+              />
+            </div>
+          ) : null}
         </div>
         <div className="flex items-center gap-2">
           {!hideUserInfo && (
