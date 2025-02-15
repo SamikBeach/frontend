@@ -210,6 +210,7 @@ export default function SignUpForm({
           variant="outline"
           onClick={handleAppleLogin}
           disabled={isAppleLoginPending}
+          className="flex items-center gap-0.5"
         >
           <Apple />
           {isAppleLoginPending ? '로그인 중...' : '애플 계정으로 회원가입'}
