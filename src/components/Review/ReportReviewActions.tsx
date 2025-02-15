@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { toast } from '@/components/ui/sonner';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Flag, MoreHorizontal, UserX } from 'lucide-react';
 import { useState } from 'react';
 import { ReportReasonDialog } from './ReportReasonDialog';
@@ -38,11 +38,14 @@ export default function ReportReviewActions({
   const [open, setOpen] = useState(false);
   const [showBlockDialog, setShowBlockDialog] = useState(false);
   const [showReportDialog, setShowReportDialog] = useState(false);
+  const queryClient = useQueryClient();
 
   const { mutate: blockUser } = useMutation({
     mutationFn: () => userApi.blockUser(userId),
     onSuccess: () => {
       toast.success('사용자를 차단했습니다.');
+      queryClient.invalidateQueries({ queryKey: ['reviews'] });
+      queryClient.invalidateQueries({ queryKey: ['review'] });
     },
   });
 
