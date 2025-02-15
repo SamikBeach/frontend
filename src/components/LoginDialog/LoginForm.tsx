@@ -232,24 +232,22 @@ export default function LoginForm({
             </span>
           )}
         </div>
-        <div className="flex flex-col gap-1">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleAppleLogin}
-            disabled={isAppleLoginPending}
-          >
-            <Apple />
-            {isAppleLoginPending ? '로그인 중...' : '애플 계정으로 로그인'}
-          </Button>
-          {appleLoginError && (
-            <span className="text-xs text-red-500">
-              {(appleLoginError as AxiosError<{ message: string }>).response
-                ?.data?.message ||
-                '애플 로그인에 실패했습니다. 다시 시도해주세요.'}
-            </span>
-          )}
-        </div>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handleAppleLogin}
+          disabled={isAppleLoginPending}
+          className="flex items-center gap-0.5"
+        >
+          <Apple />
+          {isAppleLoginPending ? '로그인 중...' : '애플 계정으로 로그인'}
+        </Button>
+        {appleLoginError && (
+          <span className="text-xs text-red-500">
+            {(appleLoginError as AxiosError<{ message: string }>).response?.data
+              ?.message || '애플 로그인에 실패했습니다. 다시 시도해주세요.'}
+          </span>
+        )}
       </div>
       <div className="flex flex-col items-center gap-1 text-sm">
         <Button
