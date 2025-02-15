@@ -1,5 +1,21 @@
 # 🚦 CHANGELOG
 
+# [1.65.0](https://github.com/SamikBeach/frontend/compare/1.64.1...1.65.0) (2025-02-15)
+
+
+### Bug Fixes
+
+* 사용자 차단 로직 개선 ([b958100](https://github.com/SamikBeach/frontend/commit/b95810099da9e6ff1dfe3b04d9e72ddf42f962e7))
+* 포커스 이슈 해결 ([362f918](https://github.com/SamikBeach/frontend/commit/362f91855573028fd9b2cdccbc7129cc270d2d67))
+* 피드 컬러 수정 ([d1d9d02](https://github.com/SamikBeach/frontend/commit/d1d9d02068da9f5ddb09eee21366a795d072b007))
+
+
+### Features
+
+* 사용자 차단 로직 개선 ([2ee9b2c](https://github.com/SamikBeach/frontend/commit/2ee9b2c6455078c9fc6fd7ae70f32c295bd87899))
+* 사용자 차단 및 신고 기능 추가 ([1319c24](https://github.com/SamikBeach/frontend/commit/1319c24ee11794b74b07e6ecfebba4bf438e2135))
+* 아이콘 스타일 수정 ([cbc0da2](https://github.com/SamikBeach/frontend/commit/cbc0da25a450405c94f85a9a55c4490c9bb1879d))
+
 ## [1.64.1](https://github.com/SamikBeach/frontend/compare/1.64.0...1.64.1) (2025-02-15)
 
 
