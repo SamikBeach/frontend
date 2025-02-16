@@ -1,5 +1,18 @@
 # 🚦 CHANGELOG
 
+# [1.67.0](https://github.com/SamikBeach/frontend/compare/1.66.0...1.67.0) (2025-02-16)
+
+
+### Bug Fixes
+
+* Feed lineheight 수정 ([a985de7](https://github.com/SamikBeach/frontend/commit/a985de779ed54858be42c310f4cc3c7a8840b19d))
+* 폰트 사이즈 수정 ([40c1dee](https://github.com/SamikBeach/frontend/commit/40c1deedb61629222378d12aae0e567e3d421aeb))
+
+
+### Features
+
+* search review limit 수정 ([f096adf](https://github.com/SamikBeach/frontend/commit/f096adf774267acbeda7e1216e6acfbbfda41ef4))
+
 # [1.66.0](https://github.com/SamikBeach/frontend/compare/1.65.0...1.66.0) (2025-02-15)
 
 
