@@ -24,7 +24,7 @@ function FeedList() {
     queryFn: async ({ pageParam = 1 }) => {
       return await reviewApi.searchReviews({
         page: pageParam as number,
-        limit: 10,
+        limit: 5,
         sortBy: tab === 'popular' ? 'likeCount:DESC' : 'createdAt:DESC',
       });
     },

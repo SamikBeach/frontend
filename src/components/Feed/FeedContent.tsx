@@ -30,7 +30,10 @@ function Content({ content }: Props) {
   return (
     <RichTextPlugin
       contentEditable={
-        <ContentEditable className="outline-none [&_p]:m-0" readOnly />
+        <ContentEditable
+          className="text-[15px] leading-6 outline-none [&_p]:m-0"
+          readOnly
+        />
       }
       placeholder={null}
       ErrorBoundary={LexicalErrorBoundary}
