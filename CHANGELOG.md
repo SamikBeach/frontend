@@ -1,5 +1,14 @@
 # 🚦 CHANGELOG
 
+## [1.67.1](https://github.com/SamikBeach/frontend/compare/1.67.0...1.67.1) (2025-02-18)
+
+
+### Bug Fixes
+
+* meta description 문구 수정 ([9cb0596](https://github.com/SamikBeach/frontend/commit/9cb0596862fe769b8e920817406c485603c78b83))
+* meta description 수정 ([87b2af5](https://github.com/SamikBeach/frontend/commit/87b2af52b3246b0615e8d77ef0a2a23fa06a6442))
+* Review에서 책 정보 노출 방식 수정 ([3163885](https://github.com/SamikBeach/frontend/commit/31638851611e6994bfaaafd8d80f74089c9037f5))
+
 # [1.67.0](https://github.com/SamikBeach/frontend/compare/1.66.0...1.67.0) (2025-02-16)
 
 
