@@ -1,4 +1,5 @@
 import { authorApi } from '@/apis/author/author';
+import { formatAuthorLifespan } from '@/utils/date';
 import { Metadata } from 'next';
 import { use } from 'react';
 import AuthorPageClient from './AuthorPageClient';
@@ -10,14 +11,23 @@ type Props = {
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
   const authorId = Number(params.id);
-  const author = await authorApi
-    .getAuthorDetail(authorId)
-    .then(res => res.data);
+  const { data: author } = await authorApi.getAuthorDetail(authorId);
 
   const title = `${author.nameInKor} - 작가 프로필`;
-  const description = `작가 ${author.nameInKor}의 프로필과 작품 목록을 확인하세요.`;
+  const lifespan = formatAuthorLifespan(
+    author.bornDate,
+    author.bornDateIsBc,
+    author.diedDate,
+    author.diedDateIsBc
+  );
 
-  return {
+  const description = [
+    `${author.nameInKor} 작가의 프로필과 작품 목록.`,
+    `${author.bookCount}개의 책과 ${author.reviewCount}개의 리뷰.`,
+    lifespan,
+  ].join(' ');
+
+  const metadata: Metadata = {
     title,
     description,
     openGraph: {
@@ -37,6 +47,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       images: author.imageUrl ? [author.imageUrl] : [],
     },
   };
+
+  return metadata;
 }
 
 export default function AuthorPage(props: Props) {

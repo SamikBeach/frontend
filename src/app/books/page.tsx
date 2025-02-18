@@ -4,10 +4,12 @@ import Tabs from './Tabs/Tabs';
 
 export const metadata: Metadata = {
   title: '도서 목록',
-  description: '고전 도서 목록',
+  description:
+    '시간이 검증한 고전을 한눈에. 다양한 시대와 장르의 고전을 만나보세요',
   openGraph: {
     title: '도서 목록 | 고전산책',
-    description: '고전 도서 목록',
+    description:
+      '시간이 검증한 고전을 한눈에. 다양한 시대와 장르의 고전을 만나보세요',
     url: 'https://classicswalk.com/books',
   },
 };

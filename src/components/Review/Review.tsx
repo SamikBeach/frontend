@@ -3,6 +3,7 @@ import { Review as ReviewType } from '@/apis/review/types';
 import { useCommentQueryData } from '@/hooks/queries/useCommentQueryData';
 import { useReviewQueryData } from '@/hooks/queries/useReviewQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { cn } from '@/utils/common';
 import { formatDate } from '@/utils/date';
@@ -12,6 +13,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { MessageSquareIcon, ThumbsUpIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import BookImage from '../BookImage/BookImage';
 import BookLink from '../BookLink/BookLink';
 import CommentEditor from '../CommentEditor/CommentEditor';
 import { LoginDialog } from '../LoginDialog';
@@ -54,9 +56,11 @@ export default function Review({
   );
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
 
+  const { open: openBookDialog } = useDialogQuery({ type: 'book' });
+
   const currentUser = useCurrentUser();
   const router = useRouter();
-  const isMd = useMediaQuery('(min-width: 768px)');
+  const isDesktop = useMediaQuery('(min-width: 768px)');
 
   const isMyReview = currentUser?.id === review.user.id;
 
@@ -194,13 +198,32 @@ export default function Review({
               >
                 {review.title}
               </h3>
-              {showBookInfo && isMd && (
-                <div className="block w-fit">
-                  <BookLink book={review.book} openInNewTab />
+              {showBookInfo && isDesktop && (
+                <div
+                  className="flex shrink-0 cursor-pointer items-center gap-2 rounded-lg bg-gray-50 px-2 py-1 transition-colors hover:bg-gray-100"
+                  onClick={() => openBookDialog(review.book.id)}
+                >
+                  <BookImage
+                    imageUrl={review.book.imageUrl}
+                    title={review.book.title}
+                    width={20}
+                    height={28}
+                    className="rounded-sm shadow-sm"
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-xs font-medium text-gray-900">
+                      {review.book.title}
+                    </span>
+                    <span className="text-[11px] text-gray-500">
+                      {review.book.authorBooks
+                        .map(authorBook => authorBook.author.nameInKor)
+                        .join(', ')}
+                    </span>
+                  </div>
                 </div>
               )}
             </div>
-            {showBookInfo && !isMd && (
+            {showBookInfo && !isDesktop && (
               <div className="block w-fit">
                 <BookLink book={review.book} />
               </div>
@@ -245,13 +268,13 @@ export default function Review({
               <div
                 ref={contentRef}
                 className="relative"
-                onClick={() => !isMd && isTruncated && setIsExpanded(true)}
+                onClick={() => !isDesktop && isTruncated && setIsExpanded(true)}
               >
                 <ReviewContent
                   content={review.content}
                   className={cn(
                     'line-clamp-3 text-base leading-relaxed text-gray-800',
-                    { 'cursor-pointer': !isMd && isTruncated }
+                    { 'cursor-pointer': !isDesktop && isTruncated }
                   )}
                 />
                 {isTruncated && (
