@@ -33,6 +33,17 @@ export default async function RootLayout({
           type="text/javascript"
           src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"
         ></script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: '고전산책',
+            alternateName: 'ClassicsWalk',
+            url: 'https://classicswalk.com',
+            description:
+              '시간이 검증한 고전과 함께하는 특별한 독서 경험. 서로의 생각을 나누며 독서의 깊이를 더해보세요.',
+          })}
+        </script>
       </head>
       <body>
         <GoogleTagManager />
@@ -79,7 +90,8 @@ export const metadata: Metadata = {
     template: '%s | 고전산책',
     default: '고전산책',
   },
-  description: '시대를 초월한 지혜, 고전과 함께하는 새로운 독서 경험',
+  description:
+    '시간이 검증한 고전과 함께하는 특별한 독서 경험. 리뷰를 통해 생각을 나누고 더 깊이 있게 고전을 만나보세요.',
   keywords: [
     '고전',
     '독서',
@@ -90,6 +102,11 @@ export const metadata: Metadata = {
     '독서기록',
     '인문학',
     '고전번역',
+    '번역본',
+    '독서경험',
+    '독서커뮤니티',
+    '생각나누기',
+    '독서토론',
     'classics',
     'books',
     'literature',
@@ -98,7 +115,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'ko_KR',
     title: '고전산책',
-    description: '시대를 초월한 지혜, 고전과 함께하는 새로운 독서 경험',
+    description:
+      '시간이 검증한 고전과 함께하는 특별한 독서 경험. 리뷰를 통해 생각을 나누고 더 깊이 있게 고전을 만나보세요.',
     alternateLocale: 'en_US',
     siteName: '고전산책',
     url: 'https://classicswalk.com',
@@ -107,7 +125,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: '고전산책',
-    description: '시대를 초월한 지혜, 고전과 함께하는 새로운 독서 경험',
+    description:
+      '시간이 검증한 고전과 함께하는 특별한 독서 경험. 리뷰를 통해 생각을 나누고 더 깊이 있게 고전을 만나보세요.',
     images: ['/images/og-image.png'],
   },
   robots: {
