@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.68.0](https://github.com/SamikBeach/frontend/compare/1.67.1...1.68.0) (2025-02-23)
+
+
+### Features
+
+* useTextTruncated 주석 추가 ([815a88d](https://github.com/SamikBeach/frontend/commit/815a88d54ab56bf61352fc212834503d05739767))
+
 ## [1.67.1](https://github.com/SamikBeach/frontend/compare/1.67.0...1.67.1) (2025-02-18)
 
 
