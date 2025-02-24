@@ -6,6 +6,7 @@ export interface Author extends BaseEntity {
   name: string;
   nameInKor: string;
   imageUrl: string | null;
+  description: string | null;
   bornDate: string | null;
   bornDateIsBc: boolean | null;
   diedDate: string | null;

@@ -5,6 +5,7 @@ import AuthorImage from '@/components/AuthorImage/AuthorImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
 import { LoginDialog } from '@/components/LoginDialog';
+import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthorQueryData } from '@/hooks/queries/useAuthorQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
@@ -21,6 +22,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
 
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const { updateAuthorLikeQueryData } = useAuthorQueryData();
 
@@ -80,38 +82,59 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
             }
           />
           <div className="flex w-full flex-col justify-between gap-4">
-            <div className="flex flex-col gap-0.5">
-              <h1 className="text-lg font-bold md:text-2xl">
-                {author.nameInKor}
-              </h1>
-              <p className="text-sm text-gray-500 md:text-base">
-                {author.name}
-              </p>
-              <p className="text-sm text-gray-400 md:text-base">
-                {formatAuthorLifespan(
-                  author.bornDate,
-                  author.bornDateIsBc,
-                  author.diedDate,
-                  author.diedDateIsBc
+            <div className="flex flex-col gap-1">
+              <div className="space-y-1">
+                <div className="flex items-baseline gap-3">
+                  <h1 className="text-2xl font-bold tracking-tight text-gray-800 md:text-3xl">
+                    {author.nameInKor}
+                  </h1>
+                  <div className="flex items-center gap-2 text-gray-700">
+                    <span className="text-base font-bold md:text-lg">
+                      {author.name}
+                    </span>
+                    <span className="text-sm md:text-base">
+                      {formatAuthorLifespan(
+                        author.bornDate,
+                        author.bornDateIsBc,
+                        author.diedDate,
+                        author.diedDateIsBc
+                      )}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <p
+                  className={`whitespace-pre-wrap text-sm leading-relaxed text-gray-700 md:text-base ${
+                    !isExpanded ? 'line-clamp-3' : ''
+                  }`}
+                >
+                  {author.description}
+                </p>
+                {author.description && author.description.length > 200 && (
+                  <Button
+                    variant="ghost"
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="mb-1 h-4 p-0 text-blue-600 hover:bg-transparent hover:text-blue-500"
+                  >
+                    {isExpanded ? '접기' : '더보기'}
+                  </Button>
                 )}
-              </p>
-              <p className="mt-1 text-xs text-gray-400">
-                정보 제공: 위키피디아
-              </p>
+                <p className="text-xs text-gray-400">정보 제공: 위키피디아</p>
+              </div>
             </div>
 
-            <div className="flex w-full flex-col gap-2 md:flex-row">
-              <div className="flex gap-2">
-                <LikeButton
-                  isLiked={author.isLiked ?? false}
-                  likeCount={author.likeCount}
-                  onClick={handleLikeClick}
-                />
-                <CommentButton
-                  commentCount={author.reviewCount}
-                  onClick={handleReviewClick}
-                />
-              </div>
+            <div className="flex gap-2">
+              <LikeButton
+                isLiked={author.isLiked ?? false}
+                likeCount={author.likeCount}
+                onClick={handleLikeClick}
+              />
+              <CommentButton
+                commentCount={author.reviewCount}
+                onClick={handleReviewClick}
+              />
             </div>
           </div>
         </div>
