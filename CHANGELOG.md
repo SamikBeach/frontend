@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.68.1](https://github.com/SamikBeach/frontend/compare/1.68.0...1.68.1) (2025-02-24)
+
+
+### Bug Fixes
+
+* HomePage 스타일 수정 ([640794c](https://github.com/SamikBeach/frontend/commit/640794c4900d9b8beb7e966ce32536b7f9e66f53))
+
 # [1.68.0](https://github.com/SamikBeach/frontend/compare/1.67.1...1.68.0) (2025-02-23)
 
 
