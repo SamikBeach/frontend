@@ -9,8 +9,10 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthorQueryData } from '@/hooks/queries/useAuthorQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { cn } from '@/utils/common';
 import { formatAuthorLifespan } from '@/utils/date';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { AnimatePresence, motion } from 'framer-motion';
 import { RefObject, Suspense, useState } from 'react';
 
 interface Props {
@@ -84,15 +86,15 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
           <div className="flex w-full flex-col justify-between gap-4">
             <div className="flex flex-col gap-1">
               <div className="space-y-1">
-                <div className="flex items-baseline gap-3">
+                <div className="flex flex-wrap items-baseline gap-x-4 gap-y-0">
                   <h1 className="text-2xl font-bold tracking-tight text-gray-800 md:text-3xl">
                     {author.nameInKor}
                   </h1>
-                  <div className="flex items-center gap-2 text-gray-700">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-0 text-gray-700">
                     <span className="text-base font-bold md:text-lg">
                       {author.name}
                     </span>
-                    <span className="text-sm md:text-base">
+                    <span className="text-sm font-semibold md:text-base">
                       {formatAuthorLifespan(
                         author.bornDate,
                         author.bornDateIsBc,
@@ -105,22 +107,52 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
               </div>
 
               <div className="space-y-1">
-                <p
-                  className={`whitespace-pre-wrap text-sm leading-relaxed text-gray-700 md:text-base ${
-                    !isExpanded ? 'line-clamp-3' : ''
-                  }`}
-                >
-                  {author.description}
-                </p>
-                {author.description && author.description.length > 200 && (
-                  <Button
-                    variant="ghost"
-                    onClick={() => setIsExpanded(!isExpanded)}
-                    className="mb-1 h-4 p-0 text-blue-600 hover:bg-transparent hover:text-blue-500"
+                <div className="flex flex-col gap-1">
+                  <motion.div
+                    initial={false}
+                    animate={{ height: isExpanded ? 'auto' : '4.5rem' }}
+                    transition={{ duration: 0.3, ease: 'easeInOut' }}
+                    className="relative overflow-hidden"
                   >
-                    {isExpanded ? '접기' : '더보기'}
-                  </Button>
-                )}
+                    <motion.p
+                      initial={false}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3, ease: 'easeInOut' }}
+                      className={cn(
+                        'whitespace-pre-wrap text-sm leading-relaxed text-gray-700 md:text-base',
+                        !isExpanded && 'line-clamp-3'
+                      )}
+                    >
+                      {author.description}
+                    </motion.p>
+                    {isExpanded && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.5, ease: 'easeInOut' }}
+                        className="absolute inset-0 bg-gradient-to-t from-transparent to-transparent"
+                      />
+                    )}
+                  </motion.div>
+                  {author.description && author.description.length > 200 && (
+                    <AnimatePresence>
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <Button
+                          variant="ghost"
+                          onClick={() => setIsExpanded(!isExpanded)}
+                          className="h-4 p-0 text-blue-600 hover:bg-transparent hover:text-blue-500"
+                        >
+                          {isExpanded ? '접기' : '더보기'}
+                        </Button>
+                      </motion.div>
+                    </AnimatePresence>
+                  )}
+                </div>
                 <p className="text-xs text-gray-400">정보 제공: 위키피디아</p>
               </div>
             </div>
