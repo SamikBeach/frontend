@@ -25,14 +25,24 @@ function InfluencedAuthorsContent({ authorId }: Props) {
     select: response => response.data,
   });
 
-  const { influenced, influencedBy } = author;
+  const { data: influenced = [] } = useSuspenseQuery({
+    queryKey: ['author-influenced', authorId],
+    queryFn: () => authorApi.getInfluencedAuthors(authorId),
+    select: response => response.data,
+  });
+
+  const { data: influencedBy = [] } = useSuspenseQuery({
+    queryKey: ['author-influenced-by', authorId],
+    queryFn: () => authorApi.getInfluencedByAuthors(authorId),
+    select: response => response.data,
+  });
 
   if (influenced.length === 0 && influencedBy.length === 0) {
     return null;
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-10">
       {influenced.length > 0 && (
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
@@ -118,18 +128,29 @@ function InfluencedAuthorsContent({ authorId }: Props) {
 
 function InfluencedAuthorsSkeleton() {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-3">
-        <div className="flex items-center gap-2">
-          <Skeleton className="h-7 w-64" />
-          <Skeleton className="h-6 w-8 rounded-full" />
+    <div className="flex flex-col gap-10">
+      {Array.from({ length: 2 }).map((_, index) => (
+        <div key={index} className="flex flex-col gap-3">
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-8 w-64" />
+            <Skeleton className="h-6 w-10 rounded-full" />
+          </div>
+          <div className="flex max-h-[50px] flex-wrap gap-2 overflow-hidden">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div
+                key={index}
+                className="inline-flex h-[42px] w-[200px] items-center gap-3 rounded-lg bg-gray-100 px-3 py-2.5"
+              >
+                <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
+                <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-3 w-16" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="flex gap-2 overflow-hidden">
-          {Array.from({ length: 4 }).map((_, index) => (
-            <Skeleton key={index} className="h-12 w-40" />
-          ))}
-        </div>
-      </div>
+      ))}
     </div>
   );
 }

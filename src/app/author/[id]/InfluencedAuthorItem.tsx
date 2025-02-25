@@ -1,6 +1,6 @@
 'use client';
 
-import { Author } from '@/apis/author/types';
+import { InfluencedAuthor } from '@/apis/author/types';
 import AuthorImage from '@/components/AuthorImage/AuthorImage';
 import { MOBILE_BREAKPOINT } from '@/constants/responsive';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
@@ -8,7 +8,7 @@ import { formatAuthorLifespan } from '@/utils/date';
 import { useRouter } from 'next/navigation';
 
 interface Props {
-  author: Author & { isWikiData?: boolean };
+  author: InfluencedAuthor;
 }
 
 export default function InfluencedAuthorItem({ author }: Props) {
