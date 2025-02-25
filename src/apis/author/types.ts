@@ -33,6 +33,8 @@ export interface Author extends BaseEntity {
 
 export interface AuthorDetail extends Author {
   isLiked: boolean;
+  influenced: (Author & { isWikiData?: boolean })[];
+  influencedBy: (Author & { isWikiData?: boolean })[];
 }
 
 export interface AuthorSearchQuery extends PaginationQuery {
