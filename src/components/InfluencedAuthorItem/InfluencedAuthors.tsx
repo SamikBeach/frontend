@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/utils/common';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { ChevronDownIcon } from 'lucide-react';
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import InfluencedAuthorItem from './InfluencedAuthorItem';
 
 interface Props {
@@ -18,6 +18,11 @@ const INITIAL_SHOW_COUNT = 6;
 function InfluencedAuthorsContent({ authorId }: Props) {
   const [isInfluencedExpanded, setIsInfluencedExpanded] = useState(false);
   const [isInfluencedByExpanded, setIsInfluencedByExpanded] = useState(false);
+  const [hasInfluencedOverflow, setHasInfluencedOverflow] = useState(false);
+  const [hasInfluencedByOverflow, setHasInfluencedByOverflow] = useState(false);
+
+  const influencedContainerRef = useRef<HTMLDivElement>(null);
+  const influencedByContainerRef = useRef<HTMLDivElement>(null);
 
   const { data: author } = useSuspenseQuery({
     queryKey: ['author', authorId],
@@ -37,6 +42,27 @@ function InfluencedAuthorsContent({ authorId }: Props) {
     select: response => response.data,
   });
 
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (influencedContainerRef.current) {
+        setHasInfluencedOverflow(
+          influencedContainerRef.current.scrollHeight > 50 &&
+            influenced.length > 1
+        );
+      }
+      if (influencedByContainerRef.current) {
+        setHasInfluencedByOverflow(
+          influencedByContainerRef.current.scrollHeight > 50 &&
+            influencedBy.length > 1
+        );
+      }
+    };
+
+    checkOverflow();
+    window.addEventListener('resize', checkOverflow);
+    return () => window.removeEventListener('resize', checkOverflow);
+  }, [influenced.length, influencedBy.length]);
+
   if (influenced.length === 0 && influencedBy.length === 0) {
     return null;
   }
@@ -52,7 +78,7 @@ function InfluencedAuthorsContent({ authorId }: Props) {
             <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
               {influenced.length}
             </span>
-            {influenced.length > INITIAL_SHOW_COUNT && (
+            {hasInfluencedOverflow && (
               <Button
                 variant="ghost"
                 className="h-7 gap-1 px-2 text-sm text-gray-500 hover:text-gray-900"
@@ -68,16 +94,15 @@ function InfluencedAuthorsContent({ authorId }: Props) {
             )}
           </div>
           <div
+            ref={influencedContainerRef}
             className={cn(
               'flex flex-wrap gap-2',
               !isInfluencedExpanded && 'max-h-[50px] overflow-hidden'
             )}
           >
-            {influenced
-              .slice(0, isInfluencedExpanded ? undefined : INITIAL_SHOW_COUNT)
-              .map(author => (
-                <InfluencedAuthorItem key={author.id} author={author} />
-              ))}
+            {influenced.map(author => (
+              <InfluencedAuthorItem key={author.id} author={author} />
+            ))}
           </div>
         </div>
       )}
@@ -91,7 +116,7 @@ function InfluencedAuthorsContent({ authorId }: Props) {
             <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
               {influencedBy.length}
             </span>
-            {influencedBy.length > INITIAL_SHOW_COUNT && (
+            {hasInfluencedByOverflow && (
               <Button
                 variant="ghost"
                 className="h-7 gap-1 px-2 text-sm text-gray-500 hover:text-gray-900"
@@ -109,16 +134,15 @@ function InfluencedAuthorsContent({ authorId }: Props) {
             )}
           </div>
           <div
+            ref={influencedByContainerRef}
             className={cn(
               'flex flex-wrap gap-2',
               !isInfluencedByExpanded && 'max-h-[50px] overflow-hidden'
             )}
           >
-            {influencedBy
-              .slice(0, isInfluencedByExpanded ? undefined : INITIAL_SHOW_COUNT)
-              .map(author => (
-                <InfluencedAuthorItem key={author.id} author={author} />
-              ))}
+            {influencedBy.map(author => (
+              <InfluencedAuthorItem key={author.id} author={author} />
+            ))}
           </div>
         </div>
       )}
