@@ -1,5 +1,21 @@
 # 🚦 CHANGELOG
 
+# [1.69.0](https://github.com/SamikBeach/frontend/compare/1.68.1...1.69.0) (2025-02-25)
+
+
+### Bug Fixes
+
+* fix lint ([14c7f05](https://github.com/SamikBeach/frontend/commit/14c7f057c7e95e9c5fc2be1474cfad4212b44822))
+* 스타일 수정 ([998bdd9](https://github.com/SamikBeach/frontend/commit/998bdd91c5c0e1e385e3247e44d701fc5a41493f))
+* 스타일 수정 ([5d08862](https://github.com/SamikBeach/frontend/commit/5d08862bb8933639319c55d70a5f21fe022a874f))
+
+
+### Features
+
+* josa 패키지 추가 및 타입 수정 ([f85374c](https://github.com/SamikBeach/frontend/commit/f85374cffdcb10d389a62c2dd33af3b31395a6f4))
+* 영향을 주고받은 작가 정보 API 분리 및 컴포넌트 개선 ([e21311a](https://github.com/SamikBeach/frontend/commit/e21311a1c34c89bab04c0cf4521db1569872e701))
+* 작가 설명 더보기 기능 추가 ([8ed0e88](https://github.com/SamikBeach/frontend/commit/8ed0e880ed68ee0b4c623758269b5a9bfd4fa80d))
+
 ## [1.68.1](https://github.com/SamikBeach/frontend/compare/1.68.0...1.68.1) (2025-02-24)
 
 
