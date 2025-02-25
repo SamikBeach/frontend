@@ -13,6 +13,8 @@ interface Props {
   authorId: number;
 }
 
+const INITIAL_SHOW_COUNT = 6;
+
 function InfluencedAuthorsContent({ authorId }: Props) {
   const [isInfluencedExpanded, setIsInfluencedExpanded] = useState(false);
   const [isInfluencedByExpanded, setIsInfluencedByExpanded] = useState(false);
@@ -30,7 +32,7 @@ function InfluencedAuthorsContent({ authorId }: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-10">
       {influenced.length > 0 && (
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
@@ -40,7 +42,7 @@ function InfluencedAuthorsContent({ authorId }: Props) {
             <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
               {influenced.length}
             </span>
-            {influenced.length > 3 && (
+            {influenced.length > INITIAL_SHOW_COUNT && (
               <Button
                 variant="ghost"
                 className="h-7 gap-1 px-2 text-sm text-gray-500 hover:text-gray-900"
@@ -57,16 +59,14 @@ function InfluencedAuthorsContent({ authorId }: Props) {
           </div>
           <div
             className={cn(
-              'flex gap-2',
-              isInfluencedExpanded ? 'flex-wrap' : 'overflow-hidden'
+              'flex flex-wrap gap-2',
+              !isInfluencedExpanded && 'max-h-[44px] overflow-hidden'
             )}
           >
             {influenced
-              .slice(0, isInfluencedExpanded ? undefined : 3)
+              .slice(0, isInfluencedExpanded ? undefined : INITIAL_SHOW_COUNT)
               .map(author => (
-                <div key={author.id} className="w-[280px]">
-                  <InfluencedAuthorItem author={author} />
-                </div>
+                <InfluencedAuthorItem key={author.id} author={author} />
               ))}
           </div>
         </div>
@@ -81,7 +81,7 @@ function InfluencedAuthorsContent({ authorId }: Props) {
             <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
               {influencedBy.length}
             </span>
-            {influencedBy.length > 3 && (
+            {influencedBy.length > INITIAL_SHOW_COUNT && (
               <Button
                 variant="ghost"
                 className="h-7 gap-1 px-2 text-sm text-gray-500 hover:text-gray-900"
@@ -100,16 +100,14 @@ function InfluencedAuthorsContent({ authorId }: Props) {
           </div>
           <div
             className={cn(
-              'flex gap-2',
-              isInfluencedByExpanded ? 'flex-wrap' : 'overflow-hidden'
+              'flex flex-wrap gap-2',
+              !isInfluencedByExpanded && 'max-h-[44px] overflow-hidden'
             )}
           >
             {influencedBy
-              .slice(0, isInfluencedByExpanded ? undefined : 3)
+              .slice(0, isInfluencedByExpanded ? undefined : INITIAL_SHOW_COUNT)
               .map(author => (
-                <div key={author.id} className="w-[280px]">
-                  <InfluencedAuthorItem author={author} />
-                </div>
+                <InfluencedAuthorItem key={author.id} author={author} />
               ))}
           </div>
         </div>
@@ -127,8 +125,8 @@ function InfluencedAuthorsSkeleton() {
           <Skeleton className="h-6 w-8 rounded-full" />
         </div>
         <div className="flex gap-2 overflow-hidden">
-          {Array.from({ length: 3 }).map((_, index) => (
-            <Skeleton key={index} className="h-12 w-[280px]" />
+          {Array.from({ length: 4 }).map((_, index) => (
+            <Skeleton key={index} className="h-12 w-40" />
           ))}
         </div>
       </div>

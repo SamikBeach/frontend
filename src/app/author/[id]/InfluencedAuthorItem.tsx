@@ -37,7 +37,7 @@ export default function InfluencedAuthorItem({ author }: Props) {
 
   return (
     <div
-      className="flex h-full cursor-pointer items-center gap-3 rounded-lg bg-white p-2 transition-colors hover:bg-gray-50"
+      className="inline-flex min-w-[160px] cursor-pointer items-center gap-3 whitespace-nowrap rounded-lg bg-white p-2 transition-colors hover:bg-gray-50"
       onClick={handleClick}
     >
       <AuthorImage
@@ -45,17 +45,18 @@ export default function InfluencedAuthorItem({ author }: Props) {
         name={author.nameInKor}
         width={32}
         height={32}
-        className="rounded-full bg-gray-100 shadow-sm ring-1 ring-gray-200/50"
+        className="shrink-0 rounded-full bg-gray-100 shadow-sm ring-1 ring-gray-200/50"
       />
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="flex items-center gap-2">
-          <span className="truncate font-medium text-gray-900">
-            {author.nameInKor}
-          </span>
+          <span className="font-medium text-gray-900">{author.nameInKor}</span>
+          {author.isWikiData && (
+            <span className="shrink-0 rounded bg-blue-50 px-1.5 py-0.5 text-[10px] font-medium text-blue-600">
+              Wikipedia
+            </span>
+          )}
         </div>
-        {lifespan && (
-          <span className="truncate text-xs text-gray-500">{lifespan}</span>
-        )}
+        {lifespan && <span className="text-xs text-gray-500">{lifespan}</span>}
       </div>
     </div>
   );
