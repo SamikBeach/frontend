@@ -1,5 +1,21 @@
 # 🚦 CHANGELOG
 
+# [1.70.0](https://github.com/SamikBeach/frontend/compare/1.69.0...1.70.0) (2025-02-25)
+
+
+### Bug Fixes
+
+* 스타일 수정 ([201f458](https://github.com/SamikBeach/frontend/commit/201f458ddad30a058ec7c931697bb490e61fec67))
+* 스타일 수정 ([206dcf8](https://github.com/SamikBeach/frontend/commit/206dcf8803a2c9bfaf97ba4710fcdd8b4f79467c))
+* 스타일 수정 ([547521f](https://github.com/SamikBeach/frontend/commit/547521fa085133ee49c55bdd7f4735a1fe72c8ae))
+* 영향을 주고받은 작가 목록의 더보기 버튼 노출 로직 개선 ([4627923](https://github.com/SamikBeach/frontend/commit/46279233e2843322c0b5289eef7f43e485c5aca9))
+
+
+### Features
+
+* 영향을 주고받은 작가 목록에 애니메이션 효과 추가 ([83c8fa1](https://github.com/SamikBeach/frontend/commit/83c8fa1da7bd591b2fb03532c8888a225583411e))
+* 작가 설명 텍스트 펼치기 애니메이션 개선 ([d340c65](https://github.com/SamikBeach/frontend/commit/d340c6528ea6dc2038d7614ef001e36a7338bc38))
+
 # [1.69.0](https://github.com/SamikBeach/frontend/compare/1.68.1...1.69.0) (2025-02-25)
 
 
