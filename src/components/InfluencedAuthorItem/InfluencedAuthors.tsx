@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/utils/common';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ChevronDownIcon } from 'lucide-react';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import InfluencedAuthorItem from './InfluencedAuthorItem';
@@ -110,13 +110,11 @@ function InfluencedAuthorsContent({ authorId }: Props) {
             className="overflow-hidden"
           >
             <div className="flex flex-wrap gap-2">
-              <AnimatePresence>
-                {influenced.map(author => (
-                  <div key={author.id}>
-                    <InfluencedAuthorItem author={author} />
-                  </div>
-                ))}
-              </AnimatePresence>
+              {influenced.map(author => (
+                <div key={author.id}>
+                  <InfluencedAuthorItem author={author} />
+                </div>
+              ))}
             </div>
           </motion.div>
         </div>
@@ -161,13 +159,11 @@ function InfluencedAuthorsContent({ authorId }: Props) {
             className="overflow-hidden"
           >
             <div className="flex flex-wrap gap-2">
-              <AnimatePresence>
-                {influencedBy.map(author => (
-                  <div key={author.id}>
-                    <InfluencedAuthorItem author={author} />
-                  </div>
-                ))}
-              </AnimatePresence>
+              {influencedBy.map(author => (
+                <div key={author.id}>
+                  <InfluencedAuthorItem author={author} />
+                </div>
+              ))}
             </div>
           </motion.div>
         </div>
