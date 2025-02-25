@@ -1,8 +1,8 @@
 'use client';
 
+import InfluencedAuthors from '@/components/InfluencedAuthorItem/InfluencedAuthors';
 import { useRef } from 'react';
 import AuthorInfo from './AuthorInfo';
-import InfluencedAuthors from './InfluencedAuthors';
 import RelativeBooks from './RelativeBooks';
 import ReviewList from './ReviewList';
 

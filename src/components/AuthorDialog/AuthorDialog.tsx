@@ -7,9 +7,10 @@ import { ArrowLeftIcon, ExternalLinkIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
+import InfluencedAuthors from '../InfluencedAuthorItem/InfluencedAuthors';
 import { Button } from '../ui/button';
 import AuthorInfo from './AuthorInfo';
-import RelativeAuthors from './RelativeBooks';
+import RelativeBooks from './RelativeBooks';
 import ReviewList from './ReviewList';
 
 interface Props extends DialogProps {}
@@ -60,7 +61,8 @@ export default function AuthorDialog(props: Props) {
         </div>
         <div className="flex flex-col gap-10">
           <AuthorInfo authorId={authorId} reviewListRef={reviewListRef} />
-          <RelativeAuthors authorId={authorId} />
+          <InfluencedAuthors authorId={authorId} />
+          <RelativeBooks authorId={authorId} />
           <ReviewList
             ref={reviewListRef}
             authorId={authorId}
