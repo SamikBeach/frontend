@@ -32,7 +32,7 @@ function InfluencedAuthorsContent({ authorId }: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-4">
       {influenced.length > 0 && (
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
@@ -60,7 +60,7 @@ function InfluencedAuthorsContent({ authorId }: Props) {
           <div
             className={cn(
               'flex flex-wrap gap-2',
-              !isInfluencedExpanded && 'max-h-[44px] overflow-hidden'
+              !isInfluencedExpanded && 'max-h-[50px] overflow-hidden'
             )}
           >
             {influenced
@@ -101,7 +101,7 @@ function InfluencedAuthorsContent({ authorId }: Props) {
           <div
             className={cn(
               'flex flex-wrap gap-2',
-              !isInfluencedByExpanded && 'max-h-[44px] overflow-hidden'
+              !isInfluencedByExpanded && 'max-h-[50px] overflow-hidden'
             )}
           >
             {influencedBy
