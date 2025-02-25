@@ -109,19 +109,9 @@ function InfluencedAuthorsContent({ authorId }: Props) {
             <div className="flex flex-wrap gap-2">
               <AnimatePresence>
                 {influenced.map(author => (
-                  <motion.div
-                    key={author.id}
-                    layout
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{
-                      opacity: { duration: 0.2 },
-                      layout: { duration: 0.3 },
-                    }}
-                  >
+                  <div key={author.id}>
                     <InfluencedAuthorItem author={author} />
-                  </motion.div>
+                  </div>
                 ))}
               </AnimatePresence>
             </div>
@@ -170,19 +160,9 @@ function InfluencedAuthorsContent({ authorId }: Props) {
             <div className="flex flex-wrap gap-2">
               <AnimatePresence>
                 {influencedBy.map(author => (
-                  <motion.div
-                    key={author.id}
-                    layout
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{
-                      opacity: { duration: 0.2 },
-                      layout: { duration: 0.3 },
-                    }}
-                  >
+                  <div key={author.id}>
                     <InfluencedAuthorItem author={author} />
-                  </motion.div>
+                  </div>
                 ))}
               </AnimatePresence>
             </div>
