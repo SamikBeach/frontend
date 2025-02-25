@@ -84,15 +84,15 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
           <div className="flex w-full flex-col justify-between gap-4">
             <div className="flex flex-col gap-1">
               <div className="space-y-1">
-                <div className="flex items-baseline gap-3">
+                <div className="flex flex-wrap items-baseline gap-x-4 gap-y-0">
                   <h1 className="text-2xl font-bold tracking-tight text-gray-800 md:text-3xl">
                     {author.nameInKor}
                   </h1>
-                  <div className="flex items-center gap-2 text-gray-700">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-0 text-gray-700">
                     <span className="text-base font-bold md:text-lg">
                       {author.name}
                     </span>
-                    <span className="text-sm md:text-base">
+                    <span className="text-sm font-semibold md:text-base">
                       {formatAuthorLifespan(
                         author.bornDate,
                         author.bornDateIsBc,
