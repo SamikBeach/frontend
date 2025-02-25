@@ -4,6 +4,7 @@ import { authorApi } from '@/apis/author/author';
 import AuthorImage from '@/components/AuthorImage/AuthorImage';
 import { CommentButton } from '@/components/CommentButton';
 import { LikeButton } from '@/components/LikeButton';
+import { Button } from '@/components/ui/button';
 import { DialogTitle } from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthorQueryData } from '@/hooks/queries/useAuthorQueryData';
@@ -24,6 +25,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
   const { updateAuthorLikeQueryData } = useAuthorQueryData();
 
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const { data: author } = useSuspenseQuery({
     queryKey: ['author', authorId],
@@ -80,21 +82,47 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
               )
             }
           />
-          <div className="flex w-full flex-col justify-between">
-            <div className="flex flex-col">
-              <DialogTitle className="text-2xl font-bold">
-                {author.nameInKor}
-              </DialogTitle>
-              <p className="text-gray-500">{author.name}</p>
-              <p className="text-gray-500">
-                {formatAuthorLifespan(
-                  author.bornDate,
-                  author.bornDateIsBc,
-                  author.diedDate,
-                  author.diedDateIsBc
+          <div className="flex w-full flex-col justify-between gap-4">
+            <div className="flex flex-col gap-1">
+              <div className="space-y-1">
+                <div className="flex items-baseline gap-3">
+                  <DialogTitle className="text-2xl font-bold tracking-tight text-gray-900">
+                    {author.nameInKor}
+                  </DialogTitle>
+                  <div className="flex items-center gap-3 text-gray-800">
+                    <span className="text-base font-bold">{author.name}</span>
+                    <span className="text-sm font-medium">
+                      {formatAuthorLifespan(
+                        author.bornDate,
+                        author.bornDateIsBc,
+                        author.diedDate,
+                        author.diedDateIsBc
+                      )}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col items-start gap-1">
+                <p
+                  className={`whitespace-pre-wrap text-sm leading-relaxed text-gray-800 ${
+                    !isExpanded ? 'line-clamp-3' : ''
+                  }`}
+                >
+                  {author.description}
+                </p>
+                {author.description && author.description.length > 200 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="mb-1 h-2 p-0 text-blue-600 hover:bg-transparent hover:text-blue-500"
+                  >
+                    {isExpanded ? '접기' : '더보기'}
+                  </Button>
                 )}
-              </p>
-              <p className="text-xs text-gray-400">정보 제공: 위키피디아</p>
+                <p className="text-xs text-gray-400">정보 제공: 위키피디아</p>
+              </div>
             </div>
 
             <div className="flex gap-2">

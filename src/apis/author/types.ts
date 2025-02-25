@@ -6,6 +6,7 @@ export interface Author extends BaseEntity {
   name: string;
   nameInKor: string;
   imageUrl: string | null;
+  description: string | null;
   bornDate: string | null;
   bornDateIsBc: boolean | null;
   diedDate: string | null;
@@ -32,6 +33,10 @@ export interface Author extends BaseEntity {
 
 export interface AuthorDetail extends Author {
   isLiked: boolean;
+}
+
+export interface InfluencedAuthor extends Author {
+  isWikiData: boolean;
 }
 
 export interface AuthorSearchQuery extends PaginationQuery {

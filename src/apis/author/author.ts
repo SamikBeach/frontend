@@ -3,7 +3,7 @@ import axios from '../axios';
 import type { Book } from '../book/types';
 import type { PaginatedResponse, PaginationQuery } from '../common/types';
 import { Review } from '../review/types';
-import type { Author, AuthorDetail, AuthorSearchQuery } from './types';
+import type { Author, AuthorDetail, AuthorSearchQuery, InfluencedAuthor } from './types';
 
 export const authorApi = {
   /**
@@ -56,4 +56,20 @@ export const authorApi = {
     axios.get<PaginatedResponse<Review>>(`/author/${authorId}/reviews`, {
       params,
     }),
+
+  /**
+   * 작가가 영향을 준 작가 목록을 조회합니다.
+   * @param authorId - 작가 ID
+   * @returns 영향을 받은 작가 목록
+   */
+  getInfluencedAuthors: (authorId: number) =>
+    axios.get<InfluencedAuthor[]>(`/author/${authorId}/influenced`),
+
+  /**
+   * 작가가 영향을 받은 작가 목록을 조회합니다.
+   * @param authorId - 작가 ID
+   * @returns 영향을 준 작가 목록
+   */
+  getInfluencedByAuthors: (authorId: number) =>
+    axios.get<InfluencedAuthor[]>(`/author/${authorId}/influenced-by`),
 };
