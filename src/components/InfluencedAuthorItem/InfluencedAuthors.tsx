@@ -14,8 +14,6 @@ interface Props {
   authorId: number;
 }
 
-const INITIAL_SHOW_COUNT = 6;
-
 function InfluencedAuthorsContent({ authorId }: Props) {
   const [isInfluencedExpanded, setIsInfluencedExpanded] = useState(false);
   const [isInfluencedByExpanded, setIsInfluencedByExpanded] = useState(false);
