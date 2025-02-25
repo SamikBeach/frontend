@@ -23,6 +23,13 @@ function InfluencedAuthorsContent({ authorId }: Props) {
   const influencedContainerRef = useRef<HTMLDivElement>(null);
   const influencedByContainerRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    setIsInfluencedExpanded(false);
+    setIsInfluencedByExpanded(false);
+    setHasInfluencedOverflow(false);
+    setHasInfluencedByOverflow(false);
+  }, [authorId]);
+
   const { data: author } = useSuspenseQuery({
     queryKey: ['author', authorId],
     queryFn: () => authorApi.getAuthorDetail(authorId),
