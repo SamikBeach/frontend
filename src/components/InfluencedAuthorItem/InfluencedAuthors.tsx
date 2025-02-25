@@ -45,7 +45,7 @@ function InfluencedAuthorsContent({ authorId }: Props) {
     <div className="flex flex-col gap-10">
       {influenced.length > 0 && (
         <div className="flex flex-col gap-3">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <h2 className="text-lg font-semibold text-gray-900">
               {author.nameInKor.trim()}에게 영향을 준 작가
             </h2>
@@ -84,7 +84,7 @@ function InfluencedAuthorsContent({ authorId }: Props) {
 
       {influencedBy.length > 0 && (
         <div className="flex flex-col gap-3">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <h2 className="text-lg font-semibold text-gray-900">
               {author.nameInKor.trim()}에게 영향을 받은 작가
             </h2>
