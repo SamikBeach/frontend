@@ -51,14 +51,30 @@ function InfluencedAuthorsContent({ authorId }: Props) {
   useEffect(() => {
     const checkOverflow = () => {
       if (influencedContainerRef.current) {
-        setHasInfluencedOverflow(
-          influencedContainerRef.current.scrollHeight > 50
+        const container = influencedContainerRef.current;
+        const items = container.querySelector('.flex-wrap');
+        if (!items) return;
+
+        const containerWidth = container.clientWidth;
+        const itemsWidth = Array.from(items.children).reduce(
+          (total, item) => total + item.clientWidth + 8,
+          0
         );
+
+        setHasInfluencedOverflow(itemsWidth > containerWidth);
       }
       if (influencedByContainerRef.current) {
-        setHasInfluencedByOverflow(
-          influencedByContainerRef.current.scrollHeight > 50
+        const container = influencedByContainerRef.current;
+        const items = container.querySelector('.flex-wrap');
+        if (!items) return;
+
+        const containerWidth = container.clientWidth;
+        const itemsWidth = Array.from(items.children).reduce(
+          (total, item) => total + item.clientWidth + 8,
+          0
         );
+
+        setHasInfluencedByOverflow(itemsWidth > containerWidth);
       }
     };
 
