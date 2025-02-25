@@ -45,14 +45,12 @@ function InfluencedAuthorsContent({ authorId }: Props) {
     const checkOverflow = () => {
       if (influencedContainerRef.current) {
         setHasInfluencedOverflow(
-          influencedContainerRef.current.scrollHeight > 50 &&
-            influenced.length > 1
+          influencedContainerRef.current.scrollHeight > 50
         );
       }
       if (influencedByContainerRef.current) {
         setHasInfluencedByOverflow(
-          influencedByContainerRef.current.scrollHeight > 50 &&
-            influencedBy.length > 1
+          influencedByContainerRef.current.scrollHeight > 50
         );
       }
     };
