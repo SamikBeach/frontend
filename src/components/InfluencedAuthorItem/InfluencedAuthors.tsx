@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/utils/common';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDownIcon } from 'lucide-react';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import InfluencedAuthorItem from './InfluencedAuthorItem';
@@ -85,7 +86,7 @@ function InfluencedAuthorsContent({ authorId }: Props) {
                 onClick={() => setIsInfluencedExpanded(!isInfluencedExpanded)}
               >
                 <ChevronDownIcon
-                  className={cn('h-4 w-4 transition-transform', {
+                  className={cn('h-4 w-4 transition-transform duration-200', {
                     'rotate-180': isInfluencedExpanded,
                   })}
                 />
@@ -93,17 +94,38 @@ function InfluencedAuthorsContent({ authorId }: Props) {
               </Button>
             )}
           </div>
-          <div
+          <motion.div
             ref={influencedContainerRef}
-            className={cn(
-              'flex flex-wrap gap-2',
-              !isInfluencedExpanded && 'max-h-[50px] overflow-hidden'
-            )}
+            initial={false}
+            animate={{
+              height: isInfluencedExpanded ? 'auto' : '50px',
+            }}
+            transition={{
+              duration: 0.3,
+              ease: 'easeInOut',
+            }}
+            className="overflow-hidden"
           >
-            {influenced.map(author => (
-              <InfluencedAuthorItem key={author.id} author={author} />
-            ))}
-          </div>
+            <div className="flex flex-wrap gap-2">
+              <AnimatePresence>
+                {influenced.map(author => (
+                  <motion.div
+                    key={author.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{
+                      opacity: { duration: 0.2 },
+                      layout: { duration: 0.3 },
+                    }}
+                  >
+                    <InfluencedAuthorItem author={author} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </motion.div>
         </div>
       )}
 
@@ -125,7 +147,7 @@ function InfluencedAuthorsContent({ authorId }: Props) {
                 }
               >
                 <ChevronDownIcon
-                  className={cn('h-4 w-4 transition-transform', {
+                  className={cn('h-4 w-4 transition-transform duration-200', {
                     'rotate-180': isInfluencedByExpanded,
                   })}
                 />
@@ -133,17 +155,38 @@ function InfluencedAuthorsContent({ authorId }: Props) {
               </Button>
             )}
           </div>
-          <div
+          <motion.div
             ref={influencedByContainerRef}
-            className={cn(
-              'flex flex-wrap gap-2',
-              !isInfluencedByExpanded && 'max-h-[50px] overflow-hidden'
-            )}
+            initial={false}
+            animate={{
+              height: isInfluencedByExpanded ? 'auto' : '50px',
+            }}
+            transition={{
+              duration: 0.3,
+              ease: 'easeInOut',
+            }}
+            className="overflow-hidden"
           >
-            {influencedBy.map(author => (
-              <InfluencedAuthorItem key={author.id} author={author} />
-            ))}
-          </div>
+            <div className="flex flex-wrap gap-2">
+              <AnimatePresence>
+                {influencedBy.map(author => (
+                  <motion.div
+                    key={author.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{
+                      opacity: { duration: 0.2 },
+                      layout: { duration: 0.3 },
+                    }}
+                  >
+                    <InfluencedAuthorItem author={author} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </motion.div>
         </div>
       )}
     </div>
