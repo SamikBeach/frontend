@@ -118,12 +118,13 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                   onClick={handleReviewClick}
                 />
               </div>
+              {/* 모바일에서는 숨김 처리 */}
               <Button
                 onClick={toggleChat}
                 variant="outline"
                 size="sm"
                 className={cn(
-                  'flex w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-none transition-all',
+                  'hidden w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-none transition-all sm:flex',
                   isChatOpen
                     ? 'border-gray-300 text-gray-700 hover:bg-gray-50'
                     : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
@@ -226,6 +227,24 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
           </div>
         </div>
 
+        {/* 모바일에서만 표시되는 대화하기 버튼 */}
+        <div className="sm:hidden">
+          <Button
+            onClick={toggleChat}
+            variant="outline"
+            size="sm"
+            className={cn(
+              'w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-none transition-all',
+              isChatOpen
+                ? 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+            )}
+          >
+            <MessageCircleIcon className="h-4 w-4" />
+            {josa(`${author.nameInKor}#{과} 대화하기`)}
+          </Button>
+        </div>
+
         <AnimatePresence>
           {isChatOpen && (
             <motion.div
@@ -256,7 +275,8 @@ function AuthorInfoSkeleton() {
               <Skeleton className="h-9 w-20 rounded-full" />
               <Skeleton className="h-9 w-20 rounded-full" />
             </div>
-            <Skeleton className="h-9 w-full rounded-md" />
+            {/* 모바일에서는 숨김 처리 */}
+            <Skeleton className="hidden h-9 w-full rounded-md sm:block" />
           </div>
         </div>
         <div className="flex w-full flex-col gap-5">
@@ -292,6 +312,11 @@ function AuthorInfoSkeleton() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* 모바일에서만 표시되는 대화하기 버튼 스켈레톤 */}
+      <div className="mt-4 sm:hidden">
+        <Skeleton className="h-9 w-full rounded-md" />
       </div>
     </div>
   );
