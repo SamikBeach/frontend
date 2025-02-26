@@ -2,6 +2,7 @@
 
 import { authorApi } from '@/apis/author/author';
 import { YouTubeVideo } from '@/apis/common/types';
+import YoutubeDialog from '@/components/YoutubeDialog';
 import { Button } from '@/components/ui/button';
 import {
   Carousel,
@@ -22,6 +23,7 @@ function AuthorYoutubesContent({ authorId }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showControls, setShowControls] = useState(false);
   const [slidesToScroll, setSlidesToScroll] = useState(1);
+  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { data: videos = [] } = useSuspenseQuery({
@@ -91,7 +93,11 @@ function AuthorYoutubesContent({ authorId }: Props) {
         {isExpanded ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
             {videos.map((video: YouTubeVideo) => (
-              <VideoCard key={video.id} video={video} />
+              <VideoCard
+                key={video.id}
+                video={video}
+                onClick={() => setSelectedVideoId(video.id)}
+              />
             ))}
           </div>
         ) : (
@@ -112,7 +118,10 @@ function AuthorYoutubesContent({ authorId }: Props) {
                   key={video.id}
                   className="basis-[280px] sm:basis-[320px]"
                 >
-                  <VideoCard video={video} />
+                  <VideoCard
+                    video={video}
+                    onClick={() => setSelectedVideoId(video.id)}
+                  />
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -122,17 +131,28 @@ function AuthorYoutubesContent({ authorId }: Props) {
           </Carousel>
         )}
       </div>
+
+      {selectedVideoId && (
+        <YoutubeDialog
+          videoId={selectedVideoId}
+          onClose={() => setSelectedVideoId(null)}
+        />
+      )}
     </div>
   );
 }
 
-function VideoCard({ video }: { video: YouTubeVideo }) {
+function VideoCard({
+  video,
+  onClick,
+}: {
+  video: YouTubeVideo;
+  onClick: () => void;
+}) {
   return (
-    <a
-      href={`https://www.youtube.com/watch?v=${video.id}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group overflow-hidden rounded-md bg-white shadow-sm transition-all hover:shadow-md"
+    <div
+      onClick={onClick}
+      className="group cursor-pointer overflow-hidden rounded-md bg-white shadow-sm transition-all hover:shadow-md"
     >
       <div className="relative aspect-video w-full overflow-hidden rounded-md">
         <img
@@ -153,7 +173,7 @@ function VideoCard({ video }: { video: YouTubeVideo }) {
         />
         <p className="mt-1 text-xs text-gray-500">{video.channelTitle}</p>
       </div>
-    </a>
+    </div>
   );
 }
 
