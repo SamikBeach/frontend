@@ -13,4 +13,4 @@ export interface ChatWithAuthorResponse {
   authorName: string;
   response: string;
   timestamp: string;
-} 
+}
