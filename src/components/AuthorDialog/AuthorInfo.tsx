@@ -115,13 +115,13 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
               </div>
               <Button
                 onClick={toggleChat}
-                variant={isChatOpen ? 'outline' : 'default'}
+                variant="outline"
                 size="sm"
                 className={cn(
-                  'flex w-full items-center justify-center gap-1.5 px-4 py-2 text-sm font-medium transition-all',
+                  'flex w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-none transition-all',
                   isChatOpen
-                    ? 'border-blue-200 text-blue-600 hover:bg-blue-50'
-                    : 'bg-blue-600/80 text-white hover:bg-blue-700'
+                    ? 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                    : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
                 )}
               >
                 <MessageCircleIcon className="h-4 w-4" />
@@ -243,28 +243,46 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
 function AuthorInfoSkeleton() {
   return (
     <div className="flex flex-col">
-      <div className="flex flex-col gap-6 bg-white p-6 sm:flex-row">
+      <div className="flex flex-col gap-6 bg-white pt-4 sm:flex-row">
         <div className="flex flex-col items-center justify-center gap-4 sm:h-full sm:justify-start">
           <Skeleton className="h-[140px] w-[140px] shrink-0 rounded-full md:h-[200px] md:w-[200px]" />
-          <div className="flex gap-3">
-            <Skeleton className="h-9 w-20 rounded-full" />
-            <Skeleton className="h-9 w-20 rounded-full" />
+          <div className="flex flex-col items-center gap-3">
+            <div className="flex items-center justify-center gap-3">
+              <Skeleton className="h-9 w-20 rounded-full" />
+              <Skeleton className="h-9 w-20 rounded-full" />
+            </div>
+            <Skeleton className="h-9 w-full rounded-md" />
           </div>
-          <Skeleton className="h-9 w-full rounded-md" />
         </div>
         <div className="flex w-full flex-col gap-5">
           <div className="flex flex-col gap-3">
             <div className="space-y-2">
-              <div className="flex flex-wrap items-baseline gap-2">
+              <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
                 <Skeleton className="h-8 w-48 md:h-10" />
-                <Skeleton className="h-6 w-32 md:h-7" />
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <Skeleton className="h-6 w-32 md:h-7" />
+                  <Skeleton className="h-6 w-40 rounded-full" />
+                </div>
               </div>
-              <Skeleton className="h-6 w-40 rounded-full" />
-              <div className="space-y-1.5 bg-gray-50 p-4">
-                <Skeleton className="h-5 w-full" />
-                <Skeleton className="h-5 w-4/5" />
-                <Skeleton className="h-5 w-3/5" />
-                <Skeleton className="mt-2 h-8 w-full rounded-md" />
+              <div className="flex flex-wrap items-center gap-2">
+                <Skeleton className="h-6 w-24 rounded-full" />
+              </div>
+              <div className="space-y-2 rounded-md bg-gray-50 p-4">
+                <div className="flex flex-col gap-2">
+                  <div
+                    className="relative overflow-hidden"
+                    style={{ height: '8.5rem' }}
+                  >
+                    <Skeleton className="h-5 w-full" />
+                    <Skeleton className="mt-2 h-5 w-full" />
+                    <Skeleton className="mt-2 h-5 w-full" />
+                    <Skeleton className="mt-2 h-5 w-full" />
+                    <Skeleton className="mt-2 h-5 w-4/5" />
+                    <Skeleton className="mt-2 h-5 w-3/5" />
+                    <Skeleton className="mt-2 h-5 w-2/5" />
+                  </div>
+                  <Skeleton className="mt-2 h-8 w-full rounded-md" />
+                </div>
               </div>
             </div>
           </div>
