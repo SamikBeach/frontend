@@ -3,10 +3,16 @@
 import { authorApi } from '@/apis/author/author';
 import { YouTubeVideo } from '@/apis/common/types';
 import { Button } from '@/components/ui/button';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+} from '@/components/ui/carousel';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { ChevronDownIcon, ChevronUpIcon, PlayIcon } from 'lucide-react';
-import { Suspense, useState } from 'react';
+import { ChevronDownIcon, LayoutGridIcon, PlayIcon } from 'lucide-react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 
 interface Props {
   authorId: number;
@@ -14,17 +20,41 @@ interface Props {
 
 function AuthorYoutubesContent({ authorId }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showControls, setShowControls] = useState(false);
+  const [slidesToScroll, setSlidesToScroll] = useState(1);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const { data: videos = [] } = useSuspenseQuery({
     queryKey: ['author-videos', authorId],
-    queryFn: () => authorApi.getAuthorVideos(authorId),
+    queryFn: () => authorApi.getAuthorVideos(authorId, 15),
     select: data => data.data,
   });
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const calculateVisibleItems = () => {
+      const containerWidth = containerRef.current?.offsetWidth ?? 0;
+      const itemWidth = 280; // 비디오 카드 기본 너비
+      const gap = 16; // gap-4
+      const visibleItems = Math.floor(
+        (containerWidth + gap) / (itemWidth + gap)
+      );
+      setShowControls(videos.length > visibleItems);
+      setSlidesToScroll(visibleItems);
+    };
+
+    calculateVisibleItems();
+    window.addEventListener('resize', calculateVisibleItems);
+
+    return () => {
+      window.removeEventListener('resize', calculateVisibleItems);
+    };
+  }, [videos.length]);
 
   if (videos.length === 0) {
     return null;
   }
-
-  const displayedVideos = isExpanded ? videos : videos.slice(0, 3);
 
   return (
     <div className="flex flex-col gap-4">
@@ -44,50 +74,83 @@ function AuthorYoutubesContent({ authorId }: Props) {
           >
             {isExpanded ? (
               <>
-                <ChevronUpIcon className="h-4 w-4" />
+                <ChevronDownIcon className="h-4 w-4" />
                 접기
               </>
             ) : (
               <>
-                <ChevronDownIcon className="h-4 w-4" />
-                더보기
+                <LayoutGridIcon className="h-4 w-4" />
+                전체보기
               </>
             )}
           </Button>
         )}
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-        {displayedVideos.map((video: YouTubeVideo) => (
-          <a
-            key={video.id}
-            href={`https://www.youtube.com/watch?v=${video.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md"
+      <div className="relative" ref={containerRef}>
+        {isExpanded ? (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+            {videos.map((video: YouTubeVideo) => (
+              <VideoCard key={video.id} video={video} />
+            ))}
+          </div>
+        ) : (
+          <Carousel
+            className="w-full"
+            opts={{
+              loop: true,
+              align: 'start',
+              dragFree: true,
+              slidesToScroll,
+            }}
           >
-            <div className="relative aspect-video w-full overflow-hidden">
-              <img
-                src={video.thumbnailUrl}
-                alt={video.title}
-                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity group-hover:opacity-100">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white">
-                  <PlayIcon className="h-6 w-6" />
-                </div>
-              </div>
-            </div>
-            <div className="p-3">
-              <h3 className="line-clamp-2 text-sm font-medium text-gray-900">
-                {video.title}
-              </h3>
-              <p className="mt-1 text-xs text-gray-500">{video.channelTitle}</p>
-            </div>
-          </a>
-        ))}
+            <CarouselContent className="gap-4">
+              {videos.slice(0, 6).map((video: YouTubeVideo) => (
+                <CarouselItem
+                  key={video.id}
+                  className="basis-[280px] pl-0 first:pl-0 sm:basis-[320px]"
+                >
+                  <VideoCard video={video} />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            {showControls && (
+              <CarouselNext className="right-[-10px] z-10 h-8 w-8 rounded-full border border-gray-100 bg-white text-gray-900 shadow-md hover:bg-gray-50" />
+            )}
+          </Carousel>
+        )}
       </div>
     </div>
+  );
+}
+
+function VideoCard({ video }: { video: YouTubeVideo }) {
+  return (
+    <a
+      href={`https://www.youtube.com/watch?v=${video.id}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group overflow-hidden rounded-lg bg-white shadow-sm transition-all hover:shadow-md"
+    >
+      <div className="relative aspect-video w-full overflow-hidden">
+        <img
+          src={video.thumbnailUrl}
+          alt={video.title}
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-red-600 shadow-md">
+            <PlayIcon className="h-5 w-5" />
+          </div>
+        </div>
+      </div>
+      <div className="p-3">
+        <h3 className="line-clamp-2 text-sm font-medium text-gray-900">
+          {video.title}
+        </h3>
+        <p className="mt-1 text-xs text-gray-500">{video.channelTitle}</p>
+      </div>
+    </a>
   );
 }
 
@@ -97,11 +160,11 @@ function AuthorYoutubesSkeleton() {
       <div className="flex items-center justify-between">
         <Skeleton className="h-7 w-32" />
       </div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+      <div className="flex gap-4 overflow-hidden">
         {Array.from({ length: 3 }).map((_, index) => (
           <div
             key={index}
-            className="overflow-hidden rounded-lg border border-gray-200 bg-white"
+            className="min-w-[280px] overflow-hidden rounded-lg border border-gray-200 bg-white"
           >
             <Skeleton className="aspect-video w-full" />
             <div className="p-3">
