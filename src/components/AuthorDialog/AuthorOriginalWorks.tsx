@@ -50,7 +50,12 @@ function AuthorOriginalWorksContent({ authorId }: Props) {
           >
             {isExpanded ? (
               <>
-                <ChevronDownIcon className="h-4 w-4" />
+                <motion.div
+                  animate={{ rotate: 180 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ChevronDownIcon className="h-4 w-4" />
+                </motion.div>
                 접기
               </>
             ) : (
@@ -115,11 +120,11 @@ function OriginalWorkCard({ work }: { work: OriginalWork }) {
           <BookOpenIcon className="h-5 w-5" />
         </div>
         <div className="min-w-0 flex-1">
-          <h3 className="truncate text-sm font-medium text-gray-900 group-hover:text-blue-900">
+          <h3 className="text-sm font-medium text-gray-900 group-hover:text-blue-900">
             {work.title}
           </h3>
           {(work.titleInKor || work.titleInEng) && (
-            <p className="truncate text-xs text-gray-500 group-hover:text-blue-700/70">
+            <p className="text-xs text-gray-500 group-hover:text-blue-700/70">
               {work.titleInKor || work.titleInEng}
             </p>
           )}
@@ -200,16 +205,14 @@ function RelatedBookItem({ book }: { book: Book }) {
   return (
     <button
       onClick={handleClick}
-      className="flex items-center gap-2 rounded-md bg-gray-50 px-2 py-1 text-xs text-gray-700 transition-colors hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm"
+      className="flex items-center gap-2 rounded-md bg-gray-50 px-2.5 py-1.5 text-xs text-gray-700 transition-colors hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm"
     >
       <img
         src={book.imageUrl || '/images/book-placeholder.png'}
         alt={book.title || '책 표지'}
-        className="h-6 w-4 rounded object-cover"
+        className="h-6 w-4 shrink-0 rounded object-cover"
       />
-      <span className="max-w-[120px] truncate">
-        {book.title || '제목 없음'}
-      </span>
+      <span className="text-left">{book.title || '제목 없음'}</span>
     </button>
   );
 }
