@@ -1,5 +1,23 @@
 # 🚦 CHANGELOG
 
+# [1.72.0](https://github.com/SamikBeach/frontend/compare/1.71.0...1.72.0) (2025-02-26)
+
+
+### Bug Fixes
+
+* InfluencedAuthors 컴포넌트의 반응형 레이아웃 개선 ([bc11e68](https://github.com/SamikBeach/frontend/commit/bc11e68ef9d3791b7a3fd4c4c71f4dfbec38aaf6))
+* 스타일 수정 ([bddfbde](https://github.com/SamikBeach/frontend/commit/bddfbded63713c256cc4ab43104c8474cca076dd))
+* 원전 목록 그리드 레이아웃 수정 ([2074b60](https://github.com/SamikBeach/frontend/commit/2074b60562146ff37f3e10157b9d65a2cbe310c8))
+
+
+### Features
+
+* 모든 확장/축소 목록에 애니메이션 효과 추가 ([f97cb88](https://github.com/SamikBeach/frontend/commit/f97cb88323afdbb415c1eb797673f894e1d731c7))
+* 스타일 수정 ([617ed17](https://github.com/SamikBeach/frontend/commit/617ed179575ea8a0f5ed1d157a9781821cfd3a3d))
+* 스타일 수정 ([bf766a3](https://github.com/SamikBeach/frontend/commit/bf766a3db935e66d6f97875a12e5e333cf032371))
+* 원전 카드 UI 개선 ([d5eee16](https://github.com/SamikBeach/frontend/commit/d5eee169721488f6b7ce8689cb842af5d0ed6385))
+* 원전 카드 내 책 아이템에 호버 효과 추가 ([cba4cf7](https://github.com/SamikBeach/frontend/commit/cba4cf7a5dd28fa47c5cf31ad2bb060dbb4d22d9))
+
 # [1.71.0](https://github.com/SamikBeach/frontend/compare/1.70.0...1.71.0) (2025-02-26)
 
 
