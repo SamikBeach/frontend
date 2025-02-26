@@ -1,5 +1,28 @@
 # 🚦 CHANGELOG
 
+# [1.71.0](https://github.com/SamikBeach/frontend/compare/1.70.0...1.71.0) (2025-02-26)
+
+
+### Bug Fixes
+
+* fix lint ([97a524c](https://github.com/SamikBeach/frontend/commit/97a524cf8cecf59199f2795790ecae0adec2bdd6))
+* video 개수 수정 ([a315f1d](https://github.com/SamikBeach/frontend/commit/a315f1d93f1343c40971f7b872e41f7e6d712303))
+* 모바일 화면에서 책 그리드 레이아웃 최적화 ([bb325a2](https://github.com/SamikBeach/frontend/commit/bb325a2c6f0489989fbaa7b0c0ca160da54c6fe2))
+* 스타일 수정 ([b95ee62](https://github.com/SamikBeach/frontend/commit/b95ee621b9650e2f55ed9d9f80c6f5c690ca4859))
+* 스타일 수정 ([dcaf1bf](https://github.com/SamikBeach/frontend/commit/dcaf1bf1c84ef2e3c8d59b13539208cf291b3f6f))
+* 영향 관계 작가 목록의 더보기 버튼 노출 조건 개선 ([4c8f1e8](https://github.com/SamikBeach/frontend/commit/4c8f1e888b53a91d46714e7a3fa67db8d21549aa))
+* 영향 관계 작가 목록의 더보기 버튼 표시 조건 수정 ([25dadfb](https://github.com/SamikBeach/frontend/commit/25dadfb797dad5a75cd59e01f36665c7db75f5b0))
+* 작가 변경 시 영향 관계 목록 상태 초기화 ([3c40959](https://github.com/SamikBeach/frontend/commit/3c40959d145817ae373e31f70738507af38f7d00))
+* 캐러셀 아이템 사이 세로 줄 제거 및 재생 아이콘 스타일 개선 ([169831d](https://github.com/SamikBeach/frontend/commit/169831dd923367f8c9f57ea7fce352029ff59865))
+
+
+### Features
+
+* 미분류 책을 위한 별도 원전 카드 추가 ([7cad001](https://github.com/SamikBeach/frontend/commit/7cad001c8a57212258be9481595956ba36746064))
+* 원전 카드의 책 목록에 framer-motion 애니메이션 추가 ([c04592c](https://github.com/SamikBeach/frontend/commit/c04592c0a14eedc2836c85c6c4a2c6ed4fbefa10))
+* 유튜브 비디오 클릭 시 다이얼로그에서 재생되도록 기능 추가 ([d8dc0a3](https://github.com/SamikBeach/frontend/commit/d8dc0a3e67105868ac0d0bb04f02dcf46b4458a2))
+* 작가 페이지 UI 개선 ([e49453f](https://github.com/SamikBeach/frontend/commit/e49453fa3ed7e65ea39580b5d0467e76ce07d520))
+
 # [1.70.0](https://github.com/SamikBeach/frontend/compare/1.69.0...1.70.0) (2025-02-25)
 
 
