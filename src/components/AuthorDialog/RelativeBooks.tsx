@@ -13,7 +13,13 @@ import {
 } from '@/components/ui/carousel';
 import { Skeleton } from '@/components/ui/skeleton';
 
+import {
+  defaultTransition,
+  itemAnimation,
+  rotateAnimation,
+} from '@/constants/animations';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDownIcon, LayoutGridIcon } from 'lucide-react';
 import { Suspense, useState } from 'react';
 
@@ -60,7 +66,13 @@ function RelativeBooksContent({ authorId }: Props) {
           >
             {isExpanded ? (
               <>
-                <ChevronDownIcon className="h-4 w-4" />
+                <motion.div
+                  variants={rotateAnimation}
+                  animate="expanded"
+                  transition={defaultTransition}
+                >
+                  <ChevronDownIcon className="h-4 w-4" />
+                </motion.div>
                 접기
               </>
             ) : (
@@ -75,16 +87,26 @@ function RelativeBooksContent({ authorId }: Props) {
       <div className="relative">
         {isExpanded ? (
           <div className="grid grid-cols-3 gap-1 sm:grid-cols-4 sm:gap-2 md:grid-cols-5 md:gap-4 lg:grid-cols-6">
-            {books.map((book: Book) => (
-              <div key={book.id} className="w-full">
-                <BookGridItem
-                  book={book}
-                  size="xsmall"
-                  showPublisher={true}
-                  showPublicationDate={true}
-                />
-              </div>
-            ))}
+            <AnimatePresence>
+              {books.map((book: Book) => (
+                <motion.div
+                  key={book.id}
+                  className="w-full"
+                  initial="collapsed"
+                  animate="expanded"
+                  exit="collapsed"
+                  variants={itemAnimation}
+                  transition={defaultTransition}
+                >
+                  <BookGridItem
+                    book={book}
+                    size="xsmall"
+                    showPublisher={true}
+                    showPublicationDate={true}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
         ) : (
           <Carousel

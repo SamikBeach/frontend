@@ -3,7 +3,13 @@
 import { authorApi } from '@/apis/author/author';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+  defaultTransition,
+  itemAnimation,
+  rotateAnimation,
+} from '@/constants/animations';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDownIcon, LayoutGridIcon } from 'lucide-react';
 import { Suspense, useState } from 'react';
 import InfluencedAuthorItem from './InfluencedAuthorItem';
@@ -67,7 +73,13 @@ function InfluencedAuthorsContent({ authorId }: Props) {
               >
                 {isInfluencedExpanded ? (
                   <>
-                    <ChevronDownIcon className="h-4 w-4" />
+                    <motion.div
+                      variants={rotateAnimation}
+                      animate="expanded"
+                      transition={defaultTransition}
+                    >
+                      <ChevronDownIcon className="h-4 w-4" />
+                    </motion.div>
                     접기
                   </>
                 ) : (
@@ -79,12 +91,31 @@ function InfluencedAuthorsContent({ authorId }: Props) {
               </Button>
             )}
           </div>
-          <div className="grid grid-cols-3 gap-3">
-            {displayInfluenced.map(author => (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
+            {displayInfluenced.slice(0, 3).map(author => (
               <div key={author.id}>
                 <InfluencedAuthorItem author={author} />
               </div>
             ))}
+
+            <AnimatePresence>
+              {isInfluencedExpanded && influenced.length > 3 && (
+                <>
+                  {influenced.slice(3).map(author => (
+                    <motion.div
+                      key={author.id}
+                      initial="collapsed"
+                      animate="expanded"
+                      exit="collapsed"
+                      variants={itemAnimation}
+                      transition={defaultTransition}
+                    >
+                      <InfluencedAuthorItem author={author} />
+                    </motion.div>
+                  ))}
+                </>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       )}
@@ -111,7 +142,13 @@ function InfluencedAuthorsContent({ authorId }: Props) {
               >
                 {isInfluencedByExpanded ? (
                   <>
-                    <ChevronDownIcon className="h-4 w-4" />
+                    <motion.div
+                      variants={rotateAnimation}
+                      animate="expanded"
+                      transition={defaultTransition}
+                    >
+                      <ChevronDownIcon className="h-4 w-4" />
+                    </motion.div>
                     접기
                   </>
                 ) : (
@@ -123,12 +160,31 @@ function InfluencedAuthorsContent({ authorId }: Props) {
               </Button>
             )}
           </div>
-          <div className="grid grid-cols-3 gap-3">
-            {displayInfluencedBy.map(author => (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
+            {displayInfluencedBy.slice(0, 3).map(author => (
               <div key={author.id}>
                 <InfluencedAuthorItem author={author} />
               </div>
             ))}
+
+            <AnimatePresence>
+              {isInfluencedByExpanded && influencedBy.length > 3 && (
+                <>
+                  {influencedBy.slice(3).map(author => (
+                    <motion.div
+                      key={author.id}
+                      initial="collapsed"
+                      animate="expanded"
+                      exit="collapsed"
+                      variants={itemAnimation}
+                      transition={defaultTransition}
+                    >
+                      <InfluencedAuthorItem author={author} />
+                    </motion.div>
+                  ))}
+                </>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       )}
@@ -148,7 +204,7 @@ function InfluencedAuthorsSkeleton() {
             </div>
             <Skeleton className="h-8 w-24 rounded-md" />
           </div>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
             {Array.from({ length: 3 }).map((_, index) => (
               <div
                 key={index}
