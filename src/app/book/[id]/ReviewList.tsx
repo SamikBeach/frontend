@@ -74,7 +74,7 @@ function ReviewListContent({ bookId, scrollableTarget }: Props) {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <h2 className="text-base font-semibold text-gray-900">리뷰</h2>
+          <h2 className="text-lg font-semibold text-gray-900">리뷰</h2>
           <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
             {book.reviewCount}
           </span>

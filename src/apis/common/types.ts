@@ -47,6 +47,7 @@ export interface DeleteResponse {
   message: string;
 }
 
+// YouTube 비디오 정보
 export interface YouTubeVideo {
   id: string;
   title: string;

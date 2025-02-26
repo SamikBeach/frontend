@@ -38,6 +38,13 @@ function InfluencedAuthorsContent({ authorId }: Props) {
     return null;
   }
 
+  const displayInfluenced = isInfluencedExpanded
+    ? influenced
+    : influenced.slice(0, 3);
+  const displayInfluencedBy = isInfluencedByExpanded
+    ? influencedBy
+    : influencedBy.slice(0, 3);
+
   return (
     <div className="flex flex-col gap-10">
       {influenced.length > 0 && (
@@ -51,7 +58,7 @@ function InfluencedAuthorsContent({ authorId }: Props) {
                 {influenced.length}
               </span>
             </div>
-            {influenced.length > 5 && (
+            {influenced.length > 3 && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -72,18 +79,12 @@ function InfluencedAuthorsContent({ authorId }: Props) {
               </Button>
             )}
           </div>
-          <div
-            className={
-              isInfluencedExpanded ? '' : 'max-h-[50px] overflow-hidden'
-            }
-          >
-            <div className="flex flex-wrap gap-2">
-              {influenced.map(author => (
-                <div key={author.id}>
-                  <InfluencedAuthorItem author={author} />
-                </div>
-              ))}
-            </div>
+          <div className="grid grid-cols-3 gap-3">
+            {displayInfluenced.map(author => (
+              <div key={author.id}>
+                <InfluencedAuthorItem author={author} />
+              </div>
+            ))}
           </div>
         </div>
       )}
@@ -99,7 +100,7 @@ function InfluencedAuthorsContent({ authorId }: Props) {
                 {influencedBy.length}
               </span>
             </div>
-            {influencedBy.length > 5 && (
+            {influencedBy.length > 3 && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -122,18 +123,12 @@ function InfluencedAuthorsContent({ authorId }: Props) {
               </Button>
             )}
           </div>
-          <div
-            className={
-              isInfluencedByExpanded ? '' : 'max-h-[50px] overflow-hidden'
-            }
-          >
-            <div className="flex flex-wrap gap-2">
-              {influencedBy.map(author => (
-                <div key={author.id}>
-                  <InfluencedAuthorItem author={author} />
-                </div>
-              ))}
-            </div>
+          <div className="grid grid-cols-3 gap-3">
+            {displayInfluencedBy.map(author => (
+              <div key={author.id}>
+                <InfluencedAuthorItem author={author} />
+              </div>
+            ))}
           </div>
         </div>
       )}
@@ -153,21 +148,19 @@ function InfluencedAuthorsSkeleton() {
             </div>
             <Skeleton className="h-8 w-24 rounded-md" />
           </div>
-          <div className="max-h-[50px] overflow-hidden">
-            <div className="flex flex-wrap gap-2">
-              {Array.from({ length: 6 }).map((_, index) => (
-                <div
-                  key={index}
-                  className="inline-flex h-[42px] w-[200px] items-center gap-3 rounded-lg bg-gray-100 px-3 py-2.5"
-                >
-                  <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
-                  <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-                    <Skeleton className="h-4 w-24" />
-                    <Skeleton className="h-3 w-16" />
-                  </div>
+          <div className="grid grid-cols-3 gap-3">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div
+                key={index}
+                className="flex h-[50px] items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 p-3"
+              >
+                <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
+                <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-3 w-16" />
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       ))}
