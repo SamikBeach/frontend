@@ -11,7 +11,13 @@ import {
   CarouselNext,
 } from '@/components/ui/carousel';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+  defaultTransition,
+  itemAnimation,
+  rotateAnimation,
+} from '@/constants/animations';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDownIcon, LayoutGridIcon, PlayIcon } from 'lucide-react';
 import { Suspense, useEffect, useRef, useState } from 'react';
 
@@ -76,7 +82,13 @@ function BookYoutubesContent({ bookId }: Props) {
           >
             {isExpanded ? (
               <>
-                <ChevronDownIcon className="h-4 w-4" />
+                <motion.div
+                  variants={rotateAnimation}
+                  animate="expanded"
+                  transition={defaultTransition}
+                >
+                  <ChevronDownIcon className="h-4 w-4" />
+                </motion.div>
                 접기
               </>
             ) : (
@@ -92,13 +104,23 @@ function BookYoutubesContent({ bookId }: Props) {
       <div className="relative" ref={containerRef}>
         {isExpanded ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-            {videos.map((video: YouTubeVideo) => (
-              <VideoCard
-                key={video.id}
-                video={video}
-                onClick={() => setSelectedVideoId(video.id)}
-              />
-            ))}
+            <AnimatePresence>
+              {videos.map((video: YouTubeVideo) => (
+                <motion.div
+                  key={video.id}
+                  initial="collapsed"
+                  animate="expanded"
+                  exit="collapsed"
+                  variants={itemAnimation}
+                  transition={defaultTransition}
+                >
+                  <VideoCard
+                    video={video}
+                    onClick={() => setSelectedVideoId(video.id)}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
         ) : (
           <Carousel
