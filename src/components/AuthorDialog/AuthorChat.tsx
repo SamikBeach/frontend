@@ -36,6 +36,16 @@ function AuthorChatContent({ authorId }: Props) {
     select: response => response.data,
   });
 
+  // 작가가 바뀌면 대화 내용 초기화
+  useEffect(() => {
+    setChatHistory([]);
+    setIsTyping(false);
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+  }, [authorId]);
+
   const scrollToBottom = useCallback(() => {
     setTimeout(() => {
       if (chatContainerRef.current) {

@@ -15,7 +15,7 @@ import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import { josa } from 'josa';
 import { MessageCircleIcon } from 'lucide-react';
-import { RefObject, Suspense, useState } from 'react';
+import { RefObject, Suspense, useEffect, useState } from 'react';
 import AuthorChat from './AuthorChat';
 
 interface Props {
@@ -37,6 +37,11 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
     queryFn: () => authorApi.getAuthorDetail(authorId),
     select: response => response.data,
   });
+
+  // 작가가 바뀌면 대화창 닫기
+  useEffect(() => {
+    setIsChatOpen(false);
+  }, [authorId]);
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => authorApi.toggleAuthorLike(author.id),

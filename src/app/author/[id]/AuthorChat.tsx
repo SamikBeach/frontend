@@ -36,6 +36,16 @@ function AuthorChatContent({ authorId }: Props) {
     select: response => response.data,
   });
 
+  // 작가가 바뀌면 대화 내용 초기화
+  useEffect(() => {
+    setChatHistory([]);
+    setIsTyping(false);
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+  }, [authorId]);
+
   const scrollToBottom = useCallback(() => {
     setTimeout(() => {
       if (chatContainerRef.current) {
@@ -257,7 +267,7 @@ function AuthorChatContent({ authorId }: Props) {
               <Button
                 onClick={handleStopResponse}
                 variant="outline"
-                className="h-auto text-red-500 hover:bg-red-50 hover:text-red-600 border-red-200"
+                className="h-auto border-red-200 text-red-500 hover:bg-red-50 hover:text-red-600"
                 title="응답 중단하기"
               >
                 <StopCircleIcon className="h-4 w-4" />
