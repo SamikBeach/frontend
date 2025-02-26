@@ -271,8 +271,10 @@ function RelatedBookItem({
     <button
       onClick={handleClick}
       className={`flex items-center gap-2 rounded-md ${
-        isUnclassified ? 'bg-orange-50' : 'bg-gray-50'
-      } px-2.5 py-1.5 text-xs text-gray-700 transition-colors hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-1`}
+        isUnclassified
+          ? 'bg-orange-50 hover:bg-orange-100 hover:text-orange-700'
+          : 'bg-gray-50 hover:bg-blue-50 hover:text-blue-700'
+      } px-2.5 py-1.5 text-xs text-gray-700 transition-all hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-1`}
     >
       <img
         src={book.imageUrl || '/images/book-placeholder.png'}
