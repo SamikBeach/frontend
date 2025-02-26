@@ -8,6 +8,7 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
 } from '@/components/ui/carousel';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -63,6 +64,9 @@ function RelativeBooksContent({ authorId }: Props) {
               </CarouselItem>
             ))}
           </CarouselContent>
+          {books.length >= 7 && (
+            <CarouselNext className="right-[-10px] z-10 h-8 w-8 rounded-full border border-gray-100 bg-white text-gray-900 shadow-md hover:bg-gray-50" />
+          )}
         </Carousel>
       </div>
     </div>

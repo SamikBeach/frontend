@@ -83,7 +83,9 @@ function RelativeBooksContent({ bookId }: Props) {
               </CarouselItem>
             ))}
           </CarouselContent>
-          {showControls && <CarouselNext className="-right-2" />}
+          {showControls && (
+            <CarouselNext className="-right-2 z-10 h-8 w-8 rounded-full border border-gray-100 bg-white text-gray-900 shadow-md hover:bg-gray-50" />
+          )}
         </Carousel>
       </div>
     </div>
