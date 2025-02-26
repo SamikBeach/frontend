@@ -6,7 +6,7 @@ import { DialogProps } from '@radix-ui/react-dialog';
 import { ArrowLeftIcon, ExternalLinkIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import InfluencedAuthors from '../InfluencedAuthorItem/InfluencedAuthors';
 import { Button } from '../ui/button';
 import AuthorInfo from './AuthorInfo';
@@ -20,7 +20,14 @@ interface Props extends DialogProps {}
 export default function AuthorDialog(props: Props) {
   const { isOpen, id: authorId, close } = useDialogQuery({ type: 'author' });
   const reviewListRef = useRef<HTMLDivElement>(null);
+  const dialogContentRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    if (authorId && dialogContentRef.current) {
+      dialogContentRef.current.scrollTop = 0;
+    }
+  }, [authorId]);
 
   const handleBack = () => {
     router.back();
@@ -38,6 +45,7 @@ export default function AuthorDialog(props: Props) {
         aria-describedby={undefined}
         onOpenAutoFocus={e => e.preventDefault()}
         id="dialog-content"
+        ref={dialogContentRef}
       >
         <DialogTitle className="sr-only">작가 정보</DialogTitle>
         <div className="absolute right-10 top-3 z-10 flex">
