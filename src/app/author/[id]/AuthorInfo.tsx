@@ -68,9 +68,9 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
 
   return (
     <>
-      <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-6 bg-white p-6 sm:flex-row">
-          <div className="flex flex-col items-center gap-4 sm:items-start">
+      <div className="flex flex-col">
+        <div className="flex flex-col gap-6 bg-white pt-4 sm:flex-row">
+          <div className="flex flex-col items-center justify-center gap-4 sm:h-full sm:justify-start">
             <AuthorImage
               imageUrl={author.imageUrl}
               name={author.nameInKor}
@@ -80,12 +80,11 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
               onClick={() =>
                 window.open(
                   `https://en.wikipedia.org/wiki/${author.name}`,
-
                   '_blank'
                 )
               }
             />
-            <div className="mt-2 flex items-center gap-3">
+            <div className="flex items-center justify-center gap-3">
               <LikeButton
                 isLiked={author.isLiked}
                 likeCount={author.likeCount}
@@ -131,7 +130,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                 <div className="flex flex-col gap-2">
                   <motion.div
                     initial={false}
-                    animate={{ height: isExpanded ? 'auto' : '4.5rem' }}
+                    animate={{ height: isExpanded ? 'auto' : '5.5rem' }}
                     transition={{ duration: 0.3, ease: 'easeInOut' }}
                     className="relative overflow-hidden"
                   >
@@ -189,11 +188,11 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
 
 function AuthorInfoSkeleton() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col">
       <div className="flex flex-col gap-6 bg-white p-6 sm:flex-row">
-        <div className="flex flex-col items-center gap-4 sm:items-start">
+        <div className="flex flex-col items-center justify-center gap-4 sm:h-full sm:justify-start">
           <Skeleton className="h-[140px] w-[140px] shrink-0 rounded-full md:h-[200px] md:w-[200px]" />
-          <div className="mt-2 flex gap-3">
+          <div className="flex gap-3">
             <Skeleton className="h-9 w-20 rounded-full" />
             <Skeleton className="h-9 w-20 rounded-full" />
           </div>
