@@ -132,12 +132,10 @@ function AuthorYoutubesContent({ authorId }: Props) {
         )}
       </div>
 
-      {selectedVideoId && (
-        <YoutubeDialog
-          videoId={selectedVideoId}
-          onClose={() => setSelectedVideoId(null)}
-        />
-      )}
+      <YoutubeDialog
+        videoId={selectedVideoId}
+        onClose={() => setSelectedVideoId(null)}
+      />
     </div>
   );
 }
