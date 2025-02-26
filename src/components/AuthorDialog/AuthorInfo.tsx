@@ -13,7 +13,10 @@ import { cn } from '@/utils/common';
 import { formatAuthorLifespan } from '@/utils/date';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
-import { RefObject, Suspense, useState } from 'react';
+import { josa } from 'josa';
+import { MessageCircleIcon } from 'lucide-react';
+import { RefObject, Suspense, useEffect, useState } from 'react';
+import AuthorChat from '../AuthorDialog/AuthorChat';
 
 interface Props {
   authorId: number;
@@ -25,6 +28,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
 
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const { updateAuthorLikeQueryData } = useAuthorQueryData();
 
@@ -33,6 +37,11 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
     queryFn: () => authorApi.getAuthorDetail(authorId),
     select: response => response.data,
   });
+
+  // 작가가 바뀌면 대화창 닫기
+  useEffect(() => {
+    setIsChatOpen(false);
+  }, [authorId]);
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: () => authorApi.toggleAuthorLike(author.id),
@@ -66,9 +75,22 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
     reviewListRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const toggleChat = () => {
+    setIsChatOpen(prev => !prev);
+
+    if (!isChatOpen) {
+      setTimeout(() => {
+        const textarea = document.querySelector('.chat-textarea');
+        if (textarea instanceof HTMLTextAreaElement) {
+          textarea.focus();
+        }
+      }, 300);
+    }
+  };
+
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-6 bg-white pt-4 sm:flex-row">
           <div className="flex flex-col items-center justify-center gap-4 sm:h-full sm:justify-start">
             <AuthorImage
@@ -84,16 +106,33 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                 )
               }
             />
-            <div className="flex items-center justify-center gap-3">
-              <LikeButton
-                isLiked={author.isLiked}
-                likeCount={author.likeCount}
-                onClick={handleLikeClick}
-              />
-              <CommentButton
-                commentCount={author.reviewCount}
-                onClick={handleReviewClick}
-              />
+            <div className="flex flex-col items-center gap-3">
+              <div className="flex items-center justify-center gap-3">
+                <LikeButton
+                  isLiked={author.isLiked}
+                  likeCount={author.likeCount}
+                  onClick={handleLikeClick}
+                />
+                <CommentButton
+                  commentCount={author.reviewCount}
+                  onClick={handleReviewClick}
+                />
+              </div>
+              {/* 모바일에서는 숨김 처리 */}
+              <Button
+                onClick={toggleChat}
+                variant="outline"
+                size="sm"
+                className={cn(
+                  'hidden w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-none transition-all sm:flex',
+                  isChatOpen
+                    ? 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                    : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                )}
+              >
+                <MessageCircleIcon className="h-4 w-4" />
+                {josa(`${author.nameInKor}#{과} 대화하기`)}
+              </Button>
             </div>
           </div>
           <div className="flex w-full flex-col gap-5">
@@ -117,12 +156,14 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                     </span>
                   </div>
                 </div>
-                <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
-                  {author.genre && (
-                    <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600">
-                      {author.genre.genreInKor}
-                    </span>
-                  )}
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
+                    {author.genre && (
+                      <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600">
+                        {author.genre.genreInKor}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -130,7 +171,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                 <div className="flex flex-col gap-2">
                   <motion.div
                     initial={false}
-                    animate={{ height: isExpanded ? 'auto' : '5.5rem' }}
+                    animate={{ height: isExpanded ? 'auto' : '8.5rem' }}
                     transition={{ duration: 0.3, ease: 'easeInOut' }}
                     className="relative overflow-hidden"
                   >
@@ -140,7 +181,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                       transition={{ duration: 0.3, ease: 'easeInOut' }}
                       className={cn(
                         'whitespace-pre-wrap text-sm leading-relaxed text-gray-700 md:text-base',
-                        !isExpanded && 'line-clamp-4'
+                        !isExpanded && 'line-clamp-7'
                       )}
                     >
                       {author.description}
@@ -159,29 +200,64 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                       />
                     )}
                   </motion.div>
-                  {author.description && author.description.length > 200 && (
-                    <AnimatePresence>
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <Button
-                          variant="outline"
-                          onClick={() => setIsExpanded(!isExpanded)}
-                          className="mt-1 h-8 w-full border-gray-200 bg-white text-sm text-blue-600 hover:bg-blue-50 hover:text-blue-700"
+                  <div className="flex items-center gap-2">
+                    {author.description && author.description.length > 200 && (
+                      <AnimatePresence>
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="flex-1"
                         >
-                          {isExpanded ? '접기' : '더보기'}
-                        </Button>
-                      </motion.div>
-                    </AnimatePresence>
-                  )}
+                          <Button
+                            variant="outline"
+                            onClick={() => setIsExpanded(!isExpanded)}
+                            className="mt-1 h-8 w-full border-gray-200 bg-white text-sm text-blue-600 hover:bg-blue-50 hover:text-blue-700"
+                          >
+                            {isExpanded ? '접기' : '더보기'}
+                          </Button>
+                        </motion.div>
+                      </AnimatePresence>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* 모바일에서만 표시되는 대화하기 버튼 */}
+        <div className="sm:hidden">
+          <Button
+            onClick={toggleChat}
+            variant="outline"
+            size="sm"
+            className={cn(
+              'w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-none transition-all',
+              isChatOpen
+                ? 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+            )}
+          >
+            <MessageCircleIcon className="h-4 w-4" />
+            {josa(`${author.nameInKor}#{과} 대화하기`)}
+          </Button>
+        </div>
+
+        <AnimatePresence>
+          {isChatOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="overflow-hidden"
+            >
+              <AuthorChat authorId={authorId} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
       <LoginDialog open={openLoginDialog} onOpenChange={setOpenLoginDialog} />
     </>
@@ -191,31 +267,56 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
 function AuthorInfoSkeleton() {
   return (
     <div className="flex flex-col">
-      <div className="flex flex-col gap-6 bg-white p-6 sm:flex-row">
+      <div className="flex flex-col gap-6 bg-white pt-4 sm:flex-row">
         <div className="flex flex-col items-center justify-center gap-4 sm:h-full sm:justify-start">
           <Skeleton className="h-[140px] w-[140px] shrink-0 rounded-full md:h-[200px] md:w-[200px]" />
-          <div className="flex gap-3">
-            <Skeleton className="h-9 w-20 rounded-full" />
-            <Skeleton className="h-9 w-20 rounded-full" />
+          <div className="flex flex-col items-center gap-3">
+            <div className="flex items-center justify-center gap-3">
+              <Skeleton className="h-9 w-20 rounded-full" />
+              <Skeleton className="h-9 w-20 rounded-full" />
+            </div>
+            {/* 모바일에서는 숨김 처리 */}
+            <Skeleton className="hidden h-9 w-full rounded-md sm:block" />
           </div>
         </div>
         <div className="flex w-full flex-col gap-5">
           <div className="flex flex-col gap-3">
             <div className="space-y-2">
-              <div className="flex flex-wrap items-baseline gap-2">
+              <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
                 <Skeleton className="h-8 w-48 md:h-10" />
-                <Skeleton className="h-6 w-32 md:h-7" />
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <Skeleton className="h-6 w-32 md:h-7" />
+                  <Skeleton className="h-6 w-40 rounded-full" />
+                </div>
               </div>
-              <Skeleton className="h-6 w-40 rounded-full" />
-              <div className="space-y-1.5 bg-gray-50 p-4">
-                <Skeleton className="h-5 w-full" />
-                <Skeleton className="h-5 w-4/5" />
-                <Skeleton className="h-5 w-3/5" />
-                <Skeleton className="mt-2 h-8 w-full rounded-md" />
+              <div className="flex flex-wrap items-center gap-2">
+                <Skeleton className="h-6 w-24 rounded-full" />
+              </div>
+              <div className="space-y-2 rounded-md bg-gray-50 p-4">
+                <div className="flex flex-col gap-2">
+                  <div
+                    className="relative overflow-hidden"
+                    style={{ height: '8.5rem' }}
+                  >
+                    <Skeleton className="h-5 w-full" />
+                    <Skeleton className="mt-2 h-5 w-full" />
+                    <Skeleton className="mt-2 h-5 w-full" />
+                    <Skeleton className="mt-2 h-5 w-full" />
+                    <Skeleton className="mt-2 h-5 w-4/5" />
+                    <Skeleton className="mt-2 h-5 w-3/5" />
+                    <Skeleton className="mt-2 h-5 w-2/5" />
+                  </div>
+                  <Skeleton className="mt-2 h-8 w-full rounded-md" />
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* 모바일에서만 표시되는 대화하기 버튼 스켈레톤 */}
+      <div className="mt-4 sm:hidden">
+        <Skeleton className="h-9 w-full rounded-md" />
       </div>
     </div>
   );
