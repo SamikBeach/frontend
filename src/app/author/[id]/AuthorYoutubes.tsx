@@ -102,13 +102,15 @@ function AuthorYoutubesContent({ authorId }: Props) {
               align: 'start',
               dragFree: true,
               slidesToScroll,
+              inViewThreshold: 0.5,
+              containScroll: 'trimSnaps',
             }}
           >
-            <CarouselContent className="gap-4">
+            <CarouselContent className="gap-1">
               {videos.slice(0, 6).map((video: YouTubeVideo) => (
                 <CarouselItem
                   key={video.id}
-                  className="basis-[280px] pl-0 first:pl-0 sm:basis-[320px]"
+                  className="basis-[280px] sm:basis-[320px]"
                 >
                   <VideoCard video={video} />
                 </CarouselItem>
@@ -130,24 +132,25 @@ function VideoCard({ video }: { video: YouTubeVideo }) {
       href={`https://www.youtube.com/watch?v=${video.id}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="group overflow-hidden rounded-lg bg-white shadow-sm transition-all hover:shadow-md"
+      className="group overflow-hidden rounded-md bg-white shadow-sm transition-all hover:shadow-md"
     >
-      <div className="relative aspect-video w-full overflow-hidden">
+      <div className="relative aspect-video w-full overflow-hidden rounded-md">
         <img
           src={video.thumbnailUrl}
           alt={video.title}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          className="h-full w-full rounded-md object-cover transition-transform duration-300 group-hover:scale-105"
         />
-        <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-red-600 shadow-md">
-            <PlayIcon className="h-5 w-5" />
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-300 group-hover:opacity-100">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/80 text-red-500/90 shadow-md transition-all duration-300 group-hover:translate-y-0">
+            <PlayIcon className="h-6 w-6" />
           </div>
         </div>
       </div>
       <div className="p-3">
-        <h3 className="line-clamp-2 text-sm font-medium text-gray-900">
-          {video.title}
-        </h3>
+        <h3
+          className="line-clamp-2 text-sm font-medium text-gray-900"
+          dangerouslySetInnerHTML={{ __html: video.title }}
+        />
         <p className="mt-1 text-xs text-gray-500">{video.channelTitle}</p>
       </div>
     </a>
@@ -164,9 +167,9 @@ function AuthorYoutubesSkeleton() {
         {Array.from({ length: 3 }).map((_, index) => (
           <div
             key={index}
-            className="min-w-[280px] overflow-hidden rounded-lg border border-gray-200 bg-white"
+            className="basis-[280px] overflow-hidden rounded-md border border-gray-200 bg-white sm:basis-[320px]"
           >
-            <Skeleton className="aspect-video w-full" />
+            <Skeleton className="aspect-video w-full rounded-md" />
             <div className="p-3">
               <Skeleton className="h-5 w-full" />
               <Skeleton className="mt-1 h-4 w-1/2" />
