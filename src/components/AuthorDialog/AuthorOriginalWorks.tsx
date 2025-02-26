@@ -5,6 +5,12 @@ import { OriginalWork } from '@/apis/author/types';
 import { Book } from '@/apis/book/types';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+  defaultTransition,
+  expandAnimation,
+  itemAnimation,
+  rotateAnimation,
+} from '@/constants/animations';
 import { MOBILE_BREAKPOINT } from '@/constants/responsive';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -85,8 +91,9 @@ function AuthorOriginalWorksContent({ authorId }: Props) {
             {isExpanded ? (
               <>
                 <motion.div
-                  animate={{ rotate: 180 }}
-                  transition={{ duration: 0.3 }}
+                  variants={rotateAnimation}
+                  animate="expanded"
+                  transition={defaultTransition}
                 >
                   <ChevronDownIcon className="h-4 w-4" />
                 </motion.div>
@@ -103,9 +110,29 @@ function AuthorOriginalWorksContent({ authorId }: Props) {
       </div>
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {displayWorks.map((work: OriginalWork) => (
+        {allWorks.slice(0, 3).map((work: OriginalWork) => (
           <OriginalWorkCard key={work.id} work={work} />
         ))}
+
+        <AnimatePresence>
+          {isExpanded && allWorks.length > 3 && (
+            <>
+              {allWorks.slice(3).map((work: OriginalWork) => (
+                <motion.div
+                  key={work.id}
+                  className="col-span-1"
+                  initial="collapsed"
+                  animate="expanded"
+                  exit="collapsed"
+                  variants={itemAnimation}
+                  transition={defaultTransition}
+                >
+                  <OriginalWorkCard work={work} />
+                </motion.div>
+              ))}
+            </>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
@@ -198,8 +225,9 @@ function OriginalWorkCard({ work }: { work: OriginalWork }) {
               >
                 {showAllBooks ? '접기' : '더보기'}
                 <motion.div
-                  animate={{ rotate: showAllBooks ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
+                  variants={rotateAnimation}
+                  animate={showAllBooks ? 'expanded' : 'initial'}
+                  transition={defaultTransition}
                 >
                   <ChevronDownIcon className="h-3 w-3" />
                 </motion.div>
@@ -209,7 +237,7 @@ function OriginalWorkCard({ work }: { work: OriginalWork }) {
           <motion.div
             className="flex flex-wrap gap-1.5"
             animate={{ height: 'auto' }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            transition={defaultTransition}
           >
             {displayBooks.slice(0, 3).map(book => (
               <RelatedBookItem
@@ -223,10 +251,11 @@ function OriginalWorkCard({ work }: { work: OriginalWork }) {
               {showAllBooks && filteredBooks.length > 3 && (
                 <motion.div
                   className="flex w-full flex-wrap gap-1.5"
-                  initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                  animate={{ opacity: 1, height: 'auto', marginTop: 4 }}
-                  exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  initial="collapsed"
+                  animate="expanded"
+                  exit="collapsed"
+                  variants={expandAnimation}
+                  transition={defaultTransition}
                 >
                   {filteredBooks.slice(3).map(book => (
                     <RelatedBookItem
