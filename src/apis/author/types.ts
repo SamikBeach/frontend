@@ -2,6 +2,19 @@ import { Book } from '../book/types';
 import { BaseEntity, PaginationQuery } from '../common/types';
 import { Genre } from '../genre/types';
 
+export interface OriginalWork extends BaseEntity {
+  title: string;
+  titleInEng?: string;
+  titleInKor?: string;
+  publicationDate?: string;
+  publicationDateIsBc?: boolean;
+  posthumous?: boolean;
+  circa?: boolean;
+  century?: boolean;
+  s?: boolean;
+  books?: Book[];
+}
+
 export interface Author extends BaseEntity {
   name: string;
   nameInKor: string;
@@ -27,6 +40,7 @@ export interface Author extends BaseEntity {
     id: number;
     title: string;
   }[];
+  originalWorks?: OriginalWork[];
   createdAt: string;
   updatedAt: string;
 }

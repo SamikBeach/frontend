@@ -37,7 +37,7 @@ export default function InfluencedAuthorItem({ author }: Props) {
 
   return (
     <div
-      className="inline-flex min-w-[160px] cursor-pointer items-center gap-3 whitespace-nowrap rounded-lg bg-white p-2 transition-colors hover:bg-gray-50"
+      className="group flex h-full w-full cursor-pointer items-center gap-3 rounded-lg border border-gray-100 bg-white p-3 shadow-sm transition-all hover:border-blue-100 hover:bg-blue-50/30 hover:shadow-md"
       onClick={handleClick}
     >
       <AuthorImage
@@ -49,7 +49,7 @@ export default function InfluencedAuthorItem({ author }: Props) {
       />
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-gray-900">
+          <span className="truncate text-sm font-medium text-gray-900 group-hover:text-blue-900">
             {author.nameInKor}
           </span>
           {author.isWikiData && (

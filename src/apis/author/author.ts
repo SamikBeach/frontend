@@ -1,9 +1,19 @@
 import { transformFilterParams } from '@/utils/api';
 import axios from '../axios';
 import type { Book } from '../book/types';
-import type { PaginatedResponse, PaginationQuery } from '../common/types';
+import type {
+  PaginatedResponse,
+  PaginationQuery,
+  YouTubeVideo,
+} from '../common/types';
 import { Review } from '../review/types';
-import type { Author, AuthorDetail, AuthorSearchQuery, InfluencedAuthor } from './types';
+import type {
+  Author,
+  AuthorDetail,
+  AuthorSearchQuery,
+  InfluencedAuthor,
+  OriginalWork,
+} from './types';
 
 export const authorApi = {
   /**
@@ -72,4 +82,22 @@ export const authorApi = {
    */
   getInfluencedByAuthors: (authorId: number) =>
     axios.get<InfluencedAuthor[]>(`/author/${authorId}/influenced-by`),
+
+  /**
+   * 작가 관련 YouTube 동영상을 가져옵니다.
+   * @param authorId - 작가 ID
+   * @param maxResults - 최대 결과 수 (기본값: 5)
+   * @returns YouTube 동영상 목록
+   */
+  getAuthorVideos: (authorId: number, maxResults = 5) =>
+    axios.get<YouTubeVideo[]>(`/author/${authorId}/videos`, {
+      params: { maxResults },
+    }),
+
+  /**
+   * 작가의 원전 작품 목록을 가져옵니다.
+   */
+  getAuthorOriginalWorks: (authorId: number) => {
+    return axios.get<OriginalWork[]>(`/author/${authorId}/original-works`);
+  },
 };

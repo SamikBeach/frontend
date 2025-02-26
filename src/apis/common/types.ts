@@ -46,3 +46,13 @@ export interface LikeToggleResponse {
 export interface DeleteResponse {
   message: string;
 }
+
+// YouTube 비디오 정보
+export interface YouTubeVideo {
+  id: string;
+  title: string;
+  description: string;
+  thumbnailUrl: string;
+  publishedAt: string;
+  channelTitle: string;
+}

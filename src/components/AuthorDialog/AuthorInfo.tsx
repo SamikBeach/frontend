@@ -104,6 +104,13 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                     </span>
                   </div>
                 </div>
+                <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
+                  {author.genre && (
+                    <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
+                      {author.genre.genreInKor}
+                    </span>
+                  )}
+                </div>
               </div>
 
               <div className="space-y-1">
@@ -157,9 +164,9 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
               </div>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex items-center gap-2">
               <LikeButton
-                isLiked={author.isLiked ?? false}
+                isLiked={author.isLiked}
                 likeCount={author.likeCount}
                 onClick={handleLikeClick}
               />

@@ -1,6 +1,10 @@
 import { transformFilterParams } from '@/utils/api';
 import axios from '../axios';
-import type { PaginatedResponse, PaginationQuery } from '../common/types';
+import type {
+  PaginatedResponse,
+  PaginationQuery,
+  YouTubeVideo,
+} from '../common/types';
 import type { Review } from '../review/types';
 import type { Book, BookDetail, BookSearchQuery } from './types';
 
@@ -64,5 +68,16 @@ export const bookApi = {
   ) =>
     axios.get<PaginatedResponse<Review>>(`/book/${bookId}/reviews`, {
       params: { ...params, includeOtherTranslations },
+    }),
+
+  /**
+   * 책 관련 YouTube 동영상을 가져옵니다.
+   * @param bookId - 책 ID
+   * @param maxResults - 최대 결과 수 (기본값: 5)
+   * @returns YouTube 동영상 목록
+   */
+  getBookVideos: (bookId: number, maxResults = 5) =>
+    axios.get<YouTubeVideo[]>(`/book/${bookId}/videos`, {
+      params: { maxResults },
     }),
 };
