@@ -13,7 +13,10 @@ import { cn } from '@/utils/common';
 import { formatAuthorLifespan } from '@/utils/date';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
+import { josa } from 'josa';
+import { MessageCircleIcon } from 'lucide-react';
 import { RefObject, Suspense, useState } from 'react';
+import AuthorChat from '../AuthorDialog/AuthorChat';
 
 interface Props {
   authorId: number;
@@ -25,6 +28,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
 
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const { updateAuthorLikeQueryData } = useAuthorQueryData();
 
@@ -66,9 +70,22 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
     reviewListRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const toggleChat = () => {
+    setIsChatOpen(prev => !prev);
+
+    if (!isChatOpen) {
+      setTimeout(() => {
+        const textarea = document.querySelector('.chat-textarea');
+        if (textarea instanceof HTMLTextAreaElement) {
+          textarea.focus();
+        }
+      }, 300);
+    }
+  };
+
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-6 bg-white pt-4 sm:flex-row">
           <div className="flex flex-col items-center justify-center gap-4 sm:h-full sm:justify-start">
             <AuthorImage
@@ -159,29 +176,54 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                       />
                     )}
                   </motion.div>
-                  {author.description && author.description.length > 200 && (
-                    <AnimatePresence>
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <Button
-                          variant="outline"
-                          onClick={() => setIsExpanded(!isExpanded)}
-                          className="mt-1 h-8 w-full border-gray-200 bg-white text-sm text-blue-600 hover:bg-blue-50 hover:text-blue-700"
+                  <div className="flex items-center gap-2">
+                    {author.description && author.description.length > 200 && (
+                      <AnimatePresence>
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="flex-1"
                         >
-                          {isExpanded ? '접기' : '더보기'}
-                        </Button>
-                      </motion.div>
-                    </AnimatePresence>
-                  )}
+                          <Button
+                            variant="outline"
+                            onClick={() => setIsExpanded(!isExpanded)}
+                            className="mt-1 h-8 w-full border-gray-200 bg-white text-sm text-blue-600 hover:bg-blue-50 hover:text-blue-700"
+                          >
+                            {isExpanded ? '접기' : '더보기'}
+                          </Button>
+                        </motion.div>
+                      </AnimatePresence>
+                    )}
+                    <Button
+                      onClick={toggleChat}
+                      variant={isChatOpen ? 'outline' : 'default'}
+                      className="mt-1 flex h-8 items-center gap-1.5 text-sm"
+                    >
+                      <MessageCircleIcon className="h-4 w-4" />
+                      {josa(`${author.nameInKor}#{과} 대화하기`)}
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        <AnimatePresence>
+          {isChatOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="overflow-hidden"
+            >
+              <AuthorChat authorId={authorId} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
       <LoginDialog open={openLoginDialog} onOpenChange={setOpenLoginDialog} />
     </>
