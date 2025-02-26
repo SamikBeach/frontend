@@ -100,7 +100,8 @@ function OriginalWorkCard({ work }: { work: OriginalWork }) {
   };
 
   const publicationDate = formatPublicationDate();
-  const hasBooks = work.books && work.books.length > 0;
+  const hasBooks =
+    work.books && work.books.filter(book => book && book.id).length > 0;
 
   return (
     <div className="group flex flex-col rounded-lg border border-gray-100 bg-white p-3 shadow-sm transition-all hover:border-blue-100 hover:bg-blue-50/30 hover:shadow-md">
@@ -129,9 +130,9 @@ function OriginalWorkCard({ work }: { work: OriginalWork }) {
             연관된 책 ({work.books?.length})
           </p>
           <div className="flex flex-wrap gap-1">
-            {work.books?.map(book => (
-              <RelatedBookItem key={book.id} book={book} />
-            ))}
+            {work.books
+              ?.filter(book => book && book.id)
+              .map(book => <RelatedBookItem key={book.id} book={book} />)}
           </div>
         </div>
       )}
@@ -144,12 +145,16 @@ function RelatedBookItem({ book }: { book: Book }) {
   const { open } = useDialogQuery({ type: 'book' });
 
   const handleClick = () => {
+    if (!book || !book.id) return;
+
     if (window.innerWidth < MOBILE_BREAKPOINT) {
       router.push(`/book/${book.id}`);
     } else {
       open(book.id);
     }
   };
+
+  if (!book || !book.id) return null;
 
   return (
     <button
@@ -158,10 +163,12 @@ function RelatedBookItem({ book }: { book: Book }) {
     >
       <img
         src={book.imageUrl || '/images/book-placeholder.png'}
-        alt={book.title}
+        alt={book.title || '책 표지'}
         className="h-6 w-4 rounded object-cover"
       />
-      <span className="max-w-[120px] truncate">{book.title}</span>
+      <span className="max-w-[120px] truncate">
+        {book.title || '제목 없음'}
+      </span>
     </button>
   );
 }
