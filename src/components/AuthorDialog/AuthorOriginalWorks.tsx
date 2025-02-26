@@ -193,10 +193,15 @@ function OriginalWorkCard({ work }: { work: OriginalWork }) {
         >
           {work.title}
         </h3>
-        {!isUnclassified && (work.titleInKor || work.titleInEng) && (
-          <p className="mt-1 text-xs text-gray-600">
-            {work.titleInKor || work.titleInEng}
-          </p>
+        {!isUnclassified && (
+          <div className="mt-1 space-y-0.5">
+            {work.titleInKor && work.titleInKor !== work.title && (
+              <p className="text-xs text-gray-600">{work.titleInKor}</p>
+            )}
+            {work.titleInEng && work.titleInEng !== work.title && (
+              <p className="text-xs italic text-gray-500">{work.titleInEng}</p>
+            )}
+          </div>
         )}
         {!isUnclassified && publicationDate && (
           <p className="mt-1.5 text-xs text-gray-500">{publicationDate}</p>
