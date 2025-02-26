@@ -28,7 +28,7 @@ function AuthorYoutubesContent({ authorId }: Props) {
 
   const { data: videos = [] } = useSuspenseQuery({
     queryKey: ['author-videos', authorId],
-    queryFn: () => authorApi.getAuthorVideos(authorId, 10),
+    queryFn: () => authorApi.getAuthorVideos(authorId, 5),
     select: data => data.data,
   });
 
