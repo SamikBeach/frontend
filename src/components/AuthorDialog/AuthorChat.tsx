@@ -131,7 +131,7 @@ function AuthorChatContent({ authorId }: Props) {
         abortControllerRef.current = null;
       }
     },
-    onError: error => {
+    onError: () => {
       toast.error('오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
 
       // 타이핑 효과 종료

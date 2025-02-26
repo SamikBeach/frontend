@@ -101,16 +101,32 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                 )
               }
             />
-            <div className="flex items-center justify-center gap-3">
-              <LikeButton
-                isLiked={author.isLiked}
-                likeCount={author.likeCount}
-                onClick={handleLikeClick}
-              />
-              <CommentButton
-                commentCount={author.reviewCount}
-                onClick={handleReviewClick}
-              />
+            <div className="flex flex-col items-center gap-3">
+              <div className="flex items-center justify-center gap-3">
+                <LikeButton
+                  isLiked={author.isLiked}
+                  likeCount={author.likeCount}
+                  onClick={handleLikeClick}
+                />
+                <CommentButton
+                  commentCount={author.reviewCount}
+                  onClick={handleReviewClick}
+                />
+              </div>
+              <Button
+                onClick={toggleChat}
+                variant={isChatOpen ? 'outline' : 'default'}
+                size="sm"
+                className={cn(
+                  'flex w-full items-center justify-center gap-1.5 px-4 py-2 text-sm font-medium transition-all',
+                  isChatOpen
+                    ? 'border-blue-200 text-blue-600 hover:bg-blue-50'
+                    : 'bg-blue-600/80 text-white hover:bg-blue-700'
+                )}
+              >
+                <MessageCircleIcon className="h-4 w-4" />
+                {josa(`${author.nameInKor}#{과} 대화하기`)}
+              </Button>
             </div>
           </div>
           <div className="flex w-full flex-col gap-5">
@@ -134,12 +150,14 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                     </span>
                   </div>
                 </div>
-                <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
-                  {author.genre && (
-                    <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600">
-                      {author.genre.genreInKor}
-                    </span>
-                  )}
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
+                    {author.genre && (
+                      <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600">
+                        {author.genre.genreInKor}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -147,7 +165,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                 <div className="flex flex-col gap-2">
                   <motion.div
                     initial={false}
-                    animate={{ height: isExpanded ? 'auto' : '5.5rem' }}
+                    animate={{ height: isExpanded ? 'auto' : '8.5rem' }}
                     transition={{ duration: 0.3, ease: 'easeInOut' }}
                     className="relative overflow-hidden"
                   >
@@ -157,7 +175,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                       transition={{ duration: 0.3, ease: 'easeInOut' }}
                       className={cn(
                         'whitespace-pre-wrap text-sm leading-relaxed text-gray-700 md:text-base',
-                        !isExpanded && 'line-clamp-4'
+                        !isExpanded && 'line-clamp-7'
                       )}
                     >
                       {author.description}
@@ -196,14 +214,6 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                         </motion.div>
                       </AnimatePresence>
                     )}
-                    <Button
-                      onClick={toggleChat}
-                      variant={isChatOpen ? 'outline' : 'default'}
-                      className="mt-1 flex h-8 items-center gap-1.5 text-sm"
-                    >
-                      <MessageCircleIcon className="h-4 w-4" />
-                      {josa(`${author.nameInKor}#{과} 대화하기`)}
-                    </Button>
                   </div>
                 </div>
               </div>
@@ -240,6 +250,7 @@ function AuthorInfoSkeleton() {
             <Skeleton className="h-9 w-20 rounded-full" />
             <Skeleton className="h-9 w-20 rounded-full" />
           </div>
+          <Skeleton className="h-9 w-full rounded-md" />
         </div>
         <div className="flex w-full flex-col gap-5">
           <div className="flex flex-col gap-3">
