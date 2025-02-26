@@ -51,7 +51,7 @@ function RelativeBooksContent({ authorId }: Props) {
             dragFree: true,
           }}
         >
-          <CarouselContent className="w-[1080px] gap-4">
+          <CarouselContent className="-ml-2 w-[1080px] gap-4">
             {books.map((book: Book) => (
               <CarouselItem key={book.id} className="basis-[110px]">
                 <BookGridItem

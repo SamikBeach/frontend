@@ -112,7 +112,7 @@ function BookYoutubesContent({ bookId }: Props) {
               containScroll: 'trimSnaps',
             }}
           >
-            <CarouselContent className="gap-1 pb-1">
+            <CarouselContent className="-ml-2 gap-1 pb-1">
               {videos.slice(0, 6).map((video: YouTubeVideo) => (
                 <CarouselItem
                   key={video.id}
