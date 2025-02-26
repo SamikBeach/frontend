@@ -1,5 +1,21 @@
 # 🚦 CHANGELOG
 
+# [1.73.0](https://github.com/SamikBeach/frontend/compare/1.72.0...1.73.0) (2025-02-26)
+
+
+### Bug Fixes
+
+* fix lint ([5fa22a0](https://github.com/SamikBeach/frontend/commit/5fa22a0297af605e0b916dec8b5377bdbb734ae0))
+* 스타일 수정 ([1f0e352](https://github.com/SamikBeach/frontend/commit/1f0e3528c132f3d6330060777603c5c23e25464b))
+* 채팅 인터페이스의 정지 버튼 색상 개선 ([faa532d](https://github.com/SamikBeach/frontend/commit/faa532dc4c3b0e976d68b3aebc0afa77eda0e5be))
+
+
+### Features
+
+* 모바일 환경에서 대화하기 버튼 위치 개선 ([1068127](https://github.com/SamikBeach/frontend/commit/1068127605fe93db82404a9e06ec67b3d95788b6))
+* 작가 변경 시 다이얼로그 최상단 스크롤 기능 추가 ([02c8082](https://github.com/SamikBeach/frontend/commit/02c8082fd58b9e33240db06fd2f35cbabddbf057))
+* 작가 변경 시 대화창 자동 닫힘 기능 추가 ([3770eff](https://github.com/SamikBeach/frontend/commit/3770effd23765ff1970d004381627c483e6eb5ad))
+
 # [1.72.0](https://github.com/SamikBeach/frontend/compare/1.71.0...1.72.0) (2025-02-26)
 
 
