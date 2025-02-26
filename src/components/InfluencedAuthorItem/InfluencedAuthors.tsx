@@ -79,7 +79,7 @@ function InfluencedAuthorsContent({ authorId }: Props) {
               </Button>
             )}
           </div>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
             {displayInfluenced.map(author => (
               <div key={author.id}>
                 <InfluencedAuthorItem author={author} />
@@ -123,7 +123,7 @@ function InfluencedAuthorsContent({ authorId }: Props) {
               </Button>
             )}
           </div>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
             {displayInfluencedBy.map(author => (
               <div key={author.id}>
                 <InfluencedAuthorItem author={author} />
@@ -148,7 +148,7 @@ function InfluencedAuthorsSkeleton() {
             </div>
             <Skeleton className="h-8 w-24 rounded-md" />
           </div>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
             {Array.from({ length: 3 }).map((_, index) => (
               <div
                 key={index}
