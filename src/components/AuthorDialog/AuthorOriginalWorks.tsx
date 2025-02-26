@@ -9,7 +9,7 @@ import { MOBILE_BREAKPOINT } from '@/constants/responsive';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
-import { BookOpenIcon, ChevronDownIcon, LayoutGridIcon } from 'lucide-react';
+import { ChevronDownIcon, LayoutGridIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Suspense, useState } from 'react';
 
@@ -70,7 +70,7 @@ function AuthorOriginalWorksContent({ authorId }: Props) {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <h2 className="text-lg font-semibold">원전</h2>
+          <h2 className="text-lg font-semibold text-gray-900">원전</h2>
           <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
             {allWorks.length}
           </span>
@@ -102,7 +102,7 @@ function AuthorOriginalWorksContent({ authorId }: Props) {
         )}
       </div>
 
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {displayWorks.map((work: OriginalWork) => (
           <OriginalWorkCard key={work.id} work={work} />
         ))}
@@ -147,53 +147,54 @@ function OriginalWorkCard({ work }: { work: OriginalWork }) {
   const hasMoreBooks = filteredBooks.length > 3;
   const displayBooks = showAllBooks ? filteredBooks : filteredBooks.slice(0, 3);
 
-  // 미분류 카드인 경우 다른 아이콘과 색상 사용
+  // 미분류 카드인 경우 다른 색상 사용
   const isUnclassified = work.id === -1;
 
   return (
     <div
-      className={`group flex h-full flex-col rounded-lg border border-gray-100 bg-white p-3 shadow-sm transition-all ${isUnclassified ? 'hover:border-orange-100 hover:bg-orange-50/30' : 'hover:border-blue-100 hover:bg-blue-50/30'} hover:shadow-md`}
+      className={`flex h-full flex-col rounded-lg border ${
+        isUnclassified
+          ? 'border-orange-100 bg-orange-50/20'
+          : 'border-gray-100 bg-white'
+      } p-4 shadow-sm`}
     >
-      <div className="flex items-center gap-3">
-        <div
-          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${isUnclassified ? 'bg-orange-50 text-orange-600 group-hover:bg-orange-100 group-hover:text-orange-700' : 'bg-blue-50 text-blue-600 group-hover:bg-blue-100 group-hover:text-blue-700'}`}
+      <div className="flex flex-col">
+        <h3
+          className={`text-sm font-semibold ${
+            isUnclassified ? 'text-orange-900' : 'text-gray-900'
+          }`}
         >
-          {isUnclassified ? (
-            <BookOpenIcon className="h-5 w-5" />
-          ) : (
-            <BookOpenIcon className="h-5 w-5" />
-          )}
-        </div>
-        <div className="min-w-0 flex-1">
-          <h3
-            className={`text-sm font-medium text-gray-900 ${isUnclassified ? 'group-hover:text-orange-900' : 'group-hover:text-blue-900'}`}
-          >
-            {work.title}
-          </h3>
-          {!isUnclassified && (work.titleInKor || work.titleInEng) && (
-            <p className="text-xs text-gray-500 group-hover:text-blue-700/70">
-              {work.titleInKor || work.titleInEng}
-            </p>
-          )}
-          {!isUnclassified && publicationDate && (
-            <p className="mt-1 text-xs text-gray-500">{publicationDate}</p>
-          )}
-          {isUnclassified && (
-            <p className="text-xs text-gray-500">원전과 연결되지 않은 책들</p>
-          )}
-        </div>
+          {work.title}
+        </h3>
+        {!isUnclassified && (work.titleInKor || work.titleInEng) && (
+          <p className="mt-1 text-xs text-gray-600">
+            {work.titleInKor || work.titleInEng}
+          </p>
+        )}
+        {!isUnclassified && publicationDate && (
+          <p className="mt-1.5 text-xs text-gray-500">{publicationDate}</p>
+        )}
+        {isUnclassified && (
+          <p className="mt-1 text-xs text-gray-600">
+            원전과 연결되지 않은 책들
+          </p>
+        )}
       </div>
 
       {hasBooks && (
-        <div className="mt-3 flex-1 border-t border-gray-100 pt-2">
-          <div className="mb-1 flex items-center justify-between">
+        <div className="mt-4 flex-1 border-t border-gray-100 pt-3">
+          <div className="mb-2 flex items-center justify-between">
             <p className="text-xs font-medium text-gray-700">
               {isUnclassified ? '책' : '연관된 책'} ({filteredBooks.length})
             </p>
             {hasMoreBooks && (
               <button
                 onClick={() => setShowAllBooks(!showAllBooks)}
-                className={`flex items-center gap-0.5 text-xs font-medium ${isUnclassified ? 'text-orange-600 hover:text-orange-800' : 'text-blue-600 hover:text-blue-800'}`}
+                className={`flex items-center gap-0.5 rounded px-1.5 py-0.5 text-xs font-medium ${
+                  isUnclassified
+                    ? 'text-orange-600 hover:bg-orange-100/50'
+                    : 'text-blue-600 hover:bg-blue-100/50'
+                } transition-colors`}
               >
                 {showAllBooks ? '접기' : '더보기'}
                 <motion.div
@@ -206,7 +207,7 @@ function OriginalWorkCard({ work }: { work: OriginalWork }) {
             )}
           </div>
           <motion.div
-            className="flex flex-wrap gap-1"
+            className="flex flex-wrap gap-1.5"
             animate={{ height: 'auto' }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
@@ -221,7 +222,7 @@ function OriginalWorkCard({ work }: { work: OriginalWork }) {
             <AnimatePresence>
               {showAllBooks && filteredBooks.length > 3 && (
                 <motion.div
-                  className="flex w-full flex-wrap gap-1"
+                  className="flex w-full flex-wrap gap-1.5"
                   initial={{ opacity: 0, height: 0, marginTop: 0 }}
                   animate={{ opacity: 1, height: 'auto', marginTop: 4 }}
                   exit={{ opacity: 0, height: 0, marginTop: 0 }}
@@ -269,14 +270,18 @@ function RelatedBookItem({
   return (
     <button
       onClick={handleClick}
-      className={`flex items-center gap-2 rounded-md ${isUnclassified ? 'bg-orange-50 hover:bg-orange-100 hover:text-orange-700' : 'bg-gray-50 hover:bg-blue-50 hover:text-blue-700'} px-2.5 py-1.5 text-xs text-gray-700 transition-colors hover:shadow-sm`}
+      className={`flex items-center gap-2 rounded-md ${
+        isUnclassified ? 'bg-orange-50' : 'bg-gray-50'
+      } px-2.5 py-1.5 text-xs text-gray-700 transition-colors hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-1`}
     >
       <img
         src={book.imageUrl || '/images/book-placeholder.png'}
         alt={book.title || '책 표지'}
-        className="h-6 w-4 shrink-0 rounded object-cover"
+        className="h-7 w-5 shrink-0 rounded-sm object-cover shadow-sm"
       />
-      <span className="text-left">{book.title || '제목 없음'}</span>
+      <span className="line-clamp-1 text-left">
+        {book.title || '제목 없음'}
+      </span>
     </button>
   );
 }
@@ -286,30 +291,30 @@ function AuthorOriginalWorksSkeleton() {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Skeleton className="h-6 w-28" />
+          <Skeleton className="h-7 w-28" />
           <Skeleton className="h-5 w-8 rounded-full" />
         </div>
         <Skeleton className="h-8 w-24 rounded-md" />
       </div>
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 3 }).map((_, index) => (
           <div
             key={index}
-            className="flex flex-col rounded-lg border border-gray-100 bg-white p-3"
+            className="flex flex-col rounded-lg border border-gray-100 bg-white p-4 shadow-sm"
           >
-            <div className="flex items-center gap-3">
-              <Skeleton className="h-10 w-10 rounded-full" />
-              <div className="min-w-0 flex-1">
-                <Skeleton className="h-5 w-full" />
-                <Skeleton className="mt-1 h-4 w-2/3" />
-                <Skeleton className="mt-1 h-3 w-1/2" />
-              </div>
+            <div className="flex flex-col">
+              <Skeleton className="h-5 w-full" />
+              <Skeleton className="mt-1 h-4 w-2/3" />
+              <Skeleton className="mt-1.5 h-3 w-1/2" />
             </div>
-            <div className="mt-3 border-t border-gray-100 pt-2">
-              <Skeleton className="mb-1 h-3 w-24" />
-              <div className="flex flex-wrap gap-1">
+            <div className="mt-4 border-t border-gray-100 pt-3">
+              <div className="mb-2 flex items-center justify-between">
+                <Skeleton className="h-3 w-24" />
+                <Skeleton className="h-4 w-16 rounded" />
+              </div>
+              <div className="flex flex-wrap gap-1.5">
                 {Array.from({ length: 3 }).map((_, i) => (
-                  <Skeleton key={i} className="h-8 w-24 rounded-md" />
+                  <Skeleton key={i} className="h-9 w-28 rounded-md" />
                 ))}
               </div>
             </div>
