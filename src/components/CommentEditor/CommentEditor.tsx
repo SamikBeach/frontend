@@ -188,7 +188,7 @@ function CommentEditor({
             triggers={['@']}
             menuComponent={CustomMenu}
             menuItemComponent={CustomMenuItem}
-            onSearch={(trigger: string, queryString?: string | null) => {
+            onSearch={(_: string, queryString?: string | null) => {
               setSearchValue(queryString ?? '');
 
               return Promise.resolve(
