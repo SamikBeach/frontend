@@ -28,7 +28,7 @@ function BookYoutubesContent({ bookId }: Props) {
 
   const { data: videos = [] } = useSuspenseQuery({
     queryKey: ['book-videos', bookId],
-    queryFn: () => bookApi.getBookVideos(bookId, 15),
+    queryFn: () => bookApi.getBookVideos(bookId, 5),
     select: data => data.data,
   });
 

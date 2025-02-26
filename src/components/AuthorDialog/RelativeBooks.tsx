@@ -74,7 +74,7 @@ function RelativeBooksContent({ authorId }: Props) {
       </div>
       <div className="relative">
         {isExpanded ? (
-          <div className="xs:grid-cols-3 grid grid-cols-3 gap-1 sm:grid-cols-4 sm:gap-2 md:grid-cols-5 md:gap-4 lg:grid-cols-6">
+          <div className="grid grid-cols-3 gap-1 sm:grid-cols-4 sm:gap-2 md:grid-cols-5 md:gap-4 lg:grid-cols-6">
             {books.map((book: Book) => (
               <div key={book.id} className="w-full">
                 <BookGridItem
@@ -93,7 +93,7 @@ function RelativeBooksContent({ authorId }: Props) {
               loop: true,
               align: 'start',
               dragFree: true,
-              slidesToScroll: 6,
+              slidesToScroll: 5,
             }}
           >
             <CarouselContent className="gap-4">
@@ -121,11 +121,13 @@ function RelativeBooksContent({ authorId }: Props) {
 function RelativeBooksSkeleton() {
   return (
     <div className="flex flex-col gap-3">
-      <Skeleton className="h-7 w-32" />
-      <div className="flex gap-4">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <BookGridItemSkeleton key={i} size="xsmall" />
-        ))}
+      <Skeleton className="h-7 w-20" />
+      <div className="relative">
+        <div className="flex gap-4">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <BookGridItemSkeleton key={index} size="xsmall" />
+          ))}
+        </div>
       </div>
     </div>
   );

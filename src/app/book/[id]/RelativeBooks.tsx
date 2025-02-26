@@ -4,7 +4,6 @@ import { bookApi } from '@/apis/book/book';
 import { Book } from '@/apis/book/types';
 import BookGridItem from '@/components/BookItem/BookGridItem';
 import BookGridItemSkeleton from '@/components/BookItem/BookGridItemSkeleton';
-import { Button } from '@/components/ui/button';
 import {
   Carousel,
   CarouselContent,
@@ -12,7 +11,6 @@ import {
   CarouselNext,
 } from '@/components/ui/carousel';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { ChevronDownIcon, LayoutGridIcon } from 'lucide-react';
 import { Suspense, useEffect, useRef, useState } from 'react';
 
 interface Props {
@@ -28,7 +26,6 @@ function RelativeBooksContent({ bookId }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [showControls, setShowControls] = useState(false);
   const [slidesToScroll, setSlidesToScroll] = useState(1);
-  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -58,75 +55,36 @@ function RelativeBooksContent({ bookId }: Props) {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <p className="text-base font-semibold">이 책의 다른 번역서</p>
-          <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
-            {books.length}
-          </span>
-        </div>
-        {books.length > 5 && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="h-8 gap-1.5 rounded-md px-3 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900"
-          >
-            {isExpanded ? (
-              <>
-                <ChevronDownIcon className="h-4 w-4" />
-                접기
-              </>
-            ) : (
-              <>
-                <LayoutGridIcon className="h-4 w-4" />
-                전체보기
-              </>
-            )}
-          </Button>
-        )}
+      <div className="flex items-center gap-2">
+        <p className="text-base font-semibold">이 책의 다른 번역서</p>
+        <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
+          {books.length}
+        </span>
       </div>
       <div className="relative" ref={containerRef}>
-        {isExpanded ? (
-          <div className="grid grid-cols-3 gap-1 sm:grid-cols-4 sm:gap-2 md:grid-cols-5 md:gap-4 lg:grid-cols-6 xl:grid-cols-8">
+        <Carousel
+          className="w-full"
+          opts={{
+            loop: true,
+            align: 'start',
+            dragFree: true,
+            slidesToScroll,
+          }}
+        >
+          <CarouselContent className="gap-4">
             {books.map((book: Book) => (
-              <div key={book.id} className="w-full">
+              <CarouselItem key={book.id} className="basis-[110px]">
                 <BookGridItem
                   book={book}
                   size="xsmall"
                   showPublisher={true}
                   showPublicationDate={true}
                 />
-              </div>
+              </CarouselItem>
             ))}
-          </div>
-        ) : (
-          <Carousel
-            className="w-full"
-            opts={{
-              loop: true,
-              align: 'start',
-              dragFree: true,
-              slidesToScroll,
-            }}
-          >
-            <CarouselContent className="gap-4">
-              {books.map((book: Book) => (
-                <CarouselItem key={book.id} className="basis-[110px]">
-                  <BookGridItem
-                    book={book}
-                    size="xsmall"
-                    showPublisher={true}
-                    showPublicationDate={true}
-                  />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            {showControls && (
-              <CarouselNext className="-right-2 z-10 h-8 w-8 rounded-full border border-gray-100 bg-white text-gray-900 shadow-md hover:bg-gray-50" />
-            )}
-          </Carousel>
-        )}
+          </CarouselContent>
+          {showControls && <CarouselNext className="-right-2" />}
+        </Carousel>
       </div>
     </div>
   );

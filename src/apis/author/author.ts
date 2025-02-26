@@ -12,6 +12,7 @@ import type {
   AuthorDetail,
   AuthorSearchQuery,
   InfluencedAuthor,
+  OriginalWork,
 } from './types';
 
 export const authorApi = {
@@ -92,4 +93,11 @@ export const authorApi = {
     axios.get<YouTubeVideo[]>(`/author/${authorId}/videos`, {
       params: { maxResults },
     }),
+
+  /**
+   * 작가의 원전 작품 목록을 가져옵니다.
+   */
+  getAuthorOriginalWorks: (authorId: number) => {
+    return axios.get<OriginalWork[]>(`/author/${authorId}/original-works`);
+  },
 };

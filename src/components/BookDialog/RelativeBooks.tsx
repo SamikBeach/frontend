@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/carousel';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { ChevronDownIcon, LayoutGridIcon } from 'lucide-react';
+import { ChevronDownIcon, GridIcon } from 'lucide-react';
 import { Suspense, useState } from 'react';
 
 interface Props {
@@ -44,19 +44,19 @@ function RelativeBooksContent({ bookId }: Props) {
         </div>
         {books.length > 5 && (
           <Button
-            variant="ghost"
+            variant="outline"
             size="sm"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="h-8 gap-1.5 rounded-md px-3 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900"
+            className="h-8 gap-1.5 rounded-full border-gray-200 px-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
             {isExpanded ? (
               <>
-                <ChevronDownIcon className="h-4 w-4" />
+                <ChevronDownIcon className="h-4 w-4 rotate-180" />
                 접기
               </>
             ) : (
               <>
-                <LayoutGridIcon className="h-4 w-4" />
+                <GridIcon className="h-4 w-4" />
                 전체보기
               </>
             )}
@@ -65,9 +65,9 @@ function RelativeBooksContent({ bookId }: Props) {
       </div>
       <div className="relative">
         {isExpanded ? (
-          <div className="grid grid-cols-3 gap-1 sm:grid-cols-4 sm:gap-2 md:grid-cols-5 md:gap-4 lg:grid-cols-6">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
             {books.map((book: Book) => (
-              <div key={book.id} className="w-full">
+              <div key={book.id}>
                 <BookGridItem
                   book={book}
                   size="xsmall"
@@ -87,7 +87,7 @@ function RelativeBooksContent({ bookId }: Props) {
               slidesToScroll: 6,
             }}
           >
-            <CarouselContent className="gap-4">
+            <CarouselContent className="w-[840px] gap-4">
               {books.map((book: Book) => (
                 <CarouselItem key={book.id} className="basis-[110px]">
                   <BookGridItem
