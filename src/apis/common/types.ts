@@ -46,3 +46,12 @@ export interface LikeToggleResponse {
 export interface DeleteResponse {
   message: string;
 }
+
+export interface YouTubeVideo {
+  id: string;
+  title: string;
+  description: string;
+  thumbnailUrl: string;
+  publishedAt: string;
+  channelTitle: string;
+}
