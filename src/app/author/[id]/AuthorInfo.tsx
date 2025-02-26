@@ -140,14 +140,16 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                       transition={{ duration: 0.3, ease: 'easeInOut' }}
                       className={cn(
                         'whitespace-pre-wrap text-sm leading-relaxed text-gray-700 md:text-base',
-                        !isExpanded && 'line-clamp-3'
+                        !isExpanded && 'line-clamp-4'
                       )}
                     >
                       {author.description}
                     </motion.p>
-                    <p className="mt-1 text-xs text-gray-400">
-                      정보 제공: 위키피디아
-                    </p>
+                    {isExpanded && (
+                      <p className="mt-1 text-xs text-gray-400">
+                        정보 제공: 위키피디아
+                      </p>
+                    )}
                     {!isExpanded && (
                       <motion.div
                         initial={{ opacity: 0 }}
