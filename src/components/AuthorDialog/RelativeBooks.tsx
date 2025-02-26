@@ -74,9 +74,9 @@ function RelativeBooksContent({ authorId }: Props) {
       </div>
       <div className="relative">
         {isExpanded ? (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+          <div className="xs:grid-cols-3 grid grid-cols-3 gap-1 sm:grid-cols-4 sm:gap-2 md:grid-cols-5 md:gap-4 lg:grid-cols-6">
             {books.map((book: Book) => (
-              <div key={book.id}>
+              <div key={book.id} className="w-full">
                 <BookGridItem
                   book={book}
                   size="xsmall"
@@ -96,7 +96,7 @@ function RelativeBooksContent({ authorId }: Props) {
               slidesToScroll: 6,
             }}
           >
-            <CarouselContent className="w-[840px] gap-4">
+            <CarouselContent className="gap-4">
               {books.map((book: Book) => (
                 <CarouselItem key={book.id} className="basis-[110px]">
                   <BookGridItem

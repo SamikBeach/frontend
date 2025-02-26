@@ -88,9 +88,9 @@ function RelativeBooksContent({ bookId }: Props) {
       </div>
       <div className="relative" ref={containerRef}>
         {isExpanded ? (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
+          <div className="grid grid-cols-3 gap-1 sm:grid-cols-4 sm:gap-2 md:grid-cols-5 md:gap-4 lg:grid-cols-6 xl:grid-cols-8">
             {books.map((book: Book) => (
-              <div key={book.id}>
+              <div key={book.id} className="w-full">
                 <BookGridItem
                   book={book}
                   size="xsmall"
