@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { MOBILE_BREAKPOINT } from '@/constants/responsive';
 import { useDialogQuery } from '@/hooks/useDialogQuery';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { AnimatePresence, motion } from 'framer-motion';
 import { BookOpenIcon, ChevronDownIcon, LayoutGridIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Suspense, useState } from 'react';
@@ -72,6 +73,8 @@ function AuthorOriginalWorksContent({ authorId }: Props) {
 }
 
 function OriginalWorkCard({ work }: { work: OriginalWork }) {
+  const [showAllBooks, setShowAllBooks] = useState(false);
+
   // 출판 날짜 포맷팅 함수
   const formatPublicationDate = () => {
     if (!work.publicationDate) return null;
@@ -100,11 +103,13 @@ function OriginalWorkCard({ work }: { work: OriginalWork }) {
   };
 
   const publicationDate = formatPublicationDate();
-  const hasBooks =
-    work.books && work.books.filter(book => book && book.id).length > 0;
+  const filteredBooks = work.books?.filter(book => book && book.id) || [];
+  const hasBooks = filteredBooks.length > 0;
+  const hasMoreBooks = filteredBooks.length > 3;
+  const displayBooks = showAllBooks ? filteredBooks : filteredBooks.slice(0, 3);
 
   return (
-    <div className="group flex flex-col rounded-lg border border-gray-100 bg-white p-3 shadow-sm transition-all hover:border-blue-100 hover:bg-blue-50/30 hover:shadow-md">
+    <div className="group flex h-full flex-col rounded-lg border border-gray-100 bg-white p-3 shadow-sm transition-all hover:border-blue-100 hover:bg-blue-50/30 hover:shadow-md">
       <div className="flex items-center gap-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-100 group-hover:text-blue-700">
           <BookOpenIcon className="h-5 w-5" />
@@ -125,15 +130,51 @@ function OriginalWorkCard({ work }: { work: OriginalWork }) {
       </div>
 
       {hasBooks && (
-        <div className="mt-3 border-t border-gray-100 pt-2">
-          <p className="mb-1 text-xs font-medium text-gray-700">
-            연관된 책 ({work.books?.length})
-          </p>
-          <div className="flex flex-wrap gap-1">
-            {work.books
-              ?.filter(book => book && book.id)
-              .map(book => <RelatedBookItem key={book.id} book={book} />)}
+        <div className="mt-3 flex-1 border-t border-gray-100 pt-2">
+          <div className="mb-1 flex items-center justify-between">
+            <p className="text-xs font-medium text-gray-700">
+              연관된 책 ({filteredBooks.length})
+            </p>
+            {hasMoreBooks && (
+              <button
+                onClick={() => setShowAllBooks(!showAllBooks)}
+                className="flex items-center gap-0.5 text-xs font-medium text-blue-600 hover:text-blue-800"
+              >
+                {showAllBooks ? '접기' : '더보기'}
+                <motion.div
+                  animate={{ rotate: showAllBooks ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ChevronDownIcon className="h-3 w-3" />
+                </motion.div>
+              </button>
+            )}
           </div>
+          <motion.div
+            className="flex flex-wrap gap-1"
+            animate={{ height: 'auto' }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+          >
+            {displayBooks.slice(0, 3).map(book => (
+              <RelatedBookItem key={book.id} book={book} />
+            ))}
+
+            <AnimatePresence>
+              {showAllBooks && filteredBooks.length > 3 && (
+                <motion.div
+                  className="flex w-full flex-wrap gap-1"
+                  initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                  animate={{ opacity: 1, height: 'auto', marginTop: 4 }}
+                  exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                >
+                  {filteredBooks.slice(3).map(book => (
+                    <RelatedBookItem key={book.id} book={book} />
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
         </div>
       )}
     </div>
@@ -159,7 +200,7 @@ function RelatedBookItem({ book }: { book: Book }) {
   return (
     <button
       onClick={handleClick}
-      className="flex items-center gap-2 rounded-md bg-gray-50 px-2 py-1 text-xs text-gray-700 transition-colors hover:bg-blue-50 hover:text-blue-700"
+      className="flex items-center gap-2 rounded-md bg-gray-50 px-2 py-1 text-xs text-gray-700 transition-colors hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm"
     >
       <img
         src={book.imageUrl || '/images/book-placeholder.png'}
