@@ -26,11 +26,45 @@ function AuthorOriginalWorksContent({ authorId }: Props) {
     select: data => data.data,
   });
 
-  if (originalWorks.length === 0) {
+  const { data: authorBooks = [] } = useSuspenseQuery({
+    queryKey: ['author-books', authorId],
+    queryFn: () => authorApi.getAllAuthorBooks(authorId),
+    select: data => data.data,
+  });
+
+  // 원전에 연결되지 않은 책들 찾기
+  const classifiedBookIds = new Set<number>();
+  originalWorks.forEach(work => {
+    work.books?.forEach(book => {
+      if (book && book.id) {
+        classifiedBookIds.add(book.id);
+      }
+    });
+  });
+
+  const unclassifiedBooks = authorBooks.filter(
+    book => !classifiedBookIds.has(book.id)
+  );
+
+  // 미분류 책이 없고 원전도 없으면 컴포넌트를 렌더링하지 않음
+  if (originalWorks.length === 0 && unclassifiedBooks.length === 0) {
     return null;
   }
 
-  const displayWorks = isExpanded ? originalWorks : originalWorks.slice(0, 3);
+  // 미분류 책이 있으면 가상의 원전 카드를 추가
+  const allWorks = [...originalWorks];
+  if (unclassifiedBooks.length > 0) {
+    allWorks.push({
+      id: -1, // 가상의 ID
+      title: '미분류',
+      books: unclassifiedBooks,
+      createdAt: '',
+      updatedAt: null,
+      deletedAt: null,
+    });
+  }
+
+  const displayWorks = isExpanded ? allWorks : allWorks.slice(0, 3);
 
   return (
     <div className="flex flex-col gap-4">
@@ -38,10 +72,10 @@ function AuthorOriginalWorksContent({ authorId }: Props) {
         <div className="flex items-center gap-2">
           <h2 className="text-lg font-semibold">원전</h2>
           <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
-            {originalWorks.length}
+            {allWorks.length}
           </span>
         </div>
-        {originalWorks.length > 3 && (
+        {allWorks.length > 3 && (
           <Button
             variant="ghost"
             size="sm"
@@ -113,23 +147,39 @@ function OriginalWorkCard({ work }: { work: OriginalWork }) {
   const hasMoreBooks = filteredBooks.length > 3;
   const displayBooks = showAllBooks ? filteredBooks : filteredBooks.slice(0, 3);
 
+  // 미분류 카드인 경우 다른 아이콘과 색상 사용
+  const isUnclassified = work.id === -1;
+
   return (
-    <div className="group flex h-full flex-col rounded-lg border border-gray-100 bg-white p-3 shadow-sm transition-all hover:border-blue-100 hover:bg-blue-50/30 hover:shadow-md">
+    <div
+      className={`group flex h-full flex-col rounded-lg border border-gray-100 bg-white p-3 shadow-sm transition-all ${isUnclassified ? 'hover:border-orange-100 hover:bg-orange-50/30' : 'hover:border-blue-100 hover:bg-blue-50/30'} hover:shadow-md`}
+    >
       <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-100 group-hover:text-blue-700">
-          <BookOpenIcon className="h-5 w-5" />
+        <div
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${isUnclassified ? 'bg-orange-50 text-orange-600 group-hover:bg-orange-100 group-hover:text-orange-700' : 'bg-blue-50 text-blue-600 group-hover:bg-blue-100 group-hover:text-blue-700'}`}
+        >
+          {isUnclassified ? (
+            <BookOpenIcon className="h-5 w-5" />
+          ) : (
+            <BookOpenIcon className="h-5 w-5" />
+          )}
         </div>
         <div className="min-w-0 flex-1">
-          <h3 className="text-sm font-medium text-gray-900 group-hover:text-blue-900">
+          <h3
+            className={`text-sm font-medium text-gray-900 ${isUnclassified ? 'group-hover:text-orange-900' : 'group-hover:text-blue-900'}`}
+          >
             {work.title}
           </h3>
-          {(work.titleInKor || work.titleInEng) && (
+          {!isUnclassified && (work.titleInKor || work.titleInEng) && (
             <p className="text-xs text-gray-500 group-hover:text-blue-700/70">
               {work.titleInKor || work.titleInEng}
             </p>
           )}
-          {publicationDate && (
+          {!isUnclassified && publicationDate && (
             <p className="mt-1 text-xs text-gray-500">{publicationDate}</p>
+          )}
+          {isUnclassified && (
+            <p className="text-xs text-gray-500">원전과 연결되지 않은 책들</p>
           )}
         </div>
       </div>
@@ -138,12 +188,12 @@ function OriginalWorkCard({ work }: { work: OriginalWork }) {
         <div className="mt-3 flex-1 border-t border-gray-100 pt-2">
           <div className="mb-1 flex items-center justify-between">
             <p className="text-xs font-medium text-gray-700">
-              연관된 책 ({filteredBooks.length})
+              {isUnclassified ? '책' : '연관된 책'} ({filteredBooks.length})
             </p>
             {hasMoreBooks && (
               <button
                 onClick={() => setShowAllBooks(!showAllBooks)}
-                className="flex items-center gap-0.5 text-xs font-medium text-blue-600 hover:text-blue-800"
+                className={`flex items-center gap-0.5 text-xs font-medium ${isUnclassified ? 'text-orange-600 hover:text-orange-800' : 'text-blue-600 hover:text-blue-800'}`}
               >
                 {showAllBooks ? '접기' : '더보기'}
                 <motion.div
@@ -161,7 +211,11 @@ function OriginalWorkCard({ work }: { work: OriginalWork }) {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
             {displayBooks.slice(0, 3).map(book => (
-              <RelatedBookItem key={book.id} book={book} />
+              <RelatedBookItem
+                key={book.id}
+                book={book}
+                isUnclassified={isUnclassified}
+              />
             ))}
 
             <AnimatePresence>
@@ -174,7 +228,11 @@ function OriginalWorkCard({ work }: { work: OriginalWork }) {
                   transition={{ duration: 0.3, ease: 'easeInOut' }}
                 >
                   {filteredBooks.slice(3).map(book => (
-                    <RelatedBookItem key={book.id} book={book} />
+                    <RelatedBookItem
+                      key={book.id}
+                      book={book}
+                      isUnclassified={isUnclassified}
+                    />
                   ))}
                 </motion.div>
               )}
@@ -186,7 +244,13 @@ function OriginalWorkCard({ work }: { work: OriginalWork }) {
   );
 }
 
-function RelatedBookItem({ book }: { book: Book }) {
+function RelatedBookItem({
+  book,
+  isUnclassified = false,
+}: {
+  book: Book;
+  isUnclassified?: boolean;
+}) {
   const router = useRouter();
   const { open } = useDialogQuery({ type: 'book' });
 
@@ -205,7 +269,7 @@ function RelatedBookItem({ book }: { book: Book }) {
   return (
     <button
       onClick={handleClick}
-      className="flex items-center gap-2 rounded-md bg-gray-50 px-2.5 py-1.5 text-xs text-gray-700 transition-colors hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm"
+      className={`flex items-center gap-2 rounded-md ${isUnclassified ? 'bg-orange-50 hover:bg-orange-100 hover:text-orange-700' : 'bg-gray-50 hover:bg-blue-50 hover:text-blue-700'} px-2.5 py-1.5 text-xs text-gray-700 transition-colors hover:shadow-sm`}
     >
       <img
         src={book.imageUrl || '/images/book-placeholder.png'}
