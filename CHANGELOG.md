@@ -1,5 +1,21 @@
 # 🚦 CHANGELOG
 
+# [1.74.0](https://github.com/SamikBeach/frontend/compare/1.73.0...1.74.0) (2025-02-27)
+
+
+### Bug Fixes
+
+* fix lint ([278fe52](https://github.com/SamikBeach/frontend/commit/278fe5299073aa6aeb8bdf89129f4599ec5e4cdd))
+* 리뷰 목록 구분감 개선 및 댓글 컨텐츠 표시 문제 해결 ([a52a4b5](https://github.com/SamikBeach/frontend/commit/a52a4b5c24039e156241f1b314d6782f25e7905a))
+* 책 설명에 HTML 엔티티 디코딩 기능 추가 ([1864965](https://github.com/SamikBeach/frontend/commit/18649657d39a57043b9daabdfcbf74d69c7d894e))
+
+
+### Features
+
+* BookInfo 컴포넌트에 작가 아바타와 생몰연도 추가 ([f9afca6](https://github.com/SamikBeach/frontend/commit/f9afca64419f7340d8482b37396e5316942ede1c))
+* 리뷰, 댓글 스타일 수정 ([e7a38c8](https://github.com/SamikBeach/frontend/commit/e7a38c8f2a1f09b1c621021fc779d66ecc688aa6))
+* 원전 정보 카드 스타일 통일 및 개선 ([06aed65](https://github.com/SamikBeach/frontend/commit/06aed654ccd303276ba9110df2cb5378896e94fc))
+
 # [1.73.0](https://github.com/SamikBeach/frontend/compare/1.72.0...1.73.0) (2025-02-26)
 
 
