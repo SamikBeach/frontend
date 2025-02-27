@@ -28,6 +28,13 @@ interface Props {
   reviewListRef: RefObject<HTMLDivElement | null>;
 }
 
+// HTML 엔티티를 디코딩하는 함수
+const decodeHtmlEntities = (text: string): string => {
+  const textArea = document.createElement('textarea');
+  textArea.innerHTML = text;
+  return textArea.value;
+};
+
 function BookInfoContent({ bookId, reviewListRef }: Props) {
   const currentUser = useCurrentUser();
   const { open: openAuthorDialog } = useDialogQuery({ type: 'author' });
@@ -248,7 +255,9 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                 <div className="rounded-md border border-gray-200 bg-gray-50 p-2.5 shadow-sm">
                   <div className="flex flex-col">
                     <p className="whitespace-pre-wrap text-sm leading-normal text-gray-700 md:text-base">
-                      {book.description}
+                      {book.description
+                        ? decodeHtmlEntities(book.description)
+                        : ''}
                     </p>
                     <p className="mt-0.5 text-xs text-gray-400">
                       정보 제공: 알라딘
