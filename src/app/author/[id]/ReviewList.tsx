@@ -94,8 +94,8 @@ function ReviewListContent({ authorId, scrollableTarget }: Props) {
                   key={review.id}
                   layout="position"
                   {...reviewItemAnimation}
-                  className={`rounded-2xl border border-gray-100 bg-white p-5 transition-all hover:border-gray-200 ${
-                    index !== reviews.length - 1 ? 'mb-4' : ''
+                  className={`rounded-2xl border border-gray-100 bg-white p-5 transition-all hover:border-gray-200 hover:shadow-sm ${
+                    index !== reviews.length - 1 ? 'mb-6' : ''
                   }`}
                 >
                   <Review review={review} showBookInfo />

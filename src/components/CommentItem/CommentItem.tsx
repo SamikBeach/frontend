@@ -7,13 +7,13 @@ import { formatDate } from '@/utils/date';
 import { useMutation } from '@tanstack/react-query';
 import { ThumbsUpIcon } from 'lucide-react';
 import { forwardRef, useState } from 'react';
-import { CommentContent } from '.';
 import CommentEditor from '../CommentEditor/CommentEditor';
 import { LoginDialog } from '../LoginDialog';
 import { Button } from '../ui/button';
 import { toast } from '../ui/sonner';
 import { UserAvatar } from '../UserAvatar';
 import CommentActions from './CommentActions';
+import CommentContent from './CommentContent';
 import DeleteAlertDialog from './DeleteAlertDialog';
 
 interface Props {
