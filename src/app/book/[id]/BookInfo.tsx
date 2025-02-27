@@ -156,7 +156,7 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                 variant="outline"
                 size="sm"
                 className={cn(
-                  'hidden w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium transition-all sm:flex',
+                  'hidden w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-sm transition-all sm:flex',
                   isChatOpen
                     ? 'border-gray-300 bg-gray-50 text-gray-700 hover:bg-gray-100'
                     : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
@@ -169,8 +169,9 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
               </Button>
               <Button
                 variant="outline"
+                size="sm"
                 onClick={handleWriteReviewClick}
-                className="hidden w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium transition-all sm:flex"
+                className="hidden w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-sm transition-all sm:flex"
               >
                 <Edit3Icon className="h-4 w-4" />
                 리뷰 쓰기
@@ -233,16 +234,24 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                   </div>
                 </div>
                 {book.bookOriginalWorks[0] && (
-                  <div className="flex items-start gap-3 rounded-md border border-gray-200 bg-gray-50 p-3 text-sm shadow-sm">
-                    <BookIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-gray-600" />
-                    <div className="flex flex-col">
-                      <span className="font-semibold text-gray-700">원전</span>
-                      <span className="text-gray-600">
+                  <div className="flex items-start gap-3 rounded-lg border border-gray-200 bg-white p-3.5 text-sm shadow-sm">
+                    <BookIcon className="mt-1 h-4 w-4 flex-shrink-0 text-indigo-600" />
+                    <div className="flex flex-col space-y-1">
+                      <span className="font-semibold text-gray-900 md:text-base">
                         {book.bookOriginalWorks[0].originalWork.title}
-                        <span className="ml-1 text-gray-500">
-                          ({book.bookOriginalWorks[0].originalWork.titleInEng})
-                        </span>
                       </span>
+                      {/* titleInKor가 API에 없지만 요청에 따라 추가 */}
+                      {book.bookOriginalWorks[0].originalWork.title !==
+                        book.title && (
+                        <span className="text-sm text-gray-700">
+                          {book.title}
+                        </span>
+                      )}
+                      {book.bookOriginalWorks[0].originalWork.titleInEng && (
+                        <span className="text-xs italic text-gray-500">
+                          {book.bookOriginalWorks[0].originalWork.titleInEng}
+                        </span>
+                      )}
                     </div>
                   </div>
                 )}
@@ -262,11 +271,28 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
               )}
 
               {/* 모바일에서만 표시되는 리뷰 쓰기 버튼 */}
-              <div className="flex sm:hidden">
+              <div className="flex flex-col gap-3 sm:hidden">
+                <Button
+                  onClick={toggleChat}
+                  variant="outline"
+                  size="sm"
+                  className={cn(
+                    'w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-sm transition-all',
+                    isChatOpen
+                      ? 'border-gray-300 bg-gray-50 text-gray-700 hover:bg-gray-100'
+                      : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                  )}
+                >
+                  <MessageCircleIcon className="h-4 w-4" />
+                  {josa(
+                    `${book.authorBooks[0]?.author.nameInKor || '작가'}#{과} 대화하기`
+                  )}
+                </Button>
                 <Button
                   variant="outline"
+                  size="sm"
                   onClick={handleWriteReviewClick}
-                  className="w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-sm"
+                  className="w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-sm transition-all"
                 >
                   <Edit3Icon className="h-4 w-4" />
                   리뷰 쓰기
@@ -274,26 +300,6 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* 모바일에서만 표시되는 대화하기 버튼 */}
-        <div className="sm:hidden">
-          <Button
-            onClick={toggleChat}
-            variant="outline"
-            size="sm"
-            className={cn(
-              'w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium transition-all',
-              isChatOpen
-                ? 'border-gray-300 bg-gray-50 text-gray-700 hover:bg-gray-100'
-                : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-            )}
-          >
-            <MessageCircleIcon className="h-4 w-4" />
-            {josa(
-              `${book.authorBooks[0]?.author.nameInKor || '작가'}#{과} 대화하기`
-            )}
-          </Button>
         </div>
 
         <AnimatePresence>
@@ -332,8 +338,8 @@ function BookInfoSkeleton() {
               <Skeleton className="h-9 w-20 rounded-full" />
             </div>
             {/* 모바일에서는 숨김 처리 */}
-            <Skeleton className="hidden h-9 w-full rounded-md sm:block" />
-            <Skeleton className="hidden h-9 w-full rounded-md sm:block" />
+            <Skeleton className="hidden h-9 w-full rounded-md shadow-sm sm:block" />
+            <Skeleton className="hidden h-9 w-full rounded-md shadow-sm sm:block" />
           </div>
         </div>
         <div className="flex w-full flex-col gap-5">
@@ -352,25 +358,33 @@ function BookInfoSkeleton() {
               <div className="flex flex-wrap items-center gap-2">
                 <Skeleton className="h-8 w-36 rounded-full shadow-sm" />
               </div>
-              <Skeleton className="h-16 w-full rounded-md shadow-sm" />
-              <div className="rounded-md border border-gray-200 bg-gray-50 p-2.5 shadow-sm">
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="mt-1.5 h-4 w-full" />
-                <Skeleton className="mt-1.5 h-4 w-4/5" />
-                <Skeleton className="mt-0.5 h-2.5 w-24" />
+              <Skeleton className="h-16 w-full rounded-lg shadow-sm" />
+              <div className="flex items-start gap-3 rounded-lg border border-gray-200 bg-white p-3.5 shadow-sm">
+                <Skeleton className="mt-1 h-4 w-4 flex-shrink-0 rounded" />
+                <div className="flex w-full flex-col space-y-1">
+                  <Skeleton className="h-5 w-3/4 md:h-6" />
+                  <Skeleton className="h-4 w-1/2" />
+                  <Skeleton className="h-3 w-2/3" />
+                </div>
               </div>
-              {/* 모바일에서만 표시되는 리뷰 쓰기 버튼 스켈레톤 */}
-              <div className="flex sm:hidden">
-                <Skeleton className="h-9 w-full rounded-md" />
+              <div className="rounded-md border border-gray-200 bg-gray-50 p-2.5 shadow-sm">
+                <div className="flex flex-col">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="mt-1.5 h-4 w-full" />
+                  <Skeleton className="mt-1.5 h-4 w-full" />
+                  <Skeleton className="mt-1.5 h-4 w-4/5" />
+                  <Skeleton className="mt-0.5 h-2.5 w-24" />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 모바일에서만 표시되는 대화하기 버튼 스켈레톤 */}
-      <div className="mt-4 sm:hidden">
-        <Skeleton className="h-9 w-full rounded-md" />
+      {/* 모바일에서만 표시되는 버튼들 스켈레톤 */}
+      <div className="mt-4 flex flex-col gap-3 sm:hidden">
+        <Skeleton className="h-9 w-full rounded-md shadow-sm" />
+        <Skeleton className="h-9 w-full rounded-md shadow-sm" />
       </div>
     </div>
   );
