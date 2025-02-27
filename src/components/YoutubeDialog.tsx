@@ -4,6 +4,7 @@ import {
   DialogContent,
   DialogOverlay,
   DialogPortal,
+  DialogTitle,
 } from '@/components/ui/dialog';
 import { X } from 'lucide-react';
 
@@ -20,8 +21,9 @@ export default function YoutubeDialog({
 
   return (
     <Dialog open={open} onOpenChange={open => !open && onClose()}>
+      <DialogTitle className="sr-only">유튜브 영상</DialogTitle>
       <DialogPortal>
-        <DialogOverlay className="bg-black/60" />
+        <DialogOverlay className="bg-black/10" />
         <DialogContent className="max-w-4xl border-none bg-transparent p-0 shadow-none">
           <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-black/5 backdrop-blur-sm">
             {videoId && (

@@ -60,15 +60,18 @@ function ReviewListContent({ authorId, scrollableTarget }: Props) {
   );
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-2">
-        <h2 className="text-lg font-semibold text-gray-900">리뷰</h2>
-        <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
-          {author.reviewCount}
-        </span>
+    <div className="flex flex-col gap-6">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <h2 className="text-xl font-bold text-gray-900">리뷰</h2>
+          <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-600">
+            {author.reviewCount}
+          </span>
+        </div>
       </div>
+
       {reviews.length === 0 ? (
-        <div className="flex-1">
+        <div className="flex-1 rounded-2xl border border-gray-100 p-8">
           <EmptyReviews />
         </div>
       ) : (
@@ -77,19 +80,23 @@ function ReviewListContent({ authorId, scrollableTarget }: Props) {
           next={fetchNextPage}
           hasMore={hasNextPage ?? false}
           loader={
-            <div className="py-2">
+            <div className="py-3">
               <ReviewSkeleton />
             </div>
           }
           scrollableTarget={scrollableTarget}
+          className="flex flex-col gap-4"
         >
           <AnimatePresence mode="popLayout" initial={false}>
-            <div className="flex flex-col gap-2">
-              {reviews.map(review => (
+            <div className="flex flex-col">
+              {reviews.map((review, index) => (
                 <motion.div
                   key={review.id}
                   layout="position"
                   {...reviewItemAnimation}
+                  className={`rounded-2xl border border-gray-100 bg-white p-5 transition-all hover:border-gray-200 ${
+                    index !== reviews.length - 1 ? 'mb-4' : ''
+                  }`}
                 >
                   <Review review={review} showBookInfo />
                 </motion.div>
@@ -97,6 +104,17 @@ function ReviewListContent({ authorId, scrollableTarget }: Props) {
             </div>
           </AnimatePresence>
         </InfiniteScroll>
+      )}
+
+      {hasNextPage && (
+        <div className="flex justify-center pt-2">
+          <button
+            onClick={() => fetchNextPage()}
+            className="rounded-full border border-gray-200 px-6 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+          >
+            더 보기
+          </button>
+        </div>
       )}
     </div>
   );
@@ -107,7 +125,7 @@ const ReviewList = forwardRef(function ReviewList(
   ref: ForwardedRef<HTMLDivElement>
 ) {
   return (
-    <div ref={ref}>
+    <div ref={ref} className="py-4">
       <Suspense fallback={<ReviewListSkeleton />}>
         <ReviewListContent {...props} />
       </Suspense>

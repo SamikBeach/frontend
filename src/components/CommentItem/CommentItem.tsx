@@ -2,6 +2,7 @@ import { reviewApi } from '@/apis/review/review';
 import { Comment } from '@/apis/review/types';
 import { useCommentQueryData } from '@/hooks/queries/useCommentQueryData';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { cn } from '@/utils/common';
 import { formatDate } from '@/utils/date';
 import { useMutation } from '@tanstack/react-query';
 import { ThumbsUpIcon } from 'lucide-react';
@@ -92,10 +93,11 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
 
     return (
       <>
-        <div ref={ref} className="flex flex-col items-start gap-2 py-1.5">
-          <div className="flex w-full items-center justify-between gap-2">
+        <div ref={ref} className="flex flex-col gap-2.5 py-1.5">
+          <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-2">
               <UserAvatar user={comment.user} size="sm" />
+
               <span className="text-xs text-gray-500">
                 {formatDate(comment.createdAt)}
               </span>
@@ -109,9 +111,12 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
           </div>
 
           <div className="flex w-full flex-col gap-1.5">
-            <div className="flex flex-col gap-0.5">
+            <div className="flex flex-col">
               <div
-                className={`w-full rounded-lg ${isEditing ? '' : 'bg-gray-50'} p-3`}
+                className={cn(
+                  'w-full rounded-lg p-2.5',
+                  isEditing ? 'bg-white' : 'bg-gray-50'
+                )}
               >
                 {isEditing ? (
                   <CommentEditor
@@ -123,20 +128,25 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
                 ) : (
                   <CommentContent
                     content={comment.content}
-                    className="text-sm leading-relaxed text-gray-700"
+                    className="text-sm leading-relaxed text-gray-800"
                   />
                 )}
               </div>
 
-              <div className="flex justify-between px-1">
-                <div className="flex items-center gap-2 text-xs text-gray-600">
+              <div className="mt-0.5 flex justify-between">
+                <div className="inline-flex items-center gap-1">
                   <Button
                     variant="ghost"
-                    className="group flex h-5 w-5 cursor-pointer items-center gap-0.5 text-xs text-gray-500 transition-colors hover:bg-transparent hover:text-gray-900"
+                    className={cn(
+                      'group flex h-6 items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-100',
+                      {
+                        'bg-blue-50 text-blue-600 hover:bg-blue-100':
+                          comment.isLiked,
+                      }
+                    )}
                     onClick={() => {
                       if (!currentUser) {
                         setOpenLoginDialog(true);
-
                         return;
                       }
 
@@ -144,18 +154,20 @@ const CommentItem = forwardRef<HTMLDivElement, Props>(
                     }}
                   >
                     <ThumbsUpIcon
-                      className={`!h-3.5 !w-3.5 ${
-                        comment.isLiked
-                          ? 'fill-blue-500 stroke-blue-500'
-                          : 'stroke-gray-500'
-                      } transition-colors group-hover:stroke-gray-900`}
+                      className={cn('mr-0.5 h-3 w-3', {
+                        'fill-blue-500 stroke-blue-500': comment.isLiked,
+                        'stroke-gray-600': !comment.isLiked,
+                      })}
                     />
-                    <span>{comment.likeCount}</span>
+                    <span>
+                      {comment.likeCount > 0 ? comment.likeCount : '좋아요'}
+                    </span>
                   </Button>
+
                   <Button
                     variant="ghost"
                     onClick={() => onReply({ nickname: comment.user.nickname })}
-                    className="h-5 px-0 text-xs hover:bg-transparent hover:text-gray-900"
+                    className="h-6 rounded-full px-2 py-0.5 text-xs font-medium text-gray-700 hover:bg-gray-100"
                   >
                     답글 달기
                   </Button>
