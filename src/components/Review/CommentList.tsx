@@ -44,7 +44,14 @@ function CommentListContent({ reviewId, onReply }: Props) {
   );
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3">
+      {comments.length > 0 && (
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-gray-800">
+            댓글 {comments.length}개
+          </h3>
+        </div>
+      )}
       <AnimatePresence mode="popLayout" initial={false}>
         <div className="flex flex-col gap-2">
           {comments.map(comment => (
@@ -52,6 +59,7 @@ function CommentListContent({ reviewId, onReply }: Props) {
               key={comment.id}
               layout="position"
               {...commentItemAnimation}
+              className="pb-2 last:pb-0"
             >
               <CommentItem
                 comment={comment}
@@ -63,14 +71,16 @@ function CommentListContent({ reviewId, onReply }: Props) {
         </div>
       </AnimatePresence>
       {hasNextPage && (
-        <Button
-          variant="ghost"
-          onClick={() => fetchNextPage()}
-          disabled={isFetchingNextPage}
-          className="mt-2 text-sm text-gray-500 hover:text-gray-900"
-        >
-          {isFetchingNextPage ? '불러오는 중...' : '답글 더보기'}
-        </Button>
+        <div className="mt-2 flex justify-center">
+          <Button
+            variant="ghost"
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+            className="rounded-full border border-gray-200 px-4 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
+          >
+            {isFetchingNextPage ? '불러오는 중...' : '댓글 더보기'}
+          </Button>
+        </div>
       )}
     </div>
   );
@@ -80,10 +90,11 @@ export default function CommentList(props: Props) {
   return (
     <Suspense
       fallback={
-        <div className="flex flex-col gap-2">
-          <CommentItemSkeleton />
-          <CommentItemSkeleton />
-          <CommentItemSkeleton />
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3">
+            <CommentItemSkeleton />
+            <CommentItemSkeleton />
+          </div>
         </div>
       }
     >

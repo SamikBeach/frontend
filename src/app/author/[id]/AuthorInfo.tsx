@@ -122,7 +122,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
               variant="outline"
               size="sm"
               className={cn(
-                'hidden w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-none transition-all sm:flex',
+                'hidden w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium transition-all sm:flex',
                 isChatOpen
                   ? 'border-gray-300 text-gray-700 hover:bg-gray-50'
                   : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'

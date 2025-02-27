@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 import { Button } from '../ui/button';
 import BookInfo from './BookInfo';
+import BookYoutubes from './BookYoutubes';
 import RelativeBooks from './RelativeBooks';
 import ReviewList from './ReviewList';
 
@@ -61,6 +62,7 @@ export default function BookDialog(props: Props) {
         <div className="flex flex-col gap-10">
           <BookInfo bookId={bookId} reviewListRef={reviewListRef} />
           <RelativeBooks bookId={bookId} />
+          <BookYoutubes bookId={bookId} />
           <ReviewList
             ref={reviewListRef}
             bookId={bookId}
