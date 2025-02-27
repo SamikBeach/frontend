@@ -200,7 +200,7 @@ function BookChatContent({ bookId }: Props) {
           {chatHistory.length === 0 ? (
             <div className="flex h-full items-center justify-center text-gray-500">
               <p className="text-center text-sm">
-                "{book.title}"에 대해 질문해보세요.
+                &quot;{book.title}&quot;에 대해 질문해보세요.
                 <br />
                 책의 내용, 주제, 등장인물 등에 대해 물어볼 수 있습니다.
               </p>
