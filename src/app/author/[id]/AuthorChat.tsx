@@ -1,8 +1,7 @@
 'use client';
 
-import { aiApi } from '@/apis/ai';
-import { ChatMessage } from '@/apis/ai/types';
 import { authorApi } from '@/apis/author';
+import { ChatMessage } from '@/apis/common/types';
 import { LoginDialog } from '@/components/LoginDialog';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -92,7 +91,7 @@ function AuthorChatContent({ authorId }: Props) {
         setIsTyping(true);
 
         // API 호출
-        const response = await aiApi.chatWithAuthor(
+        const response = await authorApi.chatWithAuthor(
           authorId,
           {
             message,

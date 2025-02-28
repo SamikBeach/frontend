@@ -56,3 +56,31 @@ export interface YouTubeVideo {
   publishedAt: string;
   channelTitle: string;
 }
+
+// 채팅 메시지 타입
+export interface ChatMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+// 채팅 요청 타입
+export interface ChatRequest {
+  message: string;
+  conversationHistory?: ChatMessage[];
+}
+
+// 작가 채팅 응답 타입
+export interface ChatWithAuthorResponse {
+  authorId: number;
+  authorName: string;
+  response: string;
+  timestamp: string;
+}
+
+// 책 채팅 응답 타입
+export interface ChatWithBookResponse {
+  bookId: number;
+  bookTitle: string;
+  response: string;
+  timestamp: string;
+}
