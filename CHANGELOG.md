@@ -1,5 +1,14 @@
 # 🚦 CHANGELOG
 
+## [1.74.1](https://github.com/SamikBeach/frontend/compare/1.74.0...1.74.1) (2025-02-28)
+
+
+### Bug Fixes
+
+* AI 컨트롤러 제거에 따른 API 엔드포인트 변경 ([9ad3695](https://github.com/SamikBeach/frontend/commit/9ad36954d742dbf327f2e82e45a1bbeb3f2d48c8))
+* fix type errors ([1ebae3a](https://github.com/SamikBeach/frontend/commit/1ebae3aa4d118ef6a6ccd0455c156d6021386c48))
+* 작가 상세 페이지 리뷰 목록 스타일 통일 ([92b7735](https://github.com/SamikBeach/frontend/commit/92b7735bf15f0e429bd8aad577a24ee7b314cb76))
+
 # [1.74.0](https://github.com/SamikBeach/frontend/compare/1.73.0...1.74.0) (2025-02-27)
 
 
