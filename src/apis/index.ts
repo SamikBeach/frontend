@@ -4,4 +4,3 @@ export * from './book';
 export * from './common';
 export * from './review';
 export * from './user';
-export * from './ai';

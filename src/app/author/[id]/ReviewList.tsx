@@ -85,18 +85,15 @@ function ReviewListContent({ authorId, scrollableTarget }: Props) {
             </div>
           }
           scrollableTarget={scrollableTarget}
-          className="flex flex-col gap-4"
+          className="flex flex-col gap-2"
         >
           <AnimatePresence mode="popLayout" initial={false}>
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-2">
               {reviews.map((review, index) => (
                 <motion.div
                   key={review.id}
                   layout="position"
                   {...reviewItemAnimation}
-                  className={`rounded-2xl border border-gray-100 bg-white p-5 transition-all hover:border-gray-200 hover:shadow-sm ${
-                    index !== reviews.length - 1 ? 'mb-6' : ''
-                  }`}
                 >
                   <Review review={review} showBookInfo />
                 </motion.div>
