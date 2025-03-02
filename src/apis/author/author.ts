@@ -98,6 +98,8 @@ export const authorApi = {
 
   /**
    * 작가의 원전 작품 목록을 가져옵니다.
+   * @param authorId - 작가 ID
+   * @returns 원전 작품 목록
    */
   getAuthorOriginalWorks: (authorId: number) => {
     return axios.get<OriginalWork[]>(`/author/${authorId}/original-works`);
