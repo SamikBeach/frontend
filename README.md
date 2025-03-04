@@ -1,5 +1,184 @@
 # 🚦 CHANGELOG
 
+## [1.74.2](https://github.com/SamikBeach/frontend/compare/1.74.1...1.74.2) (2025-03-02)
+
+### Bug Fixes
+
+- 주석 수정 ([d3719cc](https://github.com/SamikBeach/frontend/commit/d3719cc4ab11a8ebf5cef8009cda9084490775e1))
+
+## [1.74.1](https://github.com/SamikBeach/frontend/compare/1.74.0...1.74.1) (2025-02-28)
+
+### Bug Fixes
+
+- AI 컨트롤러 제거에 따른 API 엔드포인트 변경 ([9ad3695](https://github.com/SamikBeach/frontend/commit/9ad36954d742dbf327f2e82e45a1bbeb3f2d48c8))
+- fix type errors ([1ebae3a](https://github.com/SamikBeach/frontend/commit/1ebae3aa4d118ef6a6ccd0455c156d6021386c48))
+- 작가 상세 페이지 리뷰 목록 스타일 통일 ([92b7735](https://github.com/SamikBeach/frontend/commit/92b7735bf15f0e429bd8aad577a24ee7b314cb76))
+
+# [1.74.0](https://github.com/SamikBeach/frontend/compare/1.73.0...1.74.0) (2025-02-27)
+
+### Bug Fixes
+
+- fix lint ([278fe52](https://github.com/SamikBeach/frontend/commit/278fe5299073aa6aeb8bdf89129f4599ec5e4cdd))
+- 리뷰 목록 구분감 개선 및 댓글 컨텐츠 표시 문제 해결 ([a52a4b5](https://github.com/SamikBeach/frontend/commit/a52a4b5c24039e156241f1b314d6782f25e7905a))
+- 책 설명에 HTML 엔티티 디코딩 기능 추가 ([1864965](https://github.com/SamikBeach/frontend/commit/18649657d39a57043b9daabdfcbf74d69c7d894e))
+
+### Features
+
+- BookInfo 컴포넌트에 작가 아바타와 생몰연도 추가 ([f9afca6](https://github.com/SamikBeach/frontend/commit/f9afca64419f7340d8482b37396e5316942ede1c))
+- 리뷰, 댓글 스타일 수정 ([e7a38c8](https://github.com/SamikBeach/frontend/commit/e7a38c8f2a1f09b1c621021fc779d66ecc688aa6))
+- 원전 정보 카드 스타일 통일 및 개선 ([06aed65](https://github.com/SamikBeach/frontend/commit/06aed654ccd303276ba9110df2cb5378896e94fc))
+
+# [1.73.0](https://github.com/SamikBeach/frontend/compare/1.72.0...1.73.0) (2025-02-26)
+
+### Bug Fixes
+
+- fix lint ([5fa22a0](https://github.com/SamikBeach/frontend/commit/5fa22a0297af605e0b916dec8b5377bdbb734ae0))
+- 스타일 수정 ([1f0e352](https://github.com/SamikBeach/frontend/commit/1f0e3528c132f3d6330060777603c5c23e25464b))
+- 채팅 인터페이스의 정지 버튼 색상 개선 ([faa532d](https://github.com/SamikBeach/frontend/commit/faa532dc4c3b0e976d68b3aebc0afa77eda0e5be))
+
+### Features
+
+- 모바일 환경에서 대화하기 버튼 위치 개선 ([1068127](https://github.com/SamikBeach/frontend/commit/1068127605fe93db82404a9e06ec67b3d95788b6))
+- 작가 변경 시 다이얼로그 최상단 스크롤 기능 추가 ([02c8082](https://github.com/SamikBeach/frontend/commit/02c8082fd58b9e33240db06fd2f35cbabddbf057))
+- 작가 변경 시 대화창 자동 닫힘 기능 추가 ([3770eff](https://github.com/SamikBeach/frontend/commit/3770effd23765ff1970d004381627c483e6eb5ad))
+
+# [1.72.0](https://github.com/SamikBeach/frontend/compare/1.71.0...1.72.0) (2025-02-26)
+
+### Bug Fixes
+
+- InfluencedAuthors 컴포넌트의 반응형 레이아웃 개선 ([bc11e68](https://github.com/SamikBeach/frontend/commit/bc11e68ef9d3791b7a3fd4c4c71f4dfbec38aaf6))
+- 스타일 수정 ([bddfbde](https://github.com/SamikBeach/frontend/commit/bddfbded63713c256cc4ab43104c8474cca076dd))
+- 원전 목록 그리드 레이아웃 수정 ([2074b60](https://github.com/SamikBeach/frontend/commit/2074b60562146ff37f3e10157b9d65a2cbe310c8))
+
+### Features
+
+- 모든 확장/축소 목록에 애니메이션 효과 추가 ([f97cb88](https://github.com/SamikBeach/frontend/commit/f97cb88323afdbb415c1eb797673f894e1d731c7))
+- 스타일 수정 ([617ed17](https://github.com/SamikBeach/frontend/commit/617ed179575ea8a0f5ed1d157a9781821cfd3a3d))
+- 스타일 수정 ([bf766a3](https://github.com/SamikBeach/frontend/commit/bf766a3db935e66d6f97875a12e5e333cf032371))
+- 원전 카드 UI 개선 ([d5eee16](https://github.com/SamikBeach/frontend/commit/d5eee169721488f6b7ce8689cb842af5d0ed6385))
+- 원전 카드 내 책 아이템에 호버 효과 추가 ([cba4cf7](https://github.com/SamikBeach/frontend/commit/cba4cf7a5dd28fa47c5cf31ad2bb060dbb4d22d9))
+
+# [1.71.0](https://github.com/SamikBeach/frontend/compare/1.70.0...1.71.0) (2025-02-26)
+
+### Bug Fixes
+
+- fix lint ([97a524c](https://github.com/SamikBeach/frontend/commit/97a524cf8cecf59199f2795790ecae0adec2bdd6))
+- video 개수 수정 ([a315f1d](https://github.com/SamikBeach/frontend/commit/a315f1d93f1343c40971f7b872e41f7e6d712303))
+- 모바일 화면에서 책 그리드 레이아웃 최적화 ([bb325a2](https://github.com/SamikBeach/frontend/commit/bb325a2c6f0489989fbaa7b0c0ca160da54c6fe2))
+- 스타일 수정 ([b95ee62](https://github.com/SamikBeach/frontend/commit/b95ee621b9650e2f55ed9d9f80c6f5c690ca4859))
+- 스타일 수정 ([dcaf1bf](https://github.com/SamikBeach/frontend/commit/dcaf1bf1c84ef2e3c8d59b13539208cf291b3f6f))
+- 영향 관계 작가 목록의 더보기 버튼 노출 조건 개선 ([4c8f1e8](https://github.com/SamikBeach/frontend/commit/4c8f1e888b53a91d46714e7a3fa67db8d21549aa))
+- 영향 관계 작가 목록의 더보기 버튼 표시 조건 수정 ([25dadfb](https://github.com/SamikBeach/frontend/commit/25dadfb797dad5a75cd59e01f36665c7db75f5b0))
+- 작가 변경 시 영향 관계 목록 상태 초기화 ([3c40959](https://github.com/SamikBeach/frontend/commit/3c40959d145817ae373e31f70738507af38f7d00))
+- 캐러셀 아이템 사이 세로 줄 제거 및 재생 아이콘 스타일 개선 ([169831d](https://github.com/SamikBeach/frontend/commit/169831dd923367f8c9f57ea7fce352029ff59865))
+
+### Features
+
+- 미분류 책을 위한 별도 원전 카드 추가 ([7cad001](https://github.com/SamikBeach/frontend/commit/7cad001c8a57212258be9481595956ba36746064))
+- 원전 카드의 책 목록에 framer-motion 애니메이션 추가 ([c04592c](https://github.com/SamikBeach/frontend/commit/c04592c0a14eedc2836c85c6c4a2c6ed4fbefa10))
+- 유튜브 비디오 클릭 시 다이얼로그에서 재생되도록 기능 추가 ([d8dc0a3](https://github.com/SamikBeach/frontend/commit/d8dc0a3e67105868ac0d0bb04f02dcf46b4458a2))
+- 작가 페이지 UI 개선 ([e49453f](https://github.com/SamikBeach/frontend/commit/e49453fa3ed7e65ea39580b5d0467e76ce07d520))
+
+# [1.70.0](https://github.com/SamikBeach/frontend/compare/1.69.0...1.70.0) (2025-02-25)
+
+### Bug Fixes
+
+- 스타일 수정 ([201f458](https://github.com/SamikBeach/frontend/commit/201f458ddad30a058ec7c931697bb490e61fec67))
+- 스타일 수정 ([206dcf8](https://github.com/SamikBeach/frontend/commit/206dcf8803a2c9bfaf97ba4710fcdd8b4f79467c))
+- 스타일 수정 ([547521f](https://github.com/SamikBeach/frontend/commit/547521fa085133ee49c55bdd7f4735a1fe72c8ae))
+- 영향을 주고받은 작가 목록의 더보기 버튼 노출 로직 개선 ([4627923](https://github.com/SamikBeach/frontend/commit/46279233e2843322c0b5289eef7f43e485c5aca9))
+
+### Features
+
+- 영향을 주고받은 작가 목록에 애니메이션 효과 추가 ([83c8fa1](https://github.com/SamikBeach/frontend/commit/83c8fa1da7bd591b2fb03532c8888a225583411e))
+- 작가 설명 텍스트 펼치기 애니메이션 개선 ([d340c65](https://github.com/SamikBeach/frontend/commit/d340c6528ea6dc2038d7614ef001e36a7338bc38))
+
+# [1.69.0](https://github.com/SamikBeach/frontend/compare/1.68.1...1.69.0) (2025-02-25)
+
+### Bug Fixes
+
+- fix lint ([14c7f05](https://github.com/SamikBeach/frontend/commit/14c7f057c7e95e9c5fc2be1474cfad4212b44822))
+- 스타일 수정 ([998bdd9](https://github.com/SamikBeach/frontend/commit/998bdd91c5c0e1e385e3247e44d701fc5a41493f))
+- 스타일 수정 ([5d08862](https://github.com/SamikBeach/frontend/commit/5d08862bb8933639319c55d70a5f21fe022a874f))
+
+### Features
+
+- josa 패키지 추가 및 타입 수정 ([f85374c](https://github.com/SamikBeach/frontend/commit/f85374cffdcb10d389a62c2dd33af3b31395a6f4))
+- 영향을 주고받은 작가 정보 API 분리 및 컴포넌트 개선 ([e21311a](https://github.com/SamikBeach/frontend/commit/e21311a1c34c89bab04c0cf4521db1569872e701))
+- 작가 설명 더보기 기능 추가 ([8ed0e88](https://github.com/SamikBeach/frontend/commit/8ed0e880ed68ee0b4c623758269b5a9bfd4fa80d))
+
+## [1.68.1](https://github.com/SamikBeach/frontend/compare/1.68.0...1.68.1) (2025-02-24)
+
+### Bug Fixes
+
+- HomePage 스타일 수정 ([640794c](https://github.com/SamikBeach/frontend/commit/640794c4900d9b8beb7e966ce32536b7f9e66f53))
+
+# [1.68.0](https://github.com/SamikBeach/frontend/compare/1.67.1...1.68.0) (2025-02-23)
+
+### Features
+
+- useTextTruncated 주석 추가 ([815a88d](https://github.com/SamikBeach/frontend/commit/815a88d54ab56bf61352fc212834503d05739767))
+
+## [1.67.1](https://github.com/SamikBeach/frontend/compare/1.67.0...1.67.1) (2025-02-18)
+
+### Bug Fixes
+
+- meta description 문구 수정 ([9cb0596](https://github.com/SamikBeach/frontend/commit/9cb0596862fe769b8e920817406c485603c78b83))
+- meta description 수정 ([87b2af5](https://github.com/SamikBeach/frontend/commit/87b2af52b3246b0615e8d77ef0a2a23fa06a6442))
+- Review에서 책 정보 노출 방식 수정 ([3163885](https://github.com/SamikBeach/frontend/commit/31638851611e6994bfaaafd8d80f74089c9037f5))
+
+# [1.67.0](https://github.com/SamikBeach/frontend/compare/1.66.0...1.67.0) (2025-02-16)
+
+### Bug Fixes
+
+- Feed lineheight 수정 ([a985de7](https://github.com/SamikBeach/frontend/commit/a985de779ed54858be42c310f4cc3c7a8840b19d))
+- 폰트 사이즈 수정 ([40c1dee](https://github.com/SamikBeach/frontend/commit/40c1deedb61629222378d12aae0e567e3d421aeb))
+
+### Features
+
+- search review limit 수정 ([f096adf](https://github.com/SamikBeach/frontend/commit/f096adf774267acbeda7e1216e6acfbbfda41ef4))
+
+# [1.66.0](https://github.com/SamikBeach/frontend/compare/1.65.0...1.66.0) (2025-02-15)
+
+### Features
+
+- 리뷰 중복 신고 시 알림 다이얼로그로 변경 ([d3c5632](https://github.com/SamikBeach/frontend/commit/d3c56329d780e10abb9a9baf0a6a4bedf99d9bac))
+
+# [1.65.0](https://github.com/SamikBeach/frontend/compare/1.64.1...1.65.0) (2025-02-15)
+
+### Bug Fixes
+
+- 사용자 차단 로직 개선 ([b958100](https://github.com/SamikBeach/frontend/commit/b95810099da9e6ff1dfe3b04d9e72ddf42f962e7))
+- 포커스 이슈 해결 ([362f918](https://github.com/SamikBeach/frontend/commit/362f91855573028fd9b2cdccbc7129cc270d2d67))
+- 피드 컬러 수정 ([d1d9d02](https://github.com/SamikBeach/frontend/commit/d1d9d02068da9f5ddb09eee21366a795d072b007))
+
+### Features
+
+- 사용자 차단 로직 개선 ([2ee9b2c](https://github.com/SamikBeach/frontend/commit/2ee9b2c6455078c9fc6fd7ae70f32c295bd87899))
+- 사용자 차단 및 신고 기능 추가 ([1319c24](https://github.com/SamikBeach/frontend/commit/1319c24ee11794b74b07e6ecfebba4bf438e2135))
+- 아이콘 스타일 수정 ([cbc0da2](https://github.com/SamikBeach/frontend/commit/cbc0da25a450405c94f85a9a55c4490c9bb1879d))
+
+## [1.64.1](https://github.com/SamikBeach/frontend/compare/1.64.0...1.64.1) (2025-02-15)
+
+### Bug Fixes
+
+- 애플 로고 SVG 여백 조정 ([678e65c](https://github.com/SamikBeach/frontend/commit/678e65c069ca3d9d3dc3e78fe839f098689e4e3c))
+
+# [1.64.0](https://github.com/SamikBeach/frontend/compare/1.63.2...1.64.0) (2025-02-15)
+
+### Bug Fixes
+
+- 댓글 영역 여백 수정 ([6839787](https://github.com/SamikBeach/frontend/commit/68397871b4a81854daf3c4f6c63d083386b57636))
+- 애플 로고 SVG 크기 조정 ([d9edab3](https://github.com/SamikBeach/frontend/commit/d9edab367637b5cbbd31f7b478ff251efd184628))
+
+### Features
+
+- CommentEditor 텍스트 크기 수정 ([7ca9e9c](https://github.com/SamikBeach/frontend/commit/7ca9e9ce7b6d7792b1de63aa26cba788b091c270))
+- 스켈레톤 스타일 수정 ([1064dfd](https://github.com/SamikBeach/frontend/commit/1064dfd8bc6b8cbf999e1d6cf47689f9317b2da4))
+- 애플 로그인 구현 ([025d165](https://github.com/SamikBeach/frontend/commit/025d16583b0b62288a898a8d403116c3a86bb385))
+
+## [1.63.2](https://github.com/SamikBeach/frontend/compare/1.63.1...1.63.2) (2025-02-13)
+
 ## [1.63.1](https://github.com/SamikBeach/frontend/compare/1.63.0...1.63.1) (2025-02-12)
 
 ### Bug Fixes
