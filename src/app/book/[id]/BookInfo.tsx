@@ -247,7 +247,6 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                       <span className="font-semibold text-gray-900 md:text-base">
                         {book.bookOriginalWorks[0].originalWork.title}
                       </span>
-                      {/* titleInKor가 API에 없지만 요청에 따라 추가 */}
                       {book.bookOriginalWorks[0].originalWork.title !==
                         book.title && (
                         <span className="text-sm text-gray-700">
