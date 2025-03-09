@@ -1,5 +1,7 @@
 # 🚦 CHANGELOG
 
+## [1.74.5](https://github.com/SamikBeach/frontend/compare/1.74.4...1.74.5) (2025-03-09)
+
 ## [1.74.4](https://github.com/SamikBeach/frontend/compare/1.74.3...1.74.4) (2025-03-06)
 
 ## [1.74.3](https://github.com/SamikBeach/frontend/compare/1.74.2...1.74.3) (2025-03-04)
