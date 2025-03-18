@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.75.0](https://github.com/SamikBeach/frontend/compare/1.74.5...1.75.0) (2025-03-18)
+
+
+### Features
+
+* BookInfo 스타일 수정 ([9c568c8](https://github.com/SamikBeach/frontend/commit/9c568c81ee4d0c68d78e8fe214deacc2b2c3a25e))
+
 ## [1.74.5](https://github.com/SamikBeach/frontend/compare/1.74.4...1.74.5) (2025-03-09)
 
 ## [1.74.4](https://github.com/SamikBeach/frontend/compare/1.74.3...1.74.4) (2025-03-06)
