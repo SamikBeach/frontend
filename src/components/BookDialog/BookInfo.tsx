@@ -124,7 +124,7 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
               title={book.title}
               width={140}
               height={200}
-              className="flex-shrink-0 cursor-pointer rounded-lg shadow-md transition-transform duration-300 hover:scale-[1.02] md:h-[300px] md:w-[200px]"
+              className="flex-shrink-0 cursor-pointer rounded-lg shadow-md transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg md:h-[300px] md:w-[200px]"
               onClick={() =>
                 window.open(
                   `https://www.aladin.co.kr/shop/wproduct.aspx?isbn=${book.isbn}`,
@@ -150,10 +150,10 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                 variant="outline"
                 size="sm"
                 className={cn(
-                  'hidden w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-sm transition-all sm:flex',
+                  'hidden w-full items-center justify-center gap-1.5 border border-gray-300 px-4 py-2 text-sm font-medium shadow-sm transition-all sm:flex',
                   isChatOpen
-                    ? 'border-gray-300 bg-gray-50 text-gray-700 hover:bg-gray-100'
-                    : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                    ? 'bg-gray-50 text-gray-800 hover:bg-gray-100'
+                    : 'bg-white text-gray-700 hover:bg-gray-50'
                 )}
               >
                 <MessageCircleIcon className="h-4 w-4" />
@@ -165,7 +165,7 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                 variant="outline"
                 size="sm"
                 onClick={handleWriteReviewClick}
-                className="hidden w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-sm transition-all sm:flex"
+                className="hidden w-full items-center justify-center gap-1.5 border border-gray-300 px-4 py-2 text-sm font-medium shadow-sm transition-all sm:flex"
               >
                 <Edit3Icon className="h-4 w-4" />
                 리뷰 쓰기
@@ -218,7 +218,7 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
 
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
-                    <span className="rounded-full bg-gray-100 px-3.5 py-1.5 text-sm font-medium text-gray-700">
+                    <span className="rounded-full bg-gray-100 px-3.5 py-1.5 text-sm font-medium text-gray-700 shadow-sm">
                       {book.publisher}
                       {book.publisher && formattedPublicationDate && (
                         <span className="mx-1 font-medium">·</span>
@@ -228,9 +228,9 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
                   </div>
                 </div>
                 {book.bookOriginalWorks[0] && (
-                  <div className="flex items-start gap-3 rounded-lg border border-gray-200 bg-white p-3.5 text-sm shadow-sm">
-                    <BookIcon className="mt-1 h-4 w-4 flex-shrink-0 text-indigo-600" />
-                    <div className="flex flex-col space-y-1">
+                  <div className="flex items-start gap-3 rounded-lg border border-gray-200 bg-white p-4 text-sm shadow-sm transition-colors hover:bg-gray-50">
+                    <BookIcon className="mt-1 h-4 w-4 flex-shrink-0 text-blue-600" />
+                    <div className="flex flex-col space-y-1.5">
                       <span className="font-semibold text-gray-900 md:text-base">
                         {book.bookOriginalWorks[0].originalWork.title}
                       </span>
@@ -251,14 +251,14 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
               </div>
 
               {book.description && (
-                <div className="rounded-md border border-gray-200 bg-gray-50 p-2.5 shadow-sm">
+                <div className="rounded-md border border-gray-200 bg-gray-50 p-3 shadow-sm">
                   <div className="flex flex-col">
-                    <p className="whitespace-pre-wrap text-sm leading-normal text-gray-700 md:text-base">
+                    <p className="whitespace-pre-wrap text-sm leading-relaxed text-gray-700 md:text-base">
                       {book.description
                         ? decodeHtmlEntities(book.description)
                         : ''}
                     </p>
-                    <p className="mt-0.5 text-xs text-gray-400">
+                    <p className="mt-1 text-xs text-gray-500">
                       정보 제공: 알라딘
                     </p>
                   </div>
@@ -275,10 +275,10 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
             variant="outline"
             size="sm"
             className={cn(
-              'w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-sm transition-all',
+              'w-full items-center justify-center gap-1.5 border border-gray-300 px-4 py-2 text-sm font-medium shadow-sm transition-all',
               isChatOpen
-                ? 'border-gray-300 bg-gray-50 text-gray-700 hover:bg-gray-100'
-                : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                ? 'bg-gray-50 text-gray-800 hover:bg-gray-100'
+                : 'bg-white text-gray-700 hover:bg-gray-50'
             )}
           >
             <MessageCircleIcon className="h-4 w-4" />
@@ -290,7 +290,7 @@ function BookInfoContent({ bookId, reviewListRef }: Props) {
             variant="outline"
             size="sm"
             onClick={handleWriteReviewClick}
-            className="w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-sm transition-all"
+            className="w-full items-center justify-center gap-1.5 border border-gray-300 px-4 py-2 text-sm font-medium shadow-sm transition-all"
           >
             <Edit3Icon className="h-4 w-4" />
             리뷰 쓰기
