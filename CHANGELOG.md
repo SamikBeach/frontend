@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+# [1.76.0](https://github.com/SamikBeach/frontend/compare/1.75.0...1.76.0) (2025-03-20)
+
+
+### Features
+
+* AuthorInfo 스타일 수정 ([35b258f](https://github.com/SamikBeach/frontend/commit/35b258ffdbf04448f3fb3daf42ce6824d03aba03))
+
 # [1.75.0](https://github.com/SamikBeach/frontend/compare/1.74.5...1.75.0) (2025-03-18)
 
 
