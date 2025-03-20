@@ -98,7 +98,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
               name={author.nameInKor}
               width={140}
               height={140}
-              className="flex-shrink-0 cursor-pointer rounded-full transition-transform duration-300 hover:scale-[1.02] md:h-[200px] md:w-[200px]"
+              className="flex-shrink-0 cursor-pointer rounded-full border border-gray-100 shadow-sm transition-transform duration-300 hover:scale-[1.02] hover:shadow-md md:h-[200px] md:w-[200px]"
               onClick={() =>
                 window.open(
                   `https://en.wikipedia.org/wiki/${author.name}`,
@@ -124,10 +124,10 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                 variant="outline"
                 size="sm"
                 className={cn(
-                  'hidden w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-none transition-all sm:flex',
+                  'hidden w-full items-center justify-center gap-1.5 border border-gray-300 px-4 py-2 text-sm font-medium shadow-sm transition-all sm:flex',
                   isChatOpen
-                    ? 'border-gray-300 text-gray-700 hover:bg-gray-50'
-                    : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                    ? 'bg-gray-50 text-gray-800 hover:bg-gray-100'
+                    : 'bg-white text-gray-700 hover:bg-gray-50'
                 )}
               >
                 <MessageCircleIcon className="h-4 w-4" />
@@ -146,7 +146,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                     <span className="text-base font-bold md:text-lg">
                       {author.name}
                     </span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-600 md:text-base">
+                    <span className="rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-600 shadow-sm md:text-base">
                       {formatAuthorLifespan(
                         author.bornDate,
                         author.bornDateIsBc,
@@ -159,7 +159,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
                     {author.genre && (
-                      <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600">
+                      <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600 shadow-sm">
                         {author.genre.genreInKor}
                       </span>
                     )}
@@ -167,7 +167,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                 </div>
               </div>
 
-              <div className="space-y-2 rounded-md bg-gray-50 p-4">
+              <div className="space-y-2 rounded-md border border-gray-200 bg-gray-50 p-4 shadow-sm">
                 <div className="flex flex-col gap-2">
                   <motion.div
                     initial={false}
@@ -187,7 +187,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                       {author.description}
                     </motion.p>
                     {isExpanded && (
-                      <p className="mt-1 text-xs text-gray-400">
+                      <p className="mt-1 text-xs text-gray-500">
                         정보 제공: 위키피디아
                       </p>
                     )}
@@ -213,7 +213,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                           <Button
                             variant="outline"
                             onClick={() => setIsExpanded(!isExpanded)}
-                            className="mt-1 h-8 w-full border-gray-200 bg-white text-sm text-blue-600 hover:bg-blue-50 hover:text-blue-700"
+                            className="mt-1 h-8 w-full border-gray-200 bg-white text-sm font-medium text-blue-600 shadow-sm hover:bg-blue-50 hover:text-blue-700"
                           >
                             {isExpanded ? '접기' : '더보기'}
                           </Button>
@@ -234,10 +234,10 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
             variant="outline"
             size="sm"
             className={cn(
-              'w-full items-center justify-center gap-1.5 border px-4 py-2 text-sm font-medium shadow-none transition-all',
+              'w-full items-center justify-center gap-1.5 border border-gray-300 px-4 py-2 text-sm font-medium shadow-sm transition-all',
               isChatOpen
-                ? 'border-gray-300 text-gray-700 hover:bg-gray-50'
-                : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                ? 'bg-gray-50 text-gray-800 hover:bg-gray-100'
+                : 'bg-white text-gray-700 hover:bg-gray-50'
             )}
           >
             <MessageCircleIcon className="h-4 w-4" />
@@ -269,14 +269,14 @@ function AuthorInfoSkeleton() {
     <div className="flex flex-col">
       <div className="flex flex-col gap-6 bg-white pt-4 sm:flex-row">
         <div className="flex flex-col items-center justify-center gap-4 sm:h-full sm:justify-start">
-          <Skeleton className="h-[140px] w-[140px] shrink-0 rounded-full md:h-[200px] md:w-[200px]" />
+          <Skeleton className="h-[140px] w-[140px] shrink-0 rounded-full border border-gray-100 shadow-sm md:h-[200px] md:w-[200px]" />
           <div className="flex flex-col items-center gap-3">
             <div className="flex items-center justify-center gap-3">
               <Skeleton className="h-9 w-20 rounded-full" />
               <Skeleton className="h-9 w-20 rounded-full" />
             </div>
             {/* 모바일에서는 숨김 처리 */}
-            <Skeleton className="hidden h-9 w-full rounded-md sm:block" />
+            <Skeleton className="hidden h-9 w-full rounded-md shadow-sm sm:block" />
           </div>
         </div>
         <div className="flex w-full flex-col gap-5">
@@ -286,13 +286,13 @@ function AuthorInfoSkeleton() {
                 <Skeleton className="h-8 w-48 md:h-10" />
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                   <Skeleton className="h-6 w-32 md:h-7" />
-                  <Skeleton className="h-6 w-40 rounded-full" />
+                  <Skeleton className="h-6 w-40 rounded-full shadow-sm" />
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-2">
-                <Skeleton className="h-6 w-24 rounded-full" />
+                <Skeleton className="h-6 w-24 rounded-full shadow-sm" />
               </div>
-              <div className="space-y-2 rounded-md bg-gray-50 p-4">
+              <div className="space-y-2 rounded-md border border-gray-200 bg-gray-50 p-4 shadow-sm">
                 <div className="flex flex-col gap-2">
                   <div
                     className="relative overflow-hidden"
@@ -306,7 +306,7 @@ function AuthorInfoSkeleton() {
                     <Skeleton className="mt-2 h-5 w-3/5" />
                     <Skeleton className="mt-2 h-5 w-2/5" />
                   </div>
-                  <Skeleton className="mt-2 h-8 w-full rounded-md" />
+                  <Skeleton className="mt-2 h-8 w-full rounded-md shadow-sm" />
                 </div>
               </div>
             </div>
@@ -316,7 +316,7 @@ function AuthorInfoSkeleton() {
 
       {/* 모바일에서만 표시되는 대화하기 버튼 스켈레톤 */}
       <div className="mt-4 sm:hidden">
-        <Skeleton className="h-9 w-full rounded-md" />
+        <Skeleton className="h-9 w-full rounded-md shadow-sm" />
       </div>
     </div>
   );
