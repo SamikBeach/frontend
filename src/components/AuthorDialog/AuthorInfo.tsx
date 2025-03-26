@@ -159,7 +159,7 @@ function AuthorInfoContent({ authorId, reviewListRef }: Props) {
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
                     {author.genre && (
-                      <span className="rounded-full bg-blue-50 px-3 py-1 text-[10px] font-medium text-blue-600 shadow-sm">
+                      <span className="rounded-full bg-blue-50 px-3 py-1 text-[10px] font-medium text-blue-600 shadow">
                         {author.genre.genreInKor}
                       </span>
                     )}
